@@ -7,19 +7,21 @@ describe('unexpected-dom', function () {
   var expect = unexpected.clone().installPlugin(unexpectedDom);
   expect.output.installPlugin(require('magicpen-prism'));
 
-  it('should consider two DOM elements equal when they have the same outerHTML', function () {
-    expect(jsdom.jsdom('<div>foobar</div>'), 'to equal', jsdom.jsdom('<div>foobar</div>'));
-  });
+  it('should consider two DOM elements equal when they are of same type and have same attributes', function () {
+    jsdom.env('<h1>Hello world</h1>', function (err, window) {
+      var document = window.document;
 
-  it('should consider two DOM elements different when their outerHTML values differ', function () {
-    expect(function () {
-      expect(jsdom.jsdom('<!DOCTYPE html><div>foobarbaz</div>'), 'to equal', jsdom.jsdom('<div class="hey">foobarquux</div><!--blahblah-->'));
-    }, 'to throw exception', function (err) {
-      expect(err.output.toString(), 'to equal',
-        'expected <!DOCTYPE html><div>foobarbaz</div> to equal <div class="hey">foobarquux</div><!--blahblah-->\n' +
-        '\n' +
-        '-<!DOCTYPE html><div>foobarbaz</div>\n' +
-        '+<div class="hey">foobarquux</div><!--blahblah-->');
+      var el1 = document.createElement('h1');
+      var el2 = document.createElement('h1');
+      var el3 = document.createElement('h1');
+      el3.id = 'el3';
+      var paragraph = document.createElement('p');
+
+      expect(el1, 'to be', el1);
+      expect(el1, 'not to be', el2);
+      expect(el1, 'to equal', el2);
+      expect(el1, 'not to equal', el3);
+      expect(el1, 'not to equal', paragraph);
     });
   });
 });
