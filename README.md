@@ -1,10 +1,10 @@
 unexpected-dom
 ==============
 
-[![NPM version](https://badge.fury.io/js/unexpeced-dom.svg)](http://badge.fury.io/js/unexpeced-dom)
-[![Build Status](https://travis-ci.org/Munter/unexpeced-dom.svg?branch=master)](https://travis-ci.org/Munter/unexpeced-dom)
-[![Coverage Status](https://img.shields.io/coveralls/Munter/unexpeced-dom.svg?style=flat)](https://coveralls.io/r/Munter/unexpeced-dom?branch=master)
-[![Dependency Status](https://david-dm.org/Munter/unexpeced-dom.svg)](https://david-dm.org/Munter/unexpeced-dom)
+[![NPM version](https://badge.fury.io/js/unexpected-dom.svg)](http://badge.fury.io/js/unexpected-dom)
+[![Build Status](https://travis-ci.org/Munter/unexpected-dom.svg?branch=master)](https://travis-ci.org/Munter/unexpected-dom)
+[![Coverage Status](https://img.shields.io/coveralls/Munter/unexpected-dom.svg?style=flat)](https://coveralls.io/r/Munter/unexpected-dom?branch=master)
+[![Dependency Status](https://david-dm.org/Munter/unexpected-dom.svg)](https://david-dm.org/Munter/unexpected-dom)
 
 A plugin for [unexpected](http://sunesimonsen.github.io/unexpected) that adds custom assertions form DOM elements.
 
