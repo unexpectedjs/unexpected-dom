@@ -3,9 +3,10 @@ var unexpected = require('unexpected'),
     unexpectedDom = require('../lib/index'),
     jsdom = require('jsdom');
 
+var expect = unexpected.clone().installPlugin(unexpectedDom);
+expect.output.installPlugin(require('magicpen-prism'));
+
 describe('unexpected-dom', function () {
-  var expect = unexpected.clone().installPlugin(unexpectedDom);
-  expect.output.installPlugin(require('magicpen-prism'));
 
   it('should consider two DOM elements equal when they are of same type and have same attributes', function () {
     jsdom.env('<h1>Hello world</h1>', function (err, window) {
@@ -24,4 +25,5 @@ describe('unexpected-dom', function () {
       expect(el1, 'not to equal', paragraph);
     });
   });
+
 });

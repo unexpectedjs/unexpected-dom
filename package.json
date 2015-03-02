@@ -7,7 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha"
+    "lint": "jshint . --exclude-path .gitignore",
+    "test": "npm run lint && mocha",
+    "travis": "npm run lint && npm run coverage",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter dot"
   },
   "repository": {
     "type": "git",
@@ -34,7 +37,6 @@
     "magicpen": "^4.3.5",
     "magicpen-prism": "^1.1.1",
     "mocha": "^2.1.0",
-    "mocha-jsdom": "^0.2.1",
     "mocha-lcov-reporter": "0.0.2",
     "unexpected": "^5.10.0"
   }
