@@ -1,0 +1,41 @@
+{
+  "name": "unexpected-dom",
+  "version": "0.0.0",
+  "description": "DOM plugin for the unexpected assertion libary",
+  "main": "lib/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Munter/unexpected-dom.git"
+  },
+  "keywords": [
+    "unexpected",
+    "dom",
+    "assertion",
+    "library",
+    "plugin"
+  ],
+  "author": "Peter Müller <munter@fumle.dk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Munter/unexpected-dom/issues"
+  },
+  "homepage": "https://github.com/Munter/unexpected-dom",
+  "devDependencies": {
+    "coveralls": "^2.11.2",
+    "istanbul": "^0.3.6",
+    "jsdom": "^4.0.1",
+    "jshint": "^2.6.3",
+    "magicpen": "^4.3.5",
+    "magicpen-prism": "^1.1.1",
+    "mocha": "^2.1.0",
+    "mocha-jsdom": "^0.2.1",
+    "mocha-lcov-reporter": "0.0.2",
+    "unexpected": "^5.10.0"
+  }
+}
