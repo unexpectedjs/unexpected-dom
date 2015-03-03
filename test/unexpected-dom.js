@@ -53,7 +53,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', 'id');
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to match', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> to only have attributes \'id\'');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> to only have attributes \'id\'');
         });
       });
 
@@ -70,7 +70,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', 'id', 'foo');
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to match', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> to have attributes \'id\', \'foo\'');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> to have attributes \'id\', \'foo\'');
         });
       });
 
@@ -87,7 +87,60 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'not to have attributes', 'id');
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to match', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> not to have attributes \'id\'');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> not to have attributes \'id\'');
+        });
+      });
+    });
+
+    describe('array comparison', function () {
+      it('should match exact arguments', function () {
+        this.body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+
+        expect(this.body.firstChild, 'to only have attributes', ['id', 'class', 'data-info', 'disabled']);
+      });
+
+      it('should fail on exact arguments not met', function () {
+        this.body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+        var el = this.body.firstChild;
+
+        expect(function () {
+          expect(el, 'to only have attributes', ['id']);
+        }, 'to throw exception', function (err) {
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> to only have attributes [ \'id\' ]');
+        });
+      });
+
+      it('should match partial arguments', function () {
+        this.body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+
+        expect(this.body.firstChild, 'to have attributes', ['id', 'class']);
+      });
+
+      it('should fail on partial arguments not met', function () {
+        this.body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+        var el = this.body.firstChild;
+
+        expect(function () {
+          expect(el, 'to have attributes', ['id', 'foo']);
+        }, 'to throw exception', function (err) {
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> to have attributes [ \'id\', \'foo\' ]');
+        });
+      });
+
+      it('should match negative arguments', function () {
+        this.body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+
+        expect(this.body.firstChild, 'not to have attributes', ['foo', 'bar']);
+      });
+
+      it('should fail on negative partial arguments met', function () {
+        this.body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+        var el = this.body.firstChild;
+
+        expect(function () {
+          expect(el, 'not to have attributes', ['id']);
+        }, 'to throw exception', function (err) {
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> not to have attributes [ \'id\' ]');
         });
       });
     });
