@@ -6,7 +6,7 @@ unexpected-dom
 [![Coverage Status](https://img.shields.io/coveralls/Munter/unexpected-dom.svg?style=flat)](https://coveralls.io/r/Munter/unexpected-dom?branch=master)
 [![Dependency Status](https://david-dm.org/Munter/unexpected-dom.svg)](https://david-dm.org/Munter/unexpected-dom)
 
-A plugin for [unexpected](http://sunesimonsen.github.io/unexpected) that adds custom assertions form DOM elements.
+A plugin for [unexpected](https://unexpectedjs.github.io/) that adds custom assertions form DOM elements.
 
 
 License
