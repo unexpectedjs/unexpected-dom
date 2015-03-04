@@ -53,7 +53,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', 'id');
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> to only have attributes \'id\'');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to only have attributes \'id\'');
         });
       });
 
@@ -70,7 +70,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', 'id', 'foo');
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> to have attributes \'id\', \'foo\'');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to have attributes \'id\', \'foo\'');
         });
       });
     });
@@ -89,7 +89,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', ['id']);
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> to only have attributes [ \'id\' ]');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to only have attributes [ \'id\' ]');
         });
       });
 
@@ -106,7 +106,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', ['id', 'foo']);
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled="" id="foo"/> to have attributes [ \'id\', \'foo\' ]');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to have attributes [ \'id\', \'foo\' ]');
         });
       });
     });
