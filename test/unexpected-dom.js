@@ -157,4 +157,42 @@ describe('unexpected-dom', function () {
     });
   });
 
+  describe('to have children', function () {
+    describe('with no children flag', function () {
+      it('should match element with no children', function () {
+        this.body.innerHTML = '<div></div>';
+        var el = this.body.firstChild;
+
+        expect(el, 'to have no children');
+      });
+
+      it('should fail on element with HTMLElement children', function () {
+        this.body.innerHTML = '<div><p></p></div>';
+        var el = this.body.firstChild;
+
+        expect(function () {
+          expect(el, 'to have no children');
+        }, 'to throw', /^expected <div >...<\/div> to have no children/);
+      });
+
+      it('should fail on element with HTMLComment children', function () {
+        this.body.innerHTML = '<div><!-- Comment --></div>';
+        var el = this.body.firstChild;
+
+        expect(function () {
+          expect(el, 'to have no children');
+        }, 'to throw', /^expected <div \/> to have no children/);
+      });
+
+      it('should fail on element with TextNode children', function () {
+        this.body.innerHTML = '<div>I am a text</div>';
+        var el = this.body.firstChild;
+
+        expect(function () {
+          expect(el, 'to have no children');
+        }, 'to throw', /^expected <div \/> to have no children/);
+      });
+    });
+  });
+
 });
