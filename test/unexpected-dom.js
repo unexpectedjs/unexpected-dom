@@ -131,10 +131,7 @@ describe('unexpected-dom', function () {
           expect(el, 'to only have attributes', {
             id: 'foo'
           });
-        }, 'to throw exception', function (err) {
-          console.log(err.output);
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to only have attributes [ \'id\' ]');
-        });
+        }, 'to throw exception', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to only have attributes [ \'id\' ]');
       });
 
       it('should match partial object', function () {
@@ -155,9 +152,7 @@ describe('unexpected-dom', function () {
             id: 'foo',
             foo: 'bar'
           });
-        }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to have attributes [ \'id\', \'foo\' ]');
-        });
+        }, 'to throw exception', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to have attributes [ \'id\', \'foo\' ]');
       });
     });
   });
