@@ -199,4 +199,15 @@ describe('unexpected-dom', function () {
     });
   });
 
+  describe('queried for', function () {
+    it('should work with HTMLDocument', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
+      expect(document, 'queried for first', 'div', 'to have attributes', { id: 'foo' });
+    });
+
+    it('should work with HTMLElement', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
+      expect(document.querySelector('body'), 'queried for first', 'div', 'to have attributes', { id: 'foo' });
+    });
+  });
 });
