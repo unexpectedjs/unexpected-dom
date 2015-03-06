@@ -18,6 +18,10 @@ describe('unexpected-dom', function () {
     });
   });
 
+  it('should allow regular assertions defined for the object type to work on an HTMLElement', function () {
+    expect(jsdom.jsdom('<html><head></head><body></body></html>').firstChild, 'to have properties', { nodeType: 1 });
+  });
+
   it('should consider two DOM elements equal when they are of same type and have same attributes', function () {
     var document = this.document;
 
