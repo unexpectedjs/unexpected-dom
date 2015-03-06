@@ -6,6 +6,22 @@ var unexpected = require('unexpected'),
 var expect = unexpected.clone().installPlugin(unexpectedDom);
 expect.output.installPlugin(require('magicpen-prism'));
 
+expect.addAssertion('to inspect as [itself]', function (expect, subject, value) {
+  var originalSubject = subject;
+  if (typeof subject === 'string') {
+    subject = jsdom.jsdom('<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>').body.firstChild;
+  }
+  if (this.flags.itself) {
+    if (typeof originalSubject === 'string') {
+      expect(expect.inspect(subject).toString(), 'to equal', originalSubject);
+    } else {
+      throw new Error('subject must be given as a string when expected to inspect as itself');
+    }
+  } else {
+    expect(expect.inspect(subject).toString(), 'to equal', value);
+  }
+});
+
 describe('unexpected-dom', function () {
   beforeEach(function (done) {
     var self = this;
@@ -16,6 +32,18 @@ describe('unexpected-dom', function () {
 
       done();
     });
+  });
+
+  it('should inspect an attribute-less element correctly', function () {
+    expect('<div></div>', 'to inspect as itself');
+  });
+
+  it('should inspect void elements correctly', function () {
+    expect('<input type="text">', 'to inspect as itself');
+  });
+
+  it('should inspect simple attributes correctly', function () {
+    expect('<input disabled type="text">', 'to inspect as itself');
   });
 
   it('should allow regular assertions defined for the object type to work on an HTMLElement', function () {
@@ -57,7 +85,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', 'id');
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to only have attributes \'id\'');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"></button> to only have attributes \'id\'');
         });
       });
 
@@ -74,7 +102,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', 'id', 'foo');
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to have attributes \'id\', \'foo\'');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"></button> to have attributes \'id\', \'foo\'');
         });
       });
     });
@@ -93,7 +121,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', ['id']);
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to only have attributes [ \'id\' ]');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"></button> to only have attributes [ \'id\' ]');
         });
       });
 
@@ -110,7 +138,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', ['id', 'foo']);
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"/> to have attributes [ \'id\', \'foo\' ]');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"></button> to have attributes [ \'id\', \'foo\' ]');
         });
       });
     });
@@ -135,7 +163,7 @@ describe('unexpected-dom', function () {
           expect(el, 'to only have attributes', {
             id: 'foo'
           });
-        }, 'to throw exception', /^expected <button class="bar" data-info="baz" disabled id="foo"\/> to only have attributes/);
+        }, 'to throw exception', /^expected <button class="bar" data-info="baz" disabled id="foo"><\/button> to only have attributes/);
       });
 
       it('should match partial object', function () {
@@ -156,7 +184,7 @@ describe('unexpected-dom', function () {
             id: 'foo',
             foo: 'bar'
           });
-        }, 'to throw exception', /expected <button class="bar" data-info="baz" disabled id="foo"\/> to have attributes/);
+        }, 'to throw exception', /expected <button class="bar" data-info="baz" disabled id="foo"><\/button> to have attributes/);
       });
     });
   });
@@ -176,7 +204,7 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to have no children');
-        }, 'to throw', /^expected <div >...<\/div> to have no children/);
+        }, 'to throw', /^expected <div>...<\/div> to have no children/);
       });
 
       it('should fail on element with HTMLComment children', function () {
@@ -185,7 +213,7 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to have no children');
-        }, 'to throw', /^expected <div \/> to have no children/);
+        }, 'to throw', /^expected <div><\/div> to have no children/);
       });
 
       it('should fail on element with TextNode children', function () {
@@ -194,7 +222,7 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to have no children');
-        }, 'to throw', /^expected <div \/> to have no children/);
+        }, 'to throw', /^expected <div><\/div> to have no children/);
       });
     });
   });
