@@ -41,6 +41,6 @@
     "unexpected": "^6.0.7"
   },
   "dependencies": {
-    "array-changes": "1.0.0"
+    "array-changes": "1.0.1"
   }
 }
