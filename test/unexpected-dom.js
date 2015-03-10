@@ -343,7 +343,7 @@ describe('unexpected-dom', function () {
         '</div>');
     });
 
-    it('should produce a nested diff', function () {
+    it('should produce a nested diff when the outer elements are identical', function () {
       expect(
         '<div>foo<span><span>foo</span></span><!--bar--></div>',
         'diffed with',
@@ -361,7 +361,7 @@ describe('unexpected-dom', function () {
         '</div>');
     });
 
-    it('should produce a nested diff', function () {
+    it('should produce a nested diff when when the outer element has a different set of attributes', function () {
       expect(
         '<div>foo<span id="foo" class="bar"><span>foo</span></span><!--bar--></div>',
         'diffed with',
