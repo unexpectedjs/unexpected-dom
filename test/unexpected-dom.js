@@ -253,6 +253,16 @@ describe('unexpected-dom', function () {
       var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
       expect(document, 'queried for first', 'div', 'to have attributes', { id: 'foo' });
     });
+
+    it('should error out if the selector matches no elements', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
+      expect(function () {
+        expect(document.body, 'queried for first', '.blabla', 'to have attributes', { id: 'foo' });
+      }, 'to throw error',
+          "expected <body><div id=\"foo\"></div></body> queried for first '.blabla', 'to have attributes', { id: 'foo' }\n" +
+          '  The selector .blabla yielded no results'
+      );
+    });
   });
 
   describe('diffing', function () {
