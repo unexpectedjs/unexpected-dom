@@ -39,5 +39,8 @@
     "mocha": "^2.1.0",
     "mocha-lcov-reporter": "0.0.2",
     "unexpected": "^6.0.7"
+  },
+  "dependencies": {
+    "array-changes": "1.0.0"
   }
 }

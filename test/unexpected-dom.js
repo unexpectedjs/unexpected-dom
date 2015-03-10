@@ -38,6 +38,10 @@ describe('unexpected-dom', function () {
     expect('<div></div>', 'to inspect as itself');
   });
 
+  it('should dot out descendants at level >= 3 when inspecting', function () {
+    expect('<div><div><div><div>foo</div></div></div></div>', 'to inspect as', '<div><div><div>...</div></div></div>');
+  });
+
   it('should inspect void elements correctly', function () {
     expect('<input type="text">', 'to inspect as itself');
   });
@@ -84,9 +88,9 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to only have attributes', 'id');
-        }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"></button> to only have attributes \'id\'');
-        });
+        }, 'to throw exception',
+            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes \'id\''
+        );
       });
 
       it('should match partial arguments', function () {
@@ -102,7 +106,8 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', 'id', 'foo');
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"></button> to have attributes \'id\', \'foo\'');
+          expect(err.output.toString(), 'to be',
+            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes \'id\', \'foo\'');
         });
       });
     });
@@ -121,7 +126,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', ['id']);
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"></button> to only have attributes [ \'id\' ]');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes [ \'id\' ]');
         });
       });
 
@@ -138,7 +143,7 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', ['id', 'foo']);
         }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo"></button> to have attributes [ \'id\', \'foo\' ]');
+          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes [ \'id\', \'foo\' ]');
         });
       });
     });
@@ -163,7 +168,7 @@ describe('unexpected-dom', function () {
           expect(el, 'to only have attributes', {
             id: 'foo'
           });
-        }, 'to throw exception', /^expected <button class="bar" data-info="baz" disabled id="foo"><\/button> to only have attributes/);
+        }, 'to throw exception', /^expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button> to only have attributes/);
       });
 
       it('should match partial object', function () {
@@ -184,7 +189,7 @@ describe('unexpected-dom', function () {
             id: 'foo',
             foo: 'bar'
           });
-        }, 'to throw exception', /expected <button class="bar" data-info="baz" disabled id="foo"><\/button> to have attributes/);
+        }, 'to throw exception', /expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button>\nto have attributes/);
       });
     });
   });
@@ -204,7 +209,7 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to have no children');
-        }, 'to throw', /^expected <div>...<\/div> to have no children/);
+        }, 'to throw', /^expected <div><p><\/p><\/div> to have no children/);
       });
 
       it('should fail on element with HTMLComment children', function () {
@@ -213,7 +218,7 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to have no children');
-        }, 'to throw', /^expected <div><\/div> to have no children/);
+        }, 'to throw', /^expected <div><!-- Comment --><\/div> to have no children/);
       });
 
       it('should fail on element with TextNode children', function () {
@@ -222,7 +227,7 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to have no children');
-        }, 'to throw', /^expected <div><\/div> to have no children/);
+        }, 'to throw', /^expected <div>I am a text<\/div> to have no children/);
       });
     });
   });
@@ -232,10 +237,87 @@ describe('unexpected-dom', function () {
       var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
       expect(document, 'queried for first', 'div', 'to have attributes', { id: 'foo' });
     });
+  });
+
+  describe('diffing', function () {
+    function parseHtmlElement(str) {
+      return jsdom.jsdom('<!DOCTYPE html><html><body>' + str + '</body></html>').body.firstChild;
+    }
+
+    expect.addAssertion('string', 'diffed with', function (expect, subject, value) {
+      this.shift(expect, expect.diff(parseHtmlElement(subject), parseHtmlElement(value)).diff.toString(), 1);
+    });
 
     it('should work with HTMLElement', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
-      expect(document.querySelector('body'), 'queried for first', 'div', 'to have attributes', { id: 'foo' });
+      expect(
+        '<div><div id="foo"></div><div id="bar"></div></div>',
+        'diffed with',
+        '<div><div id="foo"></div><div id="quux"></div></div>',
+        'to equal',
+        '<div>\n' +
+        '  <div id="foo"></div>\n' +
+        '  -<div id="bar">\n' +
+        '  +<div id="quux">\n' +
+        '  </div>\n' +
+        '</div>');
+    });
+
+    it('should work with HTMLElement with text nodes and comments inside', function () {
+      expect(
+        '<div>foo<!--bar--></div>',
+        'diffed with',
+        '<div>quux<!--baz--></div>',
+        'to equal',
+        '<div>\n' +
+        '  -foo\n' +
+        '  +quux\n' +
+        '  -<!--bar-->\n' +
+        '  +<!--baz-->\n' +
+        '</div>');
+    });
+
+    it('should report a missing child correctly', function () {
+      expect(
+        '<div>foo<!--bar--></div>',
+        'diffed with',
+        '<div>foo<span></span><!--bar--></div>',
+        'to equal',
+        '<div>\n' +
+        '  foo\n' +
+        '  // missing <span></span>\n' +
+        '  <!--bar-->\n' +
+        '</div>');
+    });
+
+    it('should report an extraneous child correctly', function () {
+      expect(
+        '<div>foo<span></span><!--bar--></div>',
+        'diffed with',
+        '<div>foo<!--bar--></div>',
+        'to equal',
+        '<div>\n' +
+        '  foo\n' +
+        '  <span></span> // should be removed\n' +
+        '  <!--bar-->\n' +
+        '</div>');
+    });
+
+    it('should produce a nested diff', function () {
+      expect(
+        '<div>foo<span><span>foo</span></span><!--bar--></div>',
+        'diffed with',
+        '<div>foo<span><span>bar</span></span><!--bar--></div>',
+        'to equal',
+        '<div>\n' +
+        '  foo\n' +
+        '  <span>\n' +
+        '    <span>\n' +
+        '      -foo\n' +
+        '      +bar\n' +
+        '    </span>\n' +
+        '  </span>\n' +
+        '  <!--bar-->\n' +
+        '</div>');
     });
   });
 });
