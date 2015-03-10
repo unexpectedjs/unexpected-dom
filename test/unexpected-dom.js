@@ -256,9 +256,8 @@ describe('unexpected-dom', function () {
         'to equal',
         '<div>\n' +
         '  <div id="foo"></div>\n' +
-        '  -<div id="bar">\n' +
-        '  +<div id="quux">\n' +
-        '  </div>\n' +
+        '  -<div id="bar"></div>\n' +
+        '  +<div id="quux"></div>\n' +
         '</div>');
     });
 
@@ -315,6 +314,41 @@ describe('unexpected-dom', function () {
         '      -foo\n' +
         '      +bar\n' +
         '    </span>\n' +
+        '  </span>\n' +
+        '  <!--bar-->\n' +
+        '</div>');
+    });
+
+    it('should produce a nested diff', function () {
+      expect(
+        '<div>foo<span id="foo" class="bar"><span>foo</span></span><!--bar--></div>',
+        'diffed with',
+        '<div>foo<span><span>bar</span></span><!--bar--></div>',
+        'to equal',
+        '<div>\n' +
+        '  foo\n' +
+        '  -<span class="bar" id="foo">\n' +
+        '  +<span>\n' +
+        '    <span>\n' +
+        '      -foo\n' +
+        '      +bar\n' +
+        '    </span>\n' +
+        '  </span>\n' +
+        '  <!--bar-->\n' +
+        '</div>');
+    });
+
+    it('should produce a nested diff', function () {
+      expect(
+        '<div>foo<span><i></i></span><!--bar--></div>',
+        'diffed with',
+        '<div>foo<span><span></span></span><!--bar--></div>',
+        'to equal',
+        '<div>\n' +
+        '  foo\n' +
+        '  <span>\n' +
+        '    -<i></i>\n' +
+        '    +<span></span>\n' +
         '  </span>\n' +
         '  <!--bar-->\n' +
         '</div>');
