@@ -269,7 +269,7 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document.body, 'queried for', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw error',
-          "expected <body><div id=\"foo\"></div></body> queried for '.blabla', 'to have attributes', { id: 'foo' }\n" +
+          'expected <body><div id="foo"></div></body> queried for \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
           '  The selector .blabla yielded no results'
       );
     });
