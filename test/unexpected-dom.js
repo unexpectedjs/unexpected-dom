@@ -254,12 +254,22 @@ describe('unexpected-dom', function () {
       expect(document, 'queried for first', 'div', 'to have attributes', { id: 'foo' });
     });
 
-    it('should error out if the selector matches no elements', function () {
+    it('should error out if the selector matches no elements, first flag set', function () {
       var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
       expect(function () {
         expect(document.body, 'queried for first', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw error',
-          "expected <body><div id=\"foo\"></div></body> queried for first '.blabla', 'to have attributes', { id: 'foo' }\n" +
+          'expected <body><div id="foo"></div></body> queried for first \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
+          '  The selector .blabla yielded no results'
+      );
+    });
+
+    it('should error out if the selector matches no elements, first flag not set', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
+      expect(function () {
+        expect(document.body, 'queried for', '.blabla', 'to have attributes', { id: 'foo' });
+      }, 'to throw error',
+          "expected <body><div id=\"foo\"></div></body> queried for '.blabla', 'to have attributes', { id: 'foo' }\n" +
           '  The selector .blabla yielded no results'
       );
     });
