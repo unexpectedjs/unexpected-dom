@@ -34,6 +34,22 @@ describe('unexpected-dom', function () {
     });
   });
 
+  it('should inspect a document correctly', function () {
+    expect(
+      jsdom.jsdom('<!DOCTYPE html><html><head></head><body></body></html>'),
+      'to inspect as',
+      '<!DOCTYPE html><html><head></head><body></body></html>'
+    );
+  });
+
+  it('should inspect a document with nodes around the documentElement correctly', function () {
+    expect(
+      jsdom.jsdom('<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'),
+      'to inspect as',
+      '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
+    );
+  });
+
   it('should inspect an attribute-less element correctly', function () {
     expect('<div></div>', 'to inspect as itself');
   });
@@ -244,8 +260,14 @@ describe('unexpected-dom', function () {
       return jsdom.jsdom('<!DOCTYPE html><html><body>' + str + '</body></html>').body.firstChild;
     }
 
-    expect.addAssertion('string', 'diffed with', function (expect, subject, value) {
-      this.shift(expect, expect.diff(parseHtmlElement(subject), parseHtmlElement(value)).diff.toString(), 1);
+    expect.addAssertion(['string', 'DOMNode'], 'diffed with', function (expect, subject, value) {
+      if (typeof subject === 'string') {
+        subject = parseHtmlElement(subject);
+      }
+      if (typeof value === 'string') {
+        value = parseHtmlElement(value);
+      }
+      this.shift(expect, expect.diff(subject, value).diff.toString(), 1);
     });
 
     it('should work with HTMLElement', function () {
@@ -338,20 +360,17 @@ describe('unexpected-dom', function () {
         '</div>');
     });
 
-    it('should produce a nested diff', function () {
+    it('should diff documents with stuff around the documentElement', function () {
       expect(
-        '<div>foo<span><i></i></span><!--bar--></div>',
+        jsdom.jsdom('<!DOCTYPE html><!--foo--><html><body></body></html><!--bar-->'),
         'diffed with',
-        '<div>foo<span><span></span></span><!--bar--></div>',
+        jsdom.jsdom('<!DOCTYPE html><html><body></body></html>'),
         'to equal',
-        '<div>\n' +
-        '  foo\n' +
-        '  <span>\n' +
-        '    -<i></i>\n' +
-        '    +<span></span>\n' +
-        '  </span>\n' +
-        '  <!--bar-->\n' +
-        '</div>');
+            '<!DOCTYPE html>\n' +
+            '<!--foo--> // should be removed\n' +
+            '<html><body></body></html>\n' +
+            '<!--bar--> // should be removed'
+        );
     });
   });
 });
