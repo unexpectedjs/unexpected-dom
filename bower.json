@@ -1,0 +1,29 @@
+{
+  "name": "unexpected-dom",
+  "main": "unexpected-dom.js",
+  "homepage": "https://github.com/Munter/unexpected-dom",
+  "authors": [
+    "Peter Müller <munter@fumle.dk>"
+  ],
+  "description": "DOM plugin for the unexpected assertion libary",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "unexpected",
+    "expect",
+    "assertion",
+    "assert",
+    "test",
+    "dom",
+    "html"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "**/*",
+    "!unexpected-dom*.js"
+  ]
+}
