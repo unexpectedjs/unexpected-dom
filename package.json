@@ -7,7 +7,8 @@
     "lib"
   ],
   "scripts": {
-    "lint": "jshint . --exclude-path .gitignore",
+    "build": "browserify lib/index.js --standalone unexpected.dom --debug > unexpected-dom.js && uglifyjs unexpected-dom.js > unexpected-dom.min.js",
+    "lint": "jshint lib test --exclude-path .gitignore",
     "test": "npm run lint && mocha",
     "travis": "npm run lint && npm run coverage",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter dot"
@@ -30,6 +31,7 @@
   },
   "homepage": "https://github.com/Munter/unexpected-dom",
   "devDependencies": {
+    "browserify": "^9.0.3",
     "coveralls": "^2.11.2",
     "istanbul": "^0.3.6",
     "jsdom": "^0.11.1",
@@ -38,6 +40,7 @@
     "magicpen-prism": "^1.1.1",
     "mocha": "^2.1.0",
     "mocha-lcov-reporter": "0.0.2",
+    "uglifyjs": "^2.4.10",
     "unexpected": "^6.0.7"
   },
   "dependencies": {
