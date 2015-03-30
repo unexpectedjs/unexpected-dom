@@ -3,9 +3,9 @@
   "version": "0.3.0",
   "description": "DOM plugin for the unexpected assertion libary",
   "main": "lib/index.js",
-  "directories": {
-    "test": "test"
-  },
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "lint": "jshint . --exclude-path .gitignore",
     "test": "npm run lint && mocha",
