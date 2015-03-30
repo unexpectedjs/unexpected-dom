@@ -8,6 +8,66 @@ unexpected-dom
 
 A plugin for [unexpected](https://unexpectedjs.github.io/) that adds custom assertions form DOM elements.
 
+The aim is to lower the amount of mocking around in the DOM in your tests and keep your tests easily readable while providing a high powered set of functionality with unsurpassed error messages.
+
+
+Installation and usage
+----------------------
+
+**NodeJS**
+
+```
+npm install unexpected unexpected-dom
+```
+
+**Bower**
+
+```
+bower install unexpected unexpected-dom
+```
+
+Setup in tests:
+
+``` js
+var unexpected = require('unexpected').clone();
+unexpected.installPlugin(require('unexpected-dom'));
+
+describe('in a document', function () {
+  it('should find a DOM node', function () {
+    expect(document.body, 'to have attributes', {
+      id: 'app',
+      lang: 'en-US'
+    });
+  });
+});
+
+```
+
+Assertions
+----------
+
+Assertions that test none, singular an plural of a possible collection generally work in all the forms ou would expect. For example `to have no children`, `to have child`, `to have children`.
+
+Brackets in an assertion means the word is an optional flag.
+
+**To have attributes**
+
+Tests for the existence of DOM element attributes
+
+```js
+expect(node, 'to [only] have attribute', 'id');
+expect(node, 'to [only] have attributes', 'id', 'class');
+expect(node, 'to [only] have attributes', ['id', 'class']);
+expect(node, 'to [only] have attributes', {
+  'id': 'foo',
+  'class': 'bar baz'
+});
+```
+
+**To have children**
+
+**Queried for**
+
 
 License
 -------
