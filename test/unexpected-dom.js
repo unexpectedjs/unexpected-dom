@@ -221,6 +221,14 @@ describe('unexpected-dom', function () {
           });
         });
 
+        it('should throw match full class attributes', function () {
+          this.body.innerHTML = '<i class="baz"></i>';
+
+          expect(this.body.firstChild, 'to have attributes', {
+            'class': 'foo bar baz'
+          });
+        });
+
         it('should match partial class attributes', function () {
           this.body.innerHTML = '<i class="foo bar baz"></i>';
 
