@@ -66,6 +66,10 @@ describe('unexpected-dom', function () {
     expect('<input disabled type="text">', 'to inspect as itself');
   });
 
+  it('should inspect undefined attributes correctly', function () {
+    expect('<input value="">', 'to inspect as itself');
+  });
+
   it('should allow regular assertions defined for the object type to work on an HTMLElement', function () {
     expect(jsdom.jsdom('<html><head></head><body></body></html>').firstChild, 'to have properties', { nodeType: 1 });
   });
