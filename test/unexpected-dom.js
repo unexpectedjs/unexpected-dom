@@ -221,12 +221,14 @@ describe('unexpected-dom', function () {
           });
         });
 
-        it('should throw match full class attributes', function () {
-          this.body.innerHTML = '<i class="baz"></i>';
+        it('should throw on unmatched class set', function () {
+          this.body.innerHTML = '<i class="bar"></i>';
 
-          expect(this.body.firstChild, 'to have attributes', {
-            'class': 'foo bar baz'
-          });
+          // expect(function () {
+            expect(this.body.firstChild, 'to have attributes', {
+              'class': 'foo bar baz'
+            });
+          // }, 'to throw exception');
         });
 
         it('should match partial class attributes', function () {
