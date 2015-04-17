@@ -211,6 +211,83 @@ describe('unexpected-dom', function () {
           });
         }, 'to throw exception', /expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button>\nto have attributes/);
       });
+
+      describe('class attribute', function () {
+        it('should match full class attributes', function () {
+          this.body.innerHTML = '<i class="foo bar baz"></i>';
+
+          expect(this.body.firstChild, 'to have attributes', {
+            'class': 'foo bar baz'
+          });
+        });
+
+        it('should throw on unmatched class set', function () {
+          this.body.innerHTML = '<i class="bar"></i>';
+          var el = this.body.firstChild;
+
+          expect(function () {
+            expect(el, 'to have attributes', {
+              'class': 'foo bar baz'
+            });
+          }, 'to throw', /\/\/ expected \[ 'bar' \] to contain 'foo', 'bar', 'baz'/);
+        });
+
+        it('should match partial class attributes', function () {
+          this.body.innerHTML = '<i class="foo bar baz"></i>';
+
+          expect(this.body.firstChild, 'to have attributes', {
+            'class': 'foo bar'
+          });
+        });
+
+        it('should match partial class attributes in different order', function () {
+          this.body.innerHTML = '<i class="foo bar baz"></i>';
+
+          expect(this.body.firstChild, 'to have attributes', {
+            'class': 'baz foo'
+          });
+        });
+
+        describe('exact matches', function () {
+          it('should match an exact class set', function () {
+            this.body.innerHTML = '<i class="foo bar baz"></i>';
+
+            expect(this.body.firstChild, 'to only have attributes', {
+              'class': 'foo bar baz'
+            });
+          });
+
+          it('should match an exact class set in different order', function () {
+            this.body.innerHTML = '<i class="foo bar baz"></i>';
+
+            expect(this.body.firstChild, 'to only have attributes', {
+              'class': 'foo baz bar'
+            });
+          });
+
+          it('should throw if class set contains more classes than comparator', function () {
+            this.body.innerHTML = '<i class="foo bar baz"></i>';
+            var el = this.body.firstChild;
+
+            expect(function () {
+              expect(el, 'to only have attributes', {
+                'class': 'foo baz'
+              });
+            }, 'to throw', /to only have attributes \{ class: 'foo baz' \}/);
+          });
+
+          it('should throw if class set contains less classes than comparator', function () {
+            this.body.innerHTML = '<i class="foo baz"></i>';
+            var el = this.body.firstChild;
+
+            expect(function () {
+              expect(el, 'to only have attributes', {
+                'class': 'foo bar baz'
+              });
+            }, 'to throw', /to only have attributes \{ class: 'foo bar baz' \}/);
+          });
+        });
+      });
     });
   });
 
