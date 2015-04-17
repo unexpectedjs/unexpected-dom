@@ -223,12 +223,13 @@ describe('unexpected-dom', function () {
 
         it('should throw on unmatched class set', function () {
           this.body.innerHTML = '<i class="bar"></i>';
+          var el = this.body.firstChild;
 
-          // expect(function () {
-            expect(this.body.firstChild, 'to have attributes', {
+          expect(function () {
+            expect(el, 'to have attributes', {
               'class': 'foo bar baz'
             });
-          // }, 'to throw exception');
+          }, 'to throw', /\/\/ expected \[ 'bar' \] to contain 'foo', 'bar', 'baz'/);
         });
 
         it('should match partial class attributes', function () {
