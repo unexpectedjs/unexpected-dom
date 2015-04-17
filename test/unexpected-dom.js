@@ -247,6 +247,46 @@ describe('unexpected-dom', function () {
             'class': 'baz foo'
           });
         });
+
+        describe('exact matches', function () {
+          it('should match an exact class set', function () {
+            this.body.innerHTML = '<i class="foo bar baz"></i>';
+
+            expect(this.body.firstChild, 'to only have attributes', {
+              'class': 'foo bar baz'
+            });
+          });
+
+          it('should match an exact class set in different order', function () {
+            this.body.innerHTML = '<i class="foo bar baz"></i>';
+
+            expect(this.body.firstChild, 'to only have attributes', {
+              'class': 'foo baz bar'
+            });
+          });
+
+          it('should throw if class set contains more classes than comparator', function () {
+            this.body.innerHTML = '<i class="foo bar baz"></i>';
+            var el = this.body.firstChild;
+
+            expect(function () {
+              expect(el, 'to only have attributes', {
+                'class': 'foo baz'
+              });
+            }, 'to throw', /to only have attributes \{ class: 'foo baz' \}/);
+          });
+
+          it('should throw if class set contains less classes than comparator', function () {
+            this.body.innerHTML = '<i class="foo baz"></i>';
+            var el = this.body.firstChild;
+
+            expect(function () {
+              expect(el, 'to only have attributes', {
+                'class': 'foo bar baz'
+              });
+            }, 'to throw', /to only have attributes \{ class: 'foo bar baz' \}/);
+          });
+        });
       });
     });
   });
