@@ -491,4 +491,15 @@ describe('unexpected-dom', function () {
         );
     });
   });
+
+  describe('when parsed as HTML', function () {
+    it('should parse a string as a complete HTML document', function () {
+      var htmlSrc = '<!DOCTYPE html><html><body class="bar">foo</body></html>';
+      expect(htmlSrc, 'when parsed as HTML',
+          expect.it('to be a', 'HTMLDocument')
+            .and('to equal', jsdom.jsdom(htmlSrc))
+            .and('queried for first', 'body', 'to have attributes', { class: 'bar' })
+      );
+    });
+  });
 });
