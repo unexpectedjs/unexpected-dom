@@ -108,7 +108,7 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to only have attributes', 'id');
-        }, 'to throw exception',
+        }, 'to throw',
             'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes \'id\''
         );
       });
@@ -125,10 +125,8 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to have attributes', 'id', 'foo');
-        }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be',
+        }, 'to throw',
             'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes \'id\', \'foo\'');
-        });
       });
     });
 
@@ -145,9 +143,7 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to only have attributes', ['id']);
-        }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes [ \'id\' ]');
-        });
+        }, 'to throw', 'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes [ \'id\' ]');
       });
 
       it('should match partial arguments', function () {
@@ -162,9 +158,7 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to have attributes', ['id', 'foo']);
-        }, 'to throw exception', function (err) {
-          expect(err.output.toString(), 'to be', 'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes [ \'id\', \'foo\' ]');
-        });
+        }, 'to throw', 'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes [ \'id\', \'foo\' ]');
       });
     });
 
@@ -188,7 +182,7 @@ describe('unexpected-dom', function () {
           expect(el, 'to only have attributes', {
             id: 'foo'
           });
-        }, 'to throw exception', /^expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button> to only have attributes/);
+        }, 'to throw', /^expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button> to only have attributes/);
       });
 
       it('should match partial object', function () {
@@ -209,7 +203,7 @@ describe('unexpected-dom', function () {
             id: 'foo',
             foo: 'bar'
           });
-        }, 'to throw exception', /expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button>\nto have attributes/);
+        }, 'to throw', /expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button>\nto have attributes/);
       });
 
       describe('class attribute', function () {
@@ -339,7 +333,7 @@ describe('unexpected-dom', function () {
       var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
       expect(function () {
         expect(document.body, 'queried for first', '.blabla', 'to have attributes', { id: 'foo' });
-      }, 'to throw error',
+      }, 'to throw',
           'expected <body><div id="foo"></div></body> queried for first \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
           '  The selector .blabla yielded no results'
       );
@@ -349,7 +343,7 @@ describe('unexpected-dom', function () {
       var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
       expect(function () {
         expect(document.body, 'queried for', '.blabla', 'to have attributes', { id: 'foo' });
-      }, 'to throw error',
+      }, 'to throw',
           'expected <body><div id="foo"></div></body> queried for \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
           '  The selector .blabla yielded no results'
       );
