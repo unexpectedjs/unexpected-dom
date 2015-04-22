@@ -23,12 +23,13 @@ expect.addAssertion('to inspect as [itself]', function (expect, subject, value) 
 });
 
 describe('unexpected-dom', function () {
+  var document, body;
   beforeEach(function (done) {
     var self = this;
     jsdom.env(' ', function (err, window) {
       self.window = window;
-      self.document = window.document;
-      self.body = window.document.body;
+      document = self.document = window.document;
+      body = self.body = window.document.body;
 
       done();
     });
@@ -75,8 +76,6 @@ describe('unexpected-dom', function () {
   });
 
   it('should consider two DOM elements equal when they are of same type and have same attributes', function () {
-    var document = this.document;
-
     var el1 = document.createElement('h1');
     var el2 = document.createElement('h1');
     var el3 = document.createElement('h1');
@@ -92,6 +91,30 @@ describe('unexpected-dom', function () {
 
   it('should to things', function () {
     //expect(this.document.createElement('p'), 'to match', '<p />');
+  });
+
+  describe('to have text', function () {
+    it('should succeed', function () {
+      document.body.innerHTML = '<div>foo</div>';
+      return expect(document.body, 'to have text', 'foo');
+    });
+
+    it('should fail with a diff', function () {
+      document.body.innerHTML = '<div>foo</div>';
+      expect(function () {
+        expect(document.body, 'to have text', 'bar');
+      }, 'to throw',
+        'expected <body><div>foo</div></body> to have text \'bar\'\n' +
+        '\n' +
+        '-foo\n' +
+        '+bar'
+      );
+    });
+
+    it('should use "to satisfy" semantics', function () {
+      document.body.innerHTML = '<div>foo</div>';
+      return expect(document.body, 'to have text', /fo/);
+    });
   });
 
   describe('to have attributes', function () {
