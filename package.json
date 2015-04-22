@@ -41,7 +41,7 @@
     "mocha": "^2.1.0",
     "mocha-lcov-reporter": "0.0.2",
     "uglifyjs": "^2.4.10",
-    "unexpected": "^6.0.7"
+    "unexpected": "^7.0.1"
   },
   "dependencies": {
     "array-changes": "1.0.1",
