@@ -1,9 +1,10 @@
-/*global describe, it, beforeEach*/
+/*global describe, it, beforeEach, afterEach*/
 var unexpected = require('unexpected'),
     unexpectedDom = require('../lib/index'),
+    sinon = require('sinon'),
     jsdom = require('jsdom');
 
-var expect = unexpected.clone().installPlugin(unexpectedDom);
+var expect = unexpected.clone().installPlugin(require('unexpected-sinon')).installPlugin(unexpectedDom);
 expect.output.installPlugin(require('magicpen-prism'));
 
 expect.addAssertion('to inspect as [itself]', function (expect, subject, value) {
@@ -493,13 +494,79 @@ describe('unexpected-dom', function () {
   });
 
   describe('when parsed as HTML', function () {
+    var htmlSrc = '<!DOCTYPE html><html><body class="bar">foo</body></html>';
     it('should parse a string as a complete HTML document', function () {
-      var htmlSrc = '<!DOCTYPE html><html><body class="bar">foo</body></html>';
       expect(htmlSrc, 'when parsed as HTML',
           expect.it('to be a', 'HTMLDocument')
             .and('to equal', jsdom.jsdom(htmlSrc))
             .and('queried for first', 'body', 'to have attributes', { class: 'bar' })
       );
+    });
+
+    describe('when the DOMParser global is available', function () {
+      var originalDOMParser,
+          DOMParserSpy,
+          parseFromStringSpy;
+
+      beforeEach(function () {
+        originalDOMParser = global.DOMParser;
+        global.DOMParser = DOMParserSpy = sinon.spy(function () {
+          return {
+            parseFromString: parseFromStringSpy = sinon.spy(function (htmlString, contentType) {
+              return jsdom.jsdom(htmlString);
+            })
+          };
+        });
+      });
+      afterEach(function () {
+        global.DOMParser = originalDOMParser;
+      });
+
+      it('should use DOMParser to parse the document', function () {
+        expect(htmlSrc, 'when parsed as HTML', 'queried for first', 'body', 'to have text', 'foo');
+        expect(DOMParserSpy, 'was called once');
+        expect(DOMParserSpy, 'was called with');
+        expect(DOMParserSpy.calledWithNew(), 'to be true');
+        expect(parseFromStringSpy, 'was called once');
+        expect(parseFromStringSpy, 'was called with', htmlSrc, 'text/html');
+      });
+    });
+
+    describe('when the document global is available', function () {
+      var originalDocument,
+          createHTMLDocumentSpy,
+          mockDocument;
+
+      beforeEach(function () {
+        originalDocument = global.document;
+        global.document = {
+          implementation: {
+            createHTMLDocument: createHTMLDocumentSpy = sinon.spy(function () {
+              mockDocument = jsdom.jsdom(htmlSrc);
+              mockDocument.open = sinon.spy();
+              mockDocument.write = sinon.spy();
+              mockDocument.close = sinon.spy();
+              return mockDocument;
+            })
+          }
+        };
+      });
+      afterEach(function () {
+        global.document = originalDocument;
+      });
+
+      it('should use document.implementation.createHTMLDocument to parse the document', function () {
+        expect(htmlSrc, 'when parsed as HTML', 'queried for first', 'body', 'to have text', 'foo');
+        expect(createHTMLDocumentSpy, 'was called once');
+        expect(createHTMLDocumentSpy, 'was called with');
+        expect(mockDocument.open, 'was called once');
+        expect(mockDocument.write, 'was called with');
+        expect(mockDocument.write, 'was called once');
+        expect(mockDocument.write, 'was called with', htmlSrc);
+        expect(mockDocument.close, 'was called once');
+        expect(mockDocument.write, 'was called with');
+        expect([mockDocument.open, mockDocument.write, mockDocument.close], 'given call order');
+      });
     });
   });
 });
