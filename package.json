@@ -7,10 +7,10 @@
     "lib"
   ],
   "scripts": {
-    "build": "browserify lib/index.js --standalone unexpected.dom --debug > unexpected-dom.js && uglifyjs unexpected-dom.js > unexpected-dom.min.js",
+    "build": "browserify lib/index.js --standalone unexpected.dom --debug --x jsdom > unexpected-dom.js && uglifyjs unexpected-dom.js > unexpected-dom.min.js",
     "lint": "jshint lib test --exclude-path .gitignore",
     "test": "npm run lint && mocha",
-    "travis": "npm run lint && npm run coverage",
+    "travis": "npm run lint && npm run coverage && npm run build",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter dot"
   },
   "repository": {
