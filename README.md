@@ -68,6 +68,19 @@ expect(node, 'to [only] have attributes', {
 
 **Queried for**
 
+**When parsed as HTML**
+
+Parses the subject (string) as an HTML document using the facilities available in the browser, with a fallback to jsdom, then delegates to the next assertion in the argument list:
+
+```js
+expect(
+    '<html><body><div class="foo"></div></body></html>',
+    'when parsed as HTML',
+    'queried for', 'div',
+    'to have attributes', { class: 'foo' }
+);
+```
+
 
 License
 -------
