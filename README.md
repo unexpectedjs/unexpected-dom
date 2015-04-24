@@ -68,6 +68,20 @@ expect(node, 'to [only] have attributes', {
 
 **Queried for**
 
+Queries the supplied node the designated [querySelector]() and returns a [NodeList](). NodeList is an [array-like]() type, giving you array assertions as an added bonus.
+
+This assertion is primarily useful for chaining.
+
+```js
+expect(node, 'queried for [first]', '.blog-article > h2');
+
+// Chaining
+expect(node, 'queried for', '.blog-article', 'to have items satisfying', 'to have attributes', {
+  id: /^article-heading-\d+$/,
+  'aria-describe': 'Article'
+});
+```
+
 **When parsed as HTML**
 
 Parses the subject (string) as an HTML document using the facilities available in the browser, with a fallback to jsdom, then delegates to the next assertion in the argument list:
