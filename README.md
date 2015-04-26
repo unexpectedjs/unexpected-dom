@@ -29,8 +29,8 @@ bower install unexpected unexpected-dom
 Setup in tests:
 
 ``` js
-var unexpected = require('unexpected').clone();
-unexpected.installPlugin(require('unexpected-dom'));
+var expect = require('unexpected').clone();
+expect.installPlugin(require('unexpected-dom'));
 
 describe('in a document', function () {
   it('should find a DOM node', function () {
