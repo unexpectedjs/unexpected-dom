@@ -372,6 +372,30 @@ describe('unexpected-dom', function () {
           '  The selector .blabla yielded no results'
       );
     });
+
+    it('should return an array-like NodeList', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>');
+
+      expect(document, 'queried for', 'div', 'to be a', 'DOMNodeList');
+    });
+
+    it('should be able to use array semantics', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>');
+
+      expect(document, 'queried for', 'div', 'to have length', 3);
+    });
+
+    it('should fail array checks with useful nested error message', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>');
+
+      expect(function () {
+        expect(document, 'queried for', 'div', 'to have length', 1);
+      }, 'to throw',
+          'expected <!DOCTYPE html><html><body>.........</body></html> queried for \'div\' to have length 1\n' +
+          '  expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1\n' +
+          '    expected 3 to be 1'
+      );
+    });
   });
 
   describe('diffing', function () {
