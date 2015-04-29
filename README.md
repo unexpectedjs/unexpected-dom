@@ -64,6 +64,14 @@ expect(node, 'to [only] have attributes', {
 });
 ```
 
+**To have text**
+
+Tests the text content of a DOM element
+
+```js
+expect(node, 'to have text', 'foo');
+```
+
 **To have children**
 
 **Queried for**
