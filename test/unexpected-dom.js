@@ -306,6 +306,35 @@ describe('unexpected-dom', function () {
           });
         });
       });
+
+      describe('style attribute', function () {
+        it('should do string comparisons', function () {
+          this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+
+          expect(this.body.firstChild, 'to have attributes', {
+            style: 'color: red; background: blue'
+          });
+        });
+
+        it('should do string comparisons in any order', function () {
+          this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+
+          expect(this.body.firstChild, 'to have attributes', {
+            style: 'background: blue; color: red'
+          });
+        });
+
+        it('should do object comparisons', function () {
+          this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+
+          expect(this.body.firstChild, 'to have attributes', {
+            style: {
+              color: 'red',
+              background: 'blue'
+            }
+          });
+        });
+      });
     });
   });
 
