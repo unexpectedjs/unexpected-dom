@@ -308,30 +308,127 @@ describe('unexpected-dom', function () {
       });
 
       describe('style attribute', function () {
-        it('should do string comparisons', function () {
-          this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+        describe('lax comparison', function () {
+          it('should do string comparisons', function () {
+            this.body.innerHTML = '<i style="color: red; background: blue"></i>';
 
-          expect(this.body.firstChild, 'to have attributes', {
-            style: 'color: red; background: blue'
+            expect(this.body.firstChild, 'to have attributes', {
+              style: 'color: red; background: blue'
+            });
+          });
+
+          it('should do string comparisons in any order', function () {
+            this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+
+            expect(this.body.firstChild, 'to have attributes', {
+              style: 'background: blue; color: red'
+            });
+          });
+
+          it('should do string comparisons on partial values', function () {
+            this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+
+            expect(this.body.firstChild, 'to have attributes', {
+              style: 'background: blue'
+            });
+          });
+
+          it('should fail when styles are missing', function () {
+            this.body.innerHTML = '<i style="color: red"></i>';
+            var node = this.body.firstChild;
+
+            expect(function () {
+              expect(node, 'to have attributes', {
+                style: 'background: blue'
+              });
+            }, 'to throw', /to have attributes \{ style: 'background: blue' \}/);
+          });
+
+          it('should do object comparisons', function () {
+            this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+
+            expect(this.body.firstChild, 'to have attributes', {
+              style: {
+                color: 'red',
+                background: 'blue'
+              }
+            });
+          });
+
+          it('should do partial object comparisons', function () {
+            this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+
+            expect(this.body.firstChild, 'to have attributes', {
+              style: {
+                background: 'blue'
+              }
+            });
+          });
+
+          it('should fail on missing partial object comparisons', function () {
+            this.body.innerHTML = '<i style="color: red"></i>';
+            var node = this.body.firstChild;
+
+            expect(function () {
+              expect(node, 'to have attributes', {
+                style: {
+                  background: 'blue'
+                }
+              });
+            }, 'to throw', /to have attributes \{ style: \{ background: 'blue' \} \}/);
           });
         });
 
-        it('should do string comparisons in any order', function () {
-          this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+        describe('strict comparison', function () {
+          it('should do string comparisons', function () {
+            this.body.innerHTML = '<i style="color: red; background: blue"></i>';
 
-          expect(this.body.firstChild, 'to have attributes', {
-            style: 'background: blue; color: red'
+            expect(this.body.firstChild, 'to only have attributes', {
+              style: 'color: red; background: blue'
+            });
           });
-        });
 
-        it('should do object comparisons', function () {
-          this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+          it('should do string comparisons in any order', function () {
+            this.body.innerHTML = '<i style="color: red; background: blue"></i>';
 
-          expect(this.body.firstChild, 'to have attributes', {
-            style: {
-              color: 'red',
-              background: 'blue'
-            }
+            expect(this.body.firstChild, 'to only have attributes', {
+              style: 'background: blue; color: red'
+            });
+          });
+
+          it('should fail when styles are missing', function () {
+            this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+            var node = this.body.firstChild;
+
+            expect(function () {
+              expect(node, 'to only have attributes', {
+                style: 'background: blue'
+              });
+            }, 'to throw', /to only have attributes \{ style: 'background: blue' \}/);
+          });
+
+          it('should do object comparisons', function () {
+            this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+
+            expect(this.body.firstChild, 'to only have attributes', {
+              style: {
+                color: 'red',
+                background: 'blue'
+              }
+            });
+          });
+
+          it('should fail on missing partial object comparisons', function () {
+            this.body.innerHTML = '<i style="color: red; background: blue"></i>';
+            var node = this.body.firstChild;
+
+            expect(function () {
+              expect(node, 'to only have attributes', {
+                style: {
+                  background: 'blue'
+                }
+              });
+            }, 'to throw', /to only have attributes \{ style: \{ background: 'blue' \} \}/);
           });
         });
       });
