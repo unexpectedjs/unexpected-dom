@@ -52,15 +52,31 @@ Brackets in an assertion means the word is an optional flag.
 
 **To have attributes**
 
-Tests for the existence of DOM element attributes
+Tests for the existence of DOM element attributes. `class` attributes are treated arrays, but with set semantics disregarding sort order. `style` attributes are treated as key/value pairs, disregarding sort order. Both `class` and `style` comparisons can be done with strings, which will be converted into the corresponding format before comparison.
 
 ```js
 expect(node, 'to [only] have attribute', 'id');
 expect(node, 'to [only] have attributes', 'id', 'class');
 expect(node, 'to [only] have attributes', ['id', 'class']);
+
 expect(node, 'to [only] have attributes', {
   'id': 'foo',
-  'class': 'bar baz'
+  'aria-describedby': 'helpText'
+});
+
+// style and class string comparisons
+expect(node, 'to [only] have attributes', {
+  'class': 'bar baz',
+  'style': 'background: red; color: blue'
+});
+
+// style and class highlevel set/object comparison
+expect(node, 'to [only] have attributes', {
+  'class': ['bar', 'baz'],
+  'style': {
+    background: 'red',
+    color: 'blue'
+  }
 });
 ```
 
