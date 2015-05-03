@@ -118,6 +118,102 @@ describe('unexpected-dom', function () {
     });
   });
 
+  describe('to have class', function () {
+    describe('with a single class passed as a string', function () {
+      it('should succeed', function () {
+        body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+        expect(body.firstChild, 'to have class', 'bar');
+      });
+
+      it('should fail with a diff', function () {
+        body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+        expect(function () {
+          expect(body.firstChild, 'to have class', 'quux');
+        }, 'to throw',
+            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
+            '\n' +
+            '<button id="foo" data-info="baz" disabled\n' +
+            '        class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
+            '>'
+        );
+      });
+    });
+
+    describe('with multiple classes passed as an array', function () {
+      it('should succeed', function () {
+        body.innerHTML = '<button id="foo" class="bar foo" data-info="baz" disabled>Press me</button>';
+        expect(body.firstChild, 'to have classes', ['foo', 'bar']);
+      });
+
+      it('should fail with a diff', function () {
+        body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+        expect(function () {
+          expect(body.firstChild, 'to have classes', ['quux', 'bar']);
+        }, 'to throw',
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have classes [ \'quux\', \'bar\' ]\n' +
+          '\n' +
+          '<button id="foo" data-info="baz" disabled\n' +
+          '        class="bar" // expected [ \'bar\' ] to contain \'quux\', \'bar\'\n' +
+          '>'
+        );
+      });
+    });
+
+    describe('with the "only" flag', function () {
+      describe('with a single class passed as a string', function () {
+        it('should succeed', function () {
+          body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          expect(body.firstChild, 'to only have class', 'bar');
+        });
+
+        it('should fail with a diff', function () {
+          body.innerHTML = '<button id="foo" class="bar quux" data-info="baz" disabled>Press me</button>';
+          expect(function () {
+            expect(body.firstChild, 'to only have class', 'quux');
+          }, 'to throw',
+            'expected <button class="bar quux" data-info="baz" disabled id="foo">Press me</button> to only have class \'quux\'\n' +
+            '\n' +
+            '<button id="foo" data-info="baz" disabled\n' +
+            '        class="bar quux" // expected [ \'bar\', \'quux\' ] to equal [ \'quux\' ]\n' +
+            '                         //\n' +
+            '                         // [\n' +
+            '                         //   \'bar\', // should be removed\n' +
+            '                         //   \'quux\'\n' +
+            '                         // ]\n' +
+            '>'
+          );
+        });
+      });
+
+      describe('with multiple classes passed as an array', function () {
+        it('should succeed', function () {
+          body.innerHTML = '<button id="foo" class="bar foo" data-info="baz" disabled>Press me</button>';
+          expect(body.firstChild, 'to only have classes', ['foo', 'bar']);
+        });
+
+        it('should fail with a diff', function () {
+          body.innerHTML = '<button id="foo" class="bar quux foo" data-info="baz" disabled>Press me</button>';
+          expect(function () {
+            expect(body.firstChild, 'to only have classes', ['quux', 'bar']);
+          }, 'to throw',
+            'expected <button class="bar quux foo" data-info="baz" disabled id="foo">Press me</button>\n' +
+            'to only have classes [ \'bar\', \'quux\' ]\n' +
+            '\n' +
+            '<button id="foo" data-info="baz" disabled\n' +
+            '        class="bar quux foo" // expected [ \'bar\', \'foo\', \'quux\' ] to equal [ \'bar\', \'quux\' ]\n' +
+            '                             //\n' +
+            '                             // [\n' +
+            '                             //   \'bar\',\n' +
+            '                             //   \'foo\', // should be removed\n' +
+            '                             //   \'quux\'\n' +
+            '                             // ]\n' +
+            '>'
+          );
+        });
+      });
+    });
+  });
+
   describe('to have attributes', function () {
     describe('argument comparison', function () {
       it('should match exact arguments', function () {
