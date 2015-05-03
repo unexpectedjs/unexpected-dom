@@ -133,7 +133,13 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', 'id');
         }, 'to throw',
-            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes \'id\''
+            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes \'id\'\n' +
+            '\n' +
+            '<button id="foo"\n' +
+            '        class="bar" // should be removed\n' +
+            '        data-info="baz" // should be removed\n' +
+            '        disabled // should be removed\n' +
+            '>'
         );
       });
 
@@ -150,7 +156,12 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', 'id', 'foo');
         }, 'to throw',
-            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes \'id\', \'foo\'');
+            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes \'id\', \'foo\'\n' +
+            '\n' +
+            '<button id="foo" class="bar" data-info="baz" disabled\n' +
+            '        // missing foo\n' +
+            '>'
+        );
       });
     });
 
@@ -167,7 +178,15 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to only have attributes', ['id']);
-        }, 'to throw', 'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes [ \'id\' ]');
+        }, 'to throw',
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes [ \'id\' ]\n' +
+          '\n' +
+          '<button id="foo"\n' +
+          '        class="bar" // should be removed\n' +
+          '        data-info="baz" // should be removed\n' +
+          '        disabled // should be removed\n' +
+          '>'
+        );
       });
 
       it('should match partial arguments', function () {
@@ -182,7 +201,13 @@ describe('unexpected-dom', function () {
 
         expect(function () {
           expect(el, 'to have attributes', ['id', 'foo']);
-        }, 'to throw', 'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes [ \'id\', \'foo\' ]');
+        }, 'to throw',
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes [ \'id\', \'foo\' ]\n' +
+          '\n' +
+          '<button id="foo" class="bar" data-info="baz" disabled\n' +
+          '        // missing foo\n' +
+          '>'
+        );
       });
     });
 
@@ -247,7 +272,12 @@ describe('unexpected-dom', function () {
             expect(el, 'to have attributes', {
               'class': 'foo bar baz'
             });
-          }, 'to throw', /\/\/ expected \[ 'bar' \] to contain 'foo', 'bar', 'baz'/);
+          }, 'to throw',
+              'expected <i class="bar"></i> to have attributes { class: \'foo bar baz\' }\n' +
+              '\n' +
+              '<i class="bar" // expected [ \'bar\' ] to contain \'foo\', \'bar\', \'baz\'\n' +
+              '>'
+            );
         });
 
         it('should match partial class attributes', function () {
