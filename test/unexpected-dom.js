@@ -90,10 +90,6 @@ describe('unexpected-dom', function () {
     expect(el1, 'not to equal', paragraph);
   });
 
-  it('should to things', function () {
-    //expect(this.document.createElement('p'), 'to match', '<p />');
-  });
-
   describe('to have text', function () {
     it('should succeed', function () {
       document.body.innerHTML = '<div>foo</div>';
