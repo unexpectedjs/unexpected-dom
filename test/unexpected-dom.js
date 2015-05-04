@@ -132,9 +132,8 @@ describe('unexpected-dom', function () {
         }, 'to throw',
             'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
             '\n' +
-            '<button id="foo" data-info="baz" disabled\n' +
-            '        class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
-            '>'
+            '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
+            '        data-info="baz" disabled>'
         );
       });
     });
@@ -152,9 +151,8 @@ describe('unexpected-dom', function () {
         }, 'to throw',
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have classes [ \'quux\', \'bar\' ]\n' +
           '\n' +
-          '<button id="foo" data-info="baz" disabled\n' +
-          '        class="bar" // expected [ \'bar\' ] to contain \'quux\', \'bar\'\n' +
-          '>'
+          '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\', \'bar\'\n' +
+          '        data-info="baz" disabled>'
         );
       });
     });
@@ -173,14 +171,13 @@ describe('unexpected-dom', function () {
           }, 'to throw',
             'expected <button class="bar quux" data-info="baz" disabled id="foo">Press me</button> to only have class \'quux\'\n' +
             '\n' +
-            '<button id="foo" data-info="baz" disabled\n' +
-            '        class="bar quux" // expected [ \'bar\', \'quux\' ] to equal [ \'quux\' ]\n' +
-            '                         //\n' +
-            '                         // [\n' +
-            '                         //   \'bar\', // should be removed\n' +
-            '                         //   \'quux\'\n' +
-            '                         // ]\n' +
-            '>'
+            '<button id="foo" class="bar quux" // expected [ \'bar\', \'quux\' ] to equal [ \'quux\' ]\n' +
+            '                                  //\n' +
+            '                                  // [\n' +
+            '                                  //   \'bar\', // should be removed\n' +
+            '                                  //   \'quux\'\n' +
+            '                                  // ]\n' +
+            '        data-info="baz" disabled>'
           );
         });
       });
@@ -199,15 +196,14 @@ describe('unexpected-dom', function () {
             'expected <button class="bar quux foo" data-info="baz" disabled id="foo">Press me</button>\n' +
             'to only have classes [ \'bar\', \'quux\' ]\n' +
             '\n' +
-            '<button id="foo" data-info="baz" disabled\n' +
-            '        class="bar quux foo" // expected [ \'bar\', \'foo\', \'quux\' ] to equal [ \'bar\', \'quux\' ]\n' +
-            '                             //\n' +
-            '                             // [\n' +
-            '                             //   \'bar\',\n' +
-            '                             //   \'foo\', // should be removed\n' +
-            '                             //   \'quux\'\n' +
-            '                             // ]\n' +
-            '>'
+            '<button id="foo" class="bar quux foo" // expected [ \'bar\', \'foo\', \'quux\' ] to equal [ \'bar\', \'quux\' ]\n' +
+            '                                      //\n' +
+            '                                      // [\n' +
+            '                                      //   \'bar\',\n' +
+            '                                      //   \'foo\', // should be removed\n' +
+            '                                      //   \'quux\'\n' +
+            '                                      // ]\n' +
+            '        data-info="baz" disabled>'
           );
         });
       });
@@ -231,8 +227,7 @@ describe('unexpected-dom', function () {
         }, 'to throw',
             'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes \'id\'\n' +
             '\n' +
-            '<button id="foo"\n' +
-            '        class="bar" // should be removed\n' +
+            '<button id="foo" class="bar" // should be removed\n' +
             '        data-info="baz" // should be removed\n' +
             '        disabled // should be removed\n' +
             '>'
@@ -277,8 +272,7 @@ describe('unexpected-dom', function () {
         }, 'to throw',
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes [ \'id\' ]\n' +
           '\n' +
-          '<button id="foo"\n' +
-          '        class="bar" // should be removed\n' +
+          '<button id="foo" class="bar" // should be removed\n' +
           '        data-info="baz" // should be removed\n' +
           '        disabled // should be removed\n' +
           '>'
