@@ -673,6 +673,54 @@ describe('unexpected-dom', function () {
     });
   });
 
+  describe('to satisfy', function () {
+    describe('with a nodeName assertion', function () {
+      it('should succeed', function () {
+        body.innerHTML = '<div foo="bar"></div>';
+        expect(body.firstChild, 'to satisfy', { nodeName: /^d/ });
+      });
+
+      it('should fail with a diff', function () {
+        body.innerHTML = '<div foo="bar"></div>';
+        expect(function () {
+          expect(body.firstChild, 'to satisfy', { nodeName: /^sp/ });
+        }, 'to throw',
+          'expected <div foo="bar"></div> to satisfy { nodeName: /^sp/ }\n' +
+          '\n' +
+          '<div // should match /^sp/\n' +
+          '     foo="bar">'
+        );
+      });
+    });
+
+    it('should fail with a diff', function () {
+      body.innerHTML = '<div foo="bar" id="quux">foobar</div><div foo="quux">hey</div>';
+      expect(function () {
+        expect(body, 'queried for', 'div', 'to satisfy', {
+          1: { attributes: { foo: 'bar' } }
+        });
+      }, 'to throw',
+        'expected\n' +
+        '<body>\n' +
+        '  <div foo="bar" id="quux">foobar</div>\n' +
+        '  <div foo="quux">hey</div>\n' +
+        '</body>\n' +
+        'queried for \'div\' to satisfy { 1: { attributes: { foo: \'bar\' } } }\n' +
+        '  expected NodeList[ <div foo="bar" id="quux">foobar</div>, <div foo="quux">hey</div> ]\n' +
+        '  to satisfy { 1: { attributes: { foo: \'bar\' } } }\n' +
+        '\n' +
+        '  NodeList({\n' +
+        '    0: <div foo="bar" id="quux">...</div>,\n' +
+        '    1: <div foo="quux" // expected \'quux\' to satisfy \'bar\'\n' +
+        '                       //\n' +
+        '                       // -quux\n' +
+        '                       // +bar\n' +
+        '    >\n' +
+        '  })'
+      );
+    });
+  });
+
   describe('queried for', function () {
     it('should work with HTMLDocument', function () {
       var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
