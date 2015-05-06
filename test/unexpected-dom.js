@@ -674,6 +674,13 @@ describe('unexpected-dom', function () {
   });
 
   describe('to satisfy', function () {
+    it('should fail if an unsupported property is passed in the value', function () {
+      body.innerHTML = '<div foo="bar"></div>';
+      expect(function () {
+        expect(body.firstChild, 'to satisfy', { foo: 'bar' });
+      }, 'to throw', 'Unsupported option: foo');
+    });
+
     describe('with a name assertion', function () {
       it('should succeed', function () {
         body.innerHTML = '<div foo="bar"></div>';
