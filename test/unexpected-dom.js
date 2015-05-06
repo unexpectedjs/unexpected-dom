@@ -23,6 +23,17 @@ expect.addAssertion('to inspect as [itself]', function (expect, subject, value) 
   }
 });
 
+expect.addAssertion('to produce a diff of', function (expect, subject, value) {
+  this.errorMode = 'bubble';
+  subject = subject.map(function (item) {
+    return typeof item === 'string' ? jsdom.jsdom('<!DOCTYPE html><html><head></head><body>' + item + '</body></html>').body.firstChild : item;
+  });
+  expect(expect.diff(
+    subject[0],
+    subject[1]
+  ).diff.toString(), 'to equal', value);
+});
+
 describe('unexpected-dom', function () {
   var document, body;
   beforeEach(function (done) {
@@ -72,6 +83,80 @@ describe('unexpected-dom', function () {
     expect('<input value="">', 'to inspect as itself');
   });
 
+  describe('diffing', function () {
+    it('should diff elements with different node names', function () {
+      expect(
+        ['<div></div>', '<span></span>'],
+        'to produce a diff of',
+        '<div // should be span\n></div>'
+      );
+    });
+
+    it('should diff a mismatching attribute', function () {
+      expect(
+        ['<div id="foo"></div>', '<div id="bar"></div>'],
+        'to produce a diff of',
+        '<div id="foo" // should equal \'bar\'\n></div>'
+      );
+    });
+
+    it('should diff a mismatching attribute with a char that needs entitification', function () {
+      expect(
+        ['<div id="foo&quot;bar"></div>', '<div id="quux&quot;baz"></div>'],
+        'to produce a diff of',
+        '<div id="foo&quot;bar" // should equal \'quux&quot;baz\'\n></div>'
+      );
+    });
+
+    it('should diff multiple mismatching attributes', function () {
+      expect(
+        [
+          '<div id="foo" the="same" heps="hey" something="identical"></div>',
+          '<div id="bar" the="same" heps="there" something="identical"></div>'
+        ],
+        'to produce a diff of',
+        '<div id="foo" // should equal \'bar\'\n' +
+        '     the="same" heps="hey" // should equal \'there\'\n' +
+        '     something="identical"></div>'
+      );
+    });
+
+    it('should diff an extraneous attribute', function () {
+      expect(
+        ['<div id="foo"></div>', '<div></div>'],
+        'to produce a diff of',
+        '<div id="foo" // should be removed\n></div>'
+      );
+    });
+
+    it('should diff a missing attribute', function () {
+      expect(
+        ['<div></div>', '<div id="foo"></div>'],
+        'to produce a diff of',
+        '<div // missing id="foo"\n></div>'
+      );
+    });
+
+    it('should diff a missing attribute with a char that needs entitification', function () {
+      expect(
+        ['<div></div>', '<div id="fo&amp;o"></div>'],
+        'to produce a diff of',
+        '<div // missing id="fo&amp;o"\n></div>'
+      );
+    });
+
+    it('should diff a child node', function () {
+      expect(
+        ['<div>foo</div>', '<div>bar</div>'],
+        'to produce a diff of',
+        '<div>\n' +
+        '  -foo\n' +
+        '  +bar\n' +
+        '</div>'
+      );
+    });
+  });
+
   it('should allow regular assertions defined for the object type to work on an HTMLElement', function () {
     expect(jsdom.jsdom('<html><head></head><body></body></html>').firstChild, 'to have properties', { nodeType: 1 });
   });
@@ -88,10 +173,6 @@ describe('unexpected-dom', function () {
     expect(el1, 'to equal', el2);
     expect(el1, 'not to equal', el3);
     expect(el1, 'not to equal', paragraph);
-  });
-
-  it('should to things', function () {
-    //expect(this.document.createElement('p'), 'to match', '<p />');
   });
 
   describe('to have text', function () {
@@ -132,9 +213,8 @@ describe('unexpected-dom', function () {
         }, 'to throw',
             'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
             '\n' +
-            '<button id="foo" data-info="baz" disabled\n' +
-            '        class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
-            '>'
+            '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
+            '        data-info="baz" disabled>'
         );
       });
     });
@@ -152,9 +232,8 @@ describe('unexpected-dom', function () {
         }, 'to throw',
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have classes [ \'quux\', \'bar\' ]\n' +
           '\n' +
-          '<button id="foo" data-info="baz" disabled\n' +
-          '        class="bar" // expected [ \'bar\' ] to contain \'quux\', \'bar\'\n' +
-          '>'
+          '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\', \'bar\'\n' +
+          '        data-info="baz" disabled>'
         );
       });
     });
@@ -173,14 +252,13 @@ describe('unexpected-dom', function () {
           }, 'to throw',
             'expected <button class="bar quux" data-info="baz" disabled id="foo">Press me</button> to only have class \'quux\'\n' +
             '\n' +
-            '<button id="foo" data-info="baz" disabled\n' +
-            '        class="bar quux" // expected [ \'bar\', \'quux\' ] to equal [ \'quux\' ]\n' +
-            '                         //\n' +
-            '                         // [\n' +
-            '                         //   \'bar\', // should be removed\n' +
-            '                         //   \'quux\'\n' +
-            '                         // ]\n' +
-            '>'
+            '<button id="foo" class="bar quux" // expected [ \'bar\', \'quux\' ] to equal [ \'quux\' ]\n' +
+            '                                  //\n' +
+            '                                  // [\n' +
+            '                                  //   \'bar\', // should be removed\n' +
+            '                                  //   \'quux\'\n' +
+            '                                  // ]\n' +
+            '        data-info="baz" disabled>'
           );
         });
       });
@@ -199,15 +277,14 @@ describe('unexpected-dom', function () {
             'expected <button class="bar quux foo" data-info="baz" disabled id="foo">Press me</button>\n' +
             'to only have classes [ \'bar\', \'quux\' ]\n' +
             '\n' +
-            '<button id="foo" data-info="baz" disabled\n' +
-            '        class="bar quux foo" // expected [ \'bar\', \'foo\', \'quux\' ] to equal [ \'bar\', \'quux\' ]\n' +
-            '                             //\n' +
-            '                             // [\n' +
-            '                             //   \'bar\',\n' +
-            '                             //   \'foo\', // should be removed\n' +
-            '                             //   \'quux\'\n' +
-            '                             // ]\n' +
-            '>'
+            '<button id="foo" class="bar quux foo" // expected [ \'bar\', \'foo\', \'quux\' ] to equal [ \'bar\', \'quux\' ]\n' +
+            '                                      //\n' +
+            '                                      // [\n' +
+            '                                      //   \'bar\',\n' +
+            '                                      //   \'foo\', // should be removed\n' +
+            '                                      //   \'quux\'\n' +
+            '                                      // ]\n' +
+            '        data-info="baz" disabled>'
           );
         });
       });
@@ -231,8 +308,7 @@ describe('unexpected-dom', function () {
         }, 'to throw',
             'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes \'id\'\n' +
             '\n' +
-            '<button id="foo"\n' +
-            '        class="bar" // should be removed\n' +
+            '<button id="foo" class="bar" // should be removed\n' +
             '        data-info="baz" // should be removed\n' +
             '        disabled // should be removed\n' +
             '>'
@@ -277,8 +353,7 @@ describe('unexpected-dom', function () {
         }, 'to throw',
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes [ \'id\' ]\n' +
           '\n' +
-          '<button id="foo"\n' +
-          '        class="bar" // should be removed\n' +
+          '<button id="foo" class="bar" // should be removed\n' +
           '        data-info="baz" // should be removed\n' +
           '        disabled // should be removed\n' +
           '>'
@@ -673,8 +748,8 @@ describe('unexpected-dom', function () {
         'to equal',
         '<div>\n' +
         '  <div id="foo"></div>\n' +
-        '  -<div id="bar"></div>\n' +
-        '  +<div id="quux"></div>\n' +
+        '  <div id="bar" // should equal \'quux\'\n' +
+        '  ></div>\n' +
         '</div>');
     });
 
@@ -744,8 +819,9 @@ describe('unexpected-dom', function () {
         'to equal',
         '<div>\n' +
         '  foo\n' +
-        '  -<span class="bar" id="foo">\n' +
-        '  +<span>\n' +
+        '  <span id="foo" // should be removed\n' +
+        '        class="bar" // should be removed\n' +
+        '  >\n' +
         '    <span>\n' +
         '      -foo\n' +
         '      +bar\n' +
