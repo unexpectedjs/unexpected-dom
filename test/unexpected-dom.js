@@ -674,18 +674,18 @@ describe('unexpected-dom', function () {
   });
 
   describe('to satisfy', function () {
-    describe('with a nodeName assertion', function () {
+    describe('with a name assertion', function () {
       it('should succeed', function () {
         body.innerHTML = '<div foo="bar"></div>';
-        expect(body.firstChild, 'to satisfy', { nodeName: /^d/ });
+        expect(body.firstChild, 'to satisfy', { name: /^d/ });
       });
 
       it('should fail with a diff', function () {
         body.innerHTML = '<div foo="bar"></div>';
         expect(function () {
-          expect(body.firstChild, 'to satisfy', { nodeName: /^sp/ });
+          expect(body.firstChild, 'to satisfy', { name: /^sp/ });
         }, 'to throw',
-          'expected <div foo="bar"></div> to satisfy { nodeName: /^sp/ }\n' +
+          'expected <div foo="bar"></div> to satisfy { name: /^sp/ }\n' +
           '\n' +
           '<div // should match /^sp/\n' +
           '     foo="bar">'
