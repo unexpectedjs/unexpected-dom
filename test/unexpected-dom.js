@@ -5,7 +5,6 @@ var unexpected = require('unexpected'),
     jsdom = require('jsdom');
 
 var expect = unexpected.clone().installPlugin(require('unexpected-sinon')).installPlugin(unexpectedDom);
-expect.output.installPlugin(require('magicpen-prism'));
 
 expect.addAssertion('to inspect as [itself]', function (expect, subject, value) {
   var originalSubject = subject;

@@ -37,7 +37,6 @@
     "jsdom": "^0.11.1",
     "jshint": "^2.6.3",
     "magicpen": "^4.3.5",
-    "magicpen-prism": "2.0.0",
     "mocha": "^2.1.0",
     "mocha-lcov-reporter": "0.0.2",
     "sinon": "1.14.1",
@@ -47,6 +46,7 @@
   },
   "dependencies": {
     "array-changes": "1.0.1",
-    "extend": "^2.0.0"
+    "extend": "^2.0.0",
+    "magicpen-prism": "2.0.0"
   }
 }
