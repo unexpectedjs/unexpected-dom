@@ -213,7 +213,7 @@ describe('unexpected-dom', function () {
             'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
             '\n' +
             '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
-            '        data-info="baz" disabled>'
+            '        data-info="baz" disabled>Press me</button>'
         );
       });
     });
@@ -232,7 +232,7 @@ describe('unexpected-dom', function () {
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have classes [ \'quux\', \'bar\' ]\n' +
           '\n' +
           '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\', \'bar\'\n' +
-          '        data-info="baz" disabled>'
+          '        data-info="baz" disabled>Press me</button>'
         );
       });
     });
@@ -257,7 +257,7 @@ describe('unexpected-dom', function () {
             '                                  //   \'bar\', // should be removed\n' +
             '                                  //   \'quux\'\n' +
             '                                  // ]\n' +
-            '        data-info="baz" disabled>'
+            '        data-info="baz" disabled>Press me</button>'
           );
         });
       });
@@ -283,7 +283,7 @@ describe('unexpected-dom', function () {
             '                                      //   \'foo\', // should be removed\n' +
             '                                      //   \'quux\'\n' +
             '                                      // ]\n' +
-            '        data-info="baz" disabled>'
+            '        data-info="baz" disabled>Press me</button>'
           );
         });
       });
@@ -310,7 +310,7 @@ describe('unexpected-dom', function () {
             '<button id="foo" class="bar" // should be removed\n' +
             '        data-info="baz" // should be removed\n' +
             '        disabled // should be removed\n' +
-            '>'
+            '>Press me</button>'
         );
       });
 
@@ -331,7 +331,7 @@ describe('unexpected-dom', function () {
             '\n' +
             '<button id="foo" class="bar" data-info="baz" disabled\n' +
             '        // missing foo\n' +
-            '>'
+            '>Press me</button>'
         );
       });
     });
@@ -355,7 +355,7 @@ describe('unexpected-dom', function () {
           '<button id="foo" class="bar" // should be removed\n' +
           '        data-info="baz" // should be removed\n' +
           '        disabled // should be removed\n' +
-          '>'
+          '>Press me</button>'
         );
       });
 
@@ -376,7 +376,7 @@ describe('unexpected-dom', function () {
           '\n' +
           '<button id="foo" class="bar" data-info="baz" disabled\n' +
           '        // missing foo\n' +
-          '>'
+          '>Press me</button>'
         );
       });
     });
@@ -446,7 +446,7 @@ describe('unexpected-dom', function () {
               'expected <i class="bar"></i> to have attributes { class: \'foo bar baz\' }\n' +
               '\n' +
               '<i class="bar" // expected [ \'bar\' ] to contain \'foo\', \'bar\', \'baz\'\n' +
-              '>'
+              '></i>'
             );
         });
 
@@ -688,7 +688,33 @@ describe('unexpected-dom', function () {
           'expected <div foo="bar"></div> to satisfy { name: /^sp/ }\n' +
           '\n' +
           '<div // should match /^sp/\n' +
-          '     foo="bar">'
+          '     foo="bar"></div>'
+        );
+      });
+    });
+
+    describe('with a children assertion', function () {
+      it('should succeed', function () {
+        body.innerHTML = '<div foo="bar">hey</div>';
+        expect(body.firstChild, 'to satisfy', { children: [ 'hey' ] });
+      });
+
+      it('should fail with a diff', function () {
+        body.innerHTML = '<div foo="bar">hey</div>';
+        expect(function () {
+          expect(body.firstChild, 'to satisfy', { children: [ 'there' ] });
+        }, 'to throw',
+          'expected <div foo="bar">hey</div> to satisfy { children: [ \'there\' ] }\n' +
+          '\n' +
+          '<div foo="bar">\n' +
+          '  hey // expected NodeList[ hey ] to satisfy [ \'there\' ]\n' +
+          '      //\n' +
+          '      // [\n' +
+          '      //   hey // should equal \'there\'\n' +
+          '      //       // -hey\n' +
+          '      //       // +there\n' +
+          '      // ]\n' +
+          '</div>'
         );
       });
     });
@@ -711,11 +737,12 @@ describe('unexpected-dom', function () {
         '\n' +
         '  NodeList({\n' +
         '    0: <div foo="bar" id="quux">...</div>,\n' +
-        '    1: <div foo="quux" // expected \'quux\' to satisfy \'bar\'\n' +
-        '                       //\n' +
-        '                       // -quux\n' +
-        '                       // +bar\n' +
-        '    >\n' +
+        '    1:\n' +
+        '      <div foo="quux" // expected \'quux\' to satisfy \'bar\'\n' +
+        '                      //\n' +
+        '                      // -quux\n' +
+        '                      // +bar\n' +
+        '      >hey</div>\n' +
         '  })'
       );
     });
