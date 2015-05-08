@@ -930,7 +930,7 @@ describe('unexpected-dom', function () {
     var htmlSrc = '<!DOCTYPE html><html><body class="bar">foo</body></html>';
     it('should parse a string as a complete HTML document', function () {
       expect(htmlSrc, 'when parsed as HTML',
-          expect.it('to be a', 'HTMLDocument')
+          expect.it('to be an', 'HTMLDocument')
             .and('to equal', jsdom.jsdom(htmlSrc))
             .and('queried for first', 'body', 'to have attributes', { class: 'bar' })
       );
