@@ -47,6 +47,6 @@
   "dependencies": {
     "array-changes": "1.0.1",
     "extend": "^2.0.0",
-    "magicpen-prism": "2.0.0"
+    "magicpen-prism": "2.1.0"
   }
 }

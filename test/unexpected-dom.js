@@ -46,11 +46,20 @@ describe('unexpected-dom', function () {
     });
   });
 
-  it('should inspect a document correctly', function () {
+  it('should inspect an HTML document correctly', function () {
     expect(
-      jsdom.jsdom('<!DOCTYPE html><html><head></head><body></body></html>'),
+      jsdom.jsdom('<!DOCTYPE html><html><head></head><BODY></BODY></html>'),
       'to inspect as',
       '<!DOCTYPE html><html><head></head><body></body></html>'
+    );
+  });
+
+  it('should inspect an XML document correctly', function () {
+    expect(
+      '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>',
+      'when parsed as XML',
+      'to inspect as',
+      '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>'
     );
   });
 
@@ -698,6 +707,25 @@ describe('unexpected-dom', function () {
           '     foo="bar"></div>'
         );
       });
+
+      describe('in an XML document with a mixed case node name', function () {
+        var xmlDoc = jsdom.jsdom('<?xml version="1.0"?><fooBar hey="there"></fooBar>', { parsingMode: 'xml' });
+
+        it('should succeed', function () {
+          expect(xmlDoc.firstChild, 'to satisfy', { name: 'fooBar' });
+        });
+
+        it('should fail with a diff', function () {
+          expect(function () {
+            expect(xmlDoc.firstChild, 'to satisfy', { name: 'fooBarQuux' });
+          }, 'to throw',
+            'expected <fooBar hey="there"></fooBar> to satisfy { name: \'fooBarQuux\' }\n' +
+            '\n' +
+            '<fooBar // should equal \'fooBarQuux\'\n' +
+            '        hey="there"></fooBar>'
+          );
+        });
+      });
     });
 
     describe('with a children assertion', function () {
@@ -999,6 +1027,46 @@ describe('unexpected-dom', function () {
         expect(mockDocument.close, 'was called once');
         expect(mockDocument.write, 'was called with');
         expect([mockDocument.open, mockDocument.write, mockDocument.close], 'given call order');
+      });
+    });
+  });
+
+  describe('when parsed as XML', function () {
+    var xmlSrc = '<?xml version="1.0"?><fooBar yes="sir">foo</fooBar>';
+    it('should parse a string as a complete XML document', function () {
+      expect(xmlSrc, 'when parsed as XML',
+          expect.it('to be an', 'XMLDocument')
+            .and('to equal', jsdom.jsdom(xmlSrc, { parsingMode: 'xml' }))
+            .and('queried for first', 'fooBar', 'to have attributes', { yes: 'sir' })
+      );
+    });
+
+    describe('when the DOMParser global is available', function () {
+      var originalDOMParser,
+          DOMParserSpy,
+          parseFromStringSpy;
+
+      beforeEach(function () {
+        originalDOMParser = global.DOMParser;
+        global.DOMParser = DOMParserSpy = sinon.spy(function () {
+          return {
+            parseFromString: parseFromStringSpy = sinon.spy(function (xmlString, contentType) {
+              return jsdom.jsdom(xmlString, { parsingMode: 'xml' });
+            })
+          };
+        });
+      });
+      afterEach(function () {
+        global.DOMParser = originalDOMParser;
+      });
+
+      it('should use DOMParser to parse the document', function () {
+        expect(xmlSrc, 'when parsed as XML', 'queried for first', 'fooBar', 'to have text', 'foo');
+        expect(DOMParserSpy, 'was called once');
+        expect(DOMParserSpy, 'was called with');
+        expect(DOMParserSpy.calledWithNew(), 'to be true');
+        expect(parseFromStringSpy, 'was called once');
+        expect(parseFromStringSpy, 'was called with', xmlSrc, 'text/xml');
       });
     });
   });
