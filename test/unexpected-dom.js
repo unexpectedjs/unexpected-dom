@@ -794,12 +794,12 @@ describe('unexpected-dom', function () {
     });
 
     it('should fail array checks with useful nested error message', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>');
+      var document = jsdom.jsdom('<!DOCTYPE html><html><head></head><body><div></div><div></div><div></div></body></html>');
 
       expect(function () {
         expect(document, 'queried for', 'div', 'to have length', 1);
       }, 'to throw',
-          'expected <!DOCTYPE html><html><body>.........</body></html> queried for \'div\' to have length 1\n' +
+          'expected <!DOCTYPE html><html><head></head><body>.........</body></html> queried for \'div\' to have length 1\n' +
           '  expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1\n' +
           '    expected 3 to be 1'
       );
@@ -914,13 +914,13 @@ describe('unexpected-dom', function () {
 
     it('should diff documents with stuff around the documentElement', function () {
       expect(
-        jsdom.jsdom('<!DOCTYPE html><!--foo--><html><body></body></html><!--bar-->'),
+        jsdom.jsdom('<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'),
         'diffed with',
-        jsdom.jsdom('<!DOCTYPE html><html><body></body></html>'),
+        jsdom.jsdom('<!DOCTYPE html><html><head></head><body></body></html>'),
         'to equal',
             '<!DOCTYPE html>\n' +
             '<!--foo--> // should be removed\n' +
-            '<html><body></body></html>\n' +
+            '<html><head></head><body></body></html>\n' +
             '<!--bar--> // should be removed'
         );
     });
