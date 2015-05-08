@@ -964,6 +964,22 @@ describe('unexpected-dom', function () {
       );
     });
 
+    it('should fail when the next assertion fails', function () {
+      expect(function () {
+        expect(htmlSrc, 'when parsed as HTML', 'queried for first', 'body', 'to have attributes', { class: 'quux' });
+      }, 'to throw',
+        'expected \'<!DOCTYPE html><html><body class="bar">foo</body></html>\'\n' +
+        'when parsed as HTML queried for first \'body\', \'to have attributes\', { class: \'quux\' }\n' +
+        '  expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>\n' +
+        '  queried for first \'body\' to have attributes { class: \'quux\' }\n' +
+        '    expected <body class="bar">foo</body> to have attributes { class: \'quux\' }\n' +
+        '\n' +
+        '    <body class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
+        '    >foo</body>'
+      );
+    });
+
+
     describe('when the DOMParser global is available', function () {
       var originalDOMParser,
           DOMParserSpy,
