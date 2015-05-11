@@ -744,7 +744,7 @@ describe('unexpected-dom', function () {
           '<div foo="bar">\n' +
           '  hey // expected NodeList[ hey ] to satisfy [ \'there\' ]\n' +
           '      //\n' +
-          '      // [\n' +
+          '      // DOMNodeList[\n' +
           '      //   hey // should equal \'there\'\n' +
           '      //       // -hey\n' +
           '      //       // +there\n' +
@@ -848,7 +848,7 @@ describe('unexpected-dom', function () {
         expect(document, 'to contain no elements matching', '.foo');
       }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain no elements matching \'.foo\'\n' +
           '\n' +
-          '[\n' +
+          'DOMNodeList[\n' +
           '  <div class="foo"></div> // should be removed\n' +
           ']'
       );
@@ -861,7 +861,7 @@ describe('unexpected-dom', function () {
         expect(document, 'to contain no elements matching', '.foo');
       }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>......</body></html> to contain no elements matching \'.foo\'\n' +
           '\n' +
-          '[\n' +
+          'DOMNodeList[\n' +
           '  <div class="foo"></div>, // should be removed\n' +
           '  <div class="foo"></div> // should be removed\n' +
           ']'
