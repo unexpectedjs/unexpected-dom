@@ -827,7 +827,7 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document, 'queried for', 'div', 'to have length', 1);
       }, 'to throw',
-          'expected <!DOCTYPE html><html><head></head><body>.........</body></html> queried for \'div\' to have length 1\n' +
+          'expected <!DOCTYPE html><html><head></head><body>...</body></html> queried for \'div\' to have length 1\n' +
           '  expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1\n' +
           '    expected 3 to be 1'
       );
@@ -859,7 +859,7 @@ describe('unexpected-dom', function () {
 
       expect(function () {
         expect(document, 'to contain no elements matching', '.foo');
-      }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>......</body></html> to contain no elements matching \'.foo\'\n' +
+      }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain no elements matching \'.foo\'\n' +
           '\n' +
           'DOMNodeList[\n' +
           '  <div class="foo"></div>, // should be removed\n' +
