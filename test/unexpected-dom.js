@@ -834,6 +834,41 @@ describe('unexpected-dom', function () {
     });
   });
 
+  describe('to contain no elements matching', function () {
+    it('should pass when not matching anything', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body></body></html>');
+
+      expect(document, 'to contain no elements matching', '.foo');
+    });
+
+    it('should fail when matching a single node', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div></body></html>');
+
+      expect(function () {
+        expect(document, 'to contain no elements matching', '.foo');
+      }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain no elements matching \'.foo\'\n' +
+          '\n' +
+          '[\n' +
+          '  <div class="foo"></div> // should be removed\n' +
+          ']'
+      );
+    });
+
+    it('should fail when matching a NodeList', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div><div class="foo"></div></body></html>');
+
+      expect(function () {
+        expect(document, 'to contain no elements matching', '.foo');
+      }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>......</body></html> to contain no elements matching \'.foo\'\n' +
+          '\n' +
+          '[\n' +
+          '  <div class="foo"></div>, // should be removed\n' +
+          '  <div class="foo"></div> // should be removed\n' +
+          ']'
+      );
+    });
+  });
+
   describe('diffing', function () {
     function parseHtmlElement(str) {
       return jsdom.jsdom('<!DOCTYPE html><html><body>' + str + '</body></html>').body.firstChild;
