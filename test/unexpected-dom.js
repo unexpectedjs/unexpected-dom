@@ -5,7 +5,6 @@ var unexpected = require('unexpected'),
     jsdom = require('jsdom');
 
 var expect = unexpected.clone().installPlugin(require('unexpected-sinon')).installPlugin(unexpectedDom);
-expect.output.installPlugin(require('magicpen-prism'));
 
 expect.addAssertion('to inspect as [itself]', function (expect, subject, value) {
   var originalSubject = subject;
@@ -47,11 +46,20 @@ describe('unexpected-dom', function () {
     });
   });
 
-  it('should inspect a document correctly', function () {
+  it('should inspect an HTML document correctly', function () {
     expect(
-      jsdom.jsdom('<!DOCTYPE html><html><head></head><body></body></html>'),
+      jsdom.jsdom('<!DOCTYPE html><html><head></head><BODY></BODY></html>'),
       'to inspect as',
       '<!DOCTYPE html><html><head></head><body></body></html>'
+    );
+  });
+
+  it('should inspect an XML document correctly', function () {
+    expect(
+      '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>',
+      'when parsed as XML',
+      'to inspect as',
+      '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>'
     );
   });
 
@@ -214,7 +222,7 @@ describe('unexpected-dom', function () {
             'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
             '\n' +
             '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
-            '        data-info="baz" disabled>'
+            '        data-info="baz" disabled>Press me</button>'
         );
       });
     });
@@ -233,7 +241,7 @@ describe('unexpected-dom', function () {
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have classes [ \'quux\', \'bar\' ]\n' +
           '\n' +
           '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\', \'bar\'\n' +
-          '        data-info="baz" disabled>'
+          '        data-info="baz" disabled>Press me</button>'
         );
       });
     });
@@ -258,7 +266,7 @@ describe('unexpected-dom', function () {
             '                                  //   \'bar\', // should be removed\n' +
             '                                  //   \'quux\'\n' +
             '                                  // ]\n' +
-            '        data-info="baz" disabled>'
+            '        data-info="baz" disabled>Press me</button>'
           );
         });
       });
@@ -284,7 +292,7 @@ describe('unexpected-dom', function () {
             '                                      //   \'foo\', // should be removed\n' +
             '                                      //   \'quux\'\n' +
             '                                      // ]\n' +
-            '        data-info="baz" disabled>'
+            '        data-info="baz" disabled>Press me</button>'
           );
         });
       });
@@ -311,7 +319,7 @@ describe('unexpected-dom', function () {
             '<button id="foo" class="bar" // should be removed\n' +
             '        data-info="baz" // should be removed\n' +
             '        disabled // should be removed\n' +
-            '>'
+            '>Press me</button>'
         );
       });
 
@@ -332,7 +340,7 @@ describe('unexpected-dom', function () {
             '\n' +
             '<button id="foo" class="bar" data-info="baz" disabled\n' +
             '        // missing foo\n' +
-            '>'
+            '>Press me</button>'
         );
       });
     });
@@ -356,7 +364,7 @@ describe('unexpected-dom', function () {
           '<button id="foo" class="bar" // should be removed\n' +
           '        data-info="baz" // should be removed\n' +
           '        disabled // should be removed\n' +
-          '>'
+          '>Press me</button>'
         );
       });
 
@@ -377,7 +385,7 @@ describe('unexpected-dom', function () {
           '\n' +
           '<button id="foo" class="bar" data-info="baz" disabled\n' +
           '        // missing foo\n' +
-          '>'
+          '>Press me</button>'
         );
       });
     });
@@ -447,7 +455,7 @@ describe('unexpected-dom', function () {
               'expected <i class="bar"></i> to have attributes { class: \'foo bar baz\' }\n' +
               '\n' +
               '<i class="bar" // expected [ \'bar\' ] to contain \'foo\', \'bar\', \'baz\'\n' +
-              '>'
+              '></i>'
             );
         });
 
@@ -674,6 +682,107 @@ describe('unexpected-dom', function () {
     });
   });
 
+  describe('to satisfy', function () {
+    it('should fail if an unsupported property is passed in the value', function () {
+      body.innerHTML = '<div foo="bar"></div>';
+      expect(function () {
+        expect(body.firstChild, 'to satisfy', { foo: 'bar' });
+      }, 'to throw', 'Unsupported option: foo');
+    });
+
+    describe('with a name assertion', function () {
+      it('should succeed', function () {
+        body.innerHTML = '<div foo="bar"></div>';
+        expect(body.firstChild, 'to satisfy', { name: /^d/ });
+      });
+
+      it('should fail with a diff', function () {
+        body.innerHTML = '<div foo="bar"></div>';
+        expect(function () {
+          expect(body.firstChild, 'to satisfy', { name: /^sp/ });
+        }, 'to throw',
+          'expected <div foo="bar"></div> to satisfy { name: /^sp/ }\n' +
+          '\n' +
+          '<div // should match /^sp/\n' +
+          '     foo="bar"></div>'
+        );
+      });
+
+      describe('in an XML document with a mixed case node name', function () {
+        var xmlDoc = jsdom.jsdom('<?xml version="1.0"?><fooBar hey="there"></fooBar>', { parsingMode: 'xml' });
+
+        it('should succeed', function () {
+          expect(xmlDoc.firstChild, 'to satisfy', { name: 'fooBar' });
+        });
+
+        it('should fail with a diff', function () {
+          expect(function () {
+            expect(xmlDoc.firstChild, 'to satisfy', { name: 'fooBarQuux' });
+          }, 'to throw',
+            'expected <fooBar hey="there"></fooBar> to satisfy { name: \'fooBarQuux\' }\n' +
+            '\n' +
+            '<fooBar // should equal \'fooBarQuux\'\n' +
+            '        hey="there"></fooBar>'
+          );
+        });
+      });
+    });
+
+    describe('with a children assertion', function () {
+      it('should succeed', function () {
+        body.innerHTML = '<div foo="bar">hey</div>';
+        expect(body.firstChild, 'to satisfy', { children: [ 'hey' ] });
+      });
+
+      it('should fail with a diff', function () {
+        body.innerHTML = '<div foo="bar">hey</div>';
+        expect(function () {
+          expect(body.firstChild, 'to satisfy', { children: [ 'there' ] });
+        }, 'to throw',
+          'expected <div foo="bar">hey</div> to satisfy { children: [ \'there\' ] }\n' +
+          '\n' +
+          '<div foo="bar">\n' +
+          '  hey // expected NodeList[ hey ] to satisfy [ \'there\' ]\n' +
+          '      //\n' +
+          '      // [\n' +
+          '      //   hey // should equal \'there\'\n' +
+          '      //       // -hey\n' +
+          '      //       // +there\n' +
+          '      // ]\n' +
+          '</div>'
+        );
+      });
+    });
+
+    it('should fail with a diff', function () {
+      body.innerHTML = '<div foo="bar" id="quux">foobar</div><div foo="quux">hey</div>';
+      expect(function () {
+        expect(body, 'queried for', 'div', 'to satisfy', {
+          1: { attributes: { foo: 'bar' } }
+        });
+      }, 'to throw',
+        'expected\n' +
+        '<body>\n' +
+        '  <div foo="bar" id="quux">foobar</div>\n' +
+        '  <div foo="quux">hey</div>\n' +
+        '</body>\n' +
+        'queried for \'div\' to satisfy { 1: { attributes: { foo: \'bar\' } } }\n' +
+        '  expected NodeList[ <div foo="bar" id="quux">foobar</div>, <div foo="quux">hey</div> ]\n' +
+        '  to satisfy { 1: { attributes: { foo: \'bar\' } } }\n' +
+        '\n' +
+        '  NodeList({\n' +
+        '    0: <div foo="bar" id="quux">...</div>,\n' +
+        '    1:\n' +
+        '      <div foo="quux" // expected \'quux\' to satisfy \'bar\'\n' +
+        '                      //\n' +
+        '                      // -quux\n' +
+        '                      // +bar\n' +
+        '      >hey</div>\n' +
+        '  })'
+      );
+    });
+  });
+
   describe('queried for', function () {
     it('should work with HTMLDocument', function () {
       var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
@@ -713,12 +822,12 @@ describe('unexpected-dom', function () {
     });
 
     it('should fail array checks with useful nested error message', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>');
+      var document = jsdom.jsdom('<!DOCTYPE html><html><head></head><body><div></div><div></div><div></div></body></html>');
 
       expect(function () {
         expect(document, 'queried for', 'div', 'to have length', 1);
       }, 'to throw',
-          'expected <!DOCTYPE html><html><body>.........</body></html> queried for \'div\' to have length 1\n' +
+          'expected <!DOCTYPE html><html><head></head><body>.........</body></html> queried for \'div\' to have length 1\n' +
           '  expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1\n' +
           '    expected 3 to be 1'
       );
@@ -833,13 +942,13 @@ describe('unexpected-dom', function () {
 
     it('should diff documents with stuff around the documentElement', function () {
       expect(
-        jsdom.jsdom('<!DOCTYPE html><!--foo--><html><body></body></html><!--bar-->'),
+        jsdom.jsdom('<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'),
         'diffed with',
-        jsdom.jsdom('<!DOCTYPE html><html><body></body></html>'),
+        jsdom.jsdom('<!DOCTYPE html><html><head></head><body></body></html>'),
         'to equal',
             '<!DOCTYPE html>\n' +
             '<!--foo--> // should be removed\n' +
-            '<html><body></body></html>\n' +
+            '<html><head></head><body></body></html>\n' +
             '<!--bar--> // should be removed'
         );
     });
@@ -849,11 +958,27 @@ describe('unexpected-dom', function () {
     var htmlSrc = '<!DOCTYPE html><html><body class="bar">foo</body></html>';
     it('should parse a string as a complete HTML document', function () {
       expect(htmlSrc, 'when parsed as HTML',
-          expect.it('to be a', 'HTMLDocument')
+          expect.it('to be an', 'HTMLDocument')
             .and('to equal', jsdom.jsdom(htmlSrc))
             .and('queried for first', 'body', 'to have attributes', { class: 'bar' })
       );
     });
+
+    it('should fail when the next assertion fails', function () {
+      expect(function () {
+        expect(htmlSrc, 'when parsed as HTML', 'queried for first', 'body', 'to have attributes', { class: 'quux' });
+      }, 'to throw',
+        'expected \'<!DOCTYPE html><html><body class="bar">foo</body></html>\'\n' +
+        'when parsed as HTML queried for first \'body\', \'to have attributes\', { class: \'quux\' }\n' +
+        '  expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>\n' +
+        '  queried for first \'body\' to have attributes { class: \'quux\' }\n' +
+        '    expected <body class="bar">foo</body> to have attributes { class: \'quux\' }\n' +
+        '\n' +
+        '    <body class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
+        '    >foo</body>'
+      );
+    });
+
 
     describe('when the DOMParser global is available', function () {
       var originalDOMParser,
@@ -918,6 +1043,46 @@ describe('unexpected-dom', function () {
         expect(mockDocument.close, 'was called once');
         expect(mockDocument.write, 'was called with');
         expect([mockDocument.open, mockDocument.write, mockDocument.close], 'given call order');
+      });
+    });
+  });
+
+  describe('when parsed as XML', function () {
+    var xmlSrc = '<?xml version="1.0"?><fooBar yes="sir">foo</fooBar>';
+    it('should parse a string as a complete XML document', function () {
+      expect(xmlSrc, 'when parsed as XML',
+          expect.it('to be an', 'XMLDocument')
+            .and('to equal', jsdom.jsdom(xmlSrc, { parsingMode: 'xml' }))
+            .and('queried for first', 'fooBar', 'to have attributes', { yes: 'sir' })
+      );
+    });
+
+    describe('when the DOMParser global is available', function () {
+      var originalDOMParser,
+          DOMParserSpy,
+          parseFromStringSpy;
+
+      beforeEach(function () {
+        originalDOMParser = global.DOMParser;
+        global.DOMParser = DOMParserSpy = sinon.spy(function () {
+          return {
+            parseFromString: parseFromStringSpy = sinon.spy(function (xmlString, contentType) {
+              return jsdom.jsdom(xmlString, { parsingMode: 'xml' });
+            })
+          };
+        });
+      });
+      afterEach(function () {
+        global.DOMParser = originalDOMParser;
+      });
+
+      it('should use DOMParser to parse the document', function () {
+        expect(xmlSrc, 'when parsed as XML', 'queried for first', 'fooBar', 'to have text', 'foo');
+        expect(DOMParserSpy, 'was called once');
+        expect(DOMParserSpy, 'was called with');
+        expect(DOMParserSpy.calledWithNew(), 'to be true');
+        expect(parseFromStringSpy, 'was called once');
+        expect(parseFromStringSpy, 'was called with', xmlSrc, 'text/xml');
       });
     });
   });
