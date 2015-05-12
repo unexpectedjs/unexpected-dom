@@ -4,7 +4,9 @@
   "description": "DOM plugin for the unexpected assertion libary",
   "main": "lib/index.js",
   "files": [
-    "lib"
+    "lib",
+    "unexpected-dom.js",
+    "unexpected-dom.min.js"
   ],
   "scripts": {
     "build": "browserify lib/index.js --standalone unexpected.dom --debug --x jsdom > unexpected-dom.js && uglifyjs unexpected-dom.js > unexpected-dom.min.js",
