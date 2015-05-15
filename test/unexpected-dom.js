@@ -1029,6 +1029,21 @@ describe('unexpected-dom', function () {
       );
     });
 
+    describe('with the "fragment" flag', function () {
+      it('should return a DocumentFragment instance', function () {
+        expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy',
+          expect.it('to be a', 'DOMDocumentFragment')
+            .and('to satisfy', {
+              children: [
+                { name: 'div', children: [ 'foo' ] },
+                { name: 'div', children: [ 'bar' ] }
+              ]
+            }
+          )
+        );
+      });
+    });
+
     it('should fail when the next assertion fails', function () {
       expect(function () {
         expect(htmlSrc, 'when parsed as HTML', 'queried for first', 'body', 'to have attributes', { class: 'quux' });
