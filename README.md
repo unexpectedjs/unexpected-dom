@@ -8,7 +8,7 @@ unexpected-dom
 
 ![Unexpected Dom Perignon](https://raw.githubusercontent.com/Munter/unexpected-dom/master/documentation/unexpectedDom.jpg)
 
-A plugin for [unexpected](https://unexpectedjs.github.io/) that adds custom assertions form DOM elements.
+A plugin for [unexpected](https://unexpectedjs.github.io/) that adds custom assertions for DOM elements.
 
 The aim is to lower the amount of mocking around in the DOM in your tests and keep your tests easily readable while providing a high powered set of functionality with unsurpassed error messages.
 
