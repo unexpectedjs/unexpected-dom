@@ -586,6 +586,16 @@ describe('unexpected-dom', function () {
               });
             }, 'to throw', /to have attributes \{ style: \{ background: 'blue' \} \}/);
           });
+
+          it('should handle trailing semicolon', function () {
+            this.body.innerHTML = '<div style="color: red;"></div>';
+
+            expect(this.body.firstChild, 'to only have attributes', {
+              style: {
+                color: 'red'
+              }
+            });
+          });
         });
 
         describe('strict comparison', function () {
