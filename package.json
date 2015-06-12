@@ -1,6 +1,6 @@
 {
   "name": "unexpected-dom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DOM plugin for the unexpected assertion libary",
   "main": "lib/index.js",
   "files": [
