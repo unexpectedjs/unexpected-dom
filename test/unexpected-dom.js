@@ -208,6 +208,14 @@ describe('unexpected-dom', function () {
   });
 
   describe('to have class', function () {
+    it('should handle a non-existing class', function () {
+      body.innerHTML = '<button>Press me</button>';
+
+      expect(function () {
+        expect(body.firstChild, 'to have class', 'foo');
+      }, 'to throw', 'expected <button>Press me</button> to have class \'foo\'\n\n<button\n        // missing class should satisfy \'foo\'\n>Press me</button>');
+    });
+
     describe('with a single class passed as a string', function () {
       it('should succeed', function () {
         body.innerHTML = '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
