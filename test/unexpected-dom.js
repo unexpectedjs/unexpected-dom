@@ -396,6 +396,27 @@ describe('unexpected-dom', function () {
           '>Press me</button>'
         );
       });
+
+      describe('with the absence of an attribute asserted by providing undefined as the expected value', function () {
+        it('should succeed', function () {
+          this.body.innerHTML = '<button id="foo">Press me</button>';
+          expect(this.body.firstChild, 'to have attributes', { quux: undefined });
+        });
+
+        it('should fail with a diff', function () {
+          this.body.innerHTML = '<button id="foo" quux="baz">Press me</button>';
+          var el = this.body.firstChild;
+
+          expect(function () {
+            expect(el, 'to have attributes', { quux: undefined });
+          }, 'to throw',
+            'expected <button id="foo" quux="baz">Press me</button> to have attributes { quux: undefined }\n' +
+            '\n' +
+            '<button id="foo" quux="baz" // should be removed\n' +
+            '>Press me</button>'
+          );
+        });
+      });
     });
 
     describe('object comparison', function () {
@@ -762,7 +783,7 @@ describe('unexpected-dom', function () {
           '<div foo="bar">\n' +
           '  hey // expected NodeList[ hey ] to satisfy [ \'there\' ]\n' +
           '      //\n' +
-          '      // DOMNodeList[\n' +
+          '      // NodeList[\n' +
           '      //   hey // should equal \'there\'\n' +
           '      //       // -hey\n' +
           '      //       // +there\n' +
@@ -788,15 +809,14 @@ describe('unexpected-dom', function () {
         '  expected NodeList[ <div foo="bar" id="quux">foobar</div>, <div foo="quux">hey</div> ]\n' +
         '  to satisfy { 1: { attributes: { foo: \'bar\' } } }\n' +
         '\n' +
-        '  NodeList({\n' +
-        '    0: <div foo="bar" id="quux">...</div>,\n' +
-        '    1:\n' +
-        '      <div foo="quux" // expected \'quux\' to satisfy \'bar\'\n' +
-        '                      //\n' +
-        '                      // -quux\n' +
-        '                      // +bar\n' +
-        '      >hey</div>\n' +
-        '  })'
+        '  NodeList[\n' +
+        '    <div foo="bar" id="quux">...</div>,\n' +
+        '    <div foo="quux" // expected \'quux\' to satisfy \'bar\'\n' +
+        '                    //\n' +
+        '                    // -quux\n' +
+        '                    // +bar\n' +
+        '    >hey</div>\n' +
+        '  ]'
       );
     });
   });
@@ -866,7 +886,7 @@ describe('unexpected-dom', function () {
         expect(document, 'to contain no elements matching', '.foo');
       }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain no elements matching \'.foo\'\n' +
           '\n' +
-          'DOMNodeList[\n' +
+          'NodeList[\n' +
           '  <div class="foo"></div> // should be removed\n' +
           ']'
       );
@@ -879,7 +899,7 @@ describe('unexpected-dom', function () {
         expect(document, 'to contain no elements matching', '.foo');
       }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain no elements matching \'.foo\'\n' +
           '\n' +
-          'DOMNodeList[\n' +
+          'NodeList[\n' +
           '  <div class="foo"></div>, // should be removed\n' +
           '  <div class="foo"></div> // should be removed\n' +
           ']'
