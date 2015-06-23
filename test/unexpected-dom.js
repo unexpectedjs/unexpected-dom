@@ -396,6 +396,27 @@ describe('unexpected-dom', function () {
           '>Press me</button>'
         );
       });
+
+      describe('with the absence of an attribute asserted by providing undefined as the expected value', function () {
+        it('should succeed', function () {
+          this.body.innerHTML = '<button id="foo">Press me</button>';
+          expect(this.body.firstChild, 'to have attributes', { quux: undefined });
+        });
+
+        it('should fail with a diff', function () {
+          this.body.innerHTML = '<button id="foo" quux="baz">Press me</button>';
+          var el = this.body.firstChild;
+
+          expect(function () {
+            expect(el, 'to have attributes', { quux: undefined });
+          }, 'to throw',
+            'expected <button id="foo" quux="baz">Press me</button> to have attributes { quux: undefined }\n' +
+            '\n' +
+            '<button id="foo" quux="baz" // should be removed\n' +
+            '>Press me</button>'
+          );
+        });
+      });
     });
 
     describe('object comparison', function () {
