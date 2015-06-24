@@ -811,7 +811,7 @@ describe('unexpected-dom', function () {
         '\n' +
         '  NodeList[\n' +
         '    <div foo="bar" id="quux">...</div>,\n' +
-        '    <div foo="quux" // expected \'quux\' to satisfy \'bar\'\n' +
+        '    <div foo="quux" // expected \'quux\' to equal \'bar\'\n' +
         '                    //\n' +
         '                    // -quux\n' +
         '                    // +bar\n' +
