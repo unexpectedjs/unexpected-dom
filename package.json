@@ -41,7 +41,7 @@
     "magicpen": "^4.3.5",
     "mocha": "^2.1.0",
     "mocha-lcov-reporter": "0.0.2",
-    "sinon": "1.14.1",
+    "sinon": "^1.15.4",
     "uglifyjs": "^2.4.10",
     "unexpected": "9.1.0",
     "unexpected-sinon": "6.4.1"
