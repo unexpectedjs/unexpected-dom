@@ -90,7 +90,33 @@ Tests the text content of a DOM element
 expect(node, 'to have text', 'foo');
 ```
 
+**To contain [no] elements matching**
+
+Tests that the DOMElement has (no) elements matching the given selector
+
+```js
+
+// node = '<div> <span class="exists">sample</span> </div>'
+
+expect(node, 'to contain elements matching', '.exists');
+expect(node, 'to contain no elements matching', '.not-exists');
+```
+
+
 **To have children**
+
+Tests the children of the DOMElement
+
+```js
+
+// node = '<div> <span class="one">sample</span><span class="two">sample2</span> </div>'
+
+expect(node, 'to have children', [
+  expect.it('to have attributes', { class: 'one' }),
+  expect.it('to have attributes', { class: 'two' })
+]);
+```
+
 
 **Queried for**
 
