@@ -907,6 +907,22 @@ describe('unexpected-dom', function () {
     });
   });
 
+  describe('to contain elements matching', function () {
+    it('should pass when matching an element', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div></body></html>');
+
+      expect(document, 'to contain elements matching', '.foo');
+    });
+
+    it('should fail when no elements match', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div><div class="foo"></div></body></html>');
+
+      expect(function () {
+          expect(document, 'to contain elements matching', '.bar');
+        }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain elements matching \'.bar\'');
+    });
+  });
+
   describe('to match', function () {
     it('should match an element correctly', function () {
       var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div></body></html>');
