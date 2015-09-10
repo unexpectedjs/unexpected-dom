@@ -729,6 +729,30 @@ describe('unexpected-dom', function () {
       }, 'to throw', 'Unsupported option: foo');
     });
 
+    describe('with a textContent property', function () {
+        it('should succeed', function () {
+            body.innerHTML = '<div foo="bar">foobarquux</div>';
+            expect(body, 'to satisfy', { textContent: 'foobarquux' });
+        });
+
+        it('should fail', function () {
+            body.innerHTML = '<div foo="bar">foobarquux</div>';
+
+            expect(function () {
+                expect(body, 'to satisfy', { textContent: 'fooquux' });
+            }, 'to throw',
+              'expected <body><div foo="bar">foobarquux</div></body> to satisfy { textContent: \'fooquux\' }\n' +
+              '\n' +
+              '<body>\n' +
+              '  <div foo="bar">foobarquux</div> // expected \'foobarquux\' to equal \'fooquux\'\n' +
+              '                                  //\n' +
+              '                                  // -foobarquux\n' +
+              '                                  // +fooquux\n' +
+              '</body>'
+          );
+        });
+    });
+
     describe('with a name assertion', function () {
       it('should succeed', function () {
         body.innerHTML = '<div foo="bar"></div>';
