@@ -34,6 +34,8 @@ expect.addAssertion('to produce a diff of', function (expect, subject, value) {
 });
 
 describe('unexpected-dom', function () {
+  expect.output.preferredWidth = 100;
+
   var document, body;
   beforeEach(function (done) {
     var self = this;
@@ -246,7 +248,8 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(body.firstChild, 'to have classes', ['quux', 'bar']);
         }, 'to throw',
-          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have classes [ \'quux\', \'bar\' ]\n' +
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'to have classes [ \'quux\', \'bar\' ]\n' +
           '\n' +
           '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\', \'bar\'\n' +
           '        data-info="baz" disabled>Press me</button>'
@@ -266,7 +269,8 @@ describe('unexpected-dom', function () {
           expect(function () {
             expect(body.firstChild, 'to only have class', 'quux');
           }, 'to throw',
-            'expected <button class="bar quux" data-info="baz" disabled id="foo">Press me</button> to only have class \'quux\'\n' +
+            'expected <button class="bar quux" data-info="baz" disabled id="foo">Press me</button>\n' +
+            'to only have class \'quux\'\n' +
             '\n' +
             '<button id="foo" class="bar quux" // expected [ \'bar\', \'quux\' ] to equal [ \'quux\' ]\n' +
             '                                  //\n' +
@@ -322,7 +326,8 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', 'id');
         }, 'to throw',
-            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes \'id\'\n' +
+            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+            'to only have attributes \'id\'\n' +
             '\n' +
             '<button id="foo" class="bar" // should be removed\n' +
             '        data-info="baz" // should be removed\n' +
@@ -344,7 +349,8 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', 'id', 'foo');
         }, 'to throw',
-            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes \'id\', \'foo\'\n' +
+            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+            'to have attributes \'id\', \'foo\'\n' +
             '\n' +
             '<button id="foo" class="bar" data-info="baz" disabled\n' +
             '        // missing foo\n' +
@@ -367,7 +373,8 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', ['id']);
         }, 'to throw',
-          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to only have attributes [ \'id\' ]\n' +
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'to only have attributes [ \'id\' ]\n' +
           '\n' +
           '<button id="foo" class="bar" // should be removed\n' +
           '        data-info="baz" // should be removed\n' +
@@ -389,7 +396,8 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', ['id', 'foo']);
         }, 'to throw',
-          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have attributes [ \'id\', \'foo\' ]\n' +
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'to have attributes [ \'id\', \'foo\' ]\n' +
           '\n' +
           '<button id="foo" class="bar" data-info="baz" disabled\n' +
           '        // missing foo\n' +
@@ -439,7 +447,7 @@ describe('unexpected-dom', function () {
           expect(el, 'to only have attributes', {
             id: 'foo'
           });
-        }, 'to throw', /^expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button> to only have attributes/);
+        }, 'to throw', /^expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button>\nto only have attributes/);
       });
 
       it('should match partial object', function () {
@@ -729,6 +737,30 @@ describe('unexpected-dom', function () {
       }, 'to throw', 'Unsupported option: foo');
     });
 
+    describe('with a textContent property', function () {
+        it('should succeed', function () {
+            body.innerHTML = '<div foo="bar">foobarquux</div>';
+            expect(body, 'to satisfy', { textContent: 'foobarquux' });
+        });
+
+        it('should fail', function () {
+            body.innerHTML = '<div foo="bar">foobarquux</div>';
+
+            expect(function () {
+                expect(body, 'to satisfy', { textContent: 'fooquux' });
+            }, 'to throw',
+              'expected <body><div foo="bar">foobarquux</div></body> to satisfy { textContent: \'fooquux\' }\n' +
+              '\n' +
+              '<body>\n' +
+              '  <div foo="bar">foobarquux</div> // expected \'foobarquux\' to equal \'fooquux\'\n' +
+              '                                  //\n' +
+              '                                  // -foobarquux\n' +
+              '                                  // +fooquux\n' +
+              '</body>'
+          );
+        });
+    });
+
     describe('with a name assertion', function () {
       it('should succeed', function () {
         body.innerHTML = '<div foo="bar"></div>';
@@ -781,13 +813,9 @@ describe('unexpected-dom', function () {
           'expected <div foo="bar">hey</div> to satisfy { children: [ \'there\' ] }\n' +
           '\n' +
           '<div foo="bar">\n' +
-          '  hey // expected NodeList[ hey ] to satisfy [ \'there\' ]\n' +
-          '      //\n' +
-          '      // NodeList[\n' +
-          '      //   hey // should equal \'there\'\n' +
-          '      //       // -hey\n' +
-          '      //       // +there\n' +
-          '      // ]\n' +
+          '  hey // should equal \'there\'\n' +
+          '      // -hey\n' +
+          '      // +there\n' +
           '</div>'
         );
       });
@@ -832,7 +860,8 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document.body, 'queried for first', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
-          'expected <body><div id="foo"></div></body> queried for first \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
+          'expected <body><div id="foo"></div></body>\n' +
+          'queried for first \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
           '  The selector .blabla yielded no results'
       );
     });
@@ -884,7 +913,9 @@ describe('unexpected-dom', function () {
 
       expect(function () {
         expect(document, 'to contain no elements matching', '.foo');
-      }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain no elements matching \'.foo\'\n' +
+      }, 'to throw',
+          'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
+          'to contain no elements matching \'.foo\'\n' +
           '\n' +
           'NodeList[\n' +
           '  <div class="foo"></div> // should be removed\n' +
@@ -897,7 +928,9 @@ describe('unexpected-dom', function () {
 
       expect(function () {
         expect(document, 'to contain no elements matching', '.foo');
-      }, 'to throw', 'expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain no elements matching \'.foo\'\n' +
+      }, 'to throw',
+          'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
+          'to contain no elements matching \'.foo\'\n' +
           '\n' +
           'NodeList[\n' +
           '  <div class="foo"></div>, // should be removed\n' +
@@ -1219,5 +1252,80 @@ describe('unexpected-dom', function () {
         expect(parseFromStringSpy, 'was called with', xmlSrc, 'text/xml');
       });
     });
+  });
+
+  it('should render the floating menu correctly', function () {
+    body.innerHTML =
+      '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">' +
+      '<li class="selected" data-index="0">' +
+      '<span class="before"></span>' +
+      '<strong class="match">pr</strong>' +
+      '<span class="after">ivate</span>' +
+      '</li>' +
+      '<li data-index="1">' +
+      '<span class="before"></span>' +
+      '<strong class="match">pr</strong>' +
+      '<span class="after">otected</span>' +
+      '</li>' +
+      '</ul>';
+
+    expect(function () {
+      expect(body.firstChild, 'to satisfy', {
+          attributes: {
+              style: { display: 'block' },
+              'class': ['knockout-autocomplete', 'floating-menu']
+          },
+          children: [
+              {
+                  attributes:  { 'data-index': '0', 'class': 'selected' },
+                  children: [
+                      { attributes: { 'class': 'before' }, children: [] },
+                      { attributes: { 'class': 'match' }, children: ['pr']  },
+                      { attributes: { 'class': 'after' }, children: ['ivate'] }
+                  ]
+              },
+              {
+                  attributes:  { 'data-index': '1', 'class': undefined },
+                  children: [
+                      { attributes: { 'class': 'before' }, children: [] },
+                      { attributes: { 'class': 'match' }, children: ['pr']  },
+                      { attributes: { 'class': 'after' }, children: ['odtected'] }
+                  ]
+              }
+          ]
+      });
+    }, 'to throw',
+      'expected\n' +
+      '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">\n' +
+      '  <li class="selected" data-index="0">\n' +
+      '    <span class="before"></span>\n' +
+      '    <strong class="match">...</strong>\n' +
+      '    <span class="after">...</span>\n' +
+      '  </li>\n' +
+      '  <li data-index="1">\n' +
+      '    <span class="before"></span>\n' +
+      '    <strong class="match">...</strong>\n' +
+      '    <span class="after">...</span>\n' +
+      '  </li>\n' +
+      '</ul>\n' +
+      'to satisfy\n' +
+      '{\n' +
+      '  attributes: { style: { display: \'block\' }, class: [...] },\n' +
+      '  children: [ { attributes: ..., children: ... }, { attributes: ..., children: ... } ]\n' +
+      '}\n' +
+      '\n' +
+      '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">\n' +
+      '  <li class="selected" data-index="0">...</li>\n' +
+      '  <li data-index="1">\n' +
+      '    <span class="before"></span>\n' +
+      '    <strong class="match">...</strong>\n' +
+      '    <span class="after">\n' +
+      '      otected // should equal \'odtected\'\n' +
+      '              // -otected\n' +
+      '              // +odtected\n' +
+      '    </span>\n' +
+      '  </li>\n' +
+      '</ul>'
+    );
   });
 });
