@@ -37,6 +37,19 @@ function parseHtml(str) {
   return jsdom.jsdom('<!DOCTYPE html><html><body>' + str + '</body></html>').body.firstChild;
 }
 
+function parseHtmlFragment(str) {
+  str = '<html><head></head><body>' + str + '</body></html>';
+  var htmlDocument = jsdom.jsdom(str);
+  var body = htmlDocument.body;
+  var documentFragment = htmlDocument.createDocumentFragment();
+  if (body) {
+    for (var i = 0 ; i < body.childNodes.length ; i += 1) {
+      documentFragment.appendChild(body.childNodes[i].cloneNode(true));
+    }
+  }
+  return documentFragment;
+}
+
 describe('unexpected-dom', function () {
   expect.output.preferredWidth = 100;
 
@@ -765,6 +778,130 @@ describe('unexpected-dom', function () {
         });
     });
 
+    describe('HTMLFragment', function () {
+      describe('with a string as the value', function () {
+        it('should succeed', function () {
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', '<div foo="bar">foo</div><div>bar</div>');
+        });
+
+        it('should fail with an error', function () {
+          expect(function () {
+            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', '<div>quux</div><div baz="quux">bar</div>');
+          }, 'to throw',
+            'expected \'<div>foo</div><div>bar</div>\'\n' +
+            'when parsed as HTML fragment to satisfy \'<div>quux</div><div baz="quux">bar</div>\'\n' +
+            '  expected DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]\n' +
+            '  to satisfy <div>quux</div><div baz="quux">bar</div>\n' +
+            '\n' +
+            '  NodeList[\n' +
+            '    <div>\n' +
+            '      foo // should equal \'quux\'\n' +
+            '          // -foo\n' +
+            '          // +quux\n' +
+            '    </div>,\n' +
+            '    <div\n' +
+            '         // missing baz should equal \'quux\'\n' +
+            '    >bar</div>\n' +
+            '  ]'
+          );
+        });
+      });
+
+      describe('with an HTMLFragment as the value', function () {
+        it('should succeed', function () {
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', parseHtmlFragment('<div foo="bar">foo</div><div>bar</div>'));
+        });
+
+        it('should fail with an error', function () {
+          expect(function () {
+            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', parseHtmlFragment('<div>quux</div><div baz="quux">bar</div>'));
+          }, 'to throw',
+            'expected \'<div>foo</div><div>bar</div>\'\n' +
+            'when parsed as HTML fragment to satisfy DocumentFragment[NodeList[ <div>quux</div>, <div baz="quux">bar</div> ]]\n' +
+            '  expected DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]\n' +
+            '  to satisfy DocumentFragment[NodeList[ <div>quux</div>, <div baz="quux">bar</div> ]]\n' +
+            '\n' +
+            '  NodeList[\n' +
+            '    <div>\n' +
+            '      foo // should equal \'quux\'\n' +
+            '          // -foo\n' +
+            '          // +quux\n' +
+            '    </div>,\n' +
+            '    <div\n' +
+            '         // missing baz should equal \'quux\'\n' +
+            '    >bar</div>\n' +
+            '  ]'
+          );
+        });
+      });
+
+      describe('with an array as the value', function () {
+        it('should succeed', function () {
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', [
+            { attributes: { foo: 'bar' }, children: [ 'foo' ] },
+            { name: 'div', children: [ 'bar' ] }
+          ]);
+        });
+
+        it('should fail with an error', function () {
+          expect(function () {
+            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment', 'to satisfy', [
+              { attributes: { foo: 'bar' }, children: [ 'foo' ] },
+              { name: 'div', children: [ 'bar' ] }
+            ]);
+          }, 'to throw',
+            'expected \'<div foo="baz">foo</div><div>foobar</div>\'\n' +
+            'when parsed as HTML fragment to satisfy [ { attributes: { foo: \'bar\' }, children: [...] }, { name: \'div\', children: [...] } ]\n' +
+            '  expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]]\n' +
+            '  to satisfy [ { attributes: { foo: \'bar\' }, children: [...] }, { name: \'div\', children: [...] } ]\n' +
+            '\n' +
+            '  NodeList[\n' +
+            '    <div foo="baz" // expected \'baz\' to equal \'bar\'\n' +
+            '                   //\n' +
+            '                   // -baz\n' +
+            '                   // +bar\n' +
+            '    >foo</div>,\n' +
+            '    <div>\n' +
+            '      foobar // should equal \'bar\'\n' +
+            '             // -foobar\n' +
+            '             // +bar\n' +
+            '    </div>\n' +
+            '  ]'
+          );
+        });
+      });
+
+      describe('with an object as the value', function () {
+        it('should succeed', function () {
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', {
+            1: { name: 'div', children: [ 'bar' ] }
+          });
+        });
+
+        it('should fail with an error', function () {
+          expect(function () {
+            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment', 'to satisfy', {
+              1: { name: 'div', children: [ 'bar' ] }
+            });
+          }, 'to throw',
+            'expected \'<div foo="baz">foo</div><div>foobar</div>\'\n' +
+            'when parsed as HTML fragment to satisfy { 1: { name: \'div\', children: [...] } }\n' +
+            '  expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]]\n' +
+            '  to satisfy { 1: { name: \'div\', children: [...] } }\n' +
+            '\n' +
+            '  NodeList[\n' +
+            '    <div foo="baz">...</div>,\n' +
+            '    <div>\n' +
+            '      foobar // should equal \'bar\'\n' +
+            '             // -foobar\n' +
+            '             // +bar\n' +
+            '    </div>\n' +
+            '  ]'
+          );
+        });
+      });
+    });
+
     describe('HTMLElement with a string as the value', function () {
       it('should succeed when the subject equals the value parsed as HTML', function () {
         return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', '<div foo="bar" baz="quux">hey</div>');
@@ -1257,14 +1394,12 @@ describe('unexpected-dom', function () {
 
     describe('with the "fragment" flag', function () {
       it('should return a DocumentFragment instance', function () {
-        expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy',
+        expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment',
           expect.it('to be a', 'DOMDocumentFragment')
-            .and('to satisfy', {
-              children: [
-                { name: 'div', children: [ 'foo' ] },
-                { name: 'div', children: [ 'bar' ] }
-              ]
-            }
+            .and('to satisfy', [
+              { name: 'div', children: [ 'foo' ] },
+              { name: 'div', children: [ 'bar' ] }
+            ]
           )
         );
       });
