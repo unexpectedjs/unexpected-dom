@@ -33,6 +33,10 @@ expect.addAssertion('to produce a diff of', function (expect, subject, value) {
   ).diff.toString(), 'to equal', value);
 });
 
+function parseHtml(str) {
+  return jsdom.jsdom('<!DOCTYPE html><html><body>' + str + '</body></html>').body.firstChild;
+}
+
 describe('unexpected-dom', function () {
   expect.output.preferredWidth = 100;
 
@@ -987,16 +991,12 @@ describe('unexpected-dom', function () {
   });
 
   describe('diffing', function () {
-    function parseHtmlElement(str) {
-      return jsdom.jsdom('<!DOCTYPE html><html><body>' + str + '</body></html>').body.firstChild;
-    }
-
     expect.addAssertion(['string', 'DOMNode'], 'diffed with', function (expect, subject, value) {
       if (typeof subject === 'string') {
-        subject = parseHtmlElement(subject);
+        subject = parseHtml(subject);
       }
       if (typeof value === 'string') {
-        value = parseHtmlElement(value);
+        value = parseHtml(value);
       }
       this.shift(expect, expect.diff(subject, value).diff.toString(), 1);
     });
