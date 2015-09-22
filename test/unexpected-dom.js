@@ -765,6 +765,128 @@ describe('unexpected-dom', function () {
         });
     });
 
+    describe('HTMLElement with a string as the value', function () {
+      it('should succeed when the subject equals the value parsed as HTML', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', '<div foo="bar" baz="quux">hey</div>');
+      });
+
+      it('should fail when the subject has the wrong text content', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', '<div foo="bar" baz="quux">hey</div>');
+      });
+
+      it('should succeed when the subject equals the value parsed as HTML', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', '<div foo="bar">hey</div>');
+      });
+
+      it('should fail when the subject is missing an attribute', function () {
+        return expect(function () {
+          return expect(parseHtml('<div foo="bar">hey</div>'), 'to satisfy', '<div bar="quux">hey</div>');
+        }, 'to error',
+          'expected <div foo="bar">hey</div> to satisfy \'<div bar="quux">hey</div>\'\n' +
+          '\n' +
+          '<div foo="bar"\n' +
+          '     // missing bar should equal \'quux\'\n' +
+          '>hey</div>'
+        );
+      });
+
+      it('should succeed when the subject has an extra class', function () {
+        return expect(parseHtml('<div class="foo bar">hey</div>'), 'to satisfy', '<div class="bar">hey</div>');
+      });
+
+      it('should fail when the subject is missing a class', function () {
+        return expect(function () {
+          return expect(parseHtml('<div class="foo">hey</div>'), 'to satisfy', '<div class="bar">hey</div>');
+        }, 'to error',
+          'expected <div class="foo">hey</div> to satisfy \'<div class="bar">hey</div>\'\n' +
+          '\n' +
+          '<div class="foo" // expected [ \'foo\' ] to contain \'bar\'\n' +
+          '>hey</div>'
+        );
+      });
+
+      it('should succeed when the subject has an extra inline style', function () {
+        return expect(parseHtml('<div style="color: tan; width: 120px;">hey</div>'), 'to satisfy', '<div style="color: tan;">hey</div>');
+      });
+
+      it('should fail when the subject is missing an inline style', function () {
+        return expect(function () {
+          return expect(parseHtml('<div style="width: 120px;">hey</div>'), 'to satisfy', '<div style="color: tan;">hey</div>');
+        }, 'to error',
+          'expected <div style="width: 120px">hey</div> to satisfy \'<div style="color: tan;">hey</div>\'\n' +
+          '\n' +
+          '<div style="width: 120px" // expected { width: \'120px\' } to satisfy { color: \'tan\' }\n' +
+          '                          //\n' +
+          '                          // {\n' +
+          '                          //   width: \'120px\',\n' +
+          '                          //   color: undefined // should equal \'tan\'\n' +
+          '                          // }\n' +
+          '>hey</div>'
+        );
+      });
+    });
+
+    describe('HTMLElement with a DOM element as the value', function () {
+      it('should succeed when the subject equals the value parsed as HTML', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', parseHtml('<div foo="bar" baz="quux">hey</div>'));
+      });
+
+      it('should fail when the subject has the wrong text content', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', parseHtml('<div foo="bar" baz="quux">hey</div>'));
+      });
+
+      it('should succeed when the subject equals the value parsed as HTML', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', parseHtml('<div foo="bar">hey</div>'));
+      });
+
+      it('should fail when the subject is missing an attribute', function () {
+        return expect(function () {
+          return expect(parseHtml('<div foo="bar">hey</div>'), 'to satisfy', parseHtml('<div bar="quux">hey</div>'));
+        }, 'to error',
+            'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
+            '\n' +
+            '<div foo="bar"\n' +
+            '     // missing bar should equal \'quux\'\n' +
+            '>hey</div>'
+        );
+      });
+
+      it('should succeed when the subject has an extra class', function () {
+        return expect(parseHtml('<div class="foo bar">hey</div>'), 'to satisfy', parseHtml('<div class="bar">hey</div>'));
+      });
+
+      it('should fail when the subject is missing a class', function () {
+        return expect(function () {
+          return expect(parseHtml('<div class="foo">hey</div>'), 'to satisfy', parseHtml('<div class="bar">hey</div>'));
+        }, 'to error',
+          'expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>\n' +
+          '\n' +
+          '<div class="foo" // expected [ \'foo\' ] to contain \'bar\'\n' +
+          '>hey</div>'
+        );
+      });
+
+      it('should succeed when the subject has an extra inline style', function () {
+        return expect(parseHtml('<div style="color: tan; width: 120px;">hey</div>'), 'to satisfy', parseHtml('<div style="color: tan;">hey</div>'));
+      });
+
+      it('should fail when the subject is missing an inline style', function () {
+        return expect(function () {
+          return expect(parseHtml('<div style="width: 120px;">hey</div>'), 'to satisfy', parseHtml('<div style="color: tan;">hey</div>'));
+        }, 'to error',
+          'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan">hey</div>\n' +
+          '\n' +
+          '<div style=\"width: 120px\" // expected { width: \'120px\' } to satisfy { color: \'tan\' }\n' +
+          '                          //\n' +
+          '                          // {\n' +
+          '                          //   width: \'120px\',\n' +
+          '                          //   color: undefined // should equal \'tan\'\n' +
+          '                          // }\n' +
+          '>hey</div>'
+        );
+      });
+    });
+
     describe('text node with a text node as the value', function () {
       it('should succeed', function () {
         expect(parseHtml('foobar'), 'to satisfy', parseHtml('foobar'));
