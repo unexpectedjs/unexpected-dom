@@ -1410,28 +1410,28 @@ describe('unexpected-dom', function () {
 
     expect(function () {
       expect(body.firstChild, 'to satisfy', {
-          attributes: {
-              style: { display: 'block' },
-              'class': ['knockout-autocomplete', 'floating-menu']
+        attributes: {
+          style: { display: 'block' },
+          'class': ['knockout-autocomplete', 'floating-menu']
+        },
+        children: [
+          {
+            attributes:  { 'data-index': '0', 'class': 'selected' },
+            children: [
+              { attributes: { 'class': 'before' }, children: [] },
+              { attributes: { 'class': 'match' }, children: ['pr']  },
+              { attributes: { 'class': 'after' }, children: ['ivate'] }
+            ]
           },
-          children: [
-              {
-                  attributes:  { 'data-index': '0', 'class': 'selected' },
-                  children: [
-                      { attributes: { 'class': 'before' }, children: [] },
-                      { attributes: { 'class': 'match' }, children: ['pr']  },
-                      { attributes: { 'class': 'after' }, children: ['ivate'] }
-                  ]
-              },
-              {
-                  attributes:  { 'data-index': '1', 'class': undefined },
-                  children: [
-                      { attributes: { 'class': 'before' }, children: [] },
-                      { attributes: { 'class': 'match' }, children: ['pr']  },
-                      { attributes: { 'class': 'after' }, children: ['odtected'] }
-                  ]
-              }
-          ]
+          {
+            attributes:  { 'data-index': '1', 'class': undefined },
+            children: [
+              { attributes: { 'class': 'before' }, children: [] },
+              { attributes: { 'class': 'match' }, children: ['pr']  },
+              { attributes: { 'class': 'after' }, children: ['odtected'] }
+            ]
+          }
+        ]
       });
     }, 'to throw',
       'expected\n' +
