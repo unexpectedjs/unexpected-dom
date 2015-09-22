@@ -782,7 +782,7 @@ describe('unexpected-dom', function () {
         return expect(function () {
           return expect(parseHtml('<div foo="bar">hey</div>'), 'to satisfy', '<div bar="quux">hey</div>');
         }, 'to error',
-          'expected <div foo="bar">hey</div> to satisfy \'<div bar="quux">hey</div>\'\n' +
+          'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
           '\n' +
           '<div foo="bar"\n' +
           '     // missing bar should equal \'quux\'\n' +
@@ -798,7 +798,7 @@ describe('unexpected-dom', function () {
         return expect(function () {
           return expect(parseHtml('<div class="foo">hey</div>'), 'to satisfy', '<div class="bar">hey</div>');
         }, 'to error',
-          'expected <div class="foo">hey</div> to satisfy \'<div class="bar">hey</div>\'\n' +
+          'expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>\n' +
           '\n' +
           '<div class="foo" // expected [ \'foo\' ] to contain \'bar\'\n' +
           '>hey</div>'
@@ -813,7 +813,7 @@ describe('unexpected-dom', function () {
         return expect(function () {
           return expect(parseHtml('<div style="width: 120px;">hey</div>'), 'to satisfy', '<div style="color: tan;">hey</div>');
         }, 'to error',
-          'expected <div style="width: 120px">hey</div> to satisfy \'<div style="color: tan;">hey</div>\'\n' +
+          'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan;">hey</div>\n' +
           '\n' +
           '<div style="width: 120px" // expected { width: \'120px\' } to satisfy { color: \'tan\' }\n' +
           '                          //\n' +
