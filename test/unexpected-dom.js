@@ -765,6 +765,23 @@ describe('unexpected-dom', function () {
         });
     });
 
+    describe('text node with a text node as the value', function () {
+      it('should succeed', function () {
+        expect(parseHtml('foobar'), 'to satisfy', parseHtml('foobar'));
+      });
+
+      it('should fail with a diff', function () {
+        expect(function () {
+          expect(parseHtml('foobar'), 'to satisfy', parseHtml('bar'));
+        }, 'to error',
+          'expected foobar to satisfy bar\n' +
+          '\n' +
+          '-foobar\n' +
+          '+bar'
+        );
+      });
+    });
+
     describe('with a name assertion', function () {
       it('should succeed', function () {
         body.innerHTML = '<div foo="bar"></div>';
