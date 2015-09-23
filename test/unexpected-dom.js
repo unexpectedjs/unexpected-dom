@@ -969,7 +969,17 @@ describe('unexpected-dom', function () {
       });
 
       it('should fail when the subject has the wrong text content', function () {
-        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', parseHtml('<div foo="bar" baz="quux">hey</div>'));
+        return expect(function () {
+          return expect(parseHtml('<div foo="bar" baz="quux">foobar</div>'), 'to satisfy', parseHtml('<div foo="bar" baz="quux">hey</div>'));
+        }, 'to error',
+          'expected <div baz="quux" foo="bar">foobar</div> to satisfy <div baz="quux" foo="bar">hey</div>\n' +
+          '\n' +
+          '<div foo="bar" baz="quux">\n' +
+          '  foobar // should equal \'hey\'\n' +
+          '         // -foobar\n' +
+          '         // +hey\n' +
+          '</div>'
+        );
       });
 
       it('should succeed when the subject equals the value parsed as HTML', function () {
