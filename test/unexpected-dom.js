@@ -246,10 +246,10 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(body.firstChild, 'to have class', 'quux');
         }, 'to throw',
-            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
-            '\n' +
-            '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
-            '        data-info="baz" disabled>Press me</button>'
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
+          '\n' +
+          '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
+          '        data-info="baz" disabled>Press me</button>'
         );
       });
     });
@@ -343,13 +343,13 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', 'id');
         }, 'to throw',
-            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
-            'to only have attributes \'id\'\n' +
-            '\n' +
-            '<button id="foo" class="bar" // should be removed\n' +
-            '        data-info="baz" // should be removed\n' +
-            '        disabled // should be removed\n' +
-            '>Press me</button>'
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'to only have attributes \'id\'\n' +
+          '\n' +
+          '<button id="foo" class="bar" // should be removed\n' +
+          '        data-info="baz" // should be removed\n' +
+          '        disabled // should be removed\n' +
+          '>Press me</button>'
         );
       });
 
@@ -366,12 +366,12 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', 'id', 'foo');
         }, 'to throw',
-            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
-            'to have attributes \'id\', \'foo\'\n' +
-            '\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled\n' +
-            '        // missing foo\n' +
-            '>Press me</button>'
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'to have attributes \'id\', \'foo\'\n' +
+          '\n' +
+          '<button id="foo" class="bar" data-info="baz" disabled\n' +
+          '        // missing foo\n' +
+          '>Press me</button>'
         );
       });
     });
@@ -980,11 +980,11 @@ describe('unexpected-dom', function () {
         return expect(function () {
           return expect(parseHtml('<div foo="bar">hey</div>'), 'to satisfy', parseHtml('<div bar="quux">hey</div>'));
         }, 'to error',
-            'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
-            '\n' +
-            '<div foo="bar"\n' +
-            '     // missing bar should equal \'quux\'\n' +
-            '>hey</div>'
+          'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
+          '\n' +
+          '<div foo="bar"\n' +
+          '     // missing bar should equal \'quux\'\n' +
+          '>hey</div>'
         );
       });
 
@@ -1140,9 +1140,9 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document.body, 'queried for first', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
-          'expected <body><div id="foo"></div></body>\n' +
-          'queried for first \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
-          '  The selector .blabla yielded no results'
+        'expected <body><div id="foo"></div></body>\n' +
+        'queried for first \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
+        '  The selector .blabla yielded no results'
       );
     });
 
@@ -1151,8 +1151,8 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document.body, 'queried for', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
-          'expected <body><div id="foo"></div></body> queried for \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
-          '  The selector .blabla yielded no results'
+        'expected <body><div id="foo"></div></body> queried for \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
+        '  The selector .blabla yielded no results'
       );
     });
 
@@ -1174,9 +1174,9 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document, 'queried for', 'div', 'to have length', 1);
       }, 'to throw',
-          'expected <!DOCTYPE html><html><head></head><body>...</body></html> queried for \'div\' to have length 1\n' +
-          '  expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1\n' +
-          '    expected 3 to be 1'
+        'expected <!DOCTYPE html><html><head></head><body>...</body></html> queried for \'div\' to have length 1\n' +
+        '  expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1\n' +
+        '    expected 3 to be 1'
       );
     });
   });
@@ -1194,12 +1194,12 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document, 'to contain no elements matching', '.foo');
       }, 'to throw',
-          'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
-          'to contain no elements matching \'.foo\'\n' +
-          '\n' +
-          'NodeList[\n' +
-          '  <div class="foo"></div> // should be removed\n' +
-          ']'
+        'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
+        'to contain no elements matching \'.foo\'\n' +
+        '\n' +
+        'NodeList[\n' +
+        '  <div class="foo"></div> // should be removed\n' +
+        ']'
       );
     });
 
@@ -1209,13 +1209,13 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document, 'to contain no elements matching', '.foo');
       }, 'to throw',
-          'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
-          'to contain no elements matching \'.foo\'\n' +
-          '\n' +
-          'NodeList[\n' +
-          '  <div class="foo"></div>, // should be removed\n' +
-          '  <div class="foo"></div> // should be removed\n' +
-          ']'
+        'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
+        'to contain no elements matching \'.foo\'\n' +
+        '\n' +
+        'NodeList[\n' +
+        '  <div class="foo"></div>, // should be removed\n' +
+        '  <div class="foo"></div> // should be removed\n' +
+        ']'
       );
     });
   });
@@ -1374,10 +1374,10 @@ describe('unexpected-dom', function () {
         'diffed with',
         jsdom.jsdom('<!DOCTYPE html><html><head></head><body></body></html>'),
         'to equal',
-            '<!DOCTYPE html>\n' +
-            '<!--foo--> // should be removed\n' +
-            '<html><head></head><body></body></html>\n' +
-            '<!--bar--> // should be removed'
+          '<!DOCTYPE html>\n' +
+          '<!--foo--> // should be removed\n' +
+          '<html><head></head><body></body></html>\n' +
+          '<!--bar--> // should be removed'
         );
     });
   });
