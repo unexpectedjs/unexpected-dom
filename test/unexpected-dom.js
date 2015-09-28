@@ -182,6 +182,35 @@ describe('unexpected-dom', function () {
         '</div>'
       );
     });
+
+    describe('with DOMDocumentFragments', function () {
+      it('should diff fragments consisting of single nodes', function () {
+        expect(
+          ['<div>foo</div>', '<div>bar</div>'].map(parseHtmlFragment),
+          'to produce a diff of',
+            '<div>\n' +
+            '  -foo\n' +
+            '  +bar\n' +
+            '</div>'
+        );
+      });
+
+      it('should diff fragments consisting of multiple nodes', function () {
+        expect(
+          ['<div>foo</div><div>bar</div>', '<div>foo<i>blah</i></div><span>bark</span>'].map(parseHtmlFragment),
+          'to produce a diff of',
+            '<div>\n' +
+            '  foo\n' +
+            '  // missing <i>blah</i>\n' +
+            '</div>\n' +
+            '<div // should be span\n' +
+            '>\n' +
+            '  -bar\n' +
+            '  +bark\n' +
+            '</div>'
+        );
+      });
+    });
   });
 
   it('should allow regular assertions defined for the object type to work on an HTMLElement', function () {
