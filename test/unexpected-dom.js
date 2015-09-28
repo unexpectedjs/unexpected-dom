@@ -807,6 +807,25 @@ describe('unexpected-dom', function () {
         });
       });
 
+      describe('with the exhaustively flag', function () {
+        it('should fail with a diff', function () {
+          expect(function () {
+            expect('<div foo="bar" baz="quux">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to exhaustively satisfy', '<div foo="bar">foo</div><div>bar</div>');
+          }, 'to throw',
+            'expected \'<div foo="bar" baz="quux">foo</div><div>bar</div>\'\n' +
+            'when parsed as HTML fragment to exhaustively satisfy \'<div foo="bar">foo</div><div>bar</div>\'\n' +
+            '  expected DocumentFragment[NodeList[ <div baz="quux" foo="bar">foo</div>, <div>bar</div> ]]\n' +
+            '  to exhaustively satisfy <div foo="bar">foo</div><div>bar</div>\n' +
+            '\n' +
+            '  NodeList[\n' +
+            '    <div foo="bar" baz="quux" // should be removed\n' +
+            '    >foo</div>,\n' +
+            '    <div>...</div>\n' +
+            '  ]'
+          );
+        });
+      });
+
       describe('with an HTMLFragment as the value', function () {
         it('should succeed', function () {
           expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', parseHtmlFragment('<div foo="bar">foo</div><div>bar</div>'));
@@ -1037,6 +1056,11 @@ describe('unexpected-dom', function () {
     describe('text node with a text node as the value', function () {
       it('should succeed', function () {
         expect(parseHtml('foobar'), 'to satisfy', parseHtml('foobar'));
+      });
+
+      // Doesn't alter the semantics, but needs to be supported:
+      it('should succeed when the exhaustively flag is set', function () {
+        expect(parseHtml('foobar'), 'to exhaustively satisfy', parseHtml('foobar'));
       });
 
       it('should fail with a diff', function () {
