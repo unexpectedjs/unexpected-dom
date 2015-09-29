@@ -1597,7 +1597,7 @@ describe('unexpected-dom', function () {
     });
   });
 
-  it('should render the floating menu correctly', function () {
+  it('should produce a good satisfy diff in a real world example', function () {
     body.innerHTML =
       '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">' +
       '<li class="selected" data-index="0">' +
