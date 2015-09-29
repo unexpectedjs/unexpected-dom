@@ -849,7 +849,7 @@ describe('unexpected-dom', function () {
             '  NodeList[\n' +
             '    <div foo="bar" baz="quux" // should be removed\n' +
             '    >foo</div>,\n' +
-            '    <div>...</div>\n' +
+            '    <div>bar</div>\n' +
             '  ]'
           );
         });
@@ -898,10 +898,16 @@ describe('unexpected-dom', function () {
               { name: 'div', children: [ 'bar' ] }
             ]);
           }, 'to throw',
-            'expected \'<div foo="baz">foo</div><div>foobar</div>\'\n' +
-            'when parsed as HTML fragment to satisfy [ { attributes: { foo: \'bar\' }, children: [...] }, { name: \'div\', children: [...] } ]\n' +
-            '  expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]]\n' +
-            '  to satisfy [ { attributes: { foo: \'bar\' }, children: [...] }, { name: \'div\', children: [...] } ]\n' +
+            'expected \'<div foo="baz">foo</div><div>foobar</div>\' when parsed as HTML fragment\n' +
+            'to satisfy [\n' +
+            '  { attributes: { foo: \'bar\' }, children: [ \'foo\' ] },\n' +
+            '  { name: \'div\', children: [ \'bar\' ] }\n' +
+            ']\n' +
+            '  expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]] to satisfy\n' +
+            '  [\n' +
+            '    { attributes: { foo: \'bar\' }, children: [ \'foo\' ] },\n' +
+            '    { name: \'div\', children: [ \'bar\' ] }\n' +
+            '  ]\n' +
             '\n' +
             '  NodeList[\n' +
             '    <div foo="baz" // expected \'baz\' to equal \'bar\'\n' +
@@ -933,12 +939,12 @@ describe('unexpected-dom', function () {
             });
           }, 'to throw',
             'expected \'<div foo="baz">foo</div><div>foobar</div>\'\n' +
-            'when parsed as HTML fragment to satisfy { 1: { name: \'div\', children: [...] } }\n' +
+            'when parsed as HTML fragment to satisfy { 1: { name: \'div\', children: [ \'bar\' ] } }\n' +
             '  expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]]\n' +
-            '  to satisfy { 1: { name: \'div\', children: [...] } }\n' +
+            '  to satisfy { 1: { name: \'div\', children: [ \'bar\' ] } }\n' +
             '\n' +
             '  NodeList[\n' +
-            '    <div foo="baz">...</div>,\n' +
+            '    <div foo="baz">foo</div>,\n' +
             '    <div>\n' +
             '      foobar // should equal \'bar\'\n' +
             '             // -foobar\n' +
@@ -1181,7 +1187,7 @@ describe('unexpected-dom', function () {
         '  to satisfy { 1: { attributes: { foo: \'bar\' } } }\n' +
         '\n' +
         '  NodeList[\n' +
-        '    <div foo="bar" id="quux">...</div>,\n' +
+        '    <div foo="bar" id="quux">foobar</div>,\n' +
         '    <div foo="quux" // expected \'quux\' to equal \'bar\'\n' +
         '                    //\n' +
         '                    // -quux\n' +
@@ -1647,15 +1653,19 @@ describe('unexpected-dom', function () {
       '</ul>\n' +
       'to satisfy\n' +
       '{\n' +
-      '  attributes: { style: { display: \'block\' }, class: [...] },\n' +
+      '  attributes: { style: { display: \'block\' }, class: [ \'knockout-autocomplete\', \'floating-menu\' ] },\n' +
       '  children: [ { attributes: ..., children: ... }, { attributes: ..., children: ... } ]\n' +
       '}\n' +
       '\n' +
       '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">\n' +
-      '  <li class="selected" data-index="0">...</li>\n' +
-      '  <li data-index="1">\n' +
+      '  <li class="selected" data-index="0">\n' +
       '    <span class="before"></span>\n' +
       '    <strong class="match">...</strong>\n' +
+      '    <span class="after">...</span>\n' +
+      '  </li>\n' +
+      '  <li data-index="1">\n' +
+      '    <span class="before"></span>\n' +
+      '    <strong class="match">pr</strong>\n' +
       '    <span class="after">\n' +
       '      otected // should equal \'odtected\'\n' +
       '              // -otected\n' +
