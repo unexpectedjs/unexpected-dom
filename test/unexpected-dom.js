@@ -33,6 +33,23 @@ expect.addAssertion('to produce a diff of', function (expect, subject, value) {
   ).diff.toString(), 'to equal', value);
 });
 
+function parseHtml(str) {
+  return jsdom.jsdom('<!DOCTYPE html><html><body>' + str + '</body></html>').body.firstChild;
+}
+
+function parseHtmlFragment(str) {
+  str = '<html><head></head><body>' + str + '</body></html>';
+  var htmlDocument = jsdom.jsdom(str);
+  var body = htmlDocument.body;
+  var documentFragment = htmlDocument.createDocumentFragment();
+  if (body) {
+    for (var i = 0 ; i < body.childNodes.length ; i += 1) {
+      documentFragment.appendChild(body.childNodes[i].cloneNode(true));
+    }
+  }
+  return documentFragment;
+}
+
 describe('unexpected-dom', function () {
   expect.output.preferredWidth = 100;
 
@@ -165,6 +182,35 @@ describe('unexpected-dom', function () {
         '</div>'
       );
     });
+
+    describe('with DOMDocumentFragments', function () {
+      it('should diff fragments consisting of single nodes', function () {
+        expect(
+          ['<div>foo</div>', '<div>bar</div>'].map(parseHtmlFragment),
+          'to produce a diff of',
+            '<div>\n' +
+            '  -foo\n' +
+            '  +bar\n' +
+            '</div>'
+        );
+      });
+
+      it('should diff fragments consisting of multiple nodes', function () {
+        expect(
+          ['<div>foo</div><div>bar</div>', '<div>foo<i>blah</i></div><span>bark</span>'].map(parseHtmlFragment),
+          'to produce a diff of',
+            '<div>\n' +
+            '  foo\n' +
+            '  // missing <i>blah</i>\n' +
+            '</div>\n' +
+            '<div // should be span\n' +
+            '>\n' +
+            '  -bar\n' +
+            '  +bark\n' +
+            '</div>'
+        );
+      });
+    });
   });
 
   it('should allow regular assertions defined for the object type to work on an HTMLElement', function () {
@@ -229,10 +275,10 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(body.firstChild, 'to have class', 'quux');
         }, 'to throw',
-            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
-            '\n' +
-            '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
-            '        data-info="baz" disabled>Press me</button>'
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
+          '\n' +
+          '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
+          '        data-info="baz" disabled>Press me</button>'
         );
       });
     });
@@ -326,13 +372,13 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to only have attributes', 'id');
         }, 'to throw',
-            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
-            'to only have attributes \'id\'\n' +
-            '\n' +
-            '<button id="foo" class="bar" // should be removed\n' +
-            '        data-info="baz" // should be removed\n' +
-            '        disabled // should be removed\n' +
-            '>Press me</button>'
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'to only have attributes \'id\'\n' +
+          '\n' +
+          '<button id="foo" class="bar" // should be removed\n' +
+          '        data-info="baz" // should be removed\n' +
+          '        disabled // should be removed\n' +
+          '>Press me</button>'
         );
       });
 
@@ -349,12 +395,12 @@ describe('unexpected-dom', function () {
         expect(function () {
           expect(el, 'to have attributes', 'id', 'foo');
         }, 'to throw',
-            'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
-            'to have attributes \'id\', \'foo\'\n' +
-            '\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled\n' +
-            '        // missing foo\n' +
-            '>Press me</button>'
+          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'to have attributes \'id\', \'foo\'\n' +
+          '\n' +
+          '<button id="foo" class="bar" data-info="baz" disabled\n' +
+          '        // missing foo\n' +
+          '>Press me</button>'
         );
       });
     });
@@ -761,6 +807,309 @@ describe('unexpected-dom', function () {
         });
     });
 
+    describe('HTMLFragment', function () {
+      describe('with a string as the value', function () {
+        it('should succeed', function () {
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', '<div foo="bar">foo</div><div>bar</div>');
+        });
+
+        it('should fail with an error', function () {
+          expect(function () {
+            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', '<div>quux</div><div baz="quux">bar</div>');
+          }, 'to throw',
+            'expected \'<div>foo</div><div>bar</div>\'\n' +
+            'when parsed as HTML fragment to satisfy \'<div>quux</div><div baz="quux">bar</div>\'\n' +
+            '  expected DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]\n' +
+            '  to satisfy <div>quux</div><div baz="quux">bar</div>\n' +
+            '\n' +
+            '  NodeList[\n' +
+            '    <div>\n' +
+            '      foo // should equal \'quux\'\n' +
+            '          // -foo\n' +
+            '          // +quux\n' +
+            '    </div>,\n' +
+            '    <div\n' +
+            '         // missing baz should equal \'quux\'\n' +
+            '    >bar</div>\n' +
+            '  ]'
+          );
+        });
+      });
+
+      describe('with the exhaustively flag', function () {
+        it('should fail with a diff', function () {
+          expect(function () {
+            expect('<div foo="bar" baz="quux">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to exhaustively satisfy', '<div foo="bar">foo</div><div>bar</div>');
+          }, 'to throw',
+            'expected \'<div foo="bar" baz="quux">foo</div><div>bar</div>\'\n' +
+            'when parsed as HTML fragment to exhaustively satisfy \'<div foo="bar">foo</div><div>bar</div>\'\n' +
+            '  expected DocumentFragment[NodeList[ <div baz="quux" foo="bar">foo</div>, <div>bar</div> ]]\n' +
+            '  to exhaustively satisfy <div foo="bar">foo</div><div>bar</div>\n' +
+            '\n' +
+            '  NodeList[\n' +
+            '    <div foo="bar" baz="quux" // should be removed\n' +
+            '    >foo</div>,\n' +
+            '    <div>bar</div>\n' +
+            '  ]'
+          );
+        });
+      });
+
+      describe('with an HTMLFragment as the value', function () {
+        it('should succeed', function () {
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', parseHtmlFragment('<div foo="bar">foo</div><div>bar</div>'));
+        });
+
+        it('should fail with an error', function () {
+          expect(function () {
+            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', parseHtmlFragment('<div>quux</div><div baz="quux">bar</div>'));
+          }, 'to throw',
+            'expected \'<div>foo</div><div>bar</div>\'\n' +
+            'when parsed as HTML fragment to satisfy DocumentFragment[NodeList[ <div>quux</div>, <div baz="quux">bar</div> ]]\n' +
+            '  expected DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]\n' +
+            '  to satisfy DocumentFragment[NodeList[ <div>quux</div>, <div baz="quux">bar</div> ]]\n' +
+            '\n' +
+            '  NodeList[\n' +
+            '    <div>\n' +
+            '      foo // should equal \'quux\'\n' +
+            '          // -foo\n' +
+            '          // +quux\n' +
+            '    </div>,\n' +
+            '    <div\n' +
+            '         // missing baz should equal \'quux\'\n' +
+            '    >bar</div>\n' +
+            '  ]'
+          );
+        });
+      });
+
+      describe('with an array as the value', function () {
+        it('should succeed', function () {
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', [
+            { attributes: { foo: 'bar' }, children: [ 'foo' ] },
+            { name: 'div', children: [ 'bar' ] }
+          ]);
+        });
+
+        it('should fail with an error', function () {
+          expect(function () {
+            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment', 'to satisfy', [
+              { attributes: { foo: 'bar' }, children: [ 'foo' ] },
+              { name: 'div', children: [ 'bar' ] }
+            ]);
+          }, 'to throw',
+            'expected \'<div foo="baz">foo</div><div>foobar</div>\' when parsed as HTML fragment\n' +
+            'to satisfy [\n' +
+            '  { attributes: { foo: \'bar\' }, children: [ \'foo\' ] },\n' +
+            '  { name: \'div\', children: [ \'bar\' ] }\n' +
+            ']\n' +
+            '  expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]] to satisfy\n' +
+            '  [\n' +
+            '    { attributes: { foo: \'bar\' }, children: [ \'foo\' ] },\n' +
+            '    { name: \'div\', children: [ \'bar\' ] }\n' +
+            '  ]\n' +
+            '\n' +
+            '  NodeList[\n' +
+            '    <div foo="baz" // expected \'baz\' to equal \'bar\'\n' +
+            '                   //\n' +
+            '                   // -baz\n' +
+            '                   // +bar\n' +
+            '    >foo</div>,\n' +
+            '    <div>\n' +
+            '      foobar // should equal \'bar\'\n' +
+            '             // -foobar\n' +
+            '             // +bar\n' +
+            '    </div>\n' +
+            '  ]'
+          );
+        });
+      });
+
+      describe('with an object as the value', function () {
+        it('should succeed', function () {
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', {
+            1: { name: 'div', children: [ 'bar' ] }
+          });
+        });
+
+        it('should fail with an error', function () {
+          expect(function () {
+            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment', 'to satisfy', {
+              1: { name: 'div', children: [ 'bar' ] }
+            });
+          }, 'to throw',
+            'expected \'<div foo="baz">foo</div><div>foobar</div>\'\n' +
+            'when parsed as HTML fragment to satisfy { 1: { name: \'div\', children: [ \'bar\' ] } }\n' +
+            '  expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]]\n' +
+            '  to satisfy { 1: { name: \'div\', children: [ \'bar\' ] } }\n' +
+            '\n' +
+            '  NodeList[\n' +
+            '    <div foo="baz">foo</div>,\n' +
+            '    <div>\n' +
+            '      foobar // should equal \'bar\'\n' +
+            '             // -foobar\n' +
+            '             // +bar\n' +
+            '    </div>\n' +
+            '  ]'
+          );
+        });
+      });
+    });
+
+    describe('HTMLElement with a string as the value', function () {
+      it('should succeed when the subject equals the value parsed as HTML', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', '<div foo="bar" baz="quux">hey</div>');
+      });
+
+      it('should fail when the subject has the wrong text content', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', '<div foo="bar" baz="quux">hey</div>');
+      });
+
+      it('should succeed when the subject equals the value parsed as HTML', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', '<div foo="bar">hey</div>');
+      });
+
+      it('should fail when the subject is missing an attribute', function () {
+        return expect(function () {
+          return expect(parseHtml('<div foo="bar">hey</div>'), 'to satisfy', '<div bar="quux">hey</div>');
+        }, 'to error',
+          'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
+          '\n' +
+          '<div foo="bar"\n' +
+          '     // missing bar should equal \'quux\'\n' +
+          '>hey</div>'
+        );
+      });
+
+      it('should succeed when the subject has an extra class', function () {
+        return expect(parseHtml('<div class="foo bar">hey</div>'), 'to satisfy', '<div class="bar">hey</div>');
+      });
+
+      it('should fail when the subject is missing a class', function () {
+        return expect(function () {
+          return expect(parseHtml('<div class="foo">hey</div>'), 'to satisfy', '<div class="bar">hey</div>');
+        }, 'to error',
+          'expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>\n' +
+          '\n' +
+          '<div class="foo" // expected [ \'foo\' ] to contain \'bar\'\n' +
+          '>hey</div>'
+        );
+      });
+
+      it('should succeed when the subject has an extra inline style', function () {
+        return expect(parseHtml('<div style="color: tan; width: 120px;">hey</div>'), 'to satisfy', '<div style="color: tan;">hey</div>');
+      });
+
+      it('should fail when the subject is missing an inline style', function () {
+        return expect(function () {
+          return expect(parseHtml('<div style="width: 120px;">hey</div>'), 'to satisfy', '<div style="color: tan;">hey</div>');
+        }, 'to error',
+          'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan;">hey</div>\n' +
+          '\n' +
+          '<div style="width: 120px" // expected { width: \'120px\' } to satisfy { color: \'tan\' }\n' +
+          '                          //\n' +
+          '                          // {\n' +
+          '                          //   width: \'120px\',\n' +
+          '                          //   color: undefined // should equal \'tan\'\n' +
+          '                          // }\n' +
+          '>hey</div>'
+        );
+      });
+    });
+
+    describe('HTMLElement with a DOM element as the value', function () {
+      it('should succeed when the subject equals the value parsed as HTML', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', parseHtml('<div foo="bar" baz="quux">hey</div>'));
+      });
+
+      it('should fail when the subject has the wrong text content', function () {
+        return expect(function () {
+          return expect(parseHtml('<div foo="bar" baz="quux">foobar</div>'), 'to satisfy', parseHtml('<div foo="bar" baz="quux">hey</div>'));
+        }, 'to error',
+          'expected <div baz="quux" foo="bar">foobar</div> to satisfy <div baz="quux" foo="bar">hey</div>\n' +
+          '\n' +
+          '<div foo="bar" baz="quux">\n' +
+          '  foobar // should equal \'hey\'\n' +
+          '         // -foobar\n' +
+          '         // +hey\n' +
+          '</div>'
+        );
+      });
+
+      it('should succeed when the subject equals the value parsed as HTML', function () {
+        return expect(parseHtml('<div foo="bar" baz="quux">hey</div>'), 'to satisfy', parseHtml('<div foo="bar">hey</div>'));
+      });
+
+      it('should fail when the subject is missing an attribute', function () {
+        return expect(function () {
+          return expect(parseHtml('<div foo="bar">hey</div>'), 'to satisfy', parseHtml('<div bar="quux">hey</div>'));
+        }, 'to error',
+          'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
+          '\n' +
+          '<div foo="bar"\n' +
+          '     // missing bar should equal \'quux\'\n' +
+          '>hey</div>'
+        );
+      });
+
+      it('should succeed when the subject has an extra class', function () {
+        return expect(parseHtml('<div class="foo bar">hey</div>'), 'to satisfy', parseHtml('<div class="bar">hey</div>'));
+      });
+
+      it('should fail when the subject is missing a class', function () {
+        return expect(function () {
+          return expect(parseHtml('<div class="foo">hey</div>'), 'to satisfy', parseHtml('<div class="bar">hey</div>'));
+        }, 'to error',
+          'expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>\n' +
+          '\n' +
+          '<div class="foo" // expected [ \'foo\' ] to contain \'bar\'\n' +
+          '>hey</div>'
+        );
+      });
+
+      it('should succeed when the subject has an extra inline style', function () {
+        return expect(parseHtml('<div style="color: tan; width: 120px;">hey</div>'), 'to satisfy', parseHtml('<div style="color: tan;">hey</div>'));
+      });
+
+      it('should fail when the subject is missing an inline style', function () {
+        return expect(function () {
+          return expect(parseHtml('<div style="width: 120px;">hey</div>'), 'to satisfy', parseHtml('<div style="color: tan;">hey</div>'));
+        }, 'to error',
+          'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan">hey</div>\n' +
+          '\n' +
+          '<div style=\"width: 120px\" // expected { width: \'120px\' } to satisfy { color: \'tan\' }\n' +
+          '                          //\n' +
+          '                          // {\n' +
+          '                          //   width: \'120px\',\n' +
+          '                          //   color: undefined // should equal \'tan\'\n' +
+          '                          // }\n' +
+          '>hey</div>'
+        );
+      });
+    });
+
+    describe('text node with a text node as the value', function () {
+      it('should succeed', function () {
+        expect(parseHtml('foobar'), 'to satisfy', parseHtml('foobar'));
+      });
+
+      // Doesn't alter the semantics, but needs to be supported:
+      it('should succeed when the exhaustively flag is set', function () {
+        expect(parseHtml('foobar'), 'to exhaustively satisfy', parseHtml('foobar'));
+      });
+
+      it('should fail with a diff', function () {
+        expect(function () {
+          expect(parseHtml('foobar'), 'to satisfy', parseHtml('bar'));
+        }, 'to error',
+          'expected foobar to satisfy bar\n' +
+          '\n' +
+          '-foobar\n' +
+          '+bar'
+        );
+      });
+    });
+
     describe('with a name assertion', function () {
       it('should succeed', function () {
         body.innerHTML = '<div foo="bar"></div>';
@@ -838,7 +1187,7 @@ describe('unexpected-dom', function () {
         '  to satisfy { 1: { attributes: { foo: \'bar\' } } }\n' +
         '\n' +
         '  NodeList[\n' +
-        '    <div foo="bar" id="quux">...</div>,\n' +
+        '    <div foo="bar" id="quux">foobar</div>,\n' +
         '    <div foo="quux" // expected \'quux\' to equal \'bar\'\n' +
         '                    //\n' +
         '                    // -quux\n' +
@@ -860,9 +1209,9 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document.body, 'queried for first', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
-          'expected <body><div id="foo"></div></body>\n' +
-          'queried for first \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
-          '  The selector .blabla yielded no results'
+        'expected <body><div id="foo"></div></body>\n' +
+        'queried for first \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
+        '  The selector .blabla yielded no results'
       );
     });
 
@@ -871,8 +1220,8 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document.body, 'queried for', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
-          'expected <body><div id="foo"></div></body> queried for \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
-          '  The selector .blabla yielded no results'
+        'expected <body><div id="foo"></div></body> queried for \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
+        '  The selector .blabla yielded no results'
       );
     });
 
@@ -894,9 +1243,9 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document, 'queried for', 'div', 'to have length', 1);
       }, 'to throw',
-          'expected <!DOCTYPE html><html><head></head><body>...</body></html> queried for \'div\' to have length 1\n' +
-          '  expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1\n' +
-          '    expected 3 to be 1'
+        'expected <!DOCTYPE html><html><head></head><body>...</body></html> queried for \'div\' to have length 1\n' +
+        '  expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1\n' +
+        '    expected 3 to be 1'
       );
     });
   });
@@ -914,12 +1263,12 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document, 'to contain no elements matching', '.foo');
       }, 'to throw',
-          'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
-          'to contain no elements matching \'.foo\'\n' +
-          '\n' +
-          'NodeList[\n' +
-          '  <div class="foo"></div> // should be removed\n' +
-          ']'
+        'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
+        'to contain no elements matching \'.foo\'\n' +
+        '\n' +
+        'NodeList[\n' +
+        '  <div class="foo"></div> // should be removed\n' +
+        ']'
       );
     });
 
@@ -929,13 +1278,13 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document, 'to contain no elements matching', '.foo');
       }, 'to throw',
-          'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
-          'to contain no elements matching \'.foo\'\n' +
-          '\n' +
-          'NodeList[\n' +
-          '  <div class="foo"></div>, // should be removed\n' +
-          '  <div class="foo"></div> // should be removed\n' +
-          ']'
+        'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
+        'to contain no elements matching \'.foo\'\n' +
+        '\n' +
+        'NodeList[\n' +
+        '  <div class="foo"></div>, // should be removed\n' +
+        '  <div class="foo"></div> // should be removed\n' +
+        ']'
       );
     });
   });
@@ -987,16 +1336,12 @@ describe('unexpected-dom', function () {
   });
 
   describe('diffing', function () {
-    function parseHtmlElement(str) {
-      return jsdom.jsdom('<!DOCTYPE html><html><body>' + str + '</body></html>').body.firstChild;
-    }
-
     expect.addAssertion(['string', 'DOMNode'], 'diffed with', function (expect, subject, value) {
       if (typeof subject === 'string') {
-        subject = parseHtmlElement(subject);
+        subject = parseHtml(subject);
       }
       if (typeof value === 'string') {
-        value = parseHtmlElement(value);
+        value = parseHtml(value);
       }
       this.shift(expect, expect.diff(subject, value).diff.toString(), 1);
     });
@@ -1098,10 +1443,10 @@ describe('unexpected-dom', function () {
         'diffed with',
         jsdom.jsdom('<!DOCTYPE html><html><head></head><body></body></html>'),
         'to equal',
-            '<!DOCTYPE html>\n' +
-            '<!--foo--> // should be removed\n' +
-            '<html><head></head><body></body></html>\n' +
-            '<!--bar--> // should be removed'
+          '<!DOCTYPE html>\n' +
+          '<!--foo--> // should be removed\n' +
+          '<html><head></head><body></body></html>\n' +
+          '<!--bar--> // should be removed'
         );
     });
   });
@@ -1118,14 +1463,12 @@ describe('unexpected-dom', function () {
 
     describe('with the "fragment" flag', function () {
       it('should return a DocumentFragment instance', function () {
-        expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy',
+        expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment',
           expect.it('to be a', 'DOMDocumentFragment')
-            .and('to satisfy', {
-              children: [
-                { name: 'div', children: [ 'foo' ] },
-                { name: 'div', children: [ 'bar' ] }
-              ]
-            }
+            .and('to satisfy', [
+              { name: 'div', children: [ 'foo' ] },
+              { name: 'div', children: [ 'bar' ] }
+            ]
           )
         );
       });
@@ -1254,7 +1597,7 @@ describe('unexpected-dom', function () {
     });
   });
 
-  it('should render the floating menu correctly', function () {
+  it('should produce a good satisfy diff in a real world example', function () {
     body.innerHTML =
       '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">' +
       '<li class="selected" data-index="0">' +
@@ -1271,28 +1614,28 @@ describe('unexpected-dom', function () {
 
     expect(function () {
       expect(body.firstChild, 'to satisfy', {
-          attributes: {
-              style: { display: 'block' },
-              'class': ['knockout-autocomplete', 'floating-menu']
+        attributes: {
+          style: { display: 'block' },
+          'class': ['knockout-autocomplete', 'floating-menu']
+        },
+        children: [
+          {
+            attributes:  { 'data-index': '0', 'class': 'selected' },
+            children: [
+              { attributes: { 'class': 'before' }, children: [] },
+              { attributes: { 'class': 'match' }, children: ['pr']  },
+              { attributes: { 'class': 'after' }, children: ['ivate'] }
+            ]
           },
-          children: [
-              {
-                  attributes:  { 'data-index': '0', 'class': 'selected' },
-                  children: [
-                      { attributes: { 'class': 'before' }, children: [] },
-                      { attributes: { 'class': 'match' }, children: ['pr']  },
-                      { attributes: { 'class': 'after' }, children: ['ivate'] }
-                  ]
-              },
-              {
-                  attributes:  { 'data-index': '1', 'class': undefined },
-                  children: [
-                      { attributes: { 'class': 'before' }, children: [] },
-                      { attributes: { 'class': 'match' }, children: ['pr']  },
-                      { attributes: { 'class': 'after' }, children: ['odtected'] }
-                  ]
-              }
-          ]
+          {
+            attributes:  { 'data-index': '1', 'class': undefined },
+            children: [
+              { attributes: { 'class': 'before' }, children: [] },
+              { attributes: { 'class': 'match' }, children: ['pr']  },
+              { attributes: { 'class': 'after' }, children: ['odtected'] }
+            ]
+          }
+        ]
       });
     }, 'to throw',
       'expected\n' +
@@ -1310,15 +1653,19 @@ describe('unexpected-dom', function () {
       '</ul>\n' +
       'to satisfy\n' +
       '{\n' +
-      '  attributes: { style: { display: \'block\' }, class: [...] },\n' +
+      '  attributes: { style: { display: \'block\' }, class: [ \'knockout-autocomplete\', \'floating-menu\' ] },\n' +
       '  children: [ { attributes: ..., children: ... }, { attributes: ..., children: ... } ]\n' +
       '}\n' +
       '\n' +
       '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">\n' +
-      '  <li class="selected" data-index="0">...</li>\n' +
-      '  <li data-index="1">\n' +
+      '  <li class="selected" data-index="0">\n' +
       '    <span class="before"></span>\n' +
       '    <strong class="match">...</strong>\n' +
+      '    <span class="after">...</span>\n' +
+      '  </li>\n' +
+      '  <li data-index="1">\n' +
+      '    <span class="before"></span>\n' +
+      '    <strong class="match">pr</strong>\n' +
       '    <span class="after">\n' +
       '      otected // should equal \'odtected\'\n' +
       '              // -otected\n' +
