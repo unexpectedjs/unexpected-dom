@@ -50,6 +50,14 @@ function parseHtmlFragment(str) {
   return documentFragment;
 }
 
+function parseXml(str) {
+  if (typeof DOMParser !== 'undefined') {
+    return new DOMParser().parseFromString(str, 'text/xml');
+  } else {
+    return require('jsdom').jsdom(str, { parsingMode: 'xml' });
+  }
+}
+
 describe('unexpected-dom', function () {
   expect.output.preferredWidth = 100;
 
@@ -1673,6 +1681,49 @@ describe('unexpected-dom', function () {
       '    </span>\n' +
       '  </li>\n' +
       '</ul>'
+    );
+  });
+
+  it('should compare XML element names case sensitively', function () {
+    expect(function () {
+      expect(parseXml('<foO></foO>').firstChild, 'to satisfy', {
+        name: 'foo'
+      });
+    }, 'to throw',
+      'expected <foO></foO> to satisfy { name: \'foo\' }\n' +
+      '\n' +
+      '<foO // should equal \'foo\'\n' +
+      '></foO>'
+    );
+  });
+
+  it('should compare XML element names case sensitively, even when the owner document lacks a contentType attribute', function () {
+    expect(function () {
+      var document = parseXml('<foO></foO>');
+      document.firstChild._ownerDocument = { toString: function () { return '[object XMLDocument]'; } };
+      expect(document.firstChild, 'to satisfy', {
+        name: 'foo'
+      });
+    }, 'to throw',
+      'expected <foO></foO> to satisfy { name: \'foo\' }\n' +
+      '\n' +
+      '<foO // should equal \'foo\'\n' +
+      '></foO>'
+    );
+  });
+
+  it('should compare XML element names case sensitively, even when the owner document lacks a contentType attribute', function () {
+    expect(function () {
+      var document = parseXml('<foO></foO>');
+      document.firstChild._ownerDocument = { toString: function () { return '[object XMLDocument]'; } };
+      expect(document.firstChild, 'to satisfy', {
+        name: 'foo'
+      });
+    }, 'to throw',
+      'expected <foO></foO> to satisfy { name: \'foo\' }\n' +
+      '\n' +
+      '<foO // should equal \'foo\'\n' +
+      '></foO>'
     );
   });
 });
