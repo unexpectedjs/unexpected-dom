@@ -815,6 +815,40 @@ describe('unexpected-dom', function () {
         });
     });
 
+    describe('with an HTML fragment string passed as the children attribute', function () {
+      it('should succeed', function () {
+        expect('<div foo="bar">foo<span>bar</span></div>', 'when parsed as HTML fragment', 'to satisfy', [
+          {
+            name: 'div',
+            children: 'foo<span>bar</span>'
+          }
+        ]);
+      });
+
+      it('should fail with a diff', function () {
+        expect(function () {
+          expect('<div foo="bar">foo<span>bar</span></div>', 'when parsed as HTML fragment', 'to satisfy', [
+            {
+              name: 'div',
+              children: '<span>bar</span>foo'
+            }
+          ]);
+        }, 'to throw',
+          'expected \'<div foo="bar">foo<span>bar</span></div>\'\n' +
+          'when parsed as HTML fragment to satisfy [ { name: \'div\', children: \'<span>bar</span>foo\' } ]\n' +
+          '  expected DocumentFragment[NodeList[ <div foo="bar">foo<span>...</span></div> ]]\n' +
+          '  to satisfy [ { name: \'div\', children: \'<span>bar</span>foo\' } ]\n' +
+          '\n' +
+          '  NodeList[\n' +
+          '    <div foo="bar">\n' +
+          '      foo // should satisfy { name: \'span\', attributes: {}, children: [ \'bar\' ] }\n' +
+          '      <span>bar</span> // should satisfy \'foo\'\n' +
+          '    </div>\n' +
+          '  ]'
+        );
+      });
+    });
+
     describe('HTMLFragment', function () {
       describe('with a string as the value', function () {
         it('should succeed', function () {
