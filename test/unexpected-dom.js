@@ -1251,8 +1251,7 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document.body, 'queried for first', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
-        'expected <body><div id="foo"></div></body>\n' +
-        'queried for first \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
+        'expected <body><div id="foo"></div></body> queried for first \'.blabla\' to have attributes { id: \'foo\' }\n' +
         '  The selector .blabla yielded no results'
       );
     });
@@ -1262,7 +1261,7 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document.body, 'queried for', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
-        'expected <body><div id="foo"></div></body> queried for \'.blabla\', \'to have attributes\', { id: \'foo\' }\n' +
+        'expected <body><div id="foo"></div></body> queried for \'.blabla\' to have attributes { id: \'foo\' }\n' +
         '  The selector .blabla yielded no results'
       );
     });
@@ -1378,14 +1377,14 @@ describe('unexpected-dom', function () {
   });
 
   describe('diffing', function () {
-    expect.addAssertion(['string', 'DOMNode'], 'diffed with', function (expect, subject, value) {
+    expect.addAssertion('<string|DOMNode> diffed with <string|DOMNode> <assertion>', function (expect, subject, value) {
       if (typeof subject === 'string') {
         subject = parseHtml(subject);
       }
       if (typeof value === 'string') {
         value = parseHtml(value);
       }
-      this.shift(expect, expect.diff(subject, value).diff.toString(), 1);
+      return expect.shift(expect.diff(subject, value).diff.toString());
     });
 
     it('should work with HTMLElement', function () {
@@ -1521,7 +1520,7 @@ describe('unexpected-dom', function () {
         expect(htmlSrc, 'when parsed as HTML', 'queried for first', 'body', 'to have attributes', { class: 'quux' });
       }, 'to throw',
         'expected \'<!DOCTYPE html><html><body class="bar">foo</body></html>\'\n' +
-        'when parsed as HTML queried for first \'body\', \'to have attributes\', { class: \'quux\' }\n' +
+        'when parsed as HTML queried for first \'body\' to have attributes { class: \'quux\' }\n' +
         '  expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>\n' +
         '  queried for first \'body\' to have attributes { class: \'quux\' }\n' +
         '    expected <body class="bar">foo</body> to have attributes { class: \'quux\' }\n' +
