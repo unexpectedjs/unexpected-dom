@@ -1227,7 +1227,7 @@ describe('unexpected-dom', function () {
         '  <div foo="bar" id="quux">foobar</div>\n' +
         '  <div foo="quux">hey</div>\n' +
         '</body>\n' +
-        'queried for \'div\' to satisfy { 1: { attributes: { foo: \'bar\' } } }\n' +
+        'queried for div to satisfy { 1: { attributes: { foo: \'bar\' } } }\n' +
         '  expected NodeList[ <div foo="bar" id="quux">foobar</div>, <div foo="quux">hey</div> ]\n' +
         '  to satisfy { 1: { attributes: { foo: \'bar\' } } }\n' +
         '\n' +
@@ -1261,7 +1261,7 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document.body, 'queried for first', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
-        'expected <body><div id="foo"></div></body> queried for first \'.blabla\' to have attributes { id: \'foo\' }\n' +
+        'expected <body><div id="foo"></div></body> queried for first .blabla to have attributes { id: \'foo\' }\n' +
         '  The selector .blabla yielded no results'
       );
     });
@@ -1271,7 +1271,7 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document.body, 'queried for', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
-        'expected <body><div id="foo"></div></body> queried for \'.blabla\' to have attributes { id: \'foo\' }\n' +
+        'expected <body><div id="foo"></div></body> queried for .blabla to have attributes { id: \'foo\' }\n' +
         '  The selector .blabla yielded no results'
       );
     });
@@ -1294,7 +1294,7 @@ describe('unexpected-dom', function () {
       expect(function () {
         expect(document, 'queried for', 'div', 'to have length', 1);
       }, 'to throw',
-        'expected <!DOCTYPE html><html><head></head><body>...</body></html> queried for \'div\' to have length 1\n' +
+        'expected <!DOCTYPE html><html><head></head><body>...</body></html> queried for div to have length 1\n' +
         '  expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1\n' +
         '    expected 3 to be 1'
       );
@@ -1544,7 +1544,7 @@ describe('unexpected-dom', function () {
         'expected \'<!DOCTYPE html><html><body class="bar">foo</body></html>\'\n' +
         'when parsed as HTML queried for first \'body\' to have attributes { class: \'quux\' }\n' +
         '  expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>\n' +
-        '  queried for first \'body\' to have attributes { class: \'quux\' }\n' +
+        '  queried for first body to have attributes { class: \'quux\' }\n' +
         '    expected <body class="bar">foo</body> to have attributes { class: \'quux\' }\n' +
         '\n' +
         '    <body class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
