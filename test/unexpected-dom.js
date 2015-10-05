@@ -6,24 +6,27 @@ var unexpected = require('unexpected'),
 
 var expect = unexpected.clone().installPlugin(require('unexpected-sinon')).installPlugin(unexpectedDom);
 
-expect.addAssertion('to inspect as [itself]', function (expect, subject, value) {
+expect.addAssertion('<any> to inspect as itself', function (expect, subject) {
   var originalSubject = subject;
   if (typeof subject === 'string') {
     subject = jsdom.jsdom('<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>').body.firstChild;
   }
-  if (this.flags.itself) {
-    if (typeof originalSubject === 'string') {
-      expect(expect.inspect(subject).toString(), 'to equal', originalSubject);
-    } else {
-      throw new Error('subject must be given as a string when expected to inspect as itself');
-    }
+  if (typeof originalSubject === 'string') {
+    expect(expect.inspect(subject).toString(), 'to equal', originalSubject);
   } else {
-    expect(expect.inspect(subject).toString(), 'to equal', value);
+    throw new Error('subject must be given as a string when expected to inspect as itself');
   }
 });
 
-expect.addAssertion('to produce a diff of', function (expect, subject, value) {
-  this.errorMode = 'bubble';
+expect.addAssertion('<any> to inspect as <string>', function (expect, subject, value) {
+  if (typeof subject === 'string') {
+    subject = jsdom.jsdom('<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>').body.firstChild;
+  }
+  expect(expect.inspect(subject).toString(), 'to equal', value);
+});
+
+expect.addAssertion('<array> to produce a diff of <string>', function (expect, subject, value) {
+  expect.errorMode = 'bubble';
   subject = subject.map(function (item) {
     return typeof item === 'string' ? jsdom.jsdom('<!DOCTYPE html><html><head></head><body>' + item + '</body></html>').body.firstChild : item;
   });
@@ -1377,7 +1380,7 @@ describe('unexpected-dom', function () {
   });
 
   describe('diffing', function () {
-    expect.addAssertion('<string|DOMNode> diffed with <string|DOMNode> <assertion>', function (expect, subject, value) {
+    expect.addAssertion('<string|DOMNode|DOMDocument> diffed with <string|DOMNode|DOMDocument> <assertion>', function (expect, subject, value) {
       if (typeof subject === 'string') {
         subject = parseHtml(subject);
       }
