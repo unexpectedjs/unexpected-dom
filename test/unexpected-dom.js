@@ -1249,6 +1249,13 @@ describe('unexpected-dom', function () {
       expect(document, 'queried for first', 'div', 'to have attributes', { id: 'foo' });
     });
 
+    it('should provide the results as the fulfillment value when no assertion is provided', function () {
+      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
+      return expect(document, 'queried for first', 'div').then(function (div) {
+        expect(div, 'to have attributes', { id: 'foo' });
+      });
+    });
+
     it('should error out if the selector matches no elements, first flag set', function () {
       var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
       expect(function () {
@@ -1505,6 +1512,12 @@ describe('unexpected-dom', function () {
       );
     });
 
+    it('should provide the parsed document as the fulfillment value when no assertion is provided', function () {
+      return expect(htmlSrc, 'parsed as HTML').then(function (document) {
+        expect(document, 'to equal', jsdom.jsdom(htmlSrc));
+      });
+    });
+
     describe('with the "fragment" flag', function () {
       it('should return a DocumentFragment instance', function () {
         expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment',
@@ -1515,6 +1528,12 @@ describe('unexpected-dom', function () {
             ]
           )
         );
+      });
+
+      it('should provide the parsed fragment as the fulfillment value when no assertion is provided', function () {
+        return expect('<div>foo</div><div>bar</div>', 'parsed as HTML fragment').then(function (fragment) {
+          expect(fragment, 'to satisfy', [ { children: 'foo' }, { children: 'bar' } ]);
+        });
       });
     });
 
@@ -1532,7 +1551,6 @@ describe('unexpected-dom', function () {
         '    >foo</body>'
       );
     });
-
 
     describe('when the DOMParser global is available', function () {
       var originalDOMParser,
@@ -1609,6 +1627,12 @@ describe('unexpected-dom', function () {
             .and('to equal', jsdom.jsdom(xmlSrc, { parsingMode: 'xml' }))
             .and('queried for first', 'fooBar', 'to have attributes', { yes: 'sir' })
       );
+    });
+
+    it('should provide the parsed document as the fulfillment value when no assertion is provided', function () {
+      return expect('<?xml version="1.0"?><fooBar yes="sir">foo</fooBar>', 'parsed as XML').then(function (document) {
+        expect(document, 'queried for first', 'fooBar', 'to have attributes', { yes: 'sir' });
+      });
     });
 
     describe('when the DOMParser global is available', function () {
