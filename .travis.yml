@@ -1,5 +1,6 @@
 services:
   - docker
+sudo: required
 language: node_js
 cache:
   directories:
