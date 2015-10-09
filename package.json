@@ -44,8 +44,8 @@
     "mocha-lcov-reporter": "1.0.0",
     "sinon": "^1.15.4",
     "uglifyjs": "^2.4.10",
-    "unexpected": "9.16.1",
-    "unexpected-sinon": "6.4.1"
+    "unexpected": "10.0.1",
+    "unexpected-sinon": "8.0.0"
   },
   "dependencies": {
     "array-changes": "1.0.3",
@@ -53,6 +53,6 @@
     "magicpen-prism": "^2.1.2"
   },
   "peerDependencies": {
-    "unexpected": "^8.0.0 || ^9.0.0"
+    "unexpected": "^10.0.1"
   }
 }
