@@ -22,3 +22,9 @@ env: CXX="g++-4.8" CC="gcc-4.8"
 
 script: "npm run-script travis"
 after_success: "<coverage/lcov.info ./node_modules/coveralls/bin/coveralls.js"
+
+# jsdom 3.x fails on these, but jsdom 4.x+ fails on those below :(((
+matrix:
+  allow_failures:
+    - node_js: "3"
+    - node_js: "4"
