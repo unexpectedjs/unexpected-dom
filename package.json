@@ -48,7 +48,7 @@
     "unexpected-sinon": "8.0.0"
   },
   "dependencies": {
-    "array-changes": "1.0.3",
+    "array-changes": "1.1.0",
     "extend": "^3.0.0",
     "magicpen-prism": "^2.1.2"
   },
