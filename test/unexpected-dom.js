@@ -845,7 +845,7 @@ describe('unexpected-dom', function () {
           '  NodeList[\n' +
           '    <div foo="bar">\n' +
           '      foo // should satisfy { name: \'span\', attributes: {}, children: [ \'bar\' ] }\n' +
-          '      <span>bar</span> // should satisfy \'foo\'\n' +
+          '      <span>bar</span> // should satisfy foo\n' +
           '    </div>\n' +
           '  ]'
         );
@@ -870,6 +870,7 @@ describe('unexpected-dom', function () {
             '  NodeList[\n' +
             '    <div>\n' +
             '      foo // should equal \'quux\'\n' +
+            '          //\n' +
             '          // -foo\n' +
             '          // +quux\n' +
             '    </div>,\n' +
@@ -917,6 +918,7 @@ describe('unexpected-dom', function () {
             '  NodeList[\n' +
             '    <div>\n' +
             '      foo // should equal \'quux\'\n' +
+            '          //\n' +
             '          // -foo\n' +
             '          // +quux\n' +
             '    </div>,\n' +
@@ -962,6 +964,7 @@ describe('unexpected-dom', function () {
             '    >foo</div>,\n' +
             '    <div>\n' +
             '      foobar // should equal \'bar\'\n' +
+            '             //\n' +
             '             // -foobar\n' +
             '             // +bar\n' +
             '    </div>\n' +
@@ -992,6 +995,7 @@ describe('unexpected-dom', function () {
             '    <div foo="baz">foo</div>,\n' +
             '    <div>\n' +
             '      foobar // should equal \'bar\'\n' +
+            '             //\n' +
             '             // -foobar\n' +
             '             // +bar\n' +
             '    </div>\n' +
@@ -1054,8 +1058,8 @@ describe('unexpected-dom', function () {
           '<div style="width: 120px" // expected { width: \'120px\' } to satisfy { color: \'tan\' }\n' +
           '                          //\n' +
           '                          // {\n' +
-          '                          //   width: \'120px\',\n' +
-          '                          //   color: undefined // should equal \'tan\'\n' +
+          '                          //   width: \'120px\'\n' +
+          '                          //   // missing color: \'tan\'\n' +
           '                          // }\n' +
           '>hey</div>'
         );
@@ -1075,6 +1079,7 @@ describe('unexpected-dom', function () {
           '\n' +
           '<div foo="bar" baz="quux">\n' +
           '  foobar // should equal \'hey\'\n' +
+          '         //\n' +
           '         // -foobar\n' +
           '         // +hey\n' +
           '</div>'
@@ -1125,8 +1130,8 @@ describe('unexpected-dom', function () {
           '<div style=\"width: 120px\" // expected { width: \'120px\' } to satisfy { color: \'tan\' }\n' +
           '                          //\n' +
           '                          // {\n' +
-          '                          //   width: \'120px\',\n' +
-          '                          //   color: undefined // should equal \'tan\'\n' +
+          '                          //   width: \'120px\'\n' +
+          '                          //   // missing color: \'tan\'\n' +
           '                          // }\n' +
           '>hey</div>'
         );
@@ -1208,6 +1213,7 @@ describe('unexpected-dom', function () {
           '\n' +
           '<div foo="bar">\n' +
           '  hey // should equal \'there\'\n' +
+          '      //\n' +
           '      // -hey\n' +
           '      // +there\n' +
           '</div>'
@@ -1736,6 +1742,7 @@ describe('unexpected-dom', function () {
       '    <strong class="match">pr</strong>\n' +
       '    <span class="after">\n' +
       '      otected // should equal \'odtected\'\n' +
+      '              //\n' +
       '              // -otected\n' +
       '              // +odtected\n' +
       '    </span>\n' +
