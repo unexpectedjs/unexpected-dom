@@ -820,7 +820,7 @@ describe('unexpected-dom', function () {
 
     describe('with an HTML fragment string passed as the children attribute', function () {
       it('should succeed', function () {
-        expect('<div foo="bar">foo<span>bar</span></div>', 'when parsed as HTML fragment', 'to satisfy', [
+        expect('<div foo="bar">foo<span>bar</span></div>', 'when parsed as HTML fragment to satisfy', [
           {
             name: 'div',
             children: 'foo<span>bar</span>'
@@ -830,7 +830,7 @@ describe('unexpected-dom', function () {
 
       it('should fail with a diff', function () {
         expect(function () {
-          expect('<div foo="bar">foo<span>bar</span></div>', 'when parsed as HTML fragment', 'to satisfy', [
+          expect('<div foo="bar">foo<span>bar</span></div>', 'when parsed as HTML fragment to satisfy', [
             {
               name: 'div',
               children: '<span>bar</span>foo'
@@ -855,12 +855,12 @@ describe('unexpected-dom', function () {
     describe('HTMLFragment', function () {
       describe('with a string as the value', function () {
         it('should succeed', function () {
-          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', '<div foo="bar">foo</div><div>bar</div>');
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', '<div foo="bar">foo</div><div>bar</div>');
         });
 
         it('should fail with an error', function () {
           expect(function () {
-            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', '<div>quux</div><div baz="quux">bar</div>');
+            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', '<div>quux</div><div baz="quux">bar</div>');
           }, 'to throw',
             'expected \'<div>foo</div><div>bar</div>\'\n' +
             'when parsed as HTML fragment to satisfy \'<div>quux</div><div baz="quux">bar</div>\'\n' +
@@ -885,7 +885,7 @@ describe('unexpected-dom', function () {
       describe('with the exhaustively flag', function () {
         it('should fail with a diff', function () {
           expect(function () {
-            expect('<div foo="bar" baz="quux">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to exhaustively satisfy', '<div foo="bar">foo</div><div>bar</div>');
+            expect('<div foo="bar" baz="quux">foo</div><div>bar</div>', 'when parsed as HTML fragment to exhaustively satisfy', '<div foo="bar">foo</div><div>bar</div>');
           }, 'to throw',
             'expected \'<div foo="bar" baz="quux">foo</div><div>bar</div>\'\n' +
             'when parsed as HTML fragment to exhaustively satisfy \'<div foo="bar">foo</div><div>bar</div>\'\n' +
@@ -903,12 +903,12 @@ describe('unexpected-dom', function () {
 
       describe('with an HTMLFragment as the value', function () {
         it('should succeed', function () {
-          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', parseHtmlFragment('<div foo="bar">foo</div><div>bar</div>'));
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', parseHtmlFragment('<div foo="bar">foo</div><div>bar</div>'));
         });
 
         it('should fail with an error', function () {
           expect(function () {
-            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', parseHtmlFragment('<div>quux</div><div baz="quux">bar</div>'));
+            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', parseHtmlFragment('<div>quux</div><div baz="quux">bar</div>'));
           }, 'to throw',
             'expected \'<div>foo</div><div>bar</div>\'\n' +
             'when parsed as HTML fragment to satisfy DocumentFragment[NodeList[ <div>quux</div>, <div baz="quux">bar</div> ]]\n' +
@@ -932,7 +932,7 @@ describe('unexpected-dom', function () {
 
       describe('with an array as the value', function () {
         it('should succeed', function () {
-          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', [
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', [
             { attributes: { foo: 'bar' }, children: [ 'foo' ] },
             { name: 'div', children: [ 'bar' ] }
           ]);
@@ -940,7 +940,7 @@ describe('unexpected-dom', function () {
 
         it('should fail with an error', function () {
           expect(function () {
-            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment', 'to satisfy', [
+            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment to satisfy', [
               { attributes: { foo: 'bar' }, children: [ 'foo' ] },
               { name: 'div', children: [ 'bar' ] }
             ]);
@@ -975,14 +975,14 @@ describe('unexpected-dom', function () {
 
       describe('with an object as the value', function () {
         it('should succeed', function () {
-          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', {
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', {
             1: { name: 'div', children: [ 'bar' ] }
           });
         });
 
         it('should fail with an error', function () {
           expect(function () {
-            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment', 'to satisfy', {
+            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment to satisfy', {
               1: { name: 'div', children: [ 'bar' ] }
             });
           }, 'to throw',
