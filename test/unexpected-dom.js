@@ -1569,9 +1569,9 @@ describe('unexpected-dom', function () {
           return {
             parseFromString: parseFromStringSpy = sinon.spy(function (htmlString, contentType) {
               return jsdom.jsdom(htmlString);
-            })
+            }).named('parseFromString')
           };
-        });
+        }).named('DOMParser');
       });
       afterEach(function () {
         global.DOMParser = originalDOMParser;
@@ -1579,11 +1579,10 @@ describe('unexpected-dom', function () {
 
       it('should use DOMParser to parse the document', function () {
         expect(htmlSrc, 'when parsed as HTML', 'queried for first', 'body', 'to have text', 'foo');
-        expect(DOMParserSpy, 'was called once');
-        expect(DOMParserSpy, 'was called with');
-        expect(DOMParserSpy.calledWithNew(), 'to be true');
-        expect(parseFromStringSpy, 'was called once');
-        expect(parseFromStringSpy, 'was called with', htmlSrc, 'text/html');
+        expect([DOMParserSpy, parseFromStringSpy], 'to have calls satisfying', function () {
+          new DOMParserSpy();
+          parseFromStringSpy(htmlSrc, 'text/html');
+        });
       });
     });
 
@@ -1598,11 +1597,11 @@ describe('unexpected-dom', function () {
           implementation: {
             createHTMLDocument: createHTMLDocumentSpy = sinon.spy(function () {
               mockDocument = jsdom.jsdom(htmlSrc);
-              mockDocument.open = sinon.spy();
-              mockDocument.write = sinon.spy();
-              mockDocument.close = sinon.spy();
+              mockDocument.open = sinon.spy().named('document.open');
+              mockDocument.write = sinon.spy().named('document.write');
+              mockDocument.close = sinon.spy().named('document.close');
               return mockDocument;
-            })
+            }).named('createHTMLDocument')
           }
         };
       });
@@ -1612,15 +1611,12 @@ describe('unexpected-dom', function () {
 
       it('should use document.implementation.createHTMLDocument to parse the document', function () {
         expect(htmlSrc, 'when parsed as HTML', 'queried for first', 'body', 'to have text', 'foo');
-        expect(createHTMLDocumentSpy, 'was called once');
-        expect(createHTMLDocumentSpy, 'was called with');
-        expect(mockDocument.open, 'was called once');
-        expect(mockDocument.write, 'was called with');
-        expect(mockDocument.write, 'was called once');
-        expect(mockDocument.write, 'was called with', htmlSrc);
-        expect(mockDocument.close, 'was called once');
-        expect(mockDocument.write, 'was called with');
-        expect([mockDocument.open, mockDocument.write, mockDocument.close], 'given call order');
+        expect([createHTMLDocumentSpy, mockDocument.open, mockDocument.write, mockDocument.close], 'to have calls satisfying', function () {
+          createHTMLDocumentSpy('');
+          mockDocument.open();
+          mockDocument.write(htmlSrc);
+          mockDocument.close();
+        });
       });
     });
   });
@@ -1652,9 +1648,9 @@ describe('unexpected-dom', function () {
           return {
             parseFromString: parseFromStringSpy = sinon.spy(function (xmlString, contentType) {
               return jsdom.jsdom(xmlString, { parsingMode: 'xml' });
-            })
+            }).named('parseFromString')
           };
-        });
+        }).named('DOMParser');
       });
       afterEach(function () {
         global.DOMParser = originalDOMParser;
@@ -1662,11 +1658,10 @@ describe('unexpected-dom', function () {
 
       it('should use DOMParser to parse the document', function () {
         expect(xmlSrc, 'when parsed as XML', 'queried for first', 'fooBar', 'to have text', 'foo');
-        expect(DOMParserSpy, 'was called once');
-        expect(DOMParserSpy, 'was called with');
-        expect(DOMParserSpy.calledWithNew(), 'to be true');
-        expect(parseFromStringSpy, 'was called once');
-        expect(parseFromStringSpy, 'was called with', xmlSrc, 'text/xml');
+        expect([DOMParserSpy, parseFromStringSpy], 'to have calls satisfying', function () {
+          new DOMParserSpy();
+          parseFromStringSpy(xmlSrc, 'text/xml');
+        });
       });
     });
   });
