@@ -50,7 +50,7 @@
   "dependencies": {
     "array-changes": "1.2.1",
     "extend": "^3.0.0",
-    "magicpen-prism": "^2.1.2"
+    "magicpen-prism": "^2.2.1"
   },
   "peerDependencies": {
     "unexpected": "^10.0.1"
