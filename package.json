@@ -42,10 +42,10 @@
     "magicpen": "^4.3.5",
     "mocha": "^2.1.0",
     "mocha-lcov-reporter": "1.0.0",
-    "sinon": "^1.15.4",
+    "sinon": "1.17.2",
     "uglifyjs": "^2.4.10",
-    "unexpected": "10.0.2",
-    "unexpected-sinon": "8.0.0"
+    "unexpected": "10.5.0",
+    "unexpected-sinon": "9.0.4"
   },
   "dependencies": {
     "array-changes": "1.0.3",

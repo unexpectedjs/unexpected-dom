@@ -820,7 +820,7 @@ describe('unexpected-dom', function () {
 
     describe('with an HTML fragment string passed as the children attribute', function () {
       it('should succeed', function () {
-        expect('<div foo="bar">foo<span>bar</span></div>', 'when parsed as HTML fragment', 'to satisfy', [
+        expect('<div foo="bar">foo<span>bar</span></div>', 'when parsed as HTML fragment to satisfy', [
           {
             name: 'div',
             children: 'foo<span>bar</span>'
@@ -830,7 +830,7 @@ describe('unexpected-dom', function () {
 
       it('should fail with a diff', function () {
         expect(function () {
-          expect('<div foo="bar">foo<span>bar</span></div>', 'when parsed as HTML fragment', 'to satisfy', [
+          expect('<div foo="bar">foo<span>bar</span></div>', 'when parsed as HTML fragment to satisfy', [
             {
               name: 'div',
               children: '<span>bar</span>foo'
@@ -845,7 +845,7 @@ describe('unexpected-dom', function () {
           '  NodeList[\n' +
           '    <div foo="bar">\n' +
           '      foo // should satisfy { name: \'span\', attributes: {}, children: [ \'bar\' ] }\n' +
-          '      <span>bar</span> // should satisfy \'foo\'\n' +
+          '      <span>bar</span> // should satisfy foo\n' +
           '    </div>\n' +
           '  ]'
         );
@@ -855,12 +855,12 @@ describe('unexpected-dom', function () {
     describe('HTMLFragment', function () {
       describe('with a string as the value', function () {
         it('should succeed', function () {
-          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', '<div foo="bar">foo</div><div>bar</div>');
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', '<div foo="bar">foo</div><div>bar</div>');
         });
 
         it('should fail with an error', function () {
           expect(function () {
-            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', '<div>quux</div><div baz="quux">bar</div>');
+            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', '<div>quux</div><div baz="quux">bar</div>');
           }, 'to throw',
             'expected \'<div>foo</div><div>bar</div>\'\n' +
             'when parsed as HTML fragment to satisfy \'<div>quux</div><div baz="quux">bar</div>\'\n' +
@@ -870,6 +870,7 @@ describe('unexpected-dom', function () {
             '  NodeList[\n' +
             '    <div>\n' +
             '      foo // should equal \'quux\'\n' +
+            '          //\n' +
             '          // -foo\n' +
             '          // +quux\n' +
             '    </div>,\n' +
@@ -884,7 +885,7 @@ describe('unexpected-dom', function () {
       describe('with the exhaustively flag', function () {
         it('should fail with a diff', function () {
           expect(function () {
-            expect('<div foo="bar" baz="quux">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to exhaustively satisfy', '<div foo="bar">foo</div><div>bar</div>');
+            expect('<div foo="bar" baz="quux">foo</div><div>bar</div>', 'when parsed as HTML fragment to exhaustively satisfy', '<div foo="bar">foo</div><div>bar</div>');
           }, 'to throw',
             'expected \'<div foo="bar" baz="quux">foo</div><div>bar</div>\'\n' +
             'when parsed as HTML fragment to exhaustively satisfy \'<div foo="bar">foo</div><div>bar</div>\'\n' +
@@ -902,12 +903,12 @@ describe('unexpected-dom', function () {
 
       describe('with an HTMLFragment as the value', function () {
         it('should succeed', function () {
-          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', parseHtmlFragment('<div foo="bar">foo</div><div>bar</div>'));
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', parseHtmlFragment('<div foo="bar">foo</div><div>bar</div>'));
         });
 
         it('should fail with an error', function () {
           expect(function () {
-            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', parseHtmlFragment('<div>quux</div><div baz="quux">bar</div>'));
+            expect('<div>foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', parseHtmlFragment('<div>quux</div><div baz="quux">bar</div>'));
           }, 'to throw',
             'expected \'<div>foo</div><div>bar</div>\'\n' +
             'when parsed as HTML fragment to satisfy DocumentFragment[NodeList[ <div>quux</div>, <div baz="quux">bar</div> ]]\n' +
@@ -917,6 +918,7 @@ describe('unexpected-dom', function () {
             '  NodeList[\n' +
             '    <div>\n' +
             '      foo // should equal \'quux\'\n' +
+            '          //\n' +
             '          // -foo\n' +
             '          // +quux\n' +
             '    </div>,\n' +
@@ -930,7 +932,7 @@ describe('unexpected-dom', function () {
 
       describe('with an array as the value', function () {
         it('should succeed', function () {
-          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', [
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', [
             { attributes: { foo: 'bar' }, children: [ 'foo' ] },
             { name: 'div', children: [ 'bar' ] }
           ]);
@@ -938,7 +940,7 @@ describe('unexpected-dom', function () {
 
         it('should fail with an error', function () {
           expect(function () {
-            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment', 'to satisfy', [
+            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment to satisfy', [
               { attributes: { foo: 'bar' }, children: [ 'foo' ] },
               { name: 'div', children: [ 'bar' ] }
             ]);
@@ -962,6 +964,7 @@ describe('unexpected-dom', function () {
             '    >foo</div>,\n' +
             '    <div>\n' +
             '      foobar // should equal \'bar\'\n' +
+            '             //\n' +
             '             // -foobar\n' +
             '             // +bar\n' +
             '    </div>\n' +
@@ -972,14 +975,14 @@ describe('unexpected-dom', function () {
 
       describe('with an object as the value', function () {
         it('should succeed', function () {
-          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment', 'to satisfy', {
+          expect('<div foo="bar">foo</div><div>bar</div>', 'when parsed as HTML fragment to satisfy', {
             1: { name: 'div', children: [ 'bar' ] }
           });
         });
 
         it('should fail with an error', function () {
           expect(function () {
-            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment', 'to satisfy', {
+            expect('<div foo="baz">foo</div><div>foobar</div>', 'when parsed as HTML fragment to satisfy', {
               1: { name: 'div', children: [ 'bar' ] }
             });
           }, 'to throw',
@@ -992,6 +995,7 @@ describe('unexpected-dom', function () {
             '    <div foo="baz">foo</div>,\n' +
             '    <div>\n' +
             '      foobar // should equal \'bar\'\n' +
+            '             //\n' +
             '             // -foobar\n' +
             '             // +bar\n' +
             '    </div>\n' +
@@ -1054,8 +1058,8 @@ describe('unexpected-dom', function () {
           '<div style="width: 120px" // expected { width: \'120px\' } to satisfy { color: \'tan\' }\n' +
           '                          //\n' +
           '                          // {\n' +
-          '                          //   width: \'120px\',\n' +
-          '                          //   color: undefined // should equal \'tan\'\n' +
+          '                          //   width: \'120px\'\n' +
+          '                          //   // missing color: \'tan\'\n' +
           '                          // }\n' +
           '>hey</div>'
         );
@@ -1075,6 +1079,7 @@ describe('unexpected-dom', function () {
           '\n' +
           '<div foo="bar" baz="quux">\n' +
           '  foobar // should equal \'hey\'\n' +
+          '         //\n' +
           '         // -foobar\n' +
           '         // +hey\n' +
           '</div>'
@@ -1125,8 +1130,8 @@ describe('unexpected-dom', function () {
           '<div style=\"width: 120px\" // expected { width: \'120px\' } to satisfy { color: \'tan\' }\n' +
           '                          //\n' +
           '                          // {\n' +
-          '                          //   width: \'120px\',\n' +
-          '                          //   color: undefined // should equal \'tan\'\n' +
+          '                          //   width: \'120px\'\n' +
+          '                          //   // missing color: \'tan\'\n' +
           '                          // }\n' +
           '>hey</div>'
         );
@@ -1208,6 +1213,7 @@ describe('unexpected-dom', function () {
           '\n' +
           '<div foo="bar">\n' +
           '  hey // should equal \'there\'\n' +
+          '      //\n' +
           '      // -hey\n' +
           '      // +there\n' +
           '</div>'
@@ -1563,9 +1569,9 @@ describe('unexpected-dom', function () {
           return {
             parseFromString: parseFromStringSpy = sinon.spy(function (htmlString, contentType) {
               return jsdom.jsdom(htmlString);
-            })
+            }).named('parseFromString')
           };
-        });
+        }).named('DOMParser');
       });
       afterEach(function () {
         global.DOMParser = originalDOMParser;
@@ -1573,11 +1579,10 @@ describe('unexpected-dom', function () {
 
       it('should use DOMParser to parse the document', function () {
         expect(htmlSrc, 'when parsed as HTML', 'queried for first', 'body', 'to have text', 'foo');
-        expect(DOMParserSpy, 'was called once');
-        expect(DOMParserSpy, 'was called with');
-        expect(DOMParserSpy.calledWithNew(), 'to be true');
-        expect(parseFromStringSpy, 'was called once');
-        expect(parseFromStringSpy, 'was called with', htmlSrc, 'text/html');
+        expect([DOMParserSpy, parseFromStringSpy], 'to have calls satisfying', function () {
+          new DOMParserSpy();
+          parseFromStringSpy(htmlSrc, 'text/html');
+        });
       });
     });
 
@@ -1592,11 +1597,11 @@ describe('unexpected-dom', function () {
           implementation: {
             createHTMLDocument: createHTMLDocumentSpy = sinon.spy(function () {
               mockDocument = jsdom.jsdom(htmlSrc);
-              mockDocument.open = sinon.spy();
-              mockDocument.write = sinon.spy();
-              mockDocument.close = sinon.spy();
+              mockDocument.open = sinon.spy().named('document.open');
+              mockDocument.write = sinon.spy().named('document.write');
+              mockDocument.close = sinon.spy().named('document.close');
               return mockDocument;
-            })
+            }).named('createHTMLDocument')
           }
         };
       });
@@ -1606,15 +1611,12 @@ describe('unexpected-dom', function () {
 
       it('should use document.implementation.createHTMLDocument to parse the document', function () {
         expect(htmlSrc, 'when parsed as HTML', 'queried for first', 'body', 'to have text', 'foo');
-        expect(createHTMLDocumentSpy, 'was called once');
-        expect(createHTMLDocumentSpy, 'was called with');
-        expect(mockDocument.open, 'was called once');
-        expect(mockDocument.write, 'was called with');
-        expect(mockDocument.write, 'was called once');
-        expect(mockDocument.write, 'was called with', htmlSrc);
-        expect(mockDocument.close, 'was called once');
-        expect(mockDocument.write, 'was called with');
-        expect([mockDocument.open, mockDocument.write, mockDocument.close], 'given call order');
+        expect([createHTMLDocumentSpy, mockDocument.open, mockDocument.write, mockDocument.close], 'to have calls satisfying', function () {
+          createHTMLDocumentSpy('');
+          mockDocument.open();
+          mockDocument.write(htmlSrc);
+          mockDocument.close();
+        });
       });
     });
   });
@@ -1646,9 +1648,9 @@ describe('unexpected-dom', function () {
           return {
             parseFromString: parseFromStringSpy = sinon.spy(function (xmlString, contentType) {
               return jsdom.jsdom(xmlString, { parsingMode: 'xml' });
-            })
+            }).named('parseFromString')
           };
-        });
+        }).named('DOMParser');
       });
       afterEach(function () {
         global.DOMParser = originalDOMParser;
@@ -1656,11 +1658,10 @@ describe('unexpected-dom', function () {
 
       it('should use DOMParser to parse the document', function () {
         expect(xmlSrc, 'when parsed as XML', 'queried for first', 'fooBar', 'to have text', 'foo');
-        expect(DOMParserSpy, 'was called once');
-        expect(DOMParserSpy, 'was called with');
-        expect(DOMParserSpy.calledWithNew(), 'to be true');
-        expect(parseFromStringSpy, 'was called once');
-        expect(parseFromStringSpy, 'was called with', xmlSrc, 'text/xml');
+        expect([DOMParserSpy, parseFromStringSpy], 'to have calls satisfying', function () {
+          new DOMParserSpy();
+          parseFromStringSpy(xmlSrc, 'text/xml');
+        });
       });
     });
   });
@@ -1736,6 +1737,7 @@ describe('unexpected-dom', function () {
       '    <strong class="match">pr</strong>\n' +
       '    <span class="after">\n' +
       '      otected // should equal \'odtected\'\n' +
+      '              //\n' +
       '              // -otected\n' +
       '              // +odtected\n' +
       '    </span>\n' +
