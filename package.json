@@ -44,7 +44,7 @@
     "mocha-lcov-reporter": "1.0.0",
     "sinon": "1.17.2",
     "uglifyjs": "^2.4.10",
-    "unexpected": "10.5.0",
+    "unexpected": "10.5.1",
     "unexpected-sinon": "9.0.4"
   },
   "dependencies": {
