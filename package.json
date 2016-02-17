@@ -41,7 +41,7 @@
     "jshint": "^2.6.3",
     "magicpen": "^5.5.0",
     "mocha": "^2.1.0",
-    "mocha-lcov-reporter": "1.0.0",
+    "mocha-lcov-reporter": "1.1.0",
     "sinon": "1.17.2",
     "uglifyjs": "^2.4.10",
     "unexpected": "10.5.0",
