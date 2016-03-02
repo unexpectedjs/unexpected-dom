@@ -194,6 +194,76 @@ describe('unexpected-dom', function () {
       );
     });
 
+    describe('with DOMDocuments', function () {
+      describe('satisfied against other DOMDocument instances', function () {
+        it('should succeed', function () {
+          expect(
+            '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
+            'when parsed as HTML to satisfy',
+            jsdom.jsdom('<!DOCTYPE html><html><head></head><body>foo</body></html>')
+          );
+        });
+
+        it('should fail with a diff', function () {
+          expect(function () {
+            expect(
+              '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
+              'when parsed as HTML to satisfy',
+              jsdom.jsdom('<!DOCTYPE html><html><body class="foo"></body></html>')
+            );
+          }, 'to throw',
+            'expected \'<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>\'\n' +
+            'when parsed as HTML to satisfy <!DOCTYPE html><html><head></head><body class="foo"></body></html>\n' +
+            '  expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>\n' +
+            '  to satisfy <!DOCTYPE html><html><head></head><body class="foo"></body></html>\n' +
+            '\n' +
+            '  <!DOCTYPE html>\n' +
+            '  <html>\n' +
+            '    <head></head>\n' +
+            '    <body class="bar" // expected [ \'bar\' ] to contain \'foo\'\n' +
+            '    >\n' +
+            '      foo // should be removed\n' +
+            '    </body>\n' +
+            '  </html>'
+          );
+        });
+      });
+
+      describe('satisfied against a string', function () {
+        it('should succeed', function () {
+          expect(
+            '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
+            'when parsed as HTML to satisfy',
+            '<!DOCTYPE html><html><head></head><body>foo</body></html>'
+          );
+        });
+
+        it('should fail with a diff', function () {
+          expect(function () {
+            expect(
+              '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
+              'when parsed as HTML to satisfy',
+              '<!DOCTYPE html><html><head></head><body class="foo"></body></html>'
+            );
+          }, 'to throw',
+            'expected \'<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>\'\n' +
+            'when parsed as HTML to satisfy \'<!DOCTYPE html><html><head></head><body class="foo"></body></html>\'\n' +
+            '  expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>\n' +
+            '  to satisfy \'<!DOCTYPE html><html><head></head><body class="foo"></body></html>\'\n' +
+            '\n' +
+            '  <!DOCTYPE html>\n' +
+            '  <html>\n' +
+            '    <head></head>\n' +
+            '    <body class="bar" // expected [ \'bar\' ] to contain \'foo\'\n' +
+            '    >\n' +
+            '      foo // should be removed\n' +
+            '    </body>\n' +
+            '  </html>'
+          );
+        });
+      });
+    });
+
     describe('with DOMDocumentFragments', function () {
       it('should diff fragments consisting of single nodes', function () {
         expect(
