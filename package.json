@@ -14,7 +14,7 @@
     "test": "npm run lint && mocha",
     "travis": "npm run lint && npm run coverage && npm run build",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter dot",
-    "preversion": "npm run test && npm run build"
+    "preversion": "npm run test && npm run build && git add unexpected-dom.*"
   },
   "repository": {
     "type": "git",
