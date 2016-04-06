@@ -44,15 +44,14 @@
     "mocha-lcov-reporter": "1.0.0",
     "sinon": "1.17.2",
     "uglifyjs": "^2.4.10",
-    "unexpected": "10.5.0",
+    "unexpected": "10.9.1",
     "unexpected-sinon": "9.0.4"
   },
   "dependencies": {
-    "array-changes": "1.2.1",
     "extend": "^3.0.0",
     "magicpen-prism": "^2.2.1"
   },
   "peerDependencies": {
-    "unexpected": "^10.0.1"
+    "unexpected": "^10.6.0"
   }
 }
