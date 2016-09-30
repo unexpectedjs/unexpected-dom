@@ -914,8 +914,9 @@ describe('unexpected-dom', function () {
           '\n' +
           '  NodeList[\n' +
           '    <div foo="bar">\n' +
-          '      foo // should satisfy { name: \'span\', attributes: {}, children: [ \'bar\' ] }\n' +
-          '      <span>bar</span> // should satisfy foo\n' +
+          '      ┌─▷\n' +
+          '      │   foo\n' +
+          '      └── <span>bar</span> // should be moved\n' +
           '    </div>\n' +
           '  ]'
         );
