@@ -1231,6 +1231,25 @@ describe('unexpected-dom', function () {
       });
     });
 
+    describe('text node with a regexp as the value', function () {
+      it('should succeed', function () {
+        expect(parseHtml('foobar'), 'to satisfy', /^foo/);
+      });
+
+      // Doesn't alter the semantics, but needs to be supported:
+      it('should succeed when the exhaustively flag is set', function () {
+        expect(parseHtml('foobar'), 'to exhaustively satisfy', /^foo/);
+      });
+
+      it('should fail with a diff', function () {
+        expect(function () {
+          expect(parseHtml('foobar'), 'to satisfy', /^f00/);
+        }, 'to error',
+          'expected foobar to satisfy /^f00/'
+        );
+      });
+    });
+
     describe('with a name assertion', function () {
       it('should succeed', function () {
         body.innerHTML = '<div foo="bar"></div>';
