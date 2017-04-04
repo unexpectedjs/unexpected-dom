@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/Munter/unexpected-dom",
   "devDependencies": {
-    "browserify": "^13.0.0",
+    "browserify": "^14.3.0",
     "coveralls": "^2.11.15",
     "istanbul": "^0.4.5",
     "jsdom": "^3.1.2",
