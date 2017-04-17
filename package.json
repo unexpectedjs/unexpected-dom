@@ -44,7 +44,7 @@
     "mocha-lcov-reporter": "^1.2.0",
     "sinon": "^1.17.3",
     "uglifyjs": "^2.4.10",
-    "unexpected": "^10.21.1",
+    "unexpected": "^10.27.0",
     "unexpected-sinon": "^10.2.0"
   },
   "dependencies": {
@@ -52,6 +52,6 @@
     "magicpen-prism": "^2.2.1"
   },
   "peerDependencies": {
-    "unexpected": "^10.6.0"
+    "unexpected": "^10.27.0"
   }
 }
