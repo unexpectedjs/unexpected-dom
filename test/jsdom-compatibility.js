@@ -9,7 +9,7 @@ expect.output.installPlugin(require('magicpen-prism'));
 expect.addAssertion('to inspect as [itself]', function (expect, subject, value) {
   var originalSubject = subject;
   if (typeof subject === 'string') {
-    subject = jsdom.jsdom('<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>').body.firstChild;
+    subject = new jsdom.JSDOM('<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>').window.document.body.firstChild;
   }
   if (this.flags.itself) {
     if (typeof originalSubject === 'string') {

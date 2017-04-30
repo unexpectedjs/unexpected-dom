@@ -9,7 +9,7 @@ var expect = unexpected.clone().installPlugin(require('unexpected-sinon')).insta
 expect.addAssertion('<any> to inspect as itself', function (expect, subject) {
   var originalSubject = subject;
   if (typeof subject === 'string') {
-    subject = jsdom.jsdom('<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>').body.firstChild;
+    subject = new jsdom.JSDOM('<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>').window.document.body.firstChild;
   }
   if (typeof originalSubject === 'string') {
     expect(expect.inspect(subject).toString(), 'to equal', originalSubject);
@@ -20,7 +20,7 @@ expect.addAssertion('<any> to inspect as itself', function (expect, subject) {
 
 expect.addAssertion('<any> to inspect as <string>', function (expect, subject, value) {
   if (typeof subject === 'string') {
-    subject = jsdom.jsdom('<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>').body.firstChild;
+    subject = new jsdom.JSDOM('<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>').window.document.body.firstChild;
   }
   expect(expect.inspect(subject).toString(), 'to equal', value);
 });
@@ -28,7 +28,7 @@ expect.addAssertion('<any> to inspect as <string>', function (expect, subject, v
 expect.addAssertion('<array> to produce a diff of <string>', function (expect, subject, value) {
   expect.errorMode = 'bubble';
   subject = subject.map(function (item) {
-    return typeof item === 'string' ? jsdom.jsdom('<!DOCTYPE html><html><head></head><body>' + item + '</body></html>').body.firstChild : item;
+    return typeof item === 'string' ? new jsdom.JSDOM('<!DOCTYPE html><html><head></head><body>' + item + '</body></html>').window.document.body.firstChild : item;
   });
   expect(expect.diff(
     subject[0],
@@ -37,12 +37,12 @@ expect.addAssertion('<array> to produce a diff of <string>', function (expect, s
 });
 
 function parseHtml(str) {
-  return jsdom.jsdom('<!DOCTYPE html><html><body>' + str + '</body></html>').body.firstChild;
+  return new jsdom.JSDOM('<!DOCTYPE html><html><body>' + str + '</body></html>').window.document.body.firstChild;
 }
 
 function parseHtmlFragment(str) {
   str = '<html><head></head><body>' + str + '</body></html>';
-  var htmlDocument = jsdom.jsdom(str);
+  var htmlDocument = new jsdom.JSDOM(str).window.document;
   var body = htmlDocument.body;
   var documentFragment = htmlDocument.createDocumentFragment();
   if (body) {
@@ -57,7 +57,7 @@ function parseXml(str) {
   if (typeof DOMParser !== 'undefined') {
     return new DOMParser().parseFromString(str, 'text/xml');
   } else {
-    return require('jsdom').jsdom(str, { parsingMode: 'xml' });
+    return new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
   }
 }
 
@@ -65,20 +65,15 @@ describe('unexpected-dom', function () {
   expect.output.preferredWidth = 100;
 
   var document, body;
-  beforeEach(function (done) {
-    var self = this;
-    jsdom.env(' ', function (err, window) {
-      self.window = window;
-      document = self.document = window.document;
-      body = self.body = window.document.body;
-
-      done();
-    });
+  beforeEach(function () {
+    this.window = new jsdom.JSDOM().window;
+    document = this.window.document;
+    body = this.body = document.body;
   });
 
   it('should inspect an HTML document correctly', function () {
     expect(
-      jsdom.jsdom('<!DOCTYPE html><html><head></head><BODY></BODY></html>'),
+      new jsdom.JSDOM('<!DOCTYPE html><html><head></head><BODY></BODY></html>').window.document,
       'to inspect as',
       '<!DOCTYPE html><html><head></head><body></body></html>'
     );
@@ -95,7 +90,7 @@ describe('unexpected-dom', function () {
 
   it('should inspect a document with nodes around the documentElement correctly', function () {
     expect(
-      jsdom.jsdom('<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'),
+      new jsdom.JSDOM('<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->').window.document,
       'to inspect as',
       '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
     );
@@ -200,7 +195,7 @@ describe('unexpected-dom', function () {
           expect(
             '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
             'when parsed as HTML to satisfy',
-            jsdom.jsdom('<!DOCTYPE html><html><head></head><body>foo</body></html>')
+            new jsdom.JSDOM('<!DOCTYPE html><html><head></head><body>foo</body></html>').window.document
           );
         });
 
@@ -209,7 +204,7 @@ describe('unexpected-dom', function () {
             expect(
               '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
               'when parsed as HTML to satisfy',
-              jsdom.jsdom('<!DOCTYPE html><html><body class="foo"></body></html>')
+              new jsdom.JSDOM('<!DOCTYPE html><html><body class="foo"></body></html>').window.document
             );
           }, 'to throw',
             'expected \'<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>\'\n' +
@@ -295,7 +290,7 @@ describe('unexpected-dom', function () {
   });
 
   it('should allow regular assertions defined for the object type to work on an HTMLElement', function () {
-    expect(jsdom.jsdom('<html><head></head><body></body></html>').firstChild, 'to have properties', { nodeType: 1 });
+    expect(new jsdom.JSDOM('<html><head></head><body></body></html>').window.document.firstChild, 'to have properties', { nodeType: 1 });
   });
 
   it('should consider two DOM elements equal when they are of same type and have same attributes', function () {
@@ -1269,7 +1264,7 @@ describe('unexpected-dom', function () {
       });
 
       describe('in an XML document with a mixed case node name', function () {
-        var xmlDoc = jsdom.jsdom('<?xml version="1.0"?><fooBar hey="there"></fooBar>', { parsingMode: 'xml' });
+        var xmlDoc = new jsdom.JSDOM('<?xml version="1.0"?><fooBar hey="there"></fooBar>', { contentType: 'text/xml' }).window.document;
 
         it('should succeed', function () {
           expect(xmlDoc.firstChild, 'to satisfy', { name: 'fooBar' });
@@ -1341,19 +1336,19 @@ describe('unexpected-dom', function () {
 
   describe('queried for', function () {
     it('should work with HTMLDocument', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div id="foo"></div></body></html>').window.document;
       expect(document, 'queried for first', 'div', 'to have attributes', { id: 'foo' });
     });
 
     it('should provide the results as the fulfillment value when no assertion is provided', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div id="foo"></div></body></html>').window.document;
       return expect(document, 'queried for first', 'div').then(function (div) {
         expect(div, 'to have attributes', { id: 'foo' });
       });
     });
 
     it('should error out if the selector matches no elements, first flag set', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div id="foo"></div></body></html>').window.document;
       expect(function () {
         expect(document.body, 'queried for first', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
@@ -1363,7 +1358,7 @@ describe('unexpected-dom', function () {
     });
 
     it('should error out if the selector matches no elements, first flag not set', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div id="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div id="foo"></div></body></html>').window.document;
       expect(function () {
         expect(document.body, 'queried for', '.blabla', 'to have attributes', { id: 'foo' });
       }, 'to throw',
@@ -1373,19 +1368,19 @@ describe('unexpected-dom', function () {
     });
 
     it('should return an array-like NodeList', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>').window.document;
 
       expect(document, 'queried for', 'div', 'to be a', 'DOMNodeList');
     });
 
     it('should be able to use array semantics', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>').window.document;
 
       expect(document, 'queried for', 'div', 'to have length', 3);
     });
 
     it('should fail array checks with useful nested error message', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><head></head><body><div></div><div></div><div></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><head></head><body><div></div><div></div><div></div></body></html>').window.document;
 
       expect(function () {
         expect(document, 'queried for', 'div', 'to have length', 1);
@@ -1399,13 +1394,13 @@ describe('unexpected-dom', function () {
 
   describe('to contain no elements matching', function () {
     it('should pass when not matching anything', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body></body></html>').window.document;
 
       expect(document, 'to contain no elements matching', '.foo');
     });
 
     it('should fail when matching a single node', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div class="foo"></div></body></html>').window.document;
 
       expect(function () {
         expect(document, 'to contain no elements matching', '.foo');
@@ -1420,7 +1415,7 @@ describe('unexpected-dom', function () {
     });
 
     it('should fail when matching a NodeList', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div><div class="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div class="foo"></div><div class="foo"></div></body></html>').window.document;
 
       expect(function () {
         expect(document, 'to contain no elements matching', '.foo');
@@ -1438,13 +1433,13 @@ describe('unexpected-dom', function () {
 
   describe('to contain elements matching', function () {
     it('should pass when matching an element', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div class="foo"></div></body></html>').window.document;
 
       expect(document, 'to contain elements matching', '.foo');
     });
 
     it('should fail when no elements match', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div><div class="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div class="foo"></div><div class="foo"></div></body></html>').window.document;
 
       expect(function () {
           expect(document, 'to contain elements matching', '.bar');
@@ -1454,13 +1449,13 @@ describe('unexpected-dom', function () {
 
   describe('to match', function () {
     it('should match an element correctly', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div class="foo"></div></body></html>').window.document;
 
       expect(document.body.firstChild, 'to match', '.foo');
     });
 
     it('should fail on matching element with a non-matching selector', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div class="foo"></div></body></html>').window.document;
 
       expect(function () {
         expect(document.body.firstChild, 'to match', '.bar');
@@ -1468,13 +1463,13 @@ describe('unexpected-dom', function () {
     });
 
     it('should not match an element that doesn\'t match the selector', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div class="foo"></div></body></html>').window.document;
 
       expect(document.body.firstChild, 'not to match', '.bar');
     });
 
     it('should fail when matching with a selector that was not expected to match', function () {
-      var document = jsdom.jsdom('<!DOCTYPE html><html><body><div class="foo"></div></body></html>');
+      var document = new jsdom.JSDOM('<!DOCTYPE html><html><body><div class="foo"></div></body></html>').window.document;
 
       expect(function () {
         expect(document.body.firstChild, 'not to match', '.foo');
@@ -1586,9 +1581,9 @@ describe('unexpected-dom', function () {
 
     it('should diff documents with stuff around the documentElement', function () {
       expect(
-        jsdom.jsdom('<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'),
+        new jsdom.JSDOM('<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->').window.document,
         'diffed with',
-        jsdom.jsdom('<!DOCTYPE html><html><head></head><body></body></html>'),
+        new jsdom.JSDOM('<!DOCTYPE html><html><head></head><body></body></html>').window.document,
         'to equal',
           '<!DOCTYPE html>\n' +
           '<!--foo--> // should be removed\n' +
@@ -1603,14 +1598,14 @@ describe('unexpected-dom', function () {
     it('should parse a string as a complete HTML document', function () {
       expect(htmlSrc, 'when parsed as HTML',
           expect.it('to be an', 'HTMLDocument')
-            .and('to equal', jsdom.jsdom(htmlSrc))
+            .and('to equal', new jsdom.JSDOM(htmlSrc).window.document)
             .and('queried for first', 'body', 'to have attributes', { class: 'bar' })
       );
     });
 
     it('should provide the parsed document as the fulfillment value when no assertion is provided', function () {
       return expect(htmlSrc, 'parsed as HTML').then(function (document) {
-        expect(document, 'to equal', jsdom.jsdom(htmlSrc));
+        expect(document, 'to equal', new jsdom.JSDOM(htmlSrc).window.document);
       });
     });
 
@@ -1658,7 +1653,7 @@ describe('unexpected-dom', function () {
         global.DOMParser = DOMParserSpy = sinon.spy(function () {
           return {
             parseFromString: parseFromStringSpy = sinon.spy(function (htmlString, contentType) {
-              return jsdom.jsdom(htmlString);
+              return new jsdom.JSDOM(htmlString).window.document;
             }).named('parseFromString')
           };
         }).named('DOMParser');
@@ -1686,7 +1681,7 @@ describe('unexpected-dom', function () {
         global.document = {
           implementation: {
             createHTMLDocument: createHTMLDocumentSpy = sinon.spy(function () {
-              mockDocument = jsdom.jsdom(htmlSrc);
+              mockDocument = new jsdom.JSDOM(htmlSrc).window.document;
               mockDocument.open = sinon.spy().named('document.open');
               mockDocument.write = sinon.spy().named('document.write');
               mockDocument.close = sinon.spy().named('document.close');
@@ -1716,7 +1711,7 @@ describe('unexpected-dom', function () {
     it('should parse a string as a complete XML document', function () {
       expect(xmlSrc, 'when parsed as XML',
           expect.it('to be an', 'XMLDocument')
-            .and('to equal', jsdom.jsdom(xmlSrc, { parsingMode: 'xml' }))
+            .and('to equal', new jsdom.JSDOM(xmlSrc, { contentType: 'text/xml' }).window.document)
             .and('queried for first', 'fooBar', 'to have attributes', { yes: 'sir' })
       );
     });
@@ -1737,7 +1732,7 @@ describe('unexpected-dom', function () {
         global.DOMParser = DOMParserSpy = sinon.spy(function () {
           return {
             parseFromString: parseFromStringSpy = sinon.spy(function (xmlString, contentType) {
-              return jsdom.jsdom(xmlString, { parsingMode: 'xml' });
+              return new jsdom.JSDOM(xmlString, { contentType: 'text/xml' }).window.document;
             }).named('parseFromString')
           };
         }).named('DOMParser');
