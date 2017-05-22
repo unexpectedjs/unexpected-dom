@@ -9,7 +9,9 @@
     "unexpected-dom.min.js"
   ],
   "scripts": {
-    "build": "browserify lib/index.js --standalone unexpected.dom --debug --x jsdom > unexpected-dom.js && uglifyjs unexpected-dom.js > unexpected-dom.min.js",
+    "build:browserify": "browserify lib/index.js --standalone unexpected.dom --debug --x jsdom > unexpected-dom.js",
+    "build:min": "uglifyjs unexpected-dom.js > unexpected-dom.min.js",
+    "build": "npm run build:browserify && npm run build:min",
     "lint": "jshint lib test --exclude-path .gitignore",
     "test": "npm run lint && mocha",
     "travis": "npm run lint && npm run coverage && npm run build",
@@ -34,7 +36,7 @@
   },
   "homepage": "https://github.com/Munter/unexpected-dom",
   "devDependencies": {
-    "browserify": "^13.0.0",
+    "browserify": "^14.3.0",
     "coveralls": "^2.13.1",
     "istanbul": "^0.4.5",
     "jsdom": "^11.0.0",
