@@ -48,7 +48,7 @@
     "unexpected-sinon": "^10.2.0"
   },
   "dependencies": {
-    "extend": "^3.0.0",
+    "extend": "^3.0.1",
     "magicpen-prism": "^2.2.1"
   },
   "peerDependencies": {
