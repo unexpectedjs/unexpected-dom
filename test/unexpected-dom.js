@@ -849,6 +849,36 @@ describe('unexpected-dom', function () {
         }, 'to throw', /^expected <div>I am a text<\/div> to have no children/);
       });
     });
+
+  });
+
+  describe('to have a single child', function () {
+    it('should pass for element with single child', function () {
+      this.body.innerHTML = '<div><hr /></div>';
+      var el = this.body.firstChild;
+
+      expect(function () {
+        expect(el, 'to have a single child');
+      }, 'not to throw');
+    });
+
+    it('should throw for element with no children', function () {
+      this.body.innerHTML = '<div></div>';
+      var el = this.body.firstChild;
+
+      expect(function () {
+        expect(el, 'to have a single child');
+      }, 'to throw', 'expected <div></div> to have a single child');
+    });
+
+    it('should throw for element with multiple children', function () {
+      this.body.innerHTML = '<div><br><br><br></div>';
+      var el = this.body.firstChild;
+
+      expect(function () {
+        expect(el, 'to have a single child');
+      }, 'to throw', 'expected <div><br><br><br></div> to have a single child');
+    });
   });
 
   describe('to satisfy', function () {
