@@ -1297,10 +1297,14 @@ describe('unexpected-dom', function() {
         describe('and it contain an <ignore/> tag', function() {
           it('ignores that subtree', () => {
             expect(
-              '<div foo="bar">foo</div><div><div>bar</div></div><div>baz</div>',
+              [
+                '<div foo="bar">foo</div>',
+                '<div><div>bar</div></div>',
+                '<div>baz</div>'
+              ].join('\n'),
               'when parsed as HTML fragment to satisfy',
               parseHtmlFragment(
-                '<div foo="bar">foo</div><!--ignore--><div>baz</div>'
+                ['<div>foo</div>', '<!--ignore-->', '<div>baz</div>'].join('\n')
               )
             );
           });
