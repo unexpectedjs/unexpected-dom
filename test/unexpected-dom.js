@@ -1908,7 +1908,14 @@ describe('unexpected-dom', function() {
           expect(document, 'to contain elements matching', '.bar');
         },
         'to throw',
-        "expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain elements matching '.bar'"
+        [
+          'expected',
+          '<!DOCTYPE html><html>',
+          '  <head></head>',
+          '  <body><div class="foo"></div><div class="foo"></div></body>',
+          '</html>',
+          "to contain elements matching '.bar'"
+        ].join('\n')
       );
     });
   });
