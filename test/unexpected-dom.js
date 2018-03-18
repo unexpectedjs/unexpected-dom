@@ -808,7 +808,90 @@ describe('unexpected-dom', function () {
               });
             }, 'to throw', /to only have attributes \{ style: \{ background: 'blue' \} \}/);
           });
-        });
+        })
+;
+      });
+    });
+  });
+
+  describe('not to have attributes', function () {
+    describe('when given one of more strings', function () {
+      it('should pass if the given element does not have any the provided attribute names', function () {
+        body.innerHTML = '<div style="color: red; background: blue" />';
+        var node = body.firstChild;
+
+        expect(node, 'not to have attributes', 'data-test-id', 'class');
+      });
+
+      it('should fail if the given element has one of the provided attributes', function () {
+        body.innerHTML = '<div style="color: red; background: blue" class="my-class"/>';
+        var node = body.firstChild;
+
+        expect(function () {
+          expect(node, 'not to have attributes', 'data-test-id', 'class');
+        }, 'to throw', [
+          'expected <div class="my-class" style="color: red; background: blue"></div>',
+          'not to have attributes \'data-test-id\', \'class\'',
+          '',
+          '<div style="color: red; background: blue" class="my-class" // should be removed',
+          '></div>'
+        ].join('\n'));
+      });
+
+      it('should fail if the given element has multiple of the provided attributes', function () {
+        body.innerHTML = '<div data-test-id="my-div" style="color: red; background: blue" class="my-class"/>';
+        var node = body.firstChild;
+
+        expect(function () {
+          expect(node, 'not to have attributes', 'data-test-id', 'class');
+        }, 'to throw', [
+          'expected <div class="my-class" data-test-id="my-div" style="color: red; background: blue"></div>',
+          'not to have attributes \'data-test-id\', \'class\'',
+          '',
+          '<div data-test-id="my-div" // should be removed',
+          '     style="color: red; background: blue" class="my-class" // should be removed',
+          '></div>'
+        ].join('\n'));
+      });
+    });
+
+    describe('when given an array', function () {
+      it('should pass if the given element does not have any of the provided attribute names', function () {
+        body.innerHTML = '<div style="color: red; background: blue" />';
+        var node = body.firstChild;
+
+        expect(node, 'not to have attributes', ['data-test-id', 'class']);
+      });
+
+      it('should fail if the given element has one of the provided attributes', function () {
+        body.innerHTML = '<div style="color: red; background: blue" class="my-class"/>';
+        var node = body.firstChild;
+
+        expect(function () {
+          expect(node, 'not to have attributes', ['data-test-id', 'class']);
+        }, 'to throw', [
+          'expected <div class="my-class" style="color: red; background: blue"></div>',
+          'not to have attributes [ \'data-test-id\', \'class\' ]',
+          '',
+          '<div style="color: red; background: blue" class="my-class" // should be removed',
+          '></div>'
+        ].join('\n'));
+      });
+
+      it('should fail if the given element has multiple of the provided attributes', function () {
+        body.innerHTML = '<div data-test-id="my-div" style="color: red; background: blue" class="my-class"/>';
+        var node = body.firstChild;
+
+        expect(function () {
+          expect(node, 'not to have attributes', ['data-test-id', 'class']);
+        }, 'to throw', [
+          'expected <div class="my-class" data-test-id="my-div" style="color: red; background: blue"></div>',
+          'not to have attributes [ \'data-test-id\', \'class\' ]',
+          '',
+          '<div data-test-id="my-div" // should be removed',
+          '     style="color: red; background: blue" class="my-class" // should be removed',
+          '></div>'
+        ].join('\n'));
       });
     });
   });

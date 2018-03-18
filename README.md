@@ -82,6 +82,14 @@ expect(node, 'to [only] have attributes', {
 });
 ```
 
+**Not to have attributes**
+
+```js
+expect(node, 'not to have attribute', 'id');
+expect(node, 'not to have attributes', 'id', 'class');
+expect(node, 'not to have attributes', ['id', 'class']);
+```
+
 **To have text**
 
 Tests the text content of a DOM element
