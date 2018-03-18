@@ -1293,6 +1293,50 @@ describe('unexpected-dom', function() {
               '  ]'
           );
         });
+
+        describe('and it contain an <ignore/> tag', function() {
+          it('ignores that subtree', () => {
+            expect(
+              '<div foo="bar">foo</div><div><div>bar</div></div><div>baz</div>',
+              'when parsed as HTML fragment to satisfy',
+              parseHtmlFragment(
+                '<div foo="bar">foo</div><!--ignore--><div>baz</div>'
+              )
+            );
+          });
+
+          it('inspects correctly when another subtree', function() {
+            expect(
+              function() {
+                expect(
+                  '<div foo="bar">foo</div><div><div>bar</div></div><div>baz</div>',
+                  'when parsed as HTML fragment to satisfy',
+                  parseHtmlFragment(
+                    '<div foo="bar">foo!</div><!--ignore--><div>baz</div>'
+                  )
+                );
+              },
+              'to throw',
+              [
+                'expected \'<div foo="bar">foo</div><div><div>bar</div></div><div>baz</div>\'',
+                'when parsed as HTML fragment to satisfy DocumentFragment[NodeList[ <div foo="bar">foo!</div>, <!--ignore-->, <div>baz</div> ]]',
+                '  expected DocumentFragment[NodeList[ <div foo="bar">foo</div>, <div><div>...</div></div>, <div>baz</div> ]]',
+                '  to satisfy DocumentFragment[NodeList[ <div foo="bar">foo!</div>, <!--ignore-->, <div>baz</div> ]]',
+                '',
+                '  NodeList[',
+                '    <div foo="bar">',
+                "      foo // should equal 'foo!'",
+                '          //',
+                '          // -foo',
+                '          // +foo!',
+                '    </div>,',
+                '    <div><div>...</div></div>,',
+                '    <div>baz</div>',
+                '  ]'
+              ].join('\n')
+            );
+          });
+        });
       });
 
       describe('with an array as the value', function() {
