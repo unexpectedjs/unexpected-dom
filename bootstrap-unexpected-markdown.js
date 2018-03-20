@@ -9,7 +9,7 @@ body = document.body;
 
 createElement = function createElement(text) {
   var root = document.createElement('div');
-  root.innerHTML = text;
+  root.innerHTML = text.trim();
   return root.firstChild;
 };
 
