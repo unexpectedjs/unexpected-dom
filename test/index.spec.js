@@ -408,7 +408,11 @@ describe('unexpected-dom', function() {
             expect(body.firstChild, 'to have class', 'quux');
           },
           'to throw',
-          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
+          'expected\n' +
+            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '  Press me\n' +
+            '</button>\n' +
+            "to have class 'quux'\n" +
             '\n' +
             '<button\n' +
             '  id="foo"\n' +
@@ -435,7 +439,10 @@ describe('unexpected-dom', function() {
             expect(body.firstChild, 'to have classes', ['quux', 'bar']);
           },
           'to throw',
-          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'expected\n' +
+            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '  Press me\n' +
+            '</button>\n' +
             "to have classes [ 'quux', 'bar' ]\n" +
             '\n' +
             '<button\n' +
@@ -464,7 +471,10 @@ describe('unexpected-dom', function() {
               expect(body.firstChild, 'to only have class', 'quux');
             },
             'to throw',
-            'expected <button class="bar quux" data-info="baz" disabled id="foo">Press me</button>\n' +
+            'expected\n' +
+              '<button class="bar quux" data-info="baz" disabled id="foo">\n' +
+              '  Press me\n' +
+              '</button>\n' +
               "to only have class 'quux'\n" +
               '\n' +
               '<button\n' +
@@ -497,7 +507,10 @@ describe('unexpected-dom', function() {
               expect(body.firstChild, 'to only have classes', ['quux', 'bar']);
             },
             'to throw',
-            'expected <button class="bar quux foo" data-info="baz" disabled id="foo">Press me</button>\n' +
+            'expected\n' +
+              '<button class="bar quux foo" data-info="baz" disabled id="foo">\n' +
+              '  Press me\n' +
+              '</button>\n' +
               "to only have classes [ 'bar', 'quux' ]\n" +
               '\n' +
               '<button\n' +
@@ -544,7 +557,10 @@ describe('unexpected-dom', function() {
             expect(el, 'to only have attributes', 'id');
           },
           'to throw',
-          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'expected\n' +
+            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '  Press me\n' +
+            '</button>\n' +
             "to only have attributes 'id'\n" +
             '\n' +
             '<button\n' +
@@ -573,7 +589,10 @@ describe('unexpected-dom', function() {
             expect(el, 'to have attributes', 'id', 'foo');
           },
           'to throw',
-          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'expected\n' +
+            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '  Press me\n' +
+            '</button>\n' +
             "to have attributes 'id', 'foo'\n" +
             '\n' +
             '<button\n' +
@@ -610,7 +629,10 @@ describe('unexpected-dom', function() {
             expect(el, 'to only have attributes', ['id']);
           },
           'to throw',
-          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'expected\n' +
+            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '  Press me\n' +
+            '</button>\n' +
             "to only have attributes [ 'id' ]\n" +
             '\n' +
             '<button\n' +
@@ -639,7 +661,10 @@ describe('unexpected-dom', function() {
             expect(el, 'to have attributes', ['id', 'foo']);
           },
           'to throw',
-          'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
+          'expected\n' +
+            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '  Press me\n' +
+            '</button>\n' +
             "to have attributes [ 'id', 'foo' ]\n" +
             '\n' +
             '<button\n' +
@@ -705,7 +730,18 @@ describe('unexpected-dom', function() {
             });
           },
           'to throw',
-          /^expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button>\nto only have attributes/
+          'expected\n' +
+            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '  Press me\n' +
+            '</button>\n' +
+            "to only have attributes { id: 'foo' }\n" +
+            '\n' +
+            '<button\n' +
+            '  id="foo"\n' +
+            '  class="bar" // should be removed\n' +
+            '  data-info="baz" // should be removed\n' +
+            '  disabled // should be removed\n' +
+            '>Press me</button>'
         );
       });
 
@@ -732,7 +768,19 @@ describe('unexpected-dom', function() {
             });
           },
           'to throw',
-          /expected <button class="bar" data-info="baz" disabled id="foo">Press me<\/button>\nto have attributes/
+          'expected\n' +
+            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '  Press me\n' +
+            '</button>\n' +
+            "to have attributes { id: 'foo', foo: 'bar' }\n" +
+            '\n' +
+            '<button\n' +
+            '  id="foo"\n' +
+            '  class="bar"\n' +
+            '  data-info="baz"\n' +
+            '  disabled\n' +
+            "  // missing foo should equal 'bar'\n" +
+            '>Press me</button>'
         );
       });
 
