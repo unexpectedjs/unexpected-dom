@@ -7,9 +7,15 @@ window = new jsdom.JSDOM().window;
 document = window.document;
 body = document.body;
 
-createElement = function createElement(text) {
+createElement = function createElement(html) {
   var root = document.createElement('div');
-  root.innerHTML = text.trim();
+
+  root.innerHTML = html
+    .replace(/^\s+|\s+$/gm, '')
+    .replace(/\s*\n\s*</gm, '<')
+    .replace(/>\s*\n\s*/gm, '>')
+    .trim();
+
   return root.firstChild;
 };
 
