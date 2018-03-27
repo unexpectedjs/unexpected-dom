@@ -249,7 +249,8 @@ describe('unexpected-dom', function() {
               '  <!DOCTYPE html>\n' +
               '  <html>\n' +
               '    <head></head>\n' +
-              "    <body class=\"bar\" // expected [ 'bar' ] to contain 'foo'\n" +
+              '    <body\n' +
+              "      class=\"bar\" // expected [ 'bar' ] to contain 'foo'\n" +
               '    >\n' +
               '      foo // should be removed\n' +
               '    </body>\n' +
@@ -285,7 +286,8 @@ describe('unexpected-dom', function() {
               '  <!DOCTYPE html>\n' +
               '  <html>\n' +
               '    <head></head>\n' +
-              "    <body class=\"bar\" // expected [ 'bar' ] to contain 'foo'\n" +
+              '    <body\n' +
+              "      class=\"bar\" // expected [ 'bar' ] to contain 'foo'\n" +
               '    >\n' +
               '      foo // should be removed\n' +
               '    </body>\n' +
@@ -383,7 +385,11 @@ describe('unexpected-dom', function() {
           expect(body.firstChild, 'to have class', 'foo');
         },
         'to throw',
-        "expected <button>Press me</button> to have class 'foo'\n\n<button\n        // missing class should satisfy 'foo'\n>Press me</button>"
+        "expected <button>Press me</button> to have class 'foo'\n" +
+          '\n' +
+          '<button\n' +
+          "  // missing class should satisfy 'foo'\n" +
+          '>Press me</button>'
       );
     });
 
@@ -404,8 +410,12 @@ describe('unexpected-dom', function() {
           'to throw',
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button> to have class \'quux\'\n' +
             '\n' +
-            '<button id="foo" class="bar" // expected [ \'bar\' ] to contain \'quux\'\n' +
-            '        data-info="baz" disabled>Press me</button>'
+            '<button\n' +
+            '  id="foo"\n' +
+            "  class=\"bar\" // expected [ 'bar' ] to contain 'quux'\n" +
+            '  data-info="baz"\n' +
+            '  disabled\n' +
+            '>Press me</button>'
         );
       });
     });
@@ -428,8 +438,12 @@ describe('unexpected-dom', function() {
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
             "to have classes [ 'quux', 'bar' ]\n" +
             '\n' +
-            "<button id=\"foo\" class=\"bar\" // expected [ 'bar' ] to contain 'quux', 'bar'\n" +
-            '        data-info="baz" disabled>Press me</button>'
+            '<button\n' +
+            '  id="foo"\n' +
+            "  class=\"bar\" // expected [ 'bar' ] to contain 'quux', 'bar'\n" +
+            '  data-info="baz"\n' +
+            '  disabled\n' +
+            '>Press me</button>'
         );
       });
     });
@@ -453,13 +467,17 @@ describe('unexpected-dom', function() {
             'expected <button class="bar quux" data-info="baz" disabled id="foo">Press me</button>\n' +
               "to only have class 'quux'\n" +
               '\n' +
-              "<button id=\"foo\" class=\"bar quux\" // expected [ 'bar', 'quux' ] to equal [ 'quux' ]\n" +
-              '                                  //\n' +
-              '                                  // [\n' +
-              "                                  //   'bar', // should be removed\n" +
-              "                                  //   'quux'\n" +
-              '                                  // ]\n' +
-              '        data-info="baz" disabled>Press me</button>'
+              '<button\n' +
+              '  id="foo"\n' +
+              "  class=\"bar quux\" // expected [ 'bar', 'quux' ] to equal [ 'quux' ]\n" +
+              '                   //\n' +
+              '                   // [\n' +
+              "                   //   'bar', // should be removed\n" +
+              "                   //   'quux'\n" +
+              '                   // ]\n' +
+              '  data-info="baz"\n' +
+              '  disabled\n' +
+              '>Press me</button>'
           );
         });
       });
@@ -482,14 +500,18 @@ describe('unexpected-dom', function() {
             'expected <button class="bar quux foo" data-info="baz" disabled id="foo">Press me</button>\n' +
               "to only have classes [ 'bar', 'quux' ]\n" +
               '\n' +
-              "<button id=\"foo\" class=\"bar quux foo\" // expected [ 'bar', 'foo', 'quux' ] to equal [ 'bar', 'quux' ]\n" +
-              '                                      //\n' +
-              '                                      // [\n' +
-              "                                      //   'bar',\n" +
-              "                                      //   'foo', // should be removed\n" +
-              "                                      //   'quux'\n" +
-              '                                      // ]\n' +
-              '        data-info="baz" disabled>Press me</button>'
+              '<button\n' +
+              '  id="foo"\n' +
+              "  class=\"bar quux foo\" // expected [ 'bar', 'foo', 'quux' ] to equal [ 'bar', 'quux' ]\n" +
+              '                       //\n' +
+              '                       // [\n' +
+              "                       //   'bar',\n" +
+              "                       //   'foo', // should be removed\n" +
+              "                       //   'quux'\n" +
+              '                       // ]\n' +
+              '  data-info="baz"\n' +
+              '  disabled\n' +
+              '>Press me</button>'
           );
         });
       });
@@ -525,9 +547,11 @@ describe('unexpected-dom', function() {
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
             "to only have attributes 'id'\n" +
             '\n' +
-            '<button id="foo" class="bar" // should be removed\n' +
-            '        data-info="baz" // should be removed\n' +
-            '        disabled // should be removed\n' +
+            '<button\n' +
+            '  id="foo"\n' +
+            '  class="bar" // should be removed\n' +
+            '  data-info="baz" // should be removed\n' +
+            '  disabled // should be removed\n' +
             '>Press me</button>'
         );
       });
@@ -552,8 +576,12 @@ describe('unexpected-dom', function() {
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
             "to have attributes 'id', 'foo'\n" +
             '\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled\n' +
-            '        // missing foo\n' +
+            '<button\n' +
+            '  id="foo"\n' +
+            '  class="bar"\n' +
+            '  data-info="baz"\n' +
+            '  disabled\n' +
+            '  // missing foo\n' +
             '>Press me</button>'
         );
       });
@@ -585,9 +613,11 @@ describe('unexpected-dom', function() {
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
             "to only have attributes [ 'id' ]\n" +
             '\n' +
-            '<button id="foo" class="bar" // should be removed\n' +
-            '        data-info="baz" // should be removed\n' +
-            '        disabled // should be removed\n' +
+            '<button\n' +
+            '  id="foo"\n' +
+            '  class="bar" // should be removed\n' +
+            '  data-info="baz" // should be removed\n' +
+            '  disabled // should be removed\n' +
             '>Press me</button>'
         );
       });
@@ -612,8 +642,12 @@ describe('unexpected-dom', function() {
           'expected <button class="bar" data-info="baz" disabled id="foo">Press me</button>\n' +
             "to have attributes [ 'id', 'foo' ]\n" +
             '\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled\n' +
-            '        // missing foo\n' +
+            '<button\n' +
+            '  id="foo"\n' +
+            '  class="bar"\n' +
+            '  data-info="baz"\n' +
+            '  disabled\n' +
+            '  // missing foo\n' +
             '>Press me</button>'
         );
       });
@@ -637,7 +671,9 @@ describe('unexpected-dom', function() {
             'to throw',
             'expected <button id="foo" quux="baz">Press me</button> to have attributes { quux: undefined }\n' +
               '\n' +
-              '<button id="foo" quux="baz" // should be removed\n' +
+              '<button\n' +
+              '  id="foo"\n' +
+              '  quux="baz" // should be removed\n' +
               '>Press me</button>'
           );
         });
@@ -722,7 +758,8 @@ describe('unexpected-dom', function() {
             'to throw',
             'expected <i class="bar"></i> to have attributes { class: \'foo bar baz\' }\n' +
               '\n' +
-              "<i class=\"bar\" // expected [ 'bar' ] to contain 'foo', 'bar', 'baz'\n" +
+              '<i\n' +
+              "  class=\"bar\" // expected [ 'bar' ] to contain 'foo', 'bar', 'baz'\n" +
               '></i>'
           );
         });
@@ -975,13 +1012,13 @@ describe('unexpected-dom', function() {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
           'to throw',
-          [
-            'expected <div class="my-class" style="color: red; background: blue"></div>',
-            "not to have attributes 'data-test-id', 'class'",
-            '',
-            '<div style="color: red; background: blue" class="my-class" // should be removed',
+          'expected <div class="my-class" style="color: red; background: blue"></div>\n' +
+            "not to have attributes 'data-test-id', 'class'\n" +
+            '\n' +
+            '<div\n' +
+            '  style="color: red; background: blue"\n' +
+            '  class="my-class" // should be removed\n' +
             '></div>'
-          ].join('\n')
         );
       });
 
@@ -995,14 +1032,14 @@ describe('unexpected-dom', function() {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
           'to throw',
-          [
-            'expected <div class="my-class" data-test-id="my-div" style="color: red; background: blue"></div>',
-            "not to have attributes 'data-test-id', 'class'",
-            '',
-            '<div data-test-id="my-div" // should be removed',
-            '     style="color: red; background: blue" class="my-class" // should be removed',
+          'expected <div class="my-class" data-test-id="my-div" style="color: red; background: blue"></div>\n' +
+            "not to have attributes 'data-test-id', 'class'\n" +
+            '\n' +
+            '<div\n' +
+            '  data-test-id="my-div" // should be removed\n' +
+            '  style="color: red; background: blue"\n' +
+            '  class="my-class" // should be removed\n' +
             '></div>'
-          ].join('\n')
         );
       });
     });
@@ -1025,13 +1062,13 @@ describe('unexpected-dom', function() {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
           'to throw',
-          [
-            'expected <div class="my-class" style="color: red; background: blue"></div>',
-            "not to have attributes [ 'data-test-id', 'class' ]",
-            '',
-            '<div style="color: red; background: blue" class="my-class" // should be removed',
+          'expected <div class="my-class" style="color: red; background: blue"></div>\n' +
+            "not to have attributes [ 'data-test-id', 'class' ]\n" +
+            '\n' +
+            '<div\n' +
+            '  style="color: red; background: blue"\n' +
+            '  class="my-class" // should be removed\n' +
             '></div>'
-          ].join('\n')
         );
       });
 
@@ -1045,14 +1082,14 @@ describe('unexpected-dom', function() {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
           'to throw',
-          [
-            'expected <div class="my-class" data-test-id="my-div" style="color: red; background: blue"></div>',
-            "not to have attributes [ 'data-test-id', 'class' ]",
-            '',
-            '<div data-test-id="my-div" // should be removed',
-            '     style="color: red; background: blue" class="my-class" // should be removed',
+          'expected <div class="my-class" data-test-id="my-div" style="color: red; background: blue"></div>\n' +
+            "not to have attributes [ 'data-test-id', 'class' ]\n" +
+            '\n' +
+            '<div\n' +
+            '  data-test-id="my-div" // should be removed\n' +
+            '  style="color: red; background: blue"\n' +
+            '  class="my-class" // should be removed\n' +
             '></div>'
-          ].join('\n')
         );
       });
     });
@@ -1224,7 +1261,7 @@ describe('unexpected-dom', function() {
               '          // +quux\n' +
               '    </div>,\n' +
               '    <div\n' +
-              "         // missing baz should equal 'quux'\n" +
+              "      // missing baz should equal 'quux'\n" +
               '    >bar</div>\n' +
               '  ]'
           );
@@ -1248,7 +1285,9 @@ describe('unexpected-dom', function() {
               '  to exhaustively satisfy <div foo="bar">foo</div><div>bar</div>\n' +
               '\n' +
               '  NodeList[\n' +
-              '    <div foo="bar" baz="quux" // should be removed\n' +
+              '    <div\n' +
+              '      foo="bar"\n' +
+              '      baz="quux" // should be removed\n' +
               '    >foo</div>,\n' +
               '    <div>bar</div>\n' +
               '  ]'
@@ -1288,7 +1327,7 @@ describe('unexpected-dom', function() {
               '          // +quux\n' +
               '    </div>,\n' +
               '    <div\n' +
-              "         // missing baz should equal 'quux'\n" +
+              "      // missing baz should equal 'quux'\n" +
               '    >bar</div>\n' +
               '  ]'
           );
@@ -1380,10 +1419,11 @@ describe('unexpected-dom', function() {
               '  ]\n' +
               '\n' +
               '  NodeList[\n' +
-              "    <div foo=\"baz\" // expected 'baz' to equal 'bar'\n" +
-              '                   //\n' +
-              '                   // -baz\n' +
-              '                   // +bar\n' +
+              '    <div\n' +
+              "      foo=\"baz\" // expected 'baz' to equal 'bar'\n" +
+              '                //\n' +
+              '                // -baz\n' +
+              '                // +bar\n' +
               '    >foo</div>,\n' +
               '    <div>\n' +
               "      foobar // should equal 'bar'\n" +
@@ -1475,8 +1515,9 @@ describe('unexpected-dom', function() {
           'to error',
           'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
             '\n' +
-            '<div foo="bar"\n' +
-            "     // missing bar should equal 'quux'\n" +
+            '<div\n' +
+            '  foo="bar"\n' +
+            "  // missing bar should equal 'quux'\n" +
             '>hey</div>'
         );
       });
@@ -1501,7 +1542,8 @@ describe('unexpected-dom', function() {
           'to error',
           'expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>\n' +
             '\n' +
-            "<div class=\"foo\" // expected [ 'foo' ] to contain 'bar'\n" +
+            '<div\n' +
+            "  class=\"foo\" // expected [ 'foo' ] to contain 'bar'\n" +
             '>hey</div>'
         );
       });
@@ -1526,12 +1568,13 @@ describe('unexpected-dom', function() {
           'to error',
           'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan;">hey</div>\n' +
             '\n' +
-            "<div style=\"width: 120px\" // expected { width: '120px' } to satisfy { color: 'tan' }\n" +
-            '                          //\n' +
-            '                          // {\n' +
-            "                          //   width: '120px'\n" +
-            "                          //   // missing color: 'tan'\n" +
-            '                          // }\n' +
+            '<div\n' +
+            "  style=\"width: 120px\" // expected { width: '120px' } to satisfy { color: 'tan' }\n" +
+            '                       //\n' +
+            '                       // {\n' +
+            "                       //   width: '120px'\n" +
+            "                       //   // missing color: 'tan'\n" +
+            '                       // }\n' +
             '>hey</div>'
         );
       });
@@ -1587,8 +1630,9 @@ describe('unexpected-dom', function() {
           'to error',
           'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
             '\n' +
-            '<div foo="bar"\n' +
-            "     // missing bar should equal 'quux'\n" +
+            '<div\n' +
+            '  foo="bar"\n' +
+            "  // missing bar should equal 'quux'\n" +
             '>hey</div>'
         );
       });
@@ -1613,7 +1657,8 @@ describe('unexpected-dom', function() {
           'to error',
           'expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>\n' +
             '\n' +
-            "<div class=\"foo\" // expected [ 'foo' ] to contain 'bar'\n" +
+            '<div\n' +
+            "  class=\"foo\" // expected [ 'foo' ] to contain 'bar'\n" +
             '>hey</div>'
         );
       });
@@ -1638,12 +1683,13 @@ describe('unexpected-dom', function() {
           'to error',
           'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan">hey</div>\n' +
             '\n' +
-            "<div style=\"width: 120px\" // expected { width: '120px' } to satisfy { color: 'tan' }\n" +
-            '                          //\n' +
-            '                          // {\n' +
-            "                          //   width: '120px'\n" +
-            "                          //   // missing color: 'tan'\n" +
-            '                          // }\n' +
+            '<div\n' +
+            "  style=\"width: 120px\" // expected { width: '120px' } to satisfy { color: 'tan' }\n" +
+            '                       //\n' +
+            '                       // {\n' +
+            "                       //   width: '120px'\n" +
+            "                       //   // missing color: 'tan'\n" +
+            '                       // }\n' +
             '>hey</div>'
         );
       });
@@ -1711,7 +1757,8 @@ describe('unexpected-dom', function() {
           'expected <div foo="bar"></div> to satisfy { name: /^sp/ }\n' +
             '\n' +
             '<div // should match /^sp/\n' +
-            '     foo="bar"></div>'
+            '  foo="bar"\n' +
+            '></div>'
         );
       });
 
@@ -1734,7 +1781,8 @@ describe('unexpected-dom', function() {
             'expected <fooBar hey="there"></fooBar> to satisfy { name: \'fooBarQuux\' }\n' +
               '\n' +
               "<fooBar // should equal 'fooBarQuux'\n" +
-              '        hey="there"></fooBar>'
+              '  hey="there"\n' +
+              '></fooBar>'
           );
         });
       });
@@ -1786,10 +1834,11 @@ describe('unexpected-dom', function() {
           '\n' +
           '  NodeList[\n' +
           '    <div foo="bar" id="quux">foobar</div>,\n' +
-          "    <div foo=\"quux\" // expected 'quux' to equal 'bar'\n" +
-          '                    //\n' +
-          '                    // -quux\n' +
-          '                    // +bar\n' +
+          '    <div\n' +
+          "      foo=\"quux\" // expected 'quux' to equal 'bar'\n" +
+          '                 //\n' +
+          '                 // -quux\n' +
+          '                 // +bar\n' +
           '    >hey</div>\n' +
           '  ]'
       );
@@ -2210,7 +2259,8 @@ describe('unexpected-dom', function() {
           "  queried for first body to have attributes { class: 'quux' }\n" +
           '    expected <body class="bar">foo</body> to have attributes { class: \'quux\' }\n' +
           '\n' +
-          "    <body class=\"bar\" // expected [ 'bar' ] to contain 'quux'\n" +
+          '    <body\n' +
+          "      class=\"bar\" // expected [ 'bar' ] to contain 'quux'\n" +
           '    >foo</body>'
       );
     });
