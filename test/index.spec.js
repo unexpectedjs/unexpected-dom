@@ -1617,7 +1617,9 @@ describe('unexpected-dom', function() {
           'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan;">hey</div>\n' +
             '\n' +
             '<div\n' +
-            '  style="width: 120px" // {\n' +
+            "  style=\"width: 120px\" // expected { width: '120px' } to satisfy { color: 'tan' }\n" +
+            '                       //\n' +
+            '                       // {\n' +
             "                       //   width: '120px'\n" +
             "                       //   // missing color: 'tan'\n" +
             '                       // }\n' +
@@ -1730,7 +1732,9 @@ describe('unexpected-dom', function() {
           'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan">hey</div>\n' +
             '\n' +
             '<div\n' +
-            '  style="width: 120px" // {\n' +
+            "  style=\"width: 120px\" // expected { width: '120px' } to satisfy { color: 'tan' }\n" +
+            '                       //\n' +
+            '                       // {\n' +
             "                       //   width: '120px'\n" +
             "                       //   // missing color: 'tan'\n" +
             '                       // }\n' +
