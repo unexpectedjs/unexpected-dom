@@ -16,7 +16,8 @@ expect(element, 'to have class', 'squared')
 ```output
 expected <div class="primary rounded">Fancy</div> to have class 'squared'
 
-<div class="primary rounded" // expected [ 'primary', 'rounded' ] to contain 'squared'
+<div
+  class="primary rounded" // expected [ 'primary', 'rounded' ] to contain 'squared'
 >Fancy</div>
 ```
 
@@ -35,11 +36,12 @@ expect(element, 'to only have class', 'primary');
 ```output
 expected <div class="primary rounded">Fancy</div> to only have class 'primary'
 
-<div class="primary rounded" // expected [ 'primary', 'rounded' ] to equal [ 'primary' ]
-                             //
-                             // [
-                             //   'primary',
-                             //   'rounded' // should be removed
-                             // ]
+<div
+  class="primary rounded" // expected [ 'primary', 'rounded' ] to equal [ 'primary' ]
+                          //
+                          // [
+                          //   'primary',
+                          //   'rounded' // should be removed
+                          // ]
 >Fancy</div>
 ```
