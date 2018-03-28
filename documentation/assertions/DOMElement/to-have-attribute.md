@@ -24,17 +24,24 @@ expect(element, 'to have attributes', 'id', 'class', 'data-test-id');
 ```
 
 ```output
-expected <div aria-label="Information box" class="callout info" id="stock-info-box" style="border: thin solid gray; padding: 12px">The JS stock it up 9.5%</div>
+expected
+<div aria-label="Information box" class="callout info" id="stock-info-box" style="border: thin solid gray; padding: 12px">
+  The JS stock it up 9.5%
+</div>
 to have attributes 'id', 'class', 'data-test-id'
 
-<div id="stock-info-box" class="callout info" aria-label="Information box" style="border: thin solid gray; padding: 12px"
-     // missing data-test-id
+<div
+  id="stock-info-box"
+  class="callout info"
+  aria-label="Information box"
+  style="border: thin solid gray; padding: 12px"
+  // missing data-test-id
 >The JS stock it up 9.5%</div>
 ```
 
 You can also assert the values of the attributes, this uses [to
-satisfy](http://unexpected.js.org/assertions/any/to-satisfy) samatics, which
-means you only need to mention the expected tree of data you want to assert:
+satisfy](http://unexpected.js.org/assertions/any/to-satisfy) semantics, which
+means you only need to mention the tree expected of data you want to assert:
 
 ```js
 expect(element, 'to have attributes', {
@@ -59,25 +66,32 @@ expect(element, 'to have attributes', {
 ```
 
 ```output
-expected <div aria-label="Information box" class="callout info" id="stock-info-box" style="border: thin solid gray; padding: 12px">The JS stock it up 9.5%</div> to have attributes
+expected
+<div aria-label="Information box" class="callout info" id="stock-info-box" style="border: thin solid gray; padding: 12px">
+  The JS stock it up 9.5%
+</div>
+to have attributes
 {
   class: [ 'warning' ],
   style: { border: 'thick solid gray' },
   id: expect.it('to be a string')
 }
 
-<div id="stock-info-box" class="callout info" // expected [ 'callout', 'info' ] to contain 'warning'
-     aria-label="Information box" style="border: thin solid gray; padding: 12px" // expected { border: 'thin solid gray', padding: '12px' }
-                                                                                 // to satisfy { border: 'thick solid gray' }
-                                                                                 //
-                                                                                 // {
-                                                                                 //   border:
-                                                                                 //     'thin solid gray', // should equal 'thick solid gray'
-                                                                                 //                        //
-                                                                                 //                        // -thin solid gray
-                                                                                 //                        // +thick solid gray
-                                                                                 //   padding: '12px'
-                                                                                 // }
+<div
+  id="stock-info-box"
+  class="callout info" // expected [ 'callout', 'info' ] to contain 'warning'
+  aria-label="Information box"
+  style="border: thin solid gray; padding: 12px" // expected { border: 'thin solid gray', padding: '12px' }
+                                                 // to satisfy { border: 'thick solid gray' }
+                                                 //
+                                                 // {
+                                                 //   border:
+                                                 //     'thin solid gray', // should equal 'thick solid gray'
+                                                 //                        //
+                                                 //                        // -thin solid gray
+                                                 //                        // +thick solid gray
+                                                 //   padding: '12px'
+                                                 // }
 >The JS stock it up 9.5%</div>
 ```
 
@@ -94,10 +108,16 @@ expect(element, 'to only have attributes', 'id', 'aria-label');
 ```
 
 ```output
-expected <div aria-label="Information box" class="callout info" id="stock-info-box" style="border: thin solid gray; padding: 12px">The JS stock it up 9.5%</div>
+expected
+<div aria-label="Information box" class="callout info" id="stock-info-box" style="border: thin solid gray; padding: 12px">
+  The JS stock it up 9.5%
+</div>
 to only have attributes 'id', 'aria-label'
 
-<div id="stock-info-box" class="callout info" // should be removed
-     aria-label="Information box" style="border: thin solid gray; padding: 12px" // should be removed
+<div
+  id="stock-info-box"
+  class="callout info" // should be removed
+  aria-label="Information box"
+  style="border: thin solid gray; padding: 12px" // should be removed
 >The JS stock it up 9.5%</div>
 ```

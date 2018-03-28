@@ -7,7 +7,7 @@ var element = createElement(`
     <p>
       Learn about howto assert on the text content of a DOM element.
     </p>
-    <p data-text-id='learn'>
+    <p data-test-id='learn'>
       Learn more <a href='https://example.com/learn'>here</a>.
     </p>
   </section>
@@ -30,7 +30,7 @@ expect(
 
 expect(
   element,
-  'queried for first', '[data-text-id=learn]',
+  'queried for first', '[data-test-id=learn]',
   'to have text',
   'Learn more here.'
 );
@@ -54,7 +54,7 @@ expected
   <p>
     Learn about howto assert on the text content of a DOM element.
   </p>
-  <p data-text-id="learn">
+  <p data-test-id="learn">
     Learn more
     <a href="https://example.com/learn">...</a>
     .
