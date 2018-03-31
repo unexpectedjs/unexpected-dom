@@ -574,9 +574,15 @@ describe('unexpected-dom', function() {
 
       it('should match partial arguments', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button id="foo" class="bar" data-info="baz" style="color: #b4d455" disabled>Press me</button>';
 
-        expect(this.body.firstChild, 'to have attributes', 'id', 'class');
+        expect(
+          this.body.firstChild,
+          'to have attributes',
+          'id',
+          'class',
+          'style'
+        );
       });
 
       it('should fail on partial arguments not met', function() {
