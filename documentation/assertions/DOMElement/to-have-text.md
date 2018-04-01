@@ -25,7 +25,14 @@ expect(
   element,
   'queried for first', 'p',
   'to have text',
-  'Learn about howto assert on the text content of a DOM element.'
+  /^Learn/
+);
+
+expect(
+  element,
+  'queried for first', 'p',
+  'to have text',
+  expect.it('to have length', 62)
 );
 
 expect(
