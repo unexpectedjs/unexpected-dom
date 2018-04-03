@@ -1,5 +1,9 @@
 [
   {
+    "label": "to satisfy (DOMNodeList)",
+    "url": "/assertions/DOMNodeList/to-satisfy/"
+  },
+  {
     "label": "not to have attributes (DOMElement)",
     "url": "/assertions/DOMElement/not-to-have-attributes/"
   },
@@ -16,12 +20,12 @@
     "url": "/assertions/DOMElement/to-have-attributes/"
   },
   {
-    "label": "to have children (DOMElement)",
-    "url": "/assertions/DOMElement/to-have-children/"
-  },
-  {
     "label": "to have class (DOMElement)",
     "url": "/assertions/DOMElement/to-have-class/"
+  },
+  {
+    "label": "to have children (DOMElement)",
+    "url": "/assertions/DOMElement/to-have-children/"
   },
   {
     "label": "to have text (DOMElement)",
@@ -34,9 +38,5 @@
   {
     "label": "to satisfy (DOMElement)",
     "url": "/assertions/DOMElement/to-satisfy/"
-  },
-  {
-    "label": "to satisfy (DOMNodeList)",
-    "url": "/assertions/DOMNodeList/to-satisfy/"
   }
 ]
