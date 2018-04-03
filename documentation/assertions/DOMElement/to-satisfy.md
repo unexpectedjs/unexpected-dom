@@ -23,7 +23,7 @@ expect(
   '[data-test-id=title]',
   'to satisfy',
   '<h1>Assert on text content</h1>'
-)
+);
 ```
 
 You can also assert against a DOM element:
@@ -35,7 +35,7 @@ expect(
   '[data-test-id=title]',
   'to satisfy',
   createElement('<h1>Assert on text content</h1>')
-)
+);
 ```
 
 Finally you can also use the full power of [to
@@ -43,26 +43,19 @@ satisfy](http://unexpected.js.org/assertions/any/to-satisfy/) where you provide
 the subtree you want to match against:
 
 ```js
-expect(
-  element,
-  'queried for first',
-  '[data-test-id=learn]',
-  'to satisfy', {
-    children: [
-      /^Learn/,
-      {
-        name: 'a',
-        attributes: {
-          href: 'https://example.com/learn'
-        },
-        children: [
-          'here'
-        ]
+expect(element, 'queried for first', '[data-test-id=learn]', 'to satisfy', {
+  children: [
+    /^Learn/,
+    {
+      name: 'a',
+      attributes: {
+        href: 'https://example.com/learn'
       },
-      '.'
-    ]
-  }
-)
+      children: ['here']
+    },
+    '.'
+  ]
+});
 ```
 
 When the assertion fails you get a nice descriptive error:
@@ -74,7 +67,7 @@ expect(
   '[data-test-id=title]',
   'to satisfy',
   '<h1>Assert on all content</h1>'
-)
+);
 ```
 
 ```output
@@ -111,13 +104,9 @@ Using the `exhaustively` flag you can ensure that only attributes, class and
 styles specified in the expected output is use:
 
 ```js
-var title = element.querySelector('[data-test-id=title]')
+var title = element.querySelector('[data-test-id=title]');
 
-expect(
-  title,
-  'to exhaustively satisfy',
-  '<h1>Assert on text content</h1>'
-)
+expect(title, 'to exhaustively satisfy', '<h1>Assert on text content</h1>');
 ```
 
 This will fail because the `h1` tag has more attributes than we expected:

@@ -13,21 +13,13 @@ var element = createElement(`
   </section>
 `);
 
-expect(
-  element,
-  'to contain elements matching',
-  '[data-test-id=numbers]'
-);
+expect(element, 'to contain elements matching', '[data-test-id=numbers]');
 ```
 
 You get the following error when it fails:
 
 ```js
-expect(
-  element,
-  'to contain elements matching',
-  '[data-test-id=emojies]'
-);
+expect(element, 'to contain elements matching', '[data-test-id=emojies]');
 ```
 
 ```output
@@ -44,21 +36,13 @@ Using the `no` flag, you can assert that the selector can't matching any
 descendant elements:
 
 ```js
-expect(
-  element,
-  'to contain no elements matching',
-  '[data-test-id=emojies]'
-);
+expect(element, 'to contain no elements matching', '[data-test-id=emojies]');
 ```
 
 You get the following error when it fails:
 
 ```js
-expect(
-  element,
-  'to contain no elements matching',
-  'li'
-);
+expect(element, 'to contain no elements matching', 'li');
 ```
 
 ```output

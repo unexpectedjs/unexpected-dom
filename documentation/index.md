@@ -20,7 +20,6 @@ A plugin for [unexpected](https://unexpectedjs.github.io/) that adds custom asse
 
 The aim is to lower the amount of mocking around in the DOM in your tests and keep your tests easily readable while providing a high powered set of functionality with unsurpassed error messages.
 
-
 ## Installation
 
 ### NodeJS
