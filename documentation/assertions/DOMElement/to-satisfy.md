@@ -101,7 +101,7 @@ queried for first [data-test-id=title] to satisfy '<h1>Assert on all content</h1
 ```
 
 Using the `exhaustively` flag you can ensure that only attributes, class and
-styles specified in the expected output is use:
+styles specified in the expected output is used:
 
 ```js
 var title = element.querySelector('[data-test-id=title]');
