@@ -1,19 +1,19 @@
 [
   {
-    "label": "to satisfy (DOMNodeList)",
-    "url": "/assertions/DOMNodeList/to-satisfy/"
+    "label": "queried for (DOMElement)",
+    "url": "/assertions/DOMElement/queried-for/"
   },
   {
     "label": "not to have attributes (DOMElement)",
     "url": "/assertions/DOMElement/not-to-have-attributes/"
   },
   {
-    "label": "queried for (DOMElement)",
-    "url": "/assertions/DOMElement/queried-for/"
-  },
-  {
     "label": "to contain elements matching (DOMElement)",
     "url": "/assertions/DOMElement/to-contain-elements-matching/"
+  },
+  {
+    "label": "to have children (DOMElement)",
+    "url": "/assertions/DOMElement/to-have-children/"
   },
   {
     "label": "to have attributes (DOMElement)",
@@ -22,10 +22,6 @@
   {
     "label": "to have class (DOMElement)",
     "url": "/assertions/DOMElement/to-have-class/"
-  },
-  {
-    "label": "to have children (DOMElement)",
-    "url": "/assertions/DOMElement/to-have-children/"
   },
   {
     "label": "to have text (DOMElement)",
@@ -38,5 +34,9 @@
   {
     "label": "to satisfy (DOMElement)",
     "url": "/assertions/DOMElement/to-satisfy/"
+  },
+  {
+    "label": "to satisfy (DOMNodeList)",
+    "url": "/assertions/DOMNodeList/to-satisfy/"
   }
 ]
