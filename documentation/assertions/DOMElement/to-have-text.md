@@ -13,31 +13,28 @@ var element = createElement(`
   </section>
 `);
 
-
 expect(
   element,
-  'queried for first', 'h1',
+  'queried for first',
+  'h1',
   'to have text',
   'Assert on text content'
 );
 
-expect(
-  element,
-  'queried for first', 'p',
-  'to have text',
-  /^Learn/
-);
+expect(element, 'queried for first', 'p', 'to have text', /^Learn/);
 
 expect(
   element,
-  'queried for first', 'p',
+  'queried for first',
+  'p',
   'to have text',
   expect.it('to have length', 62)
 );
 
 expect(
   element,
-  'queried for first', '[data-test-id=learn]',
+  'queried for first',
+  '[data-test-id=learn]',
   'to have text',
   'Learn more here.'
 );
@@ -48,7 +45,8 @@ In case of a failing expectation you get the following output:
 ```js
 expect(
   element,
-  'queried for first', 'p',
+  'queried for first',
+  'p',
   'to have text',
   'Read about howto assert on the text content of a DOM element.'
 );

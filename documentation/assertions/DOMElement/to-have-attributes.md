@@ -45,24 +45,24 @@ means you only need to mention the tree expected of data you want to assert:
 
 ```js
 expect(element, 'to have attributes', {
-  'class': ['info'],
-  'style': {
+  class: ['info'],
+  style: {
     border: 'thin solid gray'
   },
   id: /stock/
-})
+});
 ```
 
 In case of a failing expectation you get the following output:
 
 ```js
 expect(element, 'to have attributes', {
-  'class': ['warning'],
-  'style': {
+  class: ['warning'],
+  style: {
     border: 'thick solid gray'
   },
   id: expect.it('to be a string')
-})
+});
 ```
 
 ```output
@@ -98,7 +98,14 @@ to have attributes
 Using the `only` flag you can assert that the element only have the specified attributes.
 
 ```js
-expect(element, 'to only have attributes', 'id', 'class', 'aria-label', 'style');
+expect(
+  element,
+  'to only have attributes',
+  'id',
+  'class',
+  'aria-label',
+  'style'
+);
 ```
 
 In case of a failing expectation you get the following output:

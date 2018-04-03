@@ -10,7 +10,7 @@ expect(element, 'to have classes', ['rounded', 'primary']);
 In case of a failing expectation you get the following output:
 
 ```js
-expect(element, 'to have class', 'squared')
+expect(element, 'to have class', 'squared');
 ```
 
 ```output

@@ -15,46 +15,29 @@ var element = createElement(`
   </section>
 `);
 
-expect(
-  element, 'queried for',
-  '[data-test-id=numbers] > li',
-  'to satisfy', [
-    '<li>One</li>',
-    '<li>Two</li>',
-    '<li>Three</li>'
-  ]
-);
+expect(element, 'queried for', '[data-test-id=numbers] > li', 'to satisfy', [
+  '<li>One</li>',
+  '<li>Two</li>',
+  '<li>Three</li>'
+]);
 
-expect(
-  element,
-  'queried for first',
-  'hr',
-  'to have no children'
-);
+expect(element, 'queried for first', 'hr', 'to have no children');
 ```
 
 If you use the `first` flag, the first maching element will be forwarded to the next assertion:
 
 ```js
-expect(
-  element, 'queried for first',
-  '[data-test-id=numbers]',
-  'to satisfy', {
-    children: expect.it('to have length', 3)
-  }
-);
+expect(element, 'queried for first', '[data-test-id=numbers]', 'to satisfy', {
+  children: expect.it('to have length', 3)
+});
 ```
 
 If no matching element can be found you get the following error:
 
 ```js
-expect(
-  element, 'queried for first',
-  '[data-test-id=emojies]',
-  'to satisfy', {
-    children: expect.it('to have length', 666)
-  }
-);
+expect(element, 'queried for first', '[data-test-id=emojies]', 'to satisfy', {
+  children: expect.it('to have length', 666)
+});
 ```
 
 ```output
@@ -72,7 +55,8 @@ In case the next assertion fails you will get an error looking like this:
 
 ```js
 expect(
-  element, 'queried for first',
+  element,
+  'queried for first',
   '[data-test-id=numbers]',
   'to have no children'
 );
