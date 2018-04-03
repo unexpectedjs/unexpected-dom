@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="static/normalize.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="static/main.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="static/bug-icon-black.ico">
+    <title>unexpected-dom</title>
+</head>
+<body class="sidebar-hidden theme-dark"> 
+    <header>
+        <div class="logo-icon"></div>
+        <nav>
+            <ul>
+                <li class="menu-toggle-item">
+                    <button class="menu-toggle" onclick="toggleSidebar()"></button>
+                </li>
+                
+                <li class="active"><a href="">unexpected-dom</a></li>
+                
+                
+                <li class=""><a href="assertions/DOMNodeList/to-satisfy">Assertions</a></li>
+                
+                
+                
+            </ul>
+        </nav>
+        <div class="search" style="visibility: hidden">
+            <input id="search" placeholder="Search..." value="">
+            <div id="searchDropDown" class="dropDown">
+                <ul id="searchResults"></ul>
+            </div>
+        </div>
+    </header>
+
+<div class="main" tabindex="-1">
+    <div class="content">
+        <div style="text-align: center; padding-bottom: 16px">
+  <img src="https://raw.githubusercontent.com/Munter/unexpected-dom/master/documentation/unexpectedDom.jpg" alt="Unexpected Dom Perignon">
+</div>
+
+<h1 id="unexpected-dom">unexpected-dom</h1>
+<p><a href="http://badge.fury.io/js/unexpected-dom"><img src="https://badge.fury.io/js/unexpected-dom.svg" alt="NPM version"></a>
+<a href="https://travis-ci.org/Munter/unexpected-dom"><img src="https://travis-ci.org/Munter/unexpected-dom.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/r/Munter/unexpected-dom?branch=master"><img src="https://img.shields.io/coveralls/Munter/unexpected-dom.svg?style=flat" alt="Coverage Status"></a>
+<a href="https://david-dm.org/Munter/unexpected-dom"><img src="https://david-dm.org/Munter/unexpected-dom.svg" alt="Dependency Status"></a></p>
+<p>A plugin for <a href="https://unexpectedjs.github.io/">unexpected</a> that adds custom assertions for DOM elements.</p>
+<p>The aim is to lower the amount of mocking around in the DOM in your tests and keep your tests easily readable while providing a high powered set of functionality with unsurpassed error messages.</p>
+<h2 id="installation">Installation</h2>
+<h3 id="nodejs">NodeJS</h3>
+<div class="code lang-"><div>npm&nbsp;install&nbsp;unexpected&nbsp;unexpected-dom</div></div><h3 id="bower">Bower</h3>
+<div class="code lang-"><div>bower&nbsp;install&nbsp;unexpected&nbsp;unexpected-dom</div></div><h2 id="usage">Usage</h2>
+<div class="code lang-javascript"><div><span style="color: #F92672">const</span>&nbsp;expect&nbsp;<span style="color: #F92672">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #E6DB74">'unexpected'</span><span style="color: #999">).</span>clone<span style="color: #999">();</span></div><div>expect<span style="color: #999">.</span>installPlugin<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #E6DB74">'unexpected-dom'</span><span style="color: #999">));</span></div><div>&nbsp;</div><div>describe<span style="color: #999">(</span><span style="color: #E6DB74">'in&nbsp;a&nbsp;document'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">()</span>&nbsp;<span style="color: #F92672">=&gt;</span>&nbsp;<span style="color: #999">{</span></div><div>&nbsp;&nbsp;it<span style="color: #999">(</span><span style="color: #E6DB74">'should&nbsp;find&nbsp;a&nbsp;DOM&nbsp;node'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">()</span>&nbsp;<span style="color: #F92672">=&gt;</span>&nbsp;<span style="color: #999">{</span></div><div>&nbsp;&nbsp;&nbsp;&nbsp;expect<span style="color: #999">(</span>document<span style="color: #999">.</span>body<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;have&nbsp;attributes'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'app'</span><span style="color: #999">,</span></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lang<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'en-US'</span></div><div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">});</span></div><div>&nbsp;&nbsp;<span style="color: #999">});</span></div><div><span style="color: #999">});</span></div></div><h2 id="license-the-mit-license-">License (The MIT License)</h2>
+<p>Copyright (c) 2015 Peter Müller <a href="mailto:munter@fumle.dk">munter@fumle.dk</a></p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &#39;Software&#39;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &#39;AS IS&#39;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+    </div>
+    <a class="github-ribbon" href="https://github.com/Munter/unexpected-dom"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+</div>
+<script type="text/javascript">
+    baseUrl = '.';
+</script>
+<script type="text/javascript" src="static/toggleSidebar.js"></script>
+<script type="text/javascript" src="static/rememberScrollPosition.js"></script>
+<script type="text/javascript" src="static/focusMain.js"></script>
+<script type="text/javascript" src="static/search.js"></script>
+</body>
+</html>
+

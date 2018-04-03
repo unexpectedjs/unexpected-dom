@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="../../static/normalize.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../../static/main.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="../../static/bug-icon-black.ico">
+    <title>DOMElement</title>
+</head>
+<body class="sidebar-hidden has-sidebar"> 
+    <header>
+        <div class="logo-icon"></div>
+        <nav>
+            <ul>
+                <li class="menu-toggle-item">
+                    <button class="menu-toggle" onclick="toggleSidebar()"></button>
+                </li>
+                
+                <li class=""><a href="../..">unexpected-dom</a></li>
+                
+                
+                <li class="active"><a href="../DOMNodeList/to-satisfy">Assertions</a></li>
+                
+                
+                
+            </ul>
+        </nav>
+        <div class="search" style="visibility: hidden">
+            <input id="search" placeholder="Search..." value="">
+            <div id="searchDropDown" class="dropDown">
+                <ul id="searchResults"></ul>
+            </div>
+        </div>
+    </header>
+
+<section id="assertions">
+    <nav id="assertion-menu" class="sidebar js-remember-scroll-position">
+    
+        <h3 class=""><a href="../DOMNodeList">DOMNodeList</a></h3>
+        <ul>
+            
+            <li class="">
+                <a href="../DOMNodeList/to-satisfy">to satisfy</a>
+            </li>
+            
+        </ul>
+    
+        <h3 class="active"><a href="">DOMElement</a></h3>
+        <ul>
+            
+            <li class="">
+                <a href="not-to-have-attributes">not to have attributes</a>
+            </li>
+            
+            <li class="">
+                <a href="queried-for">queried for</a>
+            </li>
+            
+            <li class="">
+                <a href="to-contain-elements-matching">to contain elements matching</a>
+            </li>
+            
+            <li class="">
+                <a href="to-have-attributes">to have attributes</a>
+            </li>
+            
+            <li class="">
+                <a href="to-have-children">to have children</a>
+            </li>
+            
+            <li class="">
+                <a href="to-have-class">to have class</a>
+            </li>
+            
+            <li class="">
+                <a href="to-have-text">to have text</a>
+            </li>
+            
+            <li class="">
+                <a href="to-match">to match</a>
+            </li>
+            
+            <li class="">
+                <a href="to-satisfy">to satisfy</a>
+            </li>
+            
+        </ul>
+    
+</nav>
+
+    <div class="main" tabindex="-1">
+        <div class="content">
+            <h1>DOMElement</h1>
+            <ul class="declarations">
+                
+                <li>&lt;DOMElement&gt; not to have (attribute|attributes) &lt;array&gt;</li>
+                
+                <li>&lt;DOMElement&gt; not to have (attribute|attributes) &lt;string+&gt;</li>
+                
+                <li>&lt;DOMElement&gt; [when] queried for [first] &lt;string&gt; &lt;assertion?&gt;</li>
+                
+                <li>&lt;DOMElement&gt; to contain [no] elements matching &lt;string&gt;</li>
+                
+                <li>&lt;DOMElement&gt; to [only] have (attribute|attributes) &lt;array|object&gt;</li>
+                
+                <li>&lt;DOMElement&gt; to [only] have (attribute|attributes) &lt;string+&gt;</li>
+                
+                <li>&lt;DOMElement&gt; to have [no] (child|children)</li>
+                
+                <li>&lt;DOMElement&gt; to have (class|classes) &lt;array|string&gt;</li>
+                
+                <li>&lt;DOMElement&gt; to have text &lt;any&gt;</li>
+                
+                <li>&lt;DOMElement&gt; [not] to match &lt;string&gt;</li>
+                
+                <li>&lt;DOMElement&gt; to [exhaustively] satisfy &lt;DOMTextNode&gt;</li>
+                
+                <li>&lt;DOMElement&gt; to [exhaustively] satisfy &lt;DOMElement&gt;</li>
+                
+                <li>&lt;DOMElement&gt; to [exhaustively] satisfy &lt;regexp&gt;</li>
+                
+                <li>&lt;DOMElement&gt; to [exhaustively] satisfy &lt;object&gt;</li>
+                
+                <li>&lt;DOMElement&gt; to [exhaustively] satisfy &lt;string&gt;</li>
+                
+            </ul>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    baseUrl = '../..';
+</script>
+<script type="text/javascript" src="../../static/toggleSidebar.js"></script>
+<script type="text/javascript" src="../../static/rememberScrollPosition.js"></script>
+<script type="text/javascript" src="../../static/focusMain.js"></script>
+<script type="text/javascript" src="../../static/search.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="../../../static/normalize.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../../../static/main.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="../../../static/bug-icon-black.ico">
+    <title>DOMElement - to have text</title>
+</head>
+<body class="sidebar-hidden has-sidebar"> 
+    <header>
+        <div class="logo-icon"></div>
+        <nav>
+            <ul>
+                <li class="menu-toggle-item">
+                    <button class="menu-toggle" onclick="toggleSidebar()"></button>
+                </li>
+                
+                <li class=""><a href="../../..">unexpected-dom</a></li>
+                
+                
+                <li class="active"><a href="../../DOMNodeList/to-satisfy">Assertions</a></li>
+                
+                
+                
+            </ul>
+        </nav>
+        <div class="search" style="visibility: hidden">
+            <input id="search" placeholder="Search..." value="">
+            <div id="searchDropDown" class="dropDown">
+                <ul id="searchResults"></ul>
+            </div>
+        </div>
+    </header>
+
+<section id="assertions">
+    <nav id="assertion-menu" class="sidebar js-remember-scroll-position">
+    
+        <h3 class=""><a href="../../DOMNodeList">DOMNodeList</a></h3>
+        <ul>
+            
+            <li class="">
+                <a href="../../DOMNodeList/to-satisfy">to satisfy</a>
+            </li>
+            
+        </ul>
+    
+        <h3 class=""><a href="..">DOMElement</a></h3>
+        <ul>
+            
+            <li class="">
+                <a href="../not-to-have-attributes">not to have attributes</a>
+            </li>
+            
+            <li class="">
+                <a href="../queried-for">queried for</a>
+            </li>
+            
+            <li class="">
+                <a href="../to-contain-elements-matching">to contain elements matching</a>
+            </li>
+            
+            <li class="">
+                <a href="../to-have-attributes">to have attributes</a>
+            </li>
+            
+            <li class="">
+                <a href="../to-have-children">to have children</a>
+            </li>
+            
+            <li class="">
+                <a href="../to-have-class">to have class</a>
+            </li>
+            
+            <li class="active">
+                <a href="">to have text</a>
+            </li>
+            
+            <li class="">
+                <a href="../to-match">to match</a>
+            </li>
+            
+            <li class="">
+                <a href="../to-satisfy">to satisfy</a>
+            </li>
+            
+        </ul>
+    
+</nav>
+
+    <div class="main" tabindex="-1">
+        <div class="content">
+            <h1>to have text</h1>
+            
+                <ul class="declarations">
+                
+                    <li>&lt;DOMElement&gt; to have text &lt;any&gt;</li>
+                
+                </ul>
+            
+            <p>Assert that an element has the given text.</p>
+<div class="code lang-javascript"><div><span style="color: #a71d5d">var</span>&nbsp;element&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">createElement</span><span style="color: #000000">(</span><span style="color: #df5000">`</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;section&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Assert&nbsp;on&nbsp;text&nbsp;content&lt;/h1&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Learn&nbsp;about&nbsp;howto&nbsp;assert&nbsp;on&nbsp;the&nbsp;text&nbsp;content&nbsp;of&nbsp;a&nbsp;DOM&nbsp;element.</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&nbsp;data-test-id='learn'&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Learn&nbsp;more&nbsp;&lt;a&nbsp;href='https://example.com/learn'&gt;here&lt;/a&gt;.</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;/section&gt;</span></div><div><span style="color: #df5000">`</span><span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;element<span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'h1'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;text'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'Assert&nbsp;on&nbsp;text&nbsp;content'</span></div><div><span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'p'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;text'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #183691">/^Learn/</span><span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;element<span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'p'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;text'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;expect<span style="color: #000000">.</span><span style="color: #000000">it</span><span style="color: #000000">(</span><span style="color: #df5000">'to&nbsp;have&nbsp;length'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #0086b3">62</span><span style="color: #000000">)</span></div><div><span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;element<span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'[data-test-id=learn]'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;text'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'Learn&nbsp;more&nbsp;here.'</span></div><div><span style="color: #000000">);</span></div></div><p>In case of a failing expectation you get the following output:</p>
+<div class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;element<span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'p'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;text'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'Read&nbsp;about&nbsp;howto&nbsp;assert&nbsp;on&nbsp;the&nbsp;text&nbsp;content&nbsp;of&nbsp;a&nbsp;DOM&nbsp;element.'</span></div><div><span style="color: #000000">);</span></div></div><div class="output"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #000000">&lt;</span><span style="color: #63a35c">section</span><span style="color: #000000">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #000000">&lt;</span><span style="color: #63a35c">h1</span><span style="color: #000000">&gt;</span>Assert&nbsp;on&nbsp;text&nbsp;content<span style="color: #000000">&lt;/</span><span style="color: #63a35c">h1</span><span style="color: #000000">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #000000">&lt;</span><span style="color: #63a35c">p</span><span style="color: #000000">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div>Learn&nbsp;about&nbsp;howto&nbsp;assert&nbsp;on&nbsp;the&nbsp;text&nbsp;content&nbsp;of&nbsp;a&nbsp;DOM&nbsp;element.</div></div></div><div><span style="color: #000000">&lt;/</span><span style="color: #63a35c">p</span><span style="color: #000000">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #000000">&lt;</span><span style="color: #63a35c">p&nbsp;</span><span style="color: #df5000">data-test-id</span><span style="color: #000000">=&quot;</span><span style="color: #df5000">learn</span><span style="color: #000000">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div>Learn&nbsp;more</div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #000000">&lt;</span><span style="color: #63a35c">a&nbsp;</span><span style="color: #df5000">href</span><span style="color: #000000">=&quot;</span><span style="color: #df5000">https://example.com/learn</span><span style="color: #000000">&quot;&gt;</span>...<span style="color: #000000">&lt;/</span><span style="color: #63a35c">a</span><span style="color: #000000">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div>.</div></div></div><div><span style="color: #000000">&lt;/</span><span style="color: #63a35c">p</span><span style="color: #000000">&gt;</span></div></div></div><div><span style="color: #000000">&lt;/</span><span style="color: #63a35c">section</span><span style="color: #000000">&gt;</span></div><div><span style="color: red; font-weight: bold">queried&nbsp;for&nbsp;first</span>&nbsp;<span style="color: green">p</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;have&nbsp;text</span>&nbsp;<span style="color: #df5000">'Read&nbsp;about&nbsp;howto&nbsp;assert&nbsp;on&nbsp;the&nbsp;text&nbsp;content&nbsp;of&nbsp;a&nbsp;DOM&nbsp;element.'</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #000000">&lt;</span><span style="color: #63a35c">p</span><span style="color: #000000">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div>Learn&nbsp;about&nbsp;howto&nbsp;assert&nbsp;on&nbsp;the&nbsp;text&nbsp;content&nbsp;of&nbsp;a&nbsp;DOM&nbsp;element.</div></div></div><div><span style="color: #000000">&lt;/</span><span style="color: #63a35c">p</span><span style="color: #000000">&gt;</span></div><div><span style="color: red; font-weight: bold">to&nbsp;have&nbsp;text</span>&nbsp;<span style="color: #df5000">'Read&nbsp;about&nbsp;howto&nbsp;assert&nbsp;on&nbsp;the&nbsp;text&nbsp;content&nbsp;of&nbsp;a&nbsp;DOM&nbsp;element.'</span></div><div>&nbsp;</div><div><span style="background-color: red; color: white">Learn</span><span style="color: red">&nbsp;about&nbsp;howto&nbsp;assert&nbsp;on&nbsp;the&nbsp;text&nbsp;content&nbsp;of&nbsp;a&nbsp;DOM&nbsp;element.</span></div><div><span style="background-color: green; color: white">Read</span><span style="color: green">&nbsp;about&nbsp;howto&nbsp;assert&nbsp;on&nbsp;the&nbsp;text&nbsp;content&nbsp;of&nbsp;a&nbsp;DOM&nbsp;element.</span></div></div></div></div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    baseUrl = '../../..';
+</script>
+<script type="text/javascript" src="../../../static/toggleSidebar.js"></script>
+<script type="text/javascript" src="../../../static/rememberScrollPosition.js"></script>
+<script type="text/javascript" src="../../../static/focusMain.js"></script>
+<script type="text/javascript" src="../../../static/search.js"></script>
+</body>
+</html>
+
