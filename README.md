@@ -32,7 +32,7 @@ Setup in tests:
 
 ``` js
 var expect = require('unexpected').clone();
-expect.installPlugin(require('unexpected-dom'));
+expect.use(require('unexpected-dom'));
 
 describe('in a document', function () {
   it('should find a DOM node', function () {
