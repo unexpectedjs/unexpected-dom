@@ -16,9 +16,9 @@
     "lint": "eslint .",
     "test": "mocha test documentation",
     "travis": "npm run lint && npm run coverage && npm run build",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter dot",
-    "preversion": "npm run lint && npm run test && npm run build && npm run changelog && git add unexpected-dom.* CHANGELOG.md",
-    "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog'",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter dot test documentation",
+    "preversion": "npm run lint && npm run test && npm run build && git add unexpected-dom.*",
+    "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && deploy-site",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
   },
