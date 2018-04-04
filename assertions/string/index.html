@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../static/normalize.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../../static/main.css" type="text/css" media="screen" />
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="../../static/bug-icon-black.ico">
-    <title>DOMNodeList</title>
+    <title>string</title>
 </head>
 <body class="sidebar-hidden has-sidebar"> 
     <header>
@@ -21,7 +21,7 @@
                 <li class=""><a href="../..">unexpected-dom</a></li>
                 
                 
-                <li class="active"><a href="../string/parsed-as-HTML">Assertions</a></li>
+                <li class="active"><a href="parsed-as-HTML">Assertions</a></li>
                 
                 
                 
@@ -38,24 +38,24 @@
 <section id="assertions">
     <nav id="assertion-menu" class="sidebar js-remember-scroll-position">
     
-        <h3 class=""><a href="../string">string</a></h3>
+        <h3 class="active"><a href="">string</a></h3>
         <ul>
             
             <li class="">
-                <a href="../string/parsed-as-HTML">parsed as HTML</a>
+                <a href="parsed-as-HTML">parsed as HTML</a>
             </li>
             
             <li class="">
-                <a href="../string/parsed-as-XML">parsed as XML</a>
+                <a href="parsed-as-XML">parsed as XML</a>
             </li>
             
         </ul>
     
-        <h3 class="active"><a href="">DOMNodeList</a></h3>
+        <h3 class=""><a href="../DOMNodeList">DOMNodeList</a></h3>
         <ul>
             
             <li class="">
-                <a href="to-satisfy">to satisfy</a>
+                <a href="../DOMNodeList/to-satisfy">to satisfy</a>
             </li>
             
         </ul>
@@ -105,12 +105,12 @@
 
     <div class="main" tabindex="-1">
         <div class="content">
-            <h1>DOMNodeList</h1>
+            <h1>string</h1>
             <ul class="declarations">
                 
-                <li>&lt;DOMNodeList&gt; to [exhaustively] satisfy &lt;DOMNodeList&gt;</li>
+                <li>&lt;string&gt; [when] parsed as (html|HTML) [fragment] &lt;assertion?&gt;</li>
                 
-                <li>&lt;DOMNodeList&gt; to [exhaustively] satisfy &lt;string&gt;</li>
+                <li>&lt;string&gt; [when] parsed as (xml|XML) &lt;assertion?&gt;</li>
                 
             </ul>
         </div>
