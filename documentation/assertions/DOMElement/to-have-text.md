@@ -1,11 +1,11 @@
-Assert that an element has the given text.
+Assert that an element has the given text content.
 
 ```js
 var element = createElement(`
   <section>
     <h1>Assert on text content</h1>
     <p>
-      Learn about howto assert on the text content of a DOM element.
+      Learn about how to assert on the text content of a DOM element.
     </p>
     <p data-test-id='learn'>
       Learn more <a href='https://example.com/learn'>here</a>.
@@ -28,7 +28,7 @@ expect(
   'queried for first',
   'p',
   'to have text',
-  expect.it('to have length', 62)
+  expect.it('to have length', 63)
 );
 
 expect(
@@ -48,7 +48,7 @@ expect(
   'queried for first',
   'p',
   'to have text',
-  'Read about howto assert on the text content of a DOM element.'
+  'Read about how to assert on the text content of a DOM element.'
 );
 ```
 
@@ -57,7 +57,7 @@ expected
 <section>
   <h1>Assert on text content</h1>
   <p>
-    Learn about howto assert on the text content of a DOM element.
+    Learn about how to assert on the text content of a DOM element.
   </p>
   <p data-test-id="learn">
     Learn more
@@ -65,13 +65,13 @@ expected
     .
   </p>
 </section>
-queried for first p to have text 'Read about howto assert on the text content of a DOM element.'
+queried for first p to have text 'Read about how to assert on the text content of a DOM element.'
   expected
   <p>
-    Learn about howto assert on the text content of a DOM element.
+    Learn about how to assert on the text content of a DOM element.
   </p>
-  to have text 'Read about howto assert on the text content of a DOM element.'
+  to have text 'Read about how to assert on the text content of a DOM element.'
 
-  -Learn about howto assert on the text content of a DOM element.
-  +Read about howto assert on the text content of a DOM element.
+  -Learn about how to assert on the text content of a DOM element.
+  +Read about how to assert on the text content of a DOM element.
 ```

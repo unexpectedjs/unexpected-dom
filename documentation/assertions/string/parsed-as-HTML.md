@@ -1,4 +1,4 @@
-Parses a string as a HTML document using the facilities available in the browser, with a fallback to jsdom, then forwards the result to the next assertion in the argument list:
+Parses a string as an HTML document using the facilities available in the browser, with a fallback to jsdom, then forwards the result to the next assertion in the argument list:
 
 ```js
 expect(
@@ -9,7 +9,7 @@ expect(
 );
 ```
 
-You can also parse a HTML fragment:
+You can also parse an HTML fragment:
 
 ```js
 expect(

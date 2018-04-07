@@ -1,11 +1,11 @@
-Assert that an element satisfy the given specification.
+Assert that an element satisfies the given specification.
 
 ```js
 var element = createElement(`
   <section>
     <h1 class='title' data-test-id='title'>Assert on text content</h1>
     <p>
-      Learn about howto assert on the text content of a DOM element.
+      Learn about how to assert on the text content of a DOM element.
     </p>
     <p data-test-id='learn'>
       Learn more <a href='https://example.com/learn'>here</a>.
@@ -14,7 +14,7 @@ var element = createElement(`
 `);
 ```
 
-Expect that an element satisfies a HTML fragment given as string:
+Expect that an element satisfies an HTML fragment given as string:
 
 ```js
 expect(
@@ -77,7 +77,7 @@ expected
     Assert on text content
   </h1>
   <p>
-    Learn about howto assert on the text content of a DOM element.
+    Learn about how to assert on the text content of a DOM element.
   </p>
   <p data-test-id="learn">
     Learn more

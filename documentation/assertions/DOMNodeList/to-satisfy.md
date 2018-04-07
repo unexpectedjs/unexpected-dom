@@ -1,4 +1,4 @@
-Assert that a DOM node list satisfy a given specification.
+Assert that a DOM node list satisfies a given specification.
 
 See [to satisfy](../../DOMElement/to-satisfy/) for more details.
 
@@ -67,8 +67,8 @@ queried for [data-test-id=numbers] > li to satisfy [ '<li>Three</li>', '<li>Two<
   ]
 ```
 
-Using the `exhaustively` flag you can ensure that only attributes, class and
-styles specified in the expected output is used:
+Using the `exhaustively` flag you can ensure that only attributes, classes and
+styles specified in the expected output are present:
 
 ```js
 expect(

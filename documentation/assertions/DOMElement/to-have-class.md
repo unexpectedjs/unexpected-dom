@@ -21,7 +21,7 @@ expected <div class="primary rounded">Fancy</div> to have class 'squared'
 >Fancy</div>
 ```
 
-Using the `only` flag you can assert that the element only have the specified classes.
+Using the `only` flag you can assert that the element only has the specified classes:
 
 ```js
 expect(element, 'to only have classes', ['rounded', 'primary']);

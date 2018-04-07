@@ -39,9 +39,9 @@ to have attributes 'id', 'class', 'data-test-id'
 >The JS stock it up 9.5%</div>
 ```
 
-You can also assert the values of the attributes, this uses [to
+You can also assert the values of attributes. This uses [to
 satisfy](http://unexpected.js.org/assertions/any/to-satisfy) semantics, which
-means you only need to mention the tree expected of data you want to assert:
+means you only need to mention the subset of the attributes that you want to assert:
 
 ```js
 expect(element, 'to have attributes', {
@@ -95,7 +95,7 @@ to have attributes
 >The JS stock it up 9.5%</div>
 ```
 
-Using the `only` flag you can assert that the element only have the specified attributes.
+Using the `only` flag you can assert that the element only has the specified attributes.
 
 ```js
 expect(

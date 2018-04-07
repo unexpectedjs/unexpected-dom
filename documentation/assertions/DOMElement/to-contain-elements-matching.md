@@ -32,7 +32,7 @@ expected
 to contain elements matching '[data-test-id=emojies]'
 ```
 
-Using the `no` flag, you can assert that the selector can't matching any
+Using the `no` flag, you can assert that the selector doesn't match any
 descendant elements:
 
 ```js
