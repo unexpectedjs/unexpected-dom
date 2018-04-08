@@ -1,3 +1,9 @@
+### v4.6.0 (2018-04-08)
+
+- [#200](https://github.com/Munter/unexpected-dom/pull/200) Documentation site ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#199](https://github.com/Munter/unexpected-dom/pull/199) Added script to create a changelog after versioning ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#206](https://github.com/Munter/unexpected-dom/pull/206) Update README with new .use API for plugins ([Gustav Nikolaj](mailto:gustavnikolaj@gmail.com))
+
 ### v4.5.0 (2018-04-03)
 
 - [#205](https://github.com/Munter/unexpected-dom/pull/205) Add support for an ignore tag in addition to the ignore tag ([Sune Simonsen](mailto:sune@we-knowhow.dk))
