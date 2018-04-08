@@ -1,11 +1,11 @@
-/*global unexpected:true, expect:true, window:true, document:true, body:true, createElement:true*/ //eslint-disable-line no-unused-vars
+/*global unexpected:true, expect:true, createElement:true*/ //eslint-disable-line no-unused-vars
 unexpected = require('unexpected').clone();
 unexpected.output.preferredWidth = 80;
 unexpected.use(require('./lib/'));
+
 var jsdom = require('jsdom');
-window = new jsdom.JSDOM().window;
-document = window.document;
-body = document.body;
+var window = new jsdom.JSDOM().window;
+var document = window.document;
 
 createElement = function createElement(html) {
   var root = document.createElement('div');
