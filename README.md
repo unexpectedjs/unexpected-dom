@@ -15,8 +15,11 @@ The aim is to lower the amount of mocking around in the DOM in your tests and ke
 
 [Open documentation site](https://munter.github.io/unexpected-dom/).
 
-License
--------
+## Releases
+
+You can find the changelog [here](./CHANGELOG.md).
+
+## License
 
 License
 

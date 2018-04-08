@@ -50,6 +50,10 @@ describe('in a document', () => {
 });
 ```
 
+## Releases
+
+You can find the changelog [here](https://github.com/unexpectedjs/unexpected/blob/master/CHANGELOG.md).
+
 ## License (The MIT License)
 
 Copyright (c) 2015 Peter Müller [munter@fumle.dk](mailto:munter@fumle.dk)
