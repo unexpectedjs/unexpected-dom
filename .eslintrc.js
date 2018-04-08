@@ -5,7 +5,10 @@ const config = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: ['**/test/**/*.js'],
+        devDependencies: [
+          'bootstrap-unexpected-markdown.js',
+          '**/test/**/*.js'
+        ],
         optionalDependencies: false,
         peerDependencies: false
       }

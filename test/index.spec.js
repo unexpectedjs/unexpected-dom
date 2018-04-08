@@ -1580,6 +1580,23 @@ describe('unexpected-dom', function() {
           );
         });
       });
+
+      describe('with a regexp as the value', function() {
+        it('should fail', function() {
+          expect(
+            function() {
+              expect(
+                '<div foo="bar">foo</div><div>bar</div>',
+                'when parsed as HTML fragment to satisfy',
+                /foo/
+              );
+            },
+            'to throw',
+            'expected \'<div foo="bar">foo</div><div>bar</div>\' when parsed as HTML fragment to satisfy /foo/\n' +
+              '  expected DocumentFragment[NodeList[ <div foo="bar">foo</div>, <div>bar</div> ]] to satisfy /foo/'
+          );
+        });
+      });
     });
 
     describe('HTMLElement with a string as the value', function() {

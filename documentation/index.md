@@ -1,3 +1,14 @@
+---
+template: default.ejs
+theme: dark
+title: unexpected-dom
+repository: https://github.com/Munter/unexpected-dom
+---
+
+<div style="text-align: center; padding-bottom: 16px">
+  <img src="https://raw.githubusercontent.com/Munter/unexpected-dom/master/documentation/unexpectedDom.jpg" alt="Unexpected Dom Perignon">
+</div>
+
 # unexpected-dom
 
 [![NPM version](https://badge.fury.io/js/unexpected-dom.svg)](http://badge.fury.io/js/unexpected-dom)
@@ -5,22 +16,41 @@
 [![Coverage Status](https://img.shields.io/coveralls/Munter/unexpected-dom.svg?style=flat)](https://coveralls.io/r/Munter/unexpected-dom?branch=master)
 [![Dependency Status](https://david-dm.org/Munter/unexpected-dom.svg)](https://david-dm.org/Munter/unexpected-dom)
 
-![Unexpected Dom Perignon](https://raw.githubusercontent.com/Munter/unexpected-dom/master/documentation/unexpectedDom.jpg)
-
 A plugin for [unexpected](https://unexpectedjs.github.io/) that adds custom assertions for DOM elements.
 
 The aim is to lower the amount of mocking around in the DOM in your tests and keep your tests easily readable while providing a high powered set of functionality with unsurpassed error messages.
 
-## Documentation
+## Installation
 
-[Open documentation site](https://munter.github.io/unexpected-dom/).
+### NodeJS
 
-License
--------
+```
+npm install unexpected unexpected-dom
+```
 
-License
+### Bower
 
-(The MIT License)
+```
+bower install unexpected unexpected-dom
+```
+
+## Usage
+
+```js#evaluate:false
+const expect = require('unexpected').clone();
+expect.installPlugin(require('unexpected-dom'));
+
+describe('in a document', () => {
+  it('should find a DOM node', () => {
+    expect(document.body, 'to have attributes', {
+      id: 'app',
+      lang: 'en-US'
+    });
+  });
+});
+```
+
+## License (The MIT License)
 
 Copyright (c) 2015 Peter Müller [munter@fumle.dk](mailto:munter@fumle.dk)
 

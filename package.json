@@ -14,11 +14,13 @@
     "build": "npm run build:browserify && npm run build:min",
     "changelog": "offline-github-changelog > CHANGELOG.md",
     "lint": "eslint .",
-    "test": "mocha",
+    "test": "mocha test documentation",
     "travis": "npm run lint && npm run coverage && npm run build",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter dot",
-    "preversion": "npm run lint && npm run test && npm run build && npm run changelog && git add unexpected-dom.* CHANGELOG.md",
-    "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog'"
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter dot test documentation",
+    "preversion": "npm run lint && npm run test && npm run build && git add unexpected-dom.*",
+    "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && deploy-site",
+    "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
+    "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
   },
   "repository": {
     "type": "git",
@@ -53,7 +55,9 @@
     "prettier": "1.11.1",
     "sinon": "^2.3.0",
     "uglifyjs": "^2.4.11",
-    "unexpected": "^10.27.0",
+    "unexpected": "10.37.2",
+    "unexpected-documentation-site-generator": "4.6.1",
+    "unexpected-markdown": "1.7.4",
     "unexpected-sinon": "^10.7.1"
   },
   "dependencies": {
