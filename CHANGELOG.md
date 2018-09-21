@@ -1,3 +1,8 @@
+### v4.6.1 (2018-09-21)
+
+- [#209](https://github.com/Munter/unexpected-dom/pull/209) Switch coverage to use the latest version of nyc. ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#208](https://github.com/Munter/unexpected-dom/pull/208) Ensure empty class attributes on both subject and value compare equal. ([Alex J Burke](mailto:alex@alexjeffburke.com))
+
 ### v4.6.0 (2018-04-08)
 
 - [#200](https://github.com/Munter/unexpected-dom/pull/200) Documentation site ([Sune Simonsen](mailto:sune@we-knowhow.dk))
