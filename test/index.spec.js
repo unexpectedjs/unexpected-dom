@@ -1282,6 +1282,32 @@ describe('unexpected-dom', function() {
       });
     });
 
+    describe('when comparing class atttributes', function() {
+      it('should succeed when both are present but empty', function() {
+        expect(
+          '<div class="Component"><span class="foobar"></span><label><span class="">Some test stuff</span></label></div>',
+          'when parsed as HTML to satisfy',
+          '<div class="Component"><span class="foobar"></span><label><span class="">Some test stuff</span></label></div>'
+        );
+      });
+
+      it('should succeed when the RHS is absent and LHS has a value', function() {
+        expect(
+          '<div class="Component"><span></span><label><span class="foobar">Some test stuff</span></label></div>',
+          'when parsed as HTML to satisfy',
+          '<div class="Component"><span></span><label><span>Some test stuff</span></label></div>'
+        );
+      });
+
+      it('should succeed when the RHS is absent and LHS is empty', function() {
+        expect(
+          '<div class="Component"><span></span><label><span class="">Some test stuff</span></label></div>',
+          'when parsed as HTML to satisfy',
+          '<div class="Component"><span></span><label><span>Some test stuff</span></label></div>'
+        );
+      });
+    });
+
     describe('HTMLFragment', function() {
       describe('with a string as the value', function() {
         it('should succeed', function() {
