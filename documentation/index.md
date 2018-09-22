@@ -2,19 +2,19 @@
 template: default.ejs
 theme: dark
 title: unexpected-dom
-repository: https://github.com/Munter/unexpected-dom
+repository: https://github.com/unexpectedjs/unexpected-dom
 ---
 
 <div style="text-align: center; padding-bottom: 16px">
-  <img src="https://raw.githubusercontent.com/Munter/unexpected-dom/master/documentation/unexpectedDom.jpg" alt="Unexpected Dom Perignon">
+  <img src="https://raw.githubusercontent.com/unexpectedjs/unexpected-dom/master/documentation/unexpectedDom.jpg" alt="Unexpected Dom Perignon">
 </div>
 
 # unexpected-dom
 
 [![NPM version](https://badge.fury.io/js/unexpected-dom.svg)](http://badge.fury.io/js/unexpected-dom)
-[![Build Status](https://travis-ci.org/Munter/unexpected-dom.svg?branch=master)](https://travis-ci.org/Munter/unexpected-dom)
-[![Coverage Status](https://img.shields.io/coveralls/Munter/unexpected-dom.svg?style=flat)](https://coveralls.io/r/Munter/unexpected-dom?branch=master)
-[![Dependency Status](https://david-dm.org/Munter/unexpected-dom.svg)](https://david-dm.org/Munter/unexpected-dom)
+[![Build Status](https://travis-ci.org/unexpectedjs/unexpected-dom.svg?branch=master)](https://travis-ci.org/unexpectedjs/unexpected-dom)
+[![Coverage Status](https://img.shields.io/coveralls/unexpectedjs/unexpected-dom.svg?style=flat)](https://coveralls.io/r/unexpectedjs/unexpected-dom?branch=master)
+[![Dependency Status](https://david-dm.org/unexpectedjs/unexpected-dom.svg)](https://david-dm.org/unexpectedjs/unexpected-dom)
 
 A plugin for [unexpected](https://unexpectedjs.github.io/) that adds custom assertions for DOM elements.
 
