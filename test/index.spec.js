@@ -1414,7 +1414,7 @@ describe('unexpected-dom', function() {
         });
 
         describe('and it contain an ignore comment', function() {
-          it('ignores that subtree', () => {
+          it('ignores the corresponding subtree', () => {
             expect(
               [
                 '<div foo="bar">foo</div>',
@@ -1462,7 +1462,7 @@ describe('unexpected-dom', function() {
         });
 
         describe('and it contain an ignore tag', function() {
-          it('ignores that subtree', () => {
+          it('ignores the corresponding subtree', () => {
             expect(
               [
                 '<div foo="bar">foo</div>',
