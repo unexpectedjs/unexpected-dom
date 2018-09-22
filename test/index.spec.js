@@ -1428,6 +1428,24 @@ describe('unexpected-dom', function() {
             );
           });
 
+          it('ignores the corresponding text node', () => {
+            expect(
+              [
+                '<div foo="bar">foo</div>',
+                '<div>bar</div>',
+                '<div>baz</div>'
+              ].join('\n'),
+              'when parsed as HTML fragment to satisfy',
+              parseHtmlFragment(
+                [
+                  '<div>foo</div>',
+                  '<div><!--ignore--></div>',
+                  '<div>baz</div>'
+                ].join('\n')
+              )
+            );
+          });
+
           it('inspects correctly when another subtree', function() {
             expect(
               function() {
@@ -1474,6 +1492,24 @@ describe('unexpected-dom', function() {
                 ['<div>foo</div>', '<ignore></ignore>', '<div>baz</div>'].join(
                   '\n'
                 )
+              )
+            );
+          });
+
+          it('ignores the corresponding text node', () => {
+            expect(
+              [
+                '<div foo="bar">foo</div>',
+                '<div>bar</div>',
+                '<div>baz</div>'
+              ].join('\n'),
+              'when parsed as HTML fragment to satisfy',
+              parseHtmlFragment(
+                [
+                  '<div>foo</div>',
+                  '<div><ignore></ignore></div>',
+                  '<div>baz</div>'
+                ].join('\n')
               )
             );
           });
