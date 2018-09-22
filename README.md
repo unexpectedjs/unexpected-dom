@@ -13,7 +13,7 @@ The aim is to lower the amount of mocking around in the DOM in your tests and ke
 
 ## Documentation
 
-[Open documentation site](https://munter.github.io/unexpected-dom/).
+[Open documentation site](https://unexpected.js.org/unexpected-dom/).
 
 ## Releases
 
