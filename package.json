@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Munter/unexpected-dom.git"
+    "url": "https://github.com/unexpectedjs/unexpected-dom.git"
   },
   "keywords": [
     "unexpected",
@@ -36,9 +36,9 @@
   "author": "Peter Müller <munter@fumle.dk>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Munter/unexpected-dom/issues"
+    "url": "https://github.com/unexpectedjs/unexpected-dom/issues"
   },
-  "homepage": "https://github.com/Munter/unexpected-dom",
+  "homepage": "https://github.com/unexpectedjs/unexpected-dom",
   "devDependencies": {
     "browserify": "^14.3.0",
     "coveralls": "^2.13.1",
