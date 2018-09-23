@@ -1414,7 +1414,7 @@ describe('unexpected-dom', function() {
         });
 
         describe('and it contain an ignore comment', function() {
-          it('ignores that subtree', () => {
+          it('ignores the corresponding subtree', () => {
             expect(
               [
                 '<div foo="bar">foo</div>',
@@ -1424,6 +1424,24 @@ describe('unexpected-dom', function() {
               'when parsed as HTML fragment to satisfy',
               parseHtmlFragment(
                 ['<div>foo</div>', '<!--ignore-->', '<div>baz</div>'].join('\n')
+              )
+            );
+          });
+
+          it('ignores the corresponding text node', () => {
+            expect(
+              [
+                '<div foo="bar">foo</div>',
+                '<div>bar</div>',
+                '<div>baz</div>'
+              ].join('\n'),
+              'when parsed as HTML fragment to satisfy',
+              parseHtmlFragment(
+                [
+                  '<div>foo</div>',
+                  '<div><!--ignore--></div>',
+                  '<div>baz</div>'
+                ].join('\n')
               )
             );
           });
@@ -1462,7 +1480,7 @@ describe('unexpected-dom', function() {
         });
 
         describe('and it contain an ignore tag', function() {
-          it('ignores that subtree', () => {
+          it('ignores the corresponding subtree', () => {
             expect(
               [
                 '<div foo="bar">foo</div>',
@@ -1474,6 +1492,24 @@ describe('unexpected-dom', function() {
                 ['<div>foo</div>', '<ignore></ignore>', '<div>baz</div>'].join(
                   '\n'
                 )
+              )
+            );
+          });
+
+          it('ignores the corresponding text node', () => {
+            expect(
+              [
+                '<div foo="bar">foo</div>',
+                '<div>bar</div>',
+                '<div>baz</div>'
+              ].join('\n'),
+              'when parsed as HTML fragment to satisfy',
+              parseHtmlFragment(
+                [
+                  '<div>foo</div>',
+                  '<div><ignore></ignore></div>',
+                  '<div>baz</div>'
+                ].join('\n')
               )
             );
           });
