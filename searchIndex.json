@@ -4,12 +4,8 @@
     "url": "/assertions/DOMElement/to-have-class/"
   },
   {
-    "label": "parsed as HTML (string)",
-    "url": "/assertions/string/parsed-as-HTML/"
-  },
-  {
-    "label": "not to have attributes (DOMElement)",
-    "url": "/assertions/DOMElement/not-to-have-attributes/"
+    "label": "to satisfy (DOMNodeList)",
+    "url": "/assertions/DOMNodeList/to-satisfy/"
   },
   {
     "label": "queried for (DOMElement)",
@@ -24,16 +20,16 @@
     "url": "/assertions/DOMElement/to-have-attributes/"
   },
   {
-    "label": "parsed as XML (string)",
-    "url": "/assertions/string/parsed-as-XML/"
+    "label": "to have children (DOMElement)",
+    "url": "/assertions/DOMElement/to-have-children/"
+  },
+  {
+    "label": "not to have attributes (DOMElement)",
+    "url": "/assertions/DOMElement/not-to-have-attributes/"
   },
   {
     "label": "to have text (DOMElement)",
     "url": "/assertions/DOMElement/to-have-text/"
-  },
-  {
-    "label": "to have children (DOMElement)",
-    "url": "/assertions/DOMElement/to-have-children/"
   },
   {
     "label": "to match (DOMElement)",
@@ -44,7 +40,11 @@
     "url": "/assertions/DOMElement/to-satisfy/"
   },
   {
-    "label": "to satisfy (DOMNodeList)",
-    "url": "/assertions/DOMNodeList/to-satisfy/"
+    "label": "parsed as HTML (string)",
+    "url": "/assertions/string/parsed-as-HTML/"
+  },
+  {
+    "label": "parsed as XML (string)",
+    "url": "/assertions/string/parsed-as-XML/"
   }
 ]
