@@ -1,3 +1,8 @@
+### v4.6.2 (2018-09-23)
+
+- [#211](https://github.com/Munter/unexpected-dom/pull/211) Fix: Ignore bug ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#214](https://github.com/Munter/unexpected-dom/pull/214) Remove the top-level expect ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v4.6.1 (2018-09-21)
 
 - [#209](https://github.com/Munter/unexpected-dom/pull/209) Switch coverage to use the latest version of nyc. ([Alex J Burke](mailto:alex@alexjeffburke.com))
