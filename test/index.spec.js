@@ -1211,6 +1211,61 @@ describe('unexpected-dom', function() {
       );
     });
 
+    describe('with boolean attributes', function() {
+      describe('draggable', function() {
+        it('should allow "true"', function() {
+          body.innerHTML = '<div draggable="true"></div>';
+          expect(body, 'to satisfy', {
+            children: [
+              {
+                attributes: {
+                  draggable: 'true'
+                }
+              }
+            ]
+          });
+        });
+
+        it('should allow "false"', function() {
+          body.innerHTML = '<div draggable="false"></div>';
+          expect(body, 'to satisfy', {
+            children: [
+              {
+                attributes: {
+                  draggable: 'false'
+                }
+              }
+            ]
+          });
+        });
+
+        it('should error on mismatch', function() {
+          body.innerHTML = '<div draggable="true"></div>';
+          expect(
+            function() {
+              expect(body, 'to satisfy', {
+                children: [
+                  {
+                    attributes: {
+                      draggable: false
+                    }
+                  }
+                ]
+              });
+            },
+            'to throw',
+            'expected <body><div draggable></div></body> to satisfy { children: [ { attributes: ... } ] }\n' +
+              '\n' +
+              '<body>\n' +
+              '  <div\n' +
+              "    draggable=\"true\" // Invalid expected value false. Supported values include: [ 'true', 'false' ]\n" +
+              '  ></div>\n' +
+              '</body>'
+          );
+        });
+      });
+    });
+
     describe('with a textContent property', function() {
       it('should succeed', function() {
         body.innerHTML = '<div foo="bar">foobarquux</div>';
