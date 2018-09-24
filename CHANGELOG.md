@@ -1,3 +1,7 @@
+### v4.6.3 (2018-09-24)
+
+- [#216](https://github.com/Munter/unexpected-dom/pull/216) Fix the draggable attribute & flesh out enumerated property support. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v4.6.2 (2018-09-23)
 
 - [#211](https://github.com/Munter/unexpected-dom/pull/211) Fix: Ignore bug ([Sune Simonsen](mailto:sune@we-knowhow.dk))
