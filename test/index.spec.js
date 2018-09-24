@@ -1258,7 +1258,7 @@ describe('unexpected-dom', function() {
               '\n' +
               '<body>\n' +
               '  <div\n' +
-              "    draggable=\"true\" // Invalid expected value false. Supported values include: [ 'true', 'false' ]\n" +
+              "    draggable=\"true\" // Invalid expected value false. Supported values include: 'true', 'false'\n" +
               '  ></div>\n' +
               '</body>'
           );
