@@ -2032,6 +2032,13 @@ describe('unexpected-dom', function() {
         expect(body.firstChild, 'to satisfy', { children: ['hey'] });
       });
 
+      it('should succeed with a complex child', function() {
+        body.innerHTML = '<div><div foo="bar">hey</div></div>';
+        expect(body.firstChild, 'to satisfy', {
+          children: ['<div foo="bar">hey</div>']
+        });
+      });
+
       it('should fail with a diff', function() {
         body.innerHTML = '<div foo="bar">hey</div>';
         expect(
@@ -2048,6 +2055,40 @@ describe('unexpected-dom', function() {
             '      // +there\n' +
             '</div>'
         );
+      });
+
+      it('should error if multiple nodes are supplied as a child', function() {
+        body.innerHTML = '<div><div foo="bar">hey</div></div>';
+        expect(
+          function() {
+            expect(body.firstChild, 'to satisfy', {
+              children: ['<div foo="bar">hey</div><div foo="bar">there</div>']
+            });
+          },
+          'to throw',
+          'expected <div><div foo="bar">hey</div></div>\n' +
+            'to satisfy { children: [ \'<div foo="bar">hey</div><div foo="bar">there</div>\' ] }\n' +
+            '\n' +
+            '<div>\n' +
+            '  <div foo="bar">hey</div> // Only single node is supported as a child but saw NodeList[ <div foo="bar">hey</div>, <div foo="bar">there</div> ]\n' +
+            '\n' +
+            '</div>'
+        );
+      });
+
+      describe('when using ignore', function() {
+        it('should succeed', function() {
+          body.innerHTML =
+            '<div><span>ignore</span><span>important</span></div>';
+          expect(body.firstChild, 'to satisfy', {
+            children: [
+              '<!-- ignore -->',
+              {
+                children: 'important'
+              }
+            ]
+          });
+        });
       });
     });
 
@@ -2621,6 +2662,31 @@ describe('unexpected-dom', function() {
       ).then(function(document) {
         expect(document, 'queried for first', 'fooBar', 'to have attributes', {
           yes: 'sir'
+        });
+      });
+    });
+
+    describe('to satisfy', function() {
+      describe('when comparing an array of children', function() {
+        it('should succeed with text child', function() {
+          expect(
+            [
+              '<?xml version="1.0"?>',
+              '<content>',
+              '  <hello type="greeting">World</hello>',
+              '</content>'
+            ].join('\n'),
+            'when parsed as XML',
+            'queried for first',
+            'hello',
+            'to satisfy',
+            {
+              attributes: {
+                type: 'greeting'
+              },
+              children: ['World']
+            }
+          );
         });
       });
     });
