@@ -2032,6 +2032,15 @@ describe('unexpected-dom', function() {
         expect(body.firstChild, 'to satisfy', { children: ['hey'] });
       });
 
+      it('should succeed with a node child', function() {
+        var node = document.createElement('div');
+        node.innerHTML = '<div foo="bar">hey</div>';
+        body.innerHTML = '<div><div foo="bar">hey</div></div>';
+        expect(body.firstChild, 'to satisfy', {
+          children: [node.firstChild]
+        });
+      });
+
       it('should fail with a diff', function() {
         body.innerHTML = '<div foo="bar">hey</div>';
         expect(
@@ -2048,6 +2057,24 @@ describe('unexpected-dom', function() {
             '      // +there\n' +
             '</div>'
         );
+      });
+
+      describe('when using ignore', function() {
+        it('should succeed', function() {
+          var node = document.createElement('div');
+          node.innerHTML = '<!-- ignore -->';
+          var commentNode = node.firstChild;
+          body.innerHTML =
+            '<div><span>ignore</span><span>important</span></div>';
+          expect(body.firstChild, 'to satisfy', {
+            children: [
+              commentNode,
+              {
+                children: 'important'
+              }
+            ]
+          });
+        });
       });
     });
 
@@ -2621,6 +2648,31 @@ describe('unexpected-dom', function() {
       ).then(function(document) {
         expect(document, 'queried for first', 'fooBar', 'to have attributes', {
           yes: 'sir'
+        });
+      });
+    });
+
+    describe('to satisfy', function() {
+      describe('when comparing an array of children', function() {
+        it('should succeed with a text child', function() {
+          expect(
+            [
+              '<?xml version="1.0"?>',
+              '<content>',
+              '  <hello type="greeting">World</hello>',
+              '</content>'
+            ].join('\n'),
+            'when parsed as XML',
+            'queried for first',
+            'hello',
+            'to satisfy',
+            {
+              attributes: {
+                type: 'greeting'
+              },
+              children: ['World']
+            }
+          );
         });
       });
     });
