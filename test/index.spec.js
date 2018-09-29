@@ -2039,6 +2039,15 @@ describe('unexpected-dom', function() {
         });
       });
 
+      it('should succeed with a node child', function() {
+        var node = document.createElement('div');
+        node.innerHTML = '<div foo="bar">hey</div>';
+        body.innerHTML = '<div><div foo="bar">hey</div></div>';
+        expect(body.firstChild, 'to satisfy', {
+          children: [node.firstChild]
+        });
+      });
+
       it('should fail with a diff', function() {
         body.innerHTML = '<div foo="bar">hey</div>';
         expect(
@@ -2668,7 +2677,7 @@ describe('unexpected-dom', function() {
 
     describe('to satisfy', function() {
       describe('when comparing an array of children', function() {
-        it('should succeed with text child', function() {
+        it('should succeed with a text child', function() {
           expect(
             [
               '<?xml version="1.0"?>',
@@ -2685,6 +2694,19 @@ describe('unexpected-dom', function() {
                 type: 'greeting'
               },
               children: ['World']
+            }
+          );
+        });
+
+        it('should succeed with a complex child', function() {
+          expect(
+            '<?xml version="1.0"?><content><hello type="greeting">World</hello></content>',
+            'when parsed as XML',
+            'queried for first',
+            'content',
+            'to satisfy',
+            {
+              children: ['<hello type="greeting">World</hello>']
             }
           );
         });
