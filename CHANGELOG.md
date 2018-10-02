@@ -1,3 +1,8 @@
+### v4.6.4 (2018-10-02)
+
+- [#219](https://github.com/Munter/unexpected-dom/pull/219) Fix comment nodes being specified as children in a satisfy spec. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#220](https://github.com/Munter/unexpected-dom/pull/220) Model <!--ignore--> as its own type and implement the ignoring via an assertion ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+
 ### v4.6.3 (2018-09-24)
 
 - [#216](https://github.com/Munter/unexpected-dom/pull/216) Fix the draggable attribute & flesh out enumerated property support. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
