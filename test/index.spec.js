@@ -63,6 +63,10 @@ function parseHtml(str) {
     .window.document.body.firstChild;
 }
 
+function parseHtmlDocument(str) {
+  return new jsdom.JSDOM(str).window.document;
+}
+
 function parseHtmlFragment(str) {
   str = '<html><head></head><body>' + str + '</body></html>';
   var htmlDocument = new jsdom.JSDOM(str).window.document;
@@ -74,6 +78,10 @@ function parseHtmlFragment(str) {
     }
   }
   return documentFragment;
+}
+
+function parseHtmlNode(str) {
+  return parseHtmlFragment(str).childNodes[0];
 }
 
 function parseXml(str) {
@@ -1468,7 +1476,7 @@ describe('unexpected-dom', function() {
           );
         });
 
-        describe('and it contain an ignore comment', function() {
+        describe('and it contains an ignore comment', function() {
           it('ignores the corresponding subtree', () => {
             expect(
               [
@@ -2032,6 +2040,15 @@ describe('unexpected-dom', function() {
         expect(body.firstChild, 'to satisfy', { children: ['hey'] });
       });
 
+      it('should succeed with a node child', function() {
+        var node = document.createElement('div');
+        node.innerHTML = '<div foo="bar">hey</div>';
+        body.innerHTML = '<div><div foo="bar">hey</div></div>';
+        expect(body.firstChild, 'to satisfy', {
+          children: [node.firstChild]
+        });
+      });
+
       it('should fail with a diff', function() {
         body.innerHTML = '<div foo="bar">hey</div>';
         expect(
@@ -2047,6 +2064,56 @@ describe('unexpected-dom', function() {
             '      // -hey\n' +
             '      // +there\n' +
             '</div>'
+        );
+      });
+
+      describe('when using ignore', function() {
+        it('should succeed', function() {
+          var node = document.createElement('div');
+          node.innerHTML = '<!-- ignore -->';
+          var commentNode = node.firstChild;
+          body.innerHTML =
+            '<div><span>ignore</span><span>important</span></div>';
+          expect(body.firstChild, 'to satisfy', {
+            children: [
+              commentNode,
+              {
+                children: 'important'
+              }
+            ]
+          });
+        });
+      });
+    });
+
+    describe('when matching against <!-- ignore -->', function() {
+      var ignoreComment = parseHtmlNode('<!--ignore-->');
+
+      it('should match a text node', function() {
+        expect(parseHtmlNode('foo'), 'to satisfy', ignoreComment);
+      });
+
+      it('should match an element', function() {
+        expect(parseHtmlNode('<div>foo</div>'), 'to satisfy', ignoreComment);
+      });
+
+      it('should match a comment', function() {
+        expect(parseHtmlNode('<!-- foo -->'), 'to satisfy', ignoreComment);
+      });
+
+      it('should match a doctype', function() {
+        expect(
+          parseHtmlDocument('<!DOCTYPE html>').firstChild,
+          'to satisfy',
+          ignoreComment
+        );
+      });
+
+      it('should match a document', function() {
+        expect(
+          '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>',
+          'when parsed as xml to satisfy',
+          ignoreComment
         );
       });
     });
@@ -2621,6 +2688,31 @@ describe('unexpected-dom', function() {
       ).then(function(document) {
         expect(document, 'queried for first', 'fooBar', 'to have attributes', {
           yes: 'sir'
+        });
+      });
+    });
+
+    describe('to satisfy', function() {
+      describe('when comparing an array of children', function() {
+        it('should succeed with a text child', function() {
+          expect(
+            [
+              '<?xml version="1.0"?>',
+              '<content>',
+              '  <hello type="greeting">World</hello>',
+              '</content>'
+            ].join('\n'),
+            'when parsed as XML',
+            'queried for first',
+            'hello',
+            'to satisfy',
+            {
+              attributes: {
+                type: 'greeting'
+              },
+              children: ['World']
+            }
+          );
         });
       });
     });
