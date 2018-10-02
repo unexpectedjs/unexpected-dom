@@ -63,6 +63,10 @@ function parseHtml(str) {
     .window.document.body.firstChild;
 }
 
+function parseHtmlDocument(str) {
+  return new jsdom.JSDOM(str).window.document;
+}
+
 function parseHtmlFragment(str) {
   str = '<html><head></head><body>' + str + '</body></html>';
   var htmlDocument = new jsdom.JSDOM(str).window.document;
@@ -74,6 +78,10 @@ function parseHtmlFragment(str) {
     }
   }
   return documentFragment;
+}
+
+function parseHtmlNode(str) {
+  return parseHtmlFragment(str).childNodes[0];
 }
 
 function parseXml(str) {
@@ -1468,7 +1476,7 @@ describe('unexpected-dom', function() {
           );
         });
 
-        describe('and it contain an ignore comment', function() {
+        describe('and it contains an ignore comment', function() {
           it('ignores the corresponding subtree', () => {
             expect(
               [
@@ -2075,6 +2083,38 @@ describe('unexpected-dom', function() {
             ]
           });
         });
+      });
+    });
+
+    describe('when matching against <!-- ignore -->', function() {
+      var ignoreComment = parseHtmlNode('<!--ignore-->');
+
+      it('should match a text node', function() {
+        expect(parseHtmlNode('foo'), 'to satisfy', ignoreComment);
+      });
+
+      it('should match an element', function() {
+        expect(parseHtmlNode('<div>foo</div>'), 'to satisfy', ignoreComment);
+      });
+
+      it('should match a comment', function() {
+        expect(parseHtmlNode('<!-- foo -->'), 'to satisfy', ignoreComment);
+      });
+
+      it('should match a doctype', function() {
+        expect(
+          parseHtmlDocument('<!DOCTYPE html>').firstChild,
+          'to satisfy',
+          ignoreComment
+        );
+      });
+
+      it('should match a document', function() {
+        expect(
+          '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>',
+          'when parsed as xml to satisfy',
+          ignoreComment
+        );
       });
     });
 
