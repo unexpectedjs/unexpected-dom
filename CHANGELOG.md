@@ -1,3 +1,7 @@
+### v4.7.0 (2018-10-08)
+
+- [#221](https://github.com/Munter/unexpected-dom/pull/221) Remove experimental support for ignore tags ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v4.6.4 (2018-10-02)
 
 - [#219](https://github.com/Munter/unexpected-dom/pull/219) Fix comment nodes being specified as children in a satisfy spec. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
