@@ -1849,6 +1849,34 @@ describe('unexpected-dom', function() {
         );
       });
 
+      it('should not fail for invalid style attributes on the LHS', function() {
+        return expect(
+          parseHtml('<div style="color; width: 120px;">hey</div>'),
+          'to satisfy',
+          parseHtml('<div style="width: 120px;">hey</div>')
+        );
+      });
+
+      it('should fail when the RHS has invalid styles', function() {
+        return expect(
+          function() {
+            return expect(
+              parseHtml('<div style="width: 120px;">hey</div>'),
+              'to satisfy',
+              parseHtml('<div style="color;background;width: 120px">hey</div>')
+            );
+          },
+          'to error',
+          'expected <div style="width: 120px">hey</div> to satisfy <div style="width: 120px">hey</div>\n' +
+            '\n' +
+            '<div\n' +
+            '  style="width: 120px" // expected <div style="width: 120px">hey</div>\n' +
+            "                       // to satisfy { name: 'div', attributes: { style: 'color;background;width: 120px' }, children: [ 'hey' ] }\n" +
+            "                       //   Expectation contains invalid styles: 'color;background'\n" +
+            '>hey</div>'
+        );
+      });
+
       it('should fail when the subject is missing an inline style', function() {
         return expect(
           function() {
