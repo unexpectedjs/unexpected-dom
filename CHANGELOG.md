@@ -1,3 +1,7 @@
+### v4.8.0 (2018-10-26)
+
+- [#222](https://github.com/Munter/unexpected-dom/pull/222) Fix: Validate style attributes on the RHS ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v4.7.0 (2018-10-08)
 
 - [#221](https://github.com/Munter/unexpected-dom/pull/221) Remove experimental support for ignore tags ([Sune Simonsen](mailto:sune@we-knowhow.dk))
