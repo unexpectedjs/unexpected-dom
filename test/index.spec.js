@@ -1857,6 +1857,14 @@ describe('unexpected-dom', function() {
         );
       });
 
+      it('should treat an empty style string no requirements on the style attribute', function() {
+        return expect(
+          parseHtml('<div style="color; width: 120px;">hey</div>'),
+          'to satisfy',
+          parseHtml('<div style="">hey</div>')
+        );
+      });
+
       it('should fail when the RHS has invalid styles', function() {
         return expect(
           function() {
