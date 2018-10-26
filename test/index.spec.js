@@ -1,6 +1,6 @@
 /*global describe, it, beforeEach, afterEach*/
 var unexpected = require('unexpected');
-var unexpectedDom = require('../lib/index');
+var unexpectedDom = require('../src/index');
 var sinon = require('sinon');
 var jsdom = require('jsdom');
 
