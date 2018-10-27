@@ -35,7 +35,7 @@ function getHtmlDocument(str) {
 
 function parseHtml(str, isFragment) {
   if (isFragment) {
-    str = '<html><head></head><body>' + str + '</body></html>';
+    str = `<html><head></head><body>${str}</body></html>`;
   }
   const htmlDocument = getHtmlDocument(str);
 
@@ -194,7 +194,7 @@ function writeAttributeToMagicPen(output, attributeName, value, isHtml) {
       value = value.join(' ');
     } else if (attributeName === 'style') {
       value = Object.keys(value)
-        .map(cssProp => cssProp + ': ' + value[cssProp])
+        .map(cssProp => `${cssProp}: ${value[cssProp]}`)
         .join('; ');
     }
     output
@@ -211,18 +211,14 @@ function stringifyAttribute(attributeName, value) {
   ) {
     return attributeName;
   } else if (attributeName === 'class') {
-    return 'class="' + value.join(' ') + '"'; // FIXME: entitify
+    return `class="${value.join(' ')}"`; // FIXME: entitify
   } else if (attributeName === 'style') {
-    return (
-      'style="' +
-      Object.keys(value)
-        // FIXME: entitify
-        .map(cssProp => [cssProp, value[cssProp]].join(': '))
-        .join('; ') +
-      '"'
-    );
+    return `style="${Object.keys(value)
+  // FIXME: entitify
+  .map(cssProp => [cssProp, value[cssProp]].join(': '))
+  .join('; ')}"`;
   } else {
-    return attributeName + '="' + entitify(value) + '"';
+    return `${attributeName}="${entitify(value)}"`;
   }
 }
 
@@ -231,11 +227,11 @@ function stringifyStartTag(element) {
     element.ownerDocument.contentType === 'text/html'
       ? element.nodeName.toLowerCase()
       : element.nodeName;
-  let str = '<' + elementName;
+  let str = `<${elementName}`;
   const attrs = getCanonicalAttributes(element);
 
   Object.keys(attrs).forEach(key => {
-    str += ' ' + stringifyAttribute(key, attrs[key]);
+    str += ` ${stringifyAttribute(key, attrs[key])}`;
   });
 
   str += '>';
@@ -250,7 +246,7 @@ function stringifyEndTag(element) {
   if (isHtml && isVoidElement(elementName) && element.childNodes.length === 0) {
     return '';
   } else {
-    return '</' + elementName + '>';
+    return `</${elementName}>`;
   }
 }
 
@@ -282,7 +278,7 @@ module.exports = {
       },
       inspect(element, depth, output) {
         return output.code(
-          element.nodeName + ' "' + element.nodeValue + '"',
+          `${element.nodeName} "${element.nodeValue}"`,
           'prism-string'
         );
       }
@@ -298,12 +294,12 @@ module.exports = {
         return a.nodeValue === b.nodeValue;
       },
       inspect(element, depth, output) {
-        return output.code('<!--' + element.nodeValue + '-->', 'html');
+        return output.code(`<!--${element.nodeValue}-->`, 'html');
       },
       diff(actual, expected, output, diff, inspect, equal) {
         const d = diff(
-          '<!--' + actual.nodeValue + '-->',
-          '<!--' + expected.nodeValue + '-->'
+          `<!--${actual.nodeValue}-->`,
+          `<!--${expected.nodeValue}-->`
         );
         d.inline = true;
         return d;
@@ -409,15 +405,15 @@ module.exports = {
         );
       },
       inspect(doctype, depth, output, inspect) {
-        return output.code('<!DOCTYPE ' + doctype.name + '>', 'html');
+        return output.code(`<!DOCTYPE ${doctype.name}>`, 'html');
       },
       equal(a, b) {
         return a.toString() === b.toString();
       },
       diff(actual, expected, output, diff) {
         const d = diff(
-          '<!DOCTYPE ' + actual.name + '>',
-          '<!DOCTYPE ' + expected.name + '>'
+          `<!DOCTYPE ${actual.name}>`,
+          `<!DOCTYPE ${expected.name}>`
         );
         d.inline = true;
         return d;
@@ -595,7 +591,7 @@ module.exports = {
         output.inline = true;
 
         if (Math.max(actual.length, expected.length) > this.diffLimit) {
-          output.jsComment('Diff suppressed due to size > ' + this.diffLimit);
+          output.jsComment(`Diff suppressed due to size > ${this.diffLimit}`);
           return output;
         }
 
@@ -790,9 +786,7 @@ module.exports = {
         return node;
       } else {
         throw new Error(
-          'to satisfy: Node type ' +
-            node.nodeType +
-            ' is not yet supported in the value'
+          `to satisfy: Node type ${node.nodeType} is not yet supported in the value`
         );
       }
     }
@@ -949,10 +943,7 @@ module.exports = {
         );
         if (unsupportedOptions.length > 0) {
           throw new Error(
-            'Unsupported option' +
-              (unsupportedOptions.length === 1 ? '' : 's') +
-              ': ' +
-              unsupportedOptions.join(', ')
+            `Unsupported option${unsupportedOptions.length === 1 ? '' : 's'}: ${unsupportedOptions.join(', ')}`
           );
         }
 
