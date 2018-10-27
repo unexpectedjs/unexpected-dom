@@ -1,13 +1,13 @@
 /*global describe, it*/
-var unexpected = require('unexpected');
-var unexpectedDom = require('../src/index');
-var jsdom = require('jsdom');
+const unexpected = require('unexpected');
+const unexpectedDom = require('../src/index');
+const jsdom = require('jsdom');
 
-var expect = unexpected.clone().installPlugin(unexpectedDom);
+const expect = unexpected.clone().installPlugin(unexpectedDom);
 expect.output.installPlugin(require('magicpen-prism'));
 
 expect.addAssertion('to inspect as [itself]', function(expect, subject, value) {
-  var originalSubject = subject;
+  const originalSubject = subject;
   if (typeof subject === 'string') {
     subject = new jsdom.JSDOM(
       '<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>'
@@ -26,8 +26,8 @@ expect.addAssertion('to inspect as [itself]', function(expect, subject, value) {
   }
 });
 
-describe('jsdom bug compatibility', function() {
-  it('should work without issue #1107 fixed', function() {
+describe('jsdom bug compatibility', () => {
+  it('should work without issue #1107 fixed', () => {
     // https://github.com/tmpvar/jsdom/issues/1107
     expect(
       '<select><option value="foo">bar</option></select>',
