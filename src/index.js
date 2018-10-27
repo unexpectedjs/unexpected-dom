@@ -1,46 +1,49 @@
 /*global DOMParser*/
-var matchesSelector = require('./matchesSelector');
+const matchesSelector = require('./matchesSelector');
 
-function parseHtml(str, isFragment, assertionNameForErrorMessage) {
-  if (isFragment) {
-    str = '<html><head></head><body>' + str + '</body></html>';
+function getJSDOM() {
+  try {
+    return require('' + 'jsdom');
+  } catch (err) {
+    throw new Error(
+      'unexpected-dom: Running outside a browser (or in a browser without DOMParser), but could not find the `jsdom` module. Please npm install jsdom to make this work.'
+    );
   }
-  var htmlDocument;
+}
+
+function getHtmlDocument(str) {
   if (typeof DOMParser !== 'undefined') {
-    htmlDocument = new DOMParser().parseFromString(str, 'text/html');
+    return new DOMParser().parseFromString(str, 'text/html');
   } else if (
     typeof document !== 'undefined' &&
     document.implementation &&
     document.implementation.createHTMLDocument
   ) {
-    htmlDocument = document.implementation.createHTMLDocument('');
+    const htmlDocument = document.implementation.createHTMLDocument('');
     htmlDocument.open();
     htmlDocument.write(str);
     htmlDocument.close();
+    return htmlDocument;
   } else {
-    var jsdom;
-    try {
-      jsdom = require('' + 'jsdom');
-    } catch (err) {
-      throw new Error(
-        'unexpected-dom' +
-          (assertionNameForErrorMessage
-            ? ' (' + assertionNameForErrorMessage + ')'
-            : '') +
-          ': Running outside a browser, but could not find the `jsdom` module. Please npm install jsdom to make this work.'
-      );
-    }
-    if (jsdom.JSDOM) {
-      htmlDocument = new jsdom.JSDOM(str).window.document;
-    } else {
-      htmlDocument = jsdom.jsdom(str);
-    }
+    const jsdom = getJSDOM();
+
+    return jsdom.JSDOM
+      ? new jsdom.JSDOM(str).window.document
+      : jsdom.jsdom(str);
   }
+}
+
+function parseHtml(str, isFragment) {
   if (isFragment) {
-    var body = htmlDocument.body;
-    var documentFragment = htmlDocument.createDocumentFragment();
+    str = '<html><head></head><body>' + str + '</body></html>';
+  }
+  const htmlDocument = getHtmlDocument(str);
+
+  if (isFragment) {
+    const body = htmlDocument.body;
+    const documentFragment = htmlDocument.createDocumentFragment();
     if (body) {
-      for (var i = 0; i < body.childNodes.length; i += 1) {
+      for (let i = 0; i < body.childNodes.length; i += 1) {
         documentFragment.appendChild(body.childNodes[i].cloneNode(true));
       }
     }
@@ -50,22 +53,12 @@ function parseHtml(str, isFragment, assertionNameForErrorMessage) {
   }
 }
 
-function parseXml(str, assertionNameForErrorMessage) {
+function parseXml(str) {
   if (typeof DOMParser !== 'undefined') {
     return new DOMParser().parseFromString(str, 'text/xml');
   } else {
-    var jsdom;
-    try {
-      jsdom = require('' + 'jsdom');
-    } catch (err) {
-      throw new Error(
-        'unexpected-dom' +
-          (assertionNameForErrorMessage
-            ? ' (' + assertionNameForErrorMessage + ')'
-            : '') +
-          ': Running outside a browser (or in a browser without DOMParser), but could not find the `jsdom` module. Please npm install jsdom to make this work.'
-      );
-    }
+    const jsdom = getJSDOM();
+
     if (jsdom.JSDOM) {
       return new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
     } else {
@@ -75,11 +68,11 @@ function parseXml(str, assertionNameForErrorMessage) {
 }
 
 // From html-minifier
-var enumeratedAttributeValues = {
+const enumeratedAttributeValues = {
   draggable: ['true', 'false'] // defaults to 'auto'
 };
 
-var matchSimpleAttribute = /^(?:allowfullscreen|async|autofocus|autoplay|checked|compact|controls|declare|default|defaultchecked|defaultmuted|defaultselected|defer|disabled|enabled|formnovalidate|hidden|indeterminate|inert|ismap|itemscope|loop|multiple|muted|nohref|noresize|noshade|novalidate|nowrap|open|pauseonexit|readonly|required|reversed|scoped|seamless|selected|sortable|spellcheck|truespeed|typemustmatch|visible)$/i;
+const matchSimpleAttribute = /^(?:allowfullscreen|async|autofocus|autoplay|checked|compact|controls|declare|default|defaultchecked|defaultmuted|defaultselected|defer|disabled|enabled|formnovalidate|hidden|indeterminate|inert|ismap|itemscope|loop|multiple|muted|nohref|noresize|noshade|novalidate|nowrap|open|pauseonexit|readonly|required|reversed|scoped|seamless|selected|sortable|spellcheck|truespeed|typemustmatch|visible)$/i;
 
 function isBooleanAttribute(attrName) {
   return matchSimpleAttribute.test(attrName);
@@ -90,7 +83,7 @@ function isEnumeratedAttribute(attrName) {
 }
 
 function validateStyles(expect, str) {
-  var invalidStyles = str.split(';').filter(function(part) {
+  const invalidStyles = str.split(';').filter(function(part) {
     return !/^\s*\w+\s*:\s*\w+\s*$|^$/.test(part);
   });
 
@@ -104,10 +97,10 @@ function validateStyles(expect, str) {
 }
 
 function styleStringToObject(str) {
-  var styles = {};
+  const styles = {};
 
   str.split(';').forEach(function(rule) {
-    var tuple = rule.split(':').map(function(part) {
+    const tuple = rule.split(':').map(function(part) {
       return part.trim();
     });
 
@@ -129,7 +122,7 @@ function getClassNamesFromAttributeValue(attributeValue) {
     return [];
   }
 
-  var classNames = attributeValue.split(/\s+/);
+  const classNames = attributeValue.split(/\s+/);
   if (classNames.length === 1 && classNames[0] === '') {
     classNames.pop();
   }
@@ -137,12 +130,11 @@ function getClassNamesFromAttributeValue(attributeValue) {
 }
 
 function isInsideHtmlDocument(node) {
-  var ownerDocument;
-  if (node.nodeType === 9 && node.documentElement && node.implementation) {
-    ownerDocument = node;
-  } else {
-    ownerDocument = node.ownerDocument;
-  }
+  const ownerDocument =
+    node.nodeType === 9 && node.documentElement && node.implementation
+      ? node
+      : node.ownerDocument;
+
   if (ownerDocument.contentType) {
     return ownerDocument.contentType === 'text/html';
   } else {
@@ -151,11 +143,11 @@ function isInsideHtmlDocument(node) {
 }
 
 function getAttributes(element) {
-  var isHtml = isInsideHtmlDocument(element);
-  var attrs = element.attributes;
-  var result = {};
+  const isHtml = isInsideHtmlDocument(element);
+  const attrs = element.attributes;
+  const result = {};
 
-  for (var i = 0; i < attrs.length; i += 1) {
+  for (let i = 0; i < attrs.length; i += 1) {
     if (attrs[i].name === 'class') {
       result[attrs[i].name] =
         (attrs[i].value && attrs[i].value.split(' ')) || [];
@@ -173,8 +165,8 @@ function getAttributes(element) {
 }
 
 function getCanonicalAttributes(element) {
-  var attrs = getAttributes(element);
-  var result = {};
+  const attrs = getAttributes(element);
+  const result = {};
 
   Object.keys(attrs)
     .sort()
@@ -241,12 +233,12 @@ function stringifyAttribute(attributeName, value) {
 }
 
 function stringifyStartTag(element) {
-  var elementName =
+  const elementName =
     element.ownerDocument.contentType === 'text/html'
       ? element.nodeName.toLowerCase()
       : element.nodeName;
-  var str = '<' + elementName;
-  var attrs = getCanonicalAttributes(element);
+  let str = '<' + elementName;
+  const attrs = getCanonicalAttributes(element);
 
   Object.keys(attrs).forEach(function(key) {
     str += ' ' + stringifyAttribute(key, attrs[key]);
@@ -257,8 +249,10 @@ function stringifyStartTag(element) {
 }
 
 function stringifyEndTag(element) {
-  var isHtml = isInsideHtmlDocument(element);
-  var elementName = isHtml ? element.nodeName.toLowerCase() : element.nodeName;
+  const isHtml = isInsideHtmlDocument(element);
+  const elementName = isHtml
+    ? element.nodeName.toLowerCase()
+    : element.nodeName;
   if (isHtml && isVoidElement(elementName) && element.childNodes.length === 0) {
     return '';
   } else {
@@ -313,7 +307,7 @@ module.exports = {
         return output.code('<!--' + element.nodeValue + '-->', 'html');
       },
       diff: function(actual, expected, output, diff, inspect, equal) {
-        var d = diff(
+        const d = diff(
           '<!--' + actual.nodeValue + '-->',
           '<!--' + expected.nodeValue + '-->'
         );
@@ -346,7 +340,7 @@ module.exports = {
         return output.code(entitify(element.nodeValue.trim()), 'html');
       },
       diff: function(actual, expected, output, diff, inspect, equal) {
-        var d = diff(actual.nodeValue, expected.nodeValue);
+        const d = diff(actual.nodeValue, expected.nodeValue);
         d.inline = true;
         return d;
       }
@@ -400,8 +394,8 @@ module.exports = {
     });
 
     function makeAttachedDOMNodeList(domNodeList, contentType) {
-      var attachedDOMNodeList = [];
-      for (var i = 0; i < domNodeList.length; i += 1) {
+      const attachedDOMNodeList = [];
+      for (let i = 0; i < domNodeList.length; i += 1) {
         attachedDOMNodeList.push(domNodeList[i]);
       }
       attachedDOMNodeList._isAttachedDOMNodeList = true;
@@ -427,7 +421,7 @@ module.exports = {
         return a.toString() === b.toString();
       },
       diff: function(actual, expected, output, diff) {
-        var d = diff(
+        const d = diff(
           '<!DOCTYPE ' + actual.name + '>',
           '<!DOCTYPE ' + expected.name + '>'
         );
@@ -449,7 +443,7 @@ module.exports = {
         );
       },
       inspect: function(document, depth, output, inspect) {
-        for (var i = 0; i < document.childNodes.length; i += 1) {
+        for (let i = 0; i < document.childNodes.length; i += 1) {
           output.append(inspect(document.childNodes[i]));
         }
         return output;
@@ -485,7 +479,7 @@ module.exports = {
       },
       inspect: function(document, depth, output, inspect) {
         output.code('<?xml version="1.0"?>', 'xml');
-        for (var i = 0; i < document.childNodes.length; i += 1) {
+        for (let i = 0; i < document.childNodes.length; i += 1) {
           output.append(inspect(document.childNodes[i], depth - 1));
         }
         return output;
@@ -529,8 +523,8 @@ module.exports = {
         );
       },
       equal: function(a, b, equal) {
-        var aIsHtml = isInsideHtmlDocument(a);
-        var bIsHtml = isInsideHtmlDocument(b);
+        const aIsHtml = isInsideHtmlDocument(a);
+        const bIsHtml = isInsideHtmlDocument(b);
         return (
           aIsHtml === bIsHtml &&
           (aIsHtml
@@ -541,17 +535,17 @@ module.exports = {
         );
       },
       inspect: function(element, depth, output, inspect) {
-        var elementName = element.nodeName.toLowerCase();
-        var startTag = stringifyStartTag(element);
+        const elementName = element.nodeName.toLowerCase();
+        const startTag = stringifyStartTag(element);
 
         output.code(startTag, 'html');
         if (element.childNodes.length > 0) {
           if (depth === 1) {
             output.text('...');
           } else {
-            var inspectedChildren = [];
+            const inspectedChildren = [];
             if (elementName === 'script') {
-              var type = element.getAttribute('type');
+              let type = element.getAttribute('type');
               if (!type || /javascript/.test(type)) {
                 type = 'javascript';
               }
@@ -568,14 +562,14 @@ module.exports = {
                   )
               );
             } else {
-              for (var i = 0; i < element.childNodes.length; i += 1) {
+              for (let i = 0; i < element.childNodes.length; i += 1) {
                 inspectedChildren.push(inspect(element.childNodes[i]));
               }
             }
 
-            var width = startTag.length;
-            var multipleLines = inspectedChildren.some(function(o) {
-              var size = o.size();
+            let width = startTag.length;
+            const multipleLines = inspectedChildren.some(function(o) {
+              const size = o.size();
               width += size.width;
               return width > 60 || o.height > 1;
             });
@@ -603,7 +597,7 @@ module.exports = {
       },
       diffLimit: 512,
       diff: function(actual, expected, output, diff, inspect, equal) {
-        var isHtml = isInsideHtmlDocument(actual);
+        const isHtml = isInsideHtmlDocument(actual);
         output.inline = true;
 
         if (Math.max(actual.length, expected.length) > this.diffLimit) {
@@ -611,14 +605,14 @@ module.exports = {
           return output;
         }
 
-        var emptyElements =
+        const emptyElements =
           actual.childNodes.length === 0 && expected.childNodes.length === 0;
-        var conflictingElement =
+        const conflictingElement =
           actual.nodeName.toLowerCase() !== expected.nodeName.toLowerCase() ||
           !equal(getAttributes(actual), getAttributes(expected));
 
         if (conflictingElement) {
-          var canContinueLine = true;
+          let canContinueLine = true;
           output.prismPunctuation('<').prismTag(actual.nodeName.toLowerCase());
           if (
             actual.nodeName.toLowerCase() !== expected.nodeName.toLowerCase()
@@ -633,8 +627,8 @@ module.exports = {
               .nl();
             canContinueLine = false;
           }
-          var actualAttributes = getAttributes(actual);
-          var expectedAttributes = getAttributes(expected);
+          const actualAttributes = getAttributes(actual);
+          const expectedAttributes = getAttributes(expected);
           Object.keys(actualAttributes).forEach(function(attributeName) {
             output.sp(canContinueLine ? 1 : 2 + actual.nodeName.length);
             writeAttributeToMagicPen(
@@ -725,7 +719,7 @@ module.exports = {
       function(expect, subject, value) {
         return expect(subject, 'to have attributes', {
           class: function(className) {
-            var actualClasses = getClassNamesFromAttributeValue(className);
+            const actualClasses = getClassNamesFromAttributeValue(className);
             if (typeof value === 'string') {
               value = getClassNamesFromAttributeValue(value);
             }
@@ -787,13 +781,13 @@ module.exports = {
         return { name: node.nodeName };
       } else if (node.nodeType === 1) {
         // DOMElement
-        var name = isHtml ? node.nodeName.toLowerCase() : node.nodeName;
+        const name = isHtml ? node.nodeName.toLowerCase() : node.nodeName;
 
-        var result = { name: name };
+        const result = { name: name };
 
         if (node.attributes) {
           result.attributes = {};
-          for (var i = 0; i < node.attributes.length; i += 1) {
+          for (let i = 0; i < node.attributes.length; i += 1) {
             result.attributes[node.attributes[i].name] =
               isHtml && isBooleanAttribute(node.attributes[i].name)
                 ? true
@@ -824,17 +818,14 @@ module.exports = {
     expect.exportAssertion(
       '<DOMNodeList> to [exhaustively] satisfy <string>',
       function(expect, subject, value) {
-        var isHtml = subject.ownerDocument.contentType === 'text/html';
+        const isHtml = subject.ownerDocument.contentType === 'text/html';
         expect.argsOutput = function(output) {
           return output.code(value, isHtml ? 'html' : 'xml');
         };
         return expect(
           subject,
           'to [exhaustively] satisfy',
-          (isHtml
-            ? parseHtml(value, true, expect.testDescription)
-            : parseXml(value, expect.testDescription)
-          ).childNodes
+          (isHtml ? parseHtml(value, true) : parseXml(value)).childNodes
         );
       }
     );
@@ -842,9 +833,9 @@ module.exports = {
     expect.exportAssertion(
       '<DOMNodeList> to [exhaustively] satisfy <DOMNodeList>',
       function(expect, subject, value) {
-        var isHtml = subject.ownerDocument.contentType === 'text/html';
-        var satisfySpecs = [];
-        for (var i = 0; i < value.length; i += 1) {
+        const isHtml = subject.ownerDocument.contentType === 'text/html';
+        const satisfySpecs = [];
+        for (let i = 0; i < value.length; i += 1) {
           satisfySpecs.push(convertDOMNodeToSatisfySpec(value[i], isHtml));
         }
         return expect(subject, 'to [exhaustively] satisfy', satisfySpecs);
@@ -854,16 +845,14 @@ module.exports = {
     expect.exportAssertion(
       '<DOMDocumentFragment> to [exhaustively] satisfy <string>',
       function(expect, subject, value) {
-        var isHtml = isInsideHtmlDocument(subject);
+        const isHtml = isInsideHtmlDocument(subject);
         expect.argsOutput = function(output) {
           return output.code(value, isHtml ? 'html' : 'xml');
         };
         return expect(
           subject,
           'to [exhaustively] satisfy',
-          isHtml
-            ? parseHtml(value, true, expect.testDescription)
-            : parseXml(value, expect.testDescription)
+          isHtml ? parseHtml(value, true) : parseXml(value)
         );
       }
     );
@@ -871,7 +860,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMDocumentFragment> to [exhaustively] satisfy <DOMDocumentFragment>',
       function(expect, subject, value) {
-        var isHtml = subject.ownerDocument.contentType === 'text/html';
+        const isHtml = subject.ownerDocument.contentType === 'text/html';
         return expect(
           subject,
           'to [exhaustively] satisfy',
@@ -892,10 +881,10 @@ module.exports = {
     expect.exportAssertion(
       '<DOMElement> to [exhaustively] satisfy <string>',
       function(expect, subject, value) {
-        var isHtml = isInsideHtmlDocument(subject);
-        var documentFragment = isHtml
-          ? parseHtml(value, true, this.testDescription)
-          : parseXml(value, this.testDescription);
+        const isHtml = isInsideHtmlDocument(subject);
+        const documentFragment = isHtml
+          ? parseHtml(value, true)
+          : parseXml(value);
         if (documentFragment.childNodes.length !== 1) {
           throw new Error(
             'HTMLElement to satisfy string: Only a single node is supported'
@@ -915,10 +904,10 @@ module.exports = {
     expect.exportAssertion(
       '<DOMDocument> to [exhaustively] satisfy <string>',
       function(expect, subject, value) {
-        var isHtml = isInsideHtmlDocument(subject);
-        var valueDocument = isHtml
-          ? parseHtml(value, false, this.testDescription)
-          : parseXml(value, this.testDescription);
+        const isHtml = isInsideHtmlDocument(subject);
+        const valueDocument = isHtml
+          ? parseHtml(value, false)
+          : parseXml(value);
         return expect(
           makeAttachedDOMNodeList(subject.childNodes),
           'to [exhaustively] satisfy',
@@ -934,7 +923,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMDocument> to [exhaustively] satisfy <DOMDocument>',
       function(expect, subject, value) {
-        var isHtml = isInsideHtmlDocument(subject);
+        const isHtml = isInsideHtmlDocument(subject);
         return expect(
           makeAttachedDOMNodeList(subject.childNodes),
           'to [exhaustively] satisfy',
@@ -980,8 +969,8 @@ module.exports = {
     expect.exportAssertion(
       '<DOMElement> to [exhaustively] satisfy <object>',
       function(expect, subject, value) {
-        var isHtml = isInsideHtmlDocument(subject);
-        var unsupportedOptions = Object.keys(value).filter(function(key) {
+        const isHtml = isInsideHtmlDocument(subject);
+        const unsupportedOptions = Object.keys(value).filter(function(key) {
           return (
             key !== 'attributes' &&
             key !== 'name' &&
@@ -999,7 +988,7 @@ module.exports = {
           );
         }
 
-        var promiseByKey = {
+        const promiseByKey = {
           name: expect.promise(function() {
             if (value && typeof value.name !== 'undefined') {
               return bubbleError(function() {
@@ -1041,17 +1030,17 @@ module.exports = {
           attributes: {}
         };
 
-        var onlyAttributes =
+        const onlyAttributes =
           (value && value.onlyAttributes) || expect.flags.exhaustively;
-        var attrs = getAttributes(subject);
-        var expectedAttributes = value && value.attributes;
-        var expectedAttributeNames = [];
+        const attrs = getAttributes(subject);
+        let expectedAttributes = value && value.attributes;
+        const expectedAttributeNames = [];
+        let expectedValueByAttributeName = {};
 
         if (typeof expectedAttributes !== 'undefined') {
           if (typeof expectedAttributes === 'string') {
             expectedAttributes = [expectedAttributes];
           }
-          var expectedValueByAttributeName = {};
           if (Array.isArray(expectedAttributes)) {
             expectedAttributes.forEach(function(attributeName) {
               expectedValueByAttributeName[attributeName] = true;
@@ -1069,8 +1058,8 @@ module.exports = {
           });
 
           expectedAttributeNames.forEach(function(attributeName) {
-            var attributeValue = subject.getAttribute(attributeName);
-            var expectedAttributeValue =
+            const attributeValue = subject.getAttribute(attributeName);
+            const expectedAttributeValue =
               expectedValueByAttributeName[attributeName];
             promiseByKey.attributes[attributeName] = expect.promise(function() {
               if (typeof expectedAttributeValue === 'undefined') {
@@ -1078,7 +1067,7 @@ module.exports = {
                   expect(subject.hasAttribute(attributeName), 'to be false');
                 });
               } else if (isEnumeratedAttribute(attributeName)) {
-                var indexOfEnumeratedAttributeValue = enumeratedAttributeValues[
+                const indexOfEnumeratedAttributeValue = enumeratedAttributeValues[
                   attributeName
                 ].indexOf(expectedAttributeValue);
 
@@ -1107,10 +1096,10 @@ module.exports = {
                 (typeof expectedAttributeValue === 'string' ||
                   Array.isArray(expectedAttributeValue))
               ) {
-                var actualClasses = getClassNamesFromAttributeValue(
+                const actualClasses = getClassNamesFromAttributeValue(
                   attributeValue
                 );
-                var expectedClasses = expectedAttributeValue;
+                let expectedClasses = expectedAttributeValue;
                 if (typeof expectedClasses === 'string') {
                   expectedClasses = getClassNamesFromAttributeValue(
                     expectedAttributeValue
@@ -1138,7 +1127,7 @@ module.exports = {
                   });
                 }
               } else if (attributeName === 'style') {
-                var expectedStyleObj;
+                let expectedStyleObj;
                 if (typeof expectedValueByAttributeName.style === 'string') {
                   validateStyles(expect, expectedValueByAttributeName.style);
                   expectedStyleObj = styleStringToObject(
@@ -1174,7 +1163,7 @@ module.exports = {
           });
 
           promiseByKey.attributePresence = expect.promise(function() {
-            var attributeNamesExpectedToBeDefined = [];
+            const attributeNamesExpectedToBeDefined = [];
             expectedAttributeNames.forEach(function(attributeName) {
               if (
                 typeof expectedValueByAttributeName[attributeName] ===
@@ -1201,8 +1190,8 @@ module.exports = {
             expect.fail({
               diff: function(output, diff, inspect, equal) {
                 output.block(function() {
-                  var output = this;
-                  var seenError = false;
+                  const output = this;
+                  let seenError = false;
                   output
                     .prismPunctuation('<')
                     .prismTag(
@@ -1210,7 +1199,7 @@ module.exports = {
                     );
                   if (promiseByKey.name.isRejected()) {
                     seenError = true;
-                    var nameError = promiseByKey.name.reason();
+                    const nameError = promiseByKey.name.reason();
                     output.sp().annotationBlock(function() {
                       this.error(
                         (nameError && nameError.getLabel()) || 'should satisfy'
@@ -1219,10 +1208,10 @@ module.exports = {
                         .append(inspect(value.name));
                     });
                   }
-                  var inspectedAttributes = [];
+                  const inspectedAttributes = [];
                   Object.keys(attrs).forEach(function(attributeName) {
-                    var attributeOutput = output.clone();
-                    var promise = promiseByKey.attributes[attributeName];
+                    const attributeOutput = output.clone();
+                    const promise = promiseByKey.attributes[attributeName];
                     writeAttributeToMagicPen(
                       attributeOutput,
                       attributeName,
@@ -1254,11 +1243,11 @@ module.exports = {
                   });
                   expectedAttributeNames.forEach(function(attributeName) {
                     if (!subject.hasAttribute(attributeName)) {
-                      var promise = promiseByKey.attributes[attributeName];
+                      const promise = promiseByKey.attributes[attributeName];
                       if (!promise || promise.isRejected()) {
                         seenError = true;
-                        var err = promise && promise.reason();
-                        var attributeOutput = output
+                        const err = promise && promise.reason();
+                        const attributeOutput = output
                           .clone()
                           .annotationBlock(function() {
                             this.error('missing')
@@ -1315,11 +1304,11 @@ module.exports = {
                   }
 
                   output.prismPunctuation('>');
-                  var childrenError =
+                  const childrenError =
                     promiseByKey.children.isRejected() &&
                     promiseByKey.children.reason();
                   if (childrenError) {
-                    var childrenDiff = childrenError.getDiff(output);
+                    const childrenDiff = childrenError.getDiff(output);
                     if (childrenDiff && childrenDiff.inline) {
                       this.nl()
                         .indentLines()
@@ -1334,7 +1323,7 @@ module.exports = {
                         .i()
                         .block(function() {
                           for (
-                            var i = 0;
+                            let i = 0;
                             i < subject.childNodes.length;
                             i += 1
                           ) {
@@ -1347,7 +1336,7 @@ module.exports = {
                       output.nl();
                     }
                   } else {
-                    for (var i = 0; i < subject.childNodes.length; i += 1) {
+                    for (let i = 0; i < subject.childNodes.length; i += 1) {
                       this.append(inspect(subject.childNodes[i]));
                     }
                   }
@@ -1376,7 +1365,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMElement> not to have (attribute|attributes) <array>',
       function(expect, subject, value) {
-        var attributes = getAttributes(subject);
+        const attributes = getAttributes(subject);
 
         value.forEach(function(name) {
           delete attributes[name];
@@ -1429,7 +1418,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMDocument|DOMElement|DOMDocumentFragment> [when] queried for [first] <string> <assertion?>',
       function(expect, subject, query) {
-        var queryResult;
+        let queryResult;
 
         expect.argsOutput[0] = function(output) {
           return output.green(query);
@@ -1500,9 +1489,7 @@ module.exports = {
       '<string> [when] parsed as (html|HTML) [fragment] <assertion?>',
       function(expect, subject) {
         expect.errorMode = 'nested';
-        return expect.shift(
-          parseHtml(subject, expect.flags.fragment, expect.testDescription)
-        );
+        return expect.shift(parseHtml(subject, expect.flags.fragment));
       }
     );
 
@@ -1510,7 +1497,7 @@ module.exports = {
       '<string> [when] parsed as (xml|XML) <assertion?>',
       function(expect, subject) {
         expect.errorMode = 'nested';
-        return expect.shift(parseXml(subject, expect.testDescription));
+        return expect.shift(parseXml(subject));
       }
     );
   }
