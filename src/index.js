@@ -214,9 +214,9 @@ function stringifyAttribute(attributeName, value) {
     return `class="${value.join(' ')}"`; // FIXME: entitify
   } else if (attributeName === 'style') {
     return `style="${Object.keys(value)
-  // FIXME: entitify
-  .map(cssProp => [cssProp, value[cssProp]].join(': '))
-  .join('; ')}"`;
+      // FIXME: entitify
+      .map(cssProp => [cssProp, value[cssProp]].join(': '))
+      .join('; ')}"`;
   } else {
     return `${attributeName}="${entitify(value)}"`;
   }
@@ -747,12 +747,12 @@ module.exports = {
     // Necessary because this case would otherwise be handled by the above catch-all for <object>:
     expect.exportAssertion(
       '<DOMTextNode> to [exhaustively] satisfy <regexp>',
-      (expect, subject, value) => expect(subject.nodeValue, 'to satisfy', value)
+      (expect, { nodeValue }, value) => expect(nodeValue, 'to satisfy', value)
     );
 
     expect.exportAssertion(
       '<DOMTextNode> to [exhaustively] satisfy <any>',
-      (expect, subject, value) => expect(subject.nodeValue, 'to satisfy', value)
+      (expect, { nodeValue }, value) => expect(nodeValue, 'to satisfy', value)
     );
 
     function convertDOMNodeToSatisfySpec(node, isHtml) {
@@ -786,7 +786,9 @@ module.exports = {
         return node;
       } else {
         throw new Error(
-          `to satisfy: Node type ${node.nodeType} is not yet supported in the value`
+          `to satisfy: Node type ${
+            node.nodeType
+          } is not yet supported in the value`
         );
       }
     }
@@ -837,12 +839,12 @@ module.exports = {
 
     expect.exportAssertion(
       '<DOMDocumentFragment> to [exhaustively] satisfy <DOMDocumentFragment>',
-      (expect, subject, value) => {
+      (expect, subject, { childNodes }) => {
         const isHtml = subject.ownerDocument.contentType === 'text/html';
         return expect(
           subject,
           'to [exhaustively] satisfy',
-          Array.prototype.map.call(value.childNodes, childNode =>
+          Array.prototype.map.call(childNodes, childNode =>
             convertDOMNodeToSatisfySpec(childNode, isHtml)
           )
         );
@@ -851,8 +853,8 @@ module.exports = {
 
     expect.exportAssertion(
       '<DOMDocumentFragment> to [exhaustively] satisfy <object|array>',
-      (expect, subject, value) =>
-        expect(subject.childNodes, 'to [exhaustively] satisfy', value)
+      (expect, { childNodes }, value) =>
+        expect(childNodes, 'to [exhaustively] satisfy', value)
     );
 
     expect.exportAssertion(
@@ -898,12 +900,12 @@ module.exports = {
 
     expect.exportAssertion(
       '<DOMDocument> to [exhaustively] satisfy <DOMDocument>',
-      (expect, subject, value) => {
+      (expect, subject, { childNodes }) => {
         const isHtml = isInsideHtmlDocument(subject);
         return expect(
           makeAttachedDOMNodeList(subject.childNodes),
           'to [exhaustively] satisfy',
-          Array.prototype.map.call(value.childNodes, childNode =>
+          Array.prototype.map.call(childNodes, childNode =>
             convertDOMNodeToSatisfySpec(childNode, isHtml)
           )
         );
@@ -943,7 +945,9 @@ module.exports = {
         );
         if (unsupportedOptions.length > 0) {
           throw new Error(
-            `Unsupported option${unsupportedOptions.length === 1 ? '' : 's'}: ${unsupportedOptions.join(', ')}`
+            `Unsupported option${
+              unsupportedOptions.length === 1 ? '' : 's'
+            }: ${unsupportedOptions.join(', ')}`
           );
         }
 
@@ -1339,16 +1343,16 @@ module.exports = {
 
     expect.exportAssertion(
       '<DOMElement> to have [no] (child|children)',
-      (expect, subject) =>
+      (expect, { childNodes }) =>
         expect.flags.no
-          ? expect(subject.childNodes, 'to be empty')
-          : expect(subject.childNodes, 'not to be empty')
+          ? expect(childNodes, 'to be empty')
+          : expect(childNodes, 'not to be empty')
     );
 
     expect.exportAssertion(
       '<DOMElement> to have text <any>',
-      (expect, subject, value) =>
-        expect(subject.textContent, 'to satisfy', value)
+      (expect, { textContent }, value) =>
+        expect(textContent, 'to satisfy', value)
     );
 
     expect.exportAssertion(
