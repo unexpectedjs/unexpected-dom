@@ -256,7 +256,7 @@ function stringifyEndTag(element) {
 
 module.exports = {
   name: 'unexpected-dom',
-  installInto: function(expect) {
+  installInto(expect) {
     expect = expect.child();
     expect.use(require('magicpen-prism'));
 
@@ -270,17 +270,17 @@ module.exports = {
     expect.exportType({
       name: 'DOMNode',
       base: 'object',
-      identify: function(obj) {
+      identify(obj) {
         return (
           obj &&
           obj.nodeName &&
           [2, 3, 4, 5, 6, 7, 10, 11, 12].indexOf(obj.nodeType) > -1
         );
       },
-      equal: function(a, b) {
+      equal(a, b) {
         return a.nodeValue === b.nodeValue;
       },
-      inspect: function(element, depth, output) {
+      inspect(element, depth, output) {
         return output.code(
           element.nodeName + ' "' + element.nodeValue + '"',
           'prism-string'
@@ -291,16 +291,16 @@ module.exports = {
     expect.exportType({
       name: 'DOMComment',
       base: 'DOMNode',
-      identify: function(obj) {
+      identify(obj) {
         return obj && typeof obj.nodeType === 'number' && obj.nodeType === 8;
       },
-      equal: function(a, b) {
+      equal(a, b) {
         return a.nodeValue === b.nodeValue;
       },
-      inspect: function(element, depth, output) {
+      inspect(element, depth, output) {
         return output.code('<!--' + element.nodeValue + '-->', 'html');
       },
-      diff: function(actual, expected, output, diff, inspect, equal) {
+      diff(actual, expected, output, diff, inspect, equal) {
         const d = diff(
           '<!--' + actual.nodeValue + '-->',
           '<!--' + expected.nodeValue + '-->'
@@ -314,7 +314,7 @@ module.exports = {
     expect.exportType({
       name: 'DOMIgnoreComment',
       base: 'DOMComment',
-      identify: function(obj) {
+      identify(obj) {
         return (
           this.baseType.identify(obj) && /^\s*ignore\s*$/.test(obj.nodeValue)
         );
@@ -324,16 +324,16 @@ module.exports = {
     expect.exportType({
       name: 'DOMTextNode',
       base: 'DOMNode',
-      identify: function(obj) {
+      identify(obj) {
         return obj && typeof obj.nodeType === 'number' && obj.nodeType === 3;
       },
-      equal: function(a, b) {
+      equal(a, b) {
         return a.nodeValue === b.nodeValue;
       },
-      inspect: function(element, depth, output) {
+      inspect(element, depth, output) {
         return output.code(entitify(element.nodeValue.trim()), 'html');
       },
-      diff: function(actual, expected, output, diff, inspect, equal) {
+      diff(actual, expected, output, diff, inspect, equal) {
         const d = diff(actual.nodeValue, expected.nodeValue);
         d.inline = true;
         return d;
@@ -343,19 +343,19 @@ module.exports = {
     expect.exportType({
       name: 'DOMNodeList',
       base: 'array-like',
-      prefix: function(output) {
+      prefix(output) {
         return output.text('NodeList[');
       },
-      suffix: function(output) {
+      suffix(output) {
         return output.text(']');
       },
-      similar: function(a, b) {
+      similar(a, b) {
         // Figure out whether a and b are "struturally similar" so they can be diffed inline.
         return (
           a.nodeType === 1 && b.nodeType === 1 && a.nodeName === b.nodeName
         );
       },
-      identify: function(obj) {
+      identify(obj) {
         return (
           obj &&
           typeof obj.length === 'number' &&
@@ -373,16 +373,16 @@ module.exports = {
       name: 'attachedDOMNodeList',
       base: 'DOMNodeList',
       indent: false,
-      prefix: function(output) {
+      prefix(output) {
         return output;
       },
-      suffix: function(output) {
+      suffix(output) {
         return output;
       },
-      delimiter: function(output) {
+      delimiter(output) {
         return output;
       },
-      identify: function(obj) {
+      identify(obj) {
         return obj && obj._isAttachedDOMNodeList;
       }
     });
@@ -400,7 +400,7 @@ module.exports = {
     expect.exportType({
       name: 'HTMLDocType',
       base: 'DOMNode',
-      identify: function(obj) {
+      identify(obj) {
         return (
           obj &&
           typeof obj.nodeType === 'number' &&
@@ -408,13 +408,13 @@ module.exports = {
           'publicId' in obj
         );
       },
-      inspect: function(doctype, depth, output, inspect) {
+      inspect(doctype, depth, output, inspect) {
         return output.code('<!DOCTYPE ' + doctype.name + '>', 'html');
       },
-      equal: function(a, b) {
+      equal(a, b) {
         return a.toString() === b.toString();
       },
-      diff: function(actual, expected, output, diff) {
+      diff(actual, expected, output, diff) {
         const d = diff(
           '<!DOCTYPE ' + actual.name + '>',
           '<!DOCTYPE ' + expected.name + '>'
@@ -427,7 +427,7 @@ module.exports = {
     expect.exportType({
       name: 'DOMDocument',
       base: 'DOMNode',
-      identify: function(obj) {
+      identify(obj) {
         return (
           obj &&
           typeof obj.nodeType === 'number' &&
@@ -436,13 +436,13 @@ module.exports = {
           obj.implementation
         );
       },
-      inspect: function(document, depth, output, inspect) {
+      inspect(document, depth, output, inspect) {
         for (let i = 0; i < document.childNodes.length; i += 1) {
           output.append(inspect(document.childNodes[i]));
         }
         return output;
       },
-      diff: function(actual, expected, output, diff, inspect, equal) {
+      diff(actual, expected, output, diff, inspect, equal) {
         output.inline = true;
         output.append(
           diff(
@@ -457,7 +457,7 @@ module.exports = {
     expect.exportType({
       name: 'HTMLDocument',
       base: 'DOMDocument',
-      identify: function(obj) {
+      identify(obj) {
         return this.baseType.identify(obj) && obj.contentType === 'text/html';
       }
     });
@@ -465,13 +465,13 @@ module.exports = {
     expect.exportType({
       name: 'XMLDocument',
       base: 'DOMDocument',
-      identify: function(obj) {
+      identify(obj) {
         return (
           this.baseType.identify(obj) &&
           /^(?:application|text)\/xml|\+xml\b/.test(obj.contentType)
         );
       },
-      inspect: function(document, depth, output, inspect) {
+      inspect(document, depth, output, inspect) {
         output.code('<?xml version="1.0"?>', 'xml');
         for (let i = 0; i < document.childNodes.length; i += 1) {
           output.append(inspect(document.childNodes[i], depth - 1));
@@ -483,16 +483,16 @@ module.exports = {
     expect.exportType({
       name: 'DOMDocumentFragment',
       base: 'DOMNode',
-      identify: function(obj) {
+      identify(obj) {
         return obj && obj.nodeType === 11; // In jsdom, documentFragment.toString() does not return [object DocumentFragment]
       },
-      inspect: function(documentFragment, depth, output, inspect) {
+      inspect(documentFragment, depth, output, inspect) {
         return output
           .text('DocumentFragment[')
           .append(inspect(documentFragment.childNodes, depth))
           .text(']');
       },
-      diff: function(actual, expected, output, diff, inspect, equal) {
+      diff(actual, expected, output, diff, inspect, equal) {
         output.inline = true;
         output.block(
           diff(
@@ -507,7 +507,7 @@ module.exports = {
     expect.exportType({
       name: 'DOMElement',
       base: 'DOMNode',
-      identify: function(obj) {
+      identify(obj) {
         return (
           obj &&
           typeof obj.nodeType === 'number' &&
@@ -516,7 +516,7 @@ module.exports = {
           obj.attributes
         );
       },
-      equal: function(a, b, equal) {
+      equal(a, b, equal) {
         const aIsHtml = isInsideHtmlDocument(a);
         const bIsHtml = isInsideHtmlDocument(b);
         return (
@@ -528,7 +528,7 @@ module.exports = {
           equal(a.childNodes, b.childNodes)
         );
       },
-      inspect: function(element, depth, output, inspect) {
+      inspect(element, depth, output, inspect) {
         const elementName = element.nodeName.toLowerCase();
         const startTag = stringifyStartTag(element);
 
@@ -590,7 +590,7 @@ module.exports = {
         return output;
       },
       diffLimit: 512,
-      diff: function(actual, expected, output, diff, inspect, equal) {
+      diff(actual, expected, output, diff, inspect, equal) {
         const isHtml = isInsideHtmlDocument(actual);
         output.inline = true;
 
@@ -1143,7 +1143,7 @@ module.exports = {
         return expect.promise.all(promiseByKey).caught(() =>
           expect.promise.settle(promiseByKey).then(() => {
             expect.fail({
-              diff: function(output, diff, inspect, equal) {
+              diff(output, diff, inspect, equal) {
                 output.block(output => {
                   let seenError = false;
                   output
