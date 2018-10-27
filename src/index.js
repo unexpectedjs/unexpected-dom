@@ -393,7 +393,7 @@ module.exports = {
         attachedDOMNodeList.push(domNodeList[i]);
       }
       attachedDOMNodeList._isAttachedDOMNodeList = true;
-      attachedDOMNodeList.ownerDocument = { contentType: contentType };
+      attachedDOMNodeList.ownerDocument = { contentType };
       return attachedDOMNodeList;
     }
 
@@ -767,7 +767,7 @@ module.exports = {
         // DOMElement
         const name = isHtml ? node.nodeName.toLowerCase() : node.nodeName;
 
-        const result = { name: name };
+        const result = { name };
 
         if (node.attributes) {
           result.attributes = {};
