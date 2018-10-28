@@ -13,7 +13,7 @@ expect.addAssertion('<any> to inspect as itself', (expect, subject) => {
   const originalSubject = subject;
   if (typeof subject === 'string') {
     subject = new jsdom.JSDOM(
-      '<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>'
+      `<!DOCTYPE html><html><head></head><body>${subject}</body></html>`
     ).window.document.body.firstChild;
   }
   if (typeof originalSubject === 'string') {
@@ -30,7 +30,7 @@ expect.addAssertion(
   (expect, subject, value) => {
     if (typeof subject === 'string') {
       subject = new jsdom.JSDOM(
-        '<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>'
+        `<!DOCTYPE html><html><head></head><body>${subject}</body></html>`
       ).window.document.body.firstChild;
     }
     expect(expect.inspect(subject).toString(), 'to equal', value);
@@ -45,9 +45,7 @@ expect.addAssertion(
       item =>
         typeof item === 'string'
           ? new jsdom.JSDOM(
-              '<!DOCTYPE html><html><head></head><body>' +
-                item +
-                '</body></html>'
+              `<!DOCTYPE html><html><head></head><body>${item}</body></html>`
             ).window.document.body.firstChild
           : item
     );
@@ -60,7 +58,7 @@ expect.addAssertion(
 );
 
 function parseHtml(str) {
-  return new jsdom.JSDOM('<!DOCTYPE html><html><body>' + str + '</body></html>')
+  return new jsdom.JSDOM(`<!DOCTYPE html><html><body>${str}</body></html>`)
     .window.document.body.firstChild;
 }
 
@@ -69,7 +67,7 @@ function parseHtmlDocument(str) {
 }
 
 function parseHtmlFragment(str) {
-  str = '<html><head></head><body>' + str + '</body></html>';
+  str = `<html><head></head><body>${str}</body></html>`;
   const htmlDocument = new jsdom.JSDOM(str).window.document;
   const body = htmlDocument.body;
   const documentFragment = htmlDocument.createDocumentFragment();
