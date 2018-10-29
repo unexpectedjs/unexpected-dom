@@ -18,7 +18,7 @@
     "test": "mocha test documentation",
     "travis": "npm run lint && npm run coverage && npm run build && npm run bundle",
     "coverage": "nyc --reporter=lcov --reporter=text mocha --reporter dot test documentation",
-    "preversion": "npm run lint && npm run test && npm run build && npm run bundle && git add unexpected-dom.*",
+    "preversion": "npm run build && npm run bundle && npm run lint && npm run test && git add unexpected-dom.*",
     "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && deploy-site.sh",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
