@@ -10,7 +10,7 @@ expect.addAssertion('to inspect as [itself]', function(expect, subject, value) {
   const originalSubject = subject;
   if (typeof subject === 'string') {
     subject = new jsdom.JSDOM(
-      '<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>'
+      `<!DOCTYPE html><html><head></head><body>${subject}</body></html>`
     ).window.document.body.firstChild;
   }
   if (this.flags.itself) {
