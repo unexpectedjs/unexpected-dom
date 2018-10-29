@@ -1,19 +1,19 @@
 /*global describe, it, beforeEach, afterEach*/
-var unexpected = require('unexpected');
-var unexpectedDom = require('../src/index');
-var sinon = require('sinon');
-var jsdom = require('jsdom');
+const unexpected = require('unexpected');
+const unexpectedDom = require('../src/index');
+const sinon = require('sinon');
+const jsdom = require('jsdom');
 
-var expect = unexpected
+const expect = unexpected
   .clone()
   .installPlugin(require('unexpected-sinon'))
   .installPlugin(unexpectedDom);
 
-expect.addAssertion('<any> to inspect as itself', function(expect, subject) {
-  var originalSubject = subject;
+expect.addAssertion('<any> to inspect as itself', (expect, subject) => {
+  const originalSubject = subject;
   if (typeof subject === 'string') {
     subject = new jsdom.JSDOM(
-      '<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>'
+      `<!DOCTYPE html><html><head></head><body>${subject}</body></html>`
     ).window.document.body.firstChild;
   }
   if (typeof originalSubject === 'string') {
@@ -25,41 +25,40 @@ expect.addAssertion('<any> to inspect as itself', function(expect, subject) {
   }
 });
 
-expect.addAssertion('<any> to inspect as <string>', function(
-  expect,
-  subject,
-  value
-) {
-  if (typeof subject === 'string') {
-    subject = new jsdom.JSDOM(
-      '<!DOCTYPE html><html><head></head><body>' + subject + '</body></html>'
-    ).window.document.body.firstChild;
+expect.addAssertion(
+  '<any> to inspect as <string>',
+  (expect, subject, value) => {
+    if (typeof subject === 'string') {
+      subject = new jsdom.JSDOM(
+        `<!DOCTYPE html><html><head></head><body>${subject}</body></html>`
+      ).window.document.body.firstChild;
+    }
+    expect(expect.inspect(subject).toString(), 'to equal', value);
   }
-  expect(expect.inspect(subject).toString(), 'to equal', value);
-});
+);
 
-expect.addAssertion('<array> to produce a diff of <string>', function(
-  expect,
-  subject,
-  value
-) {
-  expect.errorMode = 'bubble';
-  subject = subject.map(function(item) {
-    return typeof item === 'string'
-      ? new jsdom.JSDOM(
-          '<!DOCTYPE html><html><head></head><body>' + item + '</body></html>'
-        ).window.document.body.firstChild
-      : item;
-  });
-  expect(
-    expect.diff(subject[0], subject[1]).diff.toString(),
-    'to equal',
-    value
-  );
-});
+expect.addAssertion(
+  '<array> to produce a diff of <string>',
+  (expect, subject, value) => {
+    expect.errorMode = 'bubble';
+    subject = subject.map(
+      item =>
+        typeof item === 'string'
+          ? new jsdom.JSDOM(
+              `<!DOCTYPE html><html><head></head><body>${item}</body></html>`
+            ).window.document.body.firstChild
+          : item
+    );
+    expect(
+      expect.diff(subject[0], subject[1]).diff.toString(),
+      'to equal',
+      value
+    );
+  }
+);
 
 function parseHtml(str) {
-  return new jsdom.JSDOM('<!DOCTYPE html><html><body>' + str + '</body></html>')
+  return new jsdom.JSDOM(`<!DOCTYPE html><html><body>${str}</body></html>`)
     .window.document.body.firstChild;
 }
 
@@ -68,12 +67,12 @@ function parseHtmlDocument(str) {
 }
 
 function parseHtmlFragment(str) {
-  str = '<html><head></head><body>' + str + '</body></html>';
-  var htmlDocument = new jsdom.JSDOM(str).window.document;
-  var body = htmlDocument.body;
-  var documentFragment = htmlDocument.createDocumentFragment();
+  str = `<html><head></head><body>${str}</body></html>`;
+  const htmlDocument = new jsdom.JSDOM(str).window.document;
+  const body = htmlDocument.body;
+  const documentFragment = htmlDocument.createDocumentFragment();
   if (body) {
-    for (var i = 0; i < body.childNodes.length; i += 1) {
+    for (let i = 0; i < body.childNodes.length; i += 1) {
       documentFragment.appendChild(body.childNodes[i].cloneNode(true));
     }
   }
@@ -93,17 +92,17 @@ function parseXml(str) {
   }
 }
 
-describe('unexpected-dom', function() {
+describe('unexpected-dom', () => {
   expect.output.preferredWidth = 100;
 
-  var document, body;
+  let document, body;
   beforeEach(function() {
     this.window = new jsdom.JSDOM().window;
     document = this.window.document;
     body = this.body = document.body;
   });
 
-  it('should inspect an HTML document correctly', function() {
+  it('should inspect an HTML document correctly', () => {
     expect(
       new jsdom.JSDOM('<!DOCTYPE html><html><head></head><BODY></BODY></html>')
         .window.document,
@@ -112,7 +111,7 @@ describe('unexpected-dom', function() {
     );
   });
 
-  it('should inspect an XML document correctly', function() {
+  it('should inspect an XML document correctly', () => {
     expect(
       '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>',
       'when parsed as XML',
@@ -121,7 +120,7 @@ describe('unexpected-dom', function() {
     );
   });
 
-  it('should inspect a document with nodes around the documentElement correctly', function() {
+  it('should inspect a document with nodes around the documentElement correctly', () => {
     expect(
       new jsdom.JSDOM(
         '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
@@ -131,11 +130,11 @@ describe('unexpected-dom', function() {
     );
   });
 
-  it('should inspect an attribute-less element correctly', function() {
+  it('should inspect an attribute-less element correctly', () => {
     expect('<div></div>', 'to inspect as itself');
   });
 
-  it('should dot out descendants at level >= 3 when inspecting', function() {
+  it('should dot out descendants at level >= 3 when inspecting', () => {
     expect(
       '<div><div><div><div>foo</div></div></div></div>',
       'to inspect as',
@@ -143,20 +142,20 @@ describe('unexpected-dom', function() {
     );
   });
 
-  it('should inspect void elements correctly', function() {
+  it('should inspect void elements correctly', () => {
     expect('<input type="text">', 'to inspect as itself');
   });
 
-  it('should inspect simple attributes correctly', function() {
+  it('should inspect simple attributes correctly', () => {
     expect('<input disabled type="text">', 'to inspect as itself');
   });
 
-  it('should inspect undefined attributes correctly', function() {
+  it('should inspect undefined attributes correctly', () => {
     expect('<input value="">', 'to inspect as itself');
   });
 
-  describe('diffing', function() {
-    it('should diff elements with different node names', function() {
+  describe('diffing', () => {
+    it('should diff elements with different node names', () => {
       expect(
         ['<div></div>', '<span></span>'],
         'to produce a diff of',
@@ -164,7 +163,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should diff a mismatching attribute', function() {
+    it('should diff a mismatching attribute', () => {
       expect(
         ['<div id="foo"></div>', '<div id="bar"></div>'],
         'to produce a diff of',
@@ -172,7 +171,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should diff a mismatching attribute with a char that needs entitification', function() {
+    it('should diff a mismatching attribute with a char that needs entitification', () => {
       expect(
         ['<div id="foo&quot;bar"></div>', '<div id="quux&quot;baz"></div>'],
         'to produce a diff of',
@@ -180,7 +179,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should diff multiple mismatching attributes', function() {
+    it('should diff multiple mismatching attributes', () => {
       expect(
         [
           '<div id="foo" the="same" heps="hey" something="identical"></div>',
@@ -193,7 +192,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should diff an extraneous attribute', function() {
+    it('should diff an extraneous attribute', () => {
       expect(
         ['<div id="foo"></div>', '<div></div>'],
         'to produce a diff of',
@@ -201,7 +200,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should diff a missing attribute', function() {
+    it('should diff a missing attribute', () => {
       expect(
         ['<div></div>', '<div id="foo"></div>'],
         'to produce a diff of',
@@ -209,7 +208,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should diff a missing attribute with a char that needs entitification', function() {
+    it('should diff a missing attribute with a char that needs entitification', () => {
       expect(
         ['<div></div>', '<div id="fo&amp;o"></div>'],
         'to produce a diff of',
@@ -217,7 +216,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should diff a child node', function() {
+    it('should diff a child node', () => {
       expect(
         ['<div>foo</div>', '<div>bar</div>'],
         'to produce a diff of',
@@ -225,9 +224,9 @@ describe('unexpected-dom', function() {
       );
     });
 
-    describe('with DOMDocuments', function() {
-      describe('satisfied against other DOMDocument instances', function() {
-        it('should succeed', function() {
+    describe('with DOMDocuments', () => {
+      describe('satisfied against other DOMDocument instances', () => {
+        it('should succeed', () => {
           expect(
             '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
             'when parsed as HTML to satisfy',
@@ -237,9 +236,9 @@ describe('unexpected-dom', function() {
           );
         });
 
-        it('should fail with a diff', function() {
+        it('should fail with a diff', () => {
           expect(
-            function() {
+            () => {
               expect(
                 '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
                 'when parsed as HTML to satisfy',
@@ -267,8 +266,8 @@ describe('unexpected-dom', function() {
         });
       });
 
-      describe('satisfied against a string', function() {
-        it('should succeed', function() {
+      describe('satisfied against a string', () => {
+        it('should succeed', () => {
           expect(
             '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
             'when parsed as HTML to satisfy',
@@ -276,9 +275,9 @@ describe('unexpected-dom', function() {
           );
         });
 
-        it('should fail with a diff', function() {
+        it('should fail with a diff', () => {
           expect(
-            function() {
+            () => {
               expect(
                 '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
                 'when parsed as HTML to satisfy',
@@ -305,8 +304,8 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('with DOMDocumentFragments', function() {
-      it('should diff fragments consisting of single nodes', function() {
+    describe('with DOMDocumentFragments', () => {
+      it('should diff fragments consisting of single nodes', () => {
         expect(
           ['<div>foo</div>', '<div>bar</div>'].map(parseHtmlFragment),
           'to produce a diff of',
@@ -314,7 +313,7 @@ describe('unexpected-dom', function() {
         );
       });
 
-      it('should diff fragments consisting of multiple nodes', function() {
+      it('should diff fragments consisting of multiple nodes', () => {
         expect(
           [
             '<div>foo</div><div>bar</div>',
@@ -335,7 +334,7 @@ describe('unexpected-dom', function() {
     });
   });
 
-  it('should allow regular assertions defined for the object type to work on an HTMLElement', function() {
+  it('should allow regular assertions defined for the object type to work on an HTMLElement', () => {
     expect(
       new jsdom.JSDOM('<html><head></head><body></body></html>').window.document
         .firstChild,
@@ -344,12 +343,12 @@ describe('unexpected-dom', function() {
     );
   });
 
-  it('should consider two DOM elements equal when they are of same type and have same attributes', function() {
-    var el1 = document.createElement('h1');
-    var el2 = document.createElement('h1');
-    var el3 = document.createElement('h1');
+  it('should consider two DOM elements equal when they are of same type and have same attributes', () => {
+    const el1 = document.createElement('h1');
+    const el2 = document.createElement('h1');
+    const el3 = document.createElement('h1');
     el3.id = 'el3';
-    var paragraph = document.createElement('p');
+    const paragraph = document.createElement('p');
 
     expect(el1, 'to be', el1);
     expect(el1, 'not to be', el2);
@@ -358,16 +357,16 @@ describe('unexpected-dom', function() {
     expect(el1, 'not to equal', paragraph);
   });
 
-  describe('to have text', function() {
-    it('should succeed', function() {
+  describe('to have text', () => {
+    it('should succeed', () => {
       document.body.innerHTML = '<div>foo</div>';
       return expect(document.body, 'to have text', 'foo');
     });
 
-    it('should fail with a diff', function() {
+    it('should fail with a diff', () => {
       document.body.innerHTML = '<div>foo</div>';
       expect(
-        function() {
+        () => {
           expect(document.body, 'to have text', 'bar');
         },
         'to throw',
@@ -378,18 +377,18 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should use "to satisfy" semantics', function() {
+    it('should use "to satisfy" semantics', () => {
       document.body.innerHTML = '<div>foo</div>';
       return expect(document.body, 'to have text', /fo/);
     });
   });
 
-  describe('to have class', function() {
-    it('should handle a non-existing class', function() {
+  describe('to have class', () => {
+    it('should handle a non-existing class', () => {
       body.innerHTML = '<button>Press me</button>';
 
       expect(
-        function() {
+        () => {
           expect(body.firstChild, 'to have class', 'foo');
         },
         'to throw',
@@ -401,18 +400,18 @@ describe('unexpected-dom', function() {
       );
     });
 
-    describe('with a single class passed as a string', function() {
-      it('should succeed', function() {
+    describe('with a single class passed as a string', () => {
+      it('should succeed', () => {
         body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
         expect(body.firstChild, 'to have class', 'bar');
       });
 
-      it('should fail with a diff', function() {
+      it('should fail with a diff', () => {
         body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
         expect(
-          function() {
+          () => {
             expect(body.firstChild, 'to have class', 'quux');
           },
           'to throw',
@@ -432,18 +431,18 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('with multiple classes passed as an array', function() {
-      it('should succeed', function() {
+    describe('with multiple classes passed as an array', () => {
+      it('should succeed', () => {
         body.innerHTML =
           '<button id="foo" class="bar foo" data-info="baz" disabled>Press me</button>';
         expect(body.firstChild, 'to have classes', ['foo', 'bar']);
       });
 
-      it('should fail with a diff', function() {
+      it('should fail with a diff', () => {
         body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
         expect(
-          function() {
+          () => {
             expect(body.firstChild, 'to have classes', ['quux', 'bar']);
           },
           'to throw',
@@ -463,19 +462,19 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('with the "only" flag', function() {
-      describe('with a single class passed as a string', function() {
-        it('should succeed', function() {
+    describe('with the "only" flag', () => {
+      describe('with a single class passed as a string', () => {
+        it('should succeed', () => {
           body.innerHTML =
             '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
           expect(body.firstChild, 'to only have class', 'bar');
         });
 
-        it('should fail with a diff', function() {
+        it('should fail with a diff', () => {
           body.innerHTML =
             '<button id="foo" class="bar quux" data-info="baz" disabled>Press me</button>';
           expect(
-            function() {
+            () => {
               expect(body.firstChild, 'to only have class', 'quux');
             },
             'to throw',
@@ -500,18 +499,18 @@ describe('unexpected-dom', function() {
         });
       });
 
-      describe('with multiple classes passed as an array', function() {
-        it('should succeed', function() {
+      describe('with multiple classes passed as an array', () => {
+        it('should succeed', () => {
           body.innerHTML =
             '<button id="foo" class="bar foo" data-info="baz" disabled>Press me</button>';
           expect(body.firstChild, 'to only have classes', ['foo', 'bar']);
         });
 
-        it('should fail with a diff', function() {
+        it('should fail with a diff', () => {
           body.innerHTML =
             '<button id="foo" class="bar quux foo" data-info="baz" disabled>Press me</button>';
           expect(
-            function() {
+            () => {
               expect(body.firstChild, 'to only have classes', ['quux', 'bar']);
             },
             'to throw',
@@ -539,8 +538,8 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('to have attributes', function() {
-    describe('argument comparison', function() {
+  describe('to have attributes', () => {
+    describe('argument comparison', () => {
       it('should match exact arguments', function() {
         this.body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
@@ -558,10 +557,10 @@ describe('unexpected-dom', function() {
       it('should fail on exact arguments not met', function() {
         this.body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
-        var el = this.body.firstChild;
+        const el = this.body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(el, 'to only have attributes', 'id');
           },
           'to throw',
@@ -596,10 +595,10 @@ describe('unexpected-dom', function() {
       it('should fail on partial arguments not met', function() {
         this.body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
-        var el = this.body.firstChild;
+        const el = this.body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(el, 'to have attributes', 'id', 'foo');
           },
           'to throw',
@@ -620,7 +619,7 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('array comparison', function() {
+    describe('array comparison', () => {
       it('should match exact arguments', function() {
         this.body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
@@ -636,10 +635,10 @@ describe('unexpected-dom', function() {
       it('should fail on exact arguments not met', function() {
         this.body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
-        var el = this.body.firstChild;
+        const el = this.body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(el, 'to only have attributes', ['id']);
           },
           'to throw',
@@ -668,10 +667,10 @@ describe('unexpected-dom', function() {
       it('should fail on partial arguments not met', function() {
         this.body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
-        var el = this.body.firstChild;
+        const el = this.body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(el, 'to have attributes', ['id', 'foo']);
           },
           'to throw',
@@ -691,7 +690,7 @@ describe('unexpected-dom', function() {
         );
       });
 
-      describe('with the absence of an attribute asserted by providing undefined as the expected value', function() {
+      describe('with the absence of an attribute asserted by providing undefined as the expected value', () => {
         it('should succeed', function() {
           this.body.innerHTML = '<button id="foo">Press me</button>';
           expect(this.body.firstChild, 'to have attributes', {
@@ -701,10 +700,10 @@ describe('unexpected-dom', function() {
 
         it('should fail with a diff', function() {
           this.body.innerHTML = '<button id="foo" quux="baz">Press me</button>';
-          var el = this.body.firstChild;
+          const el = this.body.firstChild;
 
           expect(
-            function() {
+            () => {
               expect(el, 'to have attributes', { quux: undefined });
             },
             'to throw',
@@ -719,7 +718,7 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('object comparison', function() {
+    describe('object comparison', () => {
       it('should match exact object', function() {
         this.body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
@@ -735,10 +734,10 @@ describe('unexpected-dom', function() {
       it('should fail on exact object not satisfied', function() {
         this.body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
-        var el = this.body.firstChild;
+        const el = this.body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(el, 'to only have attributes', {
               id: 'foo'
             });
@@ -772,10 +771,10 @@ describe('unexpected-dom', function() {
       it('should fail on partial object not satisfied', function() {
         this.body.innerHTML =
           '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
-        var el = this.body.firstChild;
+        const el = this.body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(el, 'to have attributes', {
               id: 'foo',
               foo: 'bar'
@@ -798,7 +797,7 @@ describe('unexpected-dom', function() {
         );
       });
 
-      describe('class attribute', function() {
+      describe('class attribute', () => {
         it('should match full class attributes', function() {
           this.body.innerHTML = '<i class="foo bar baz"></i>';
 
@@ -809,10 +808,10 @@ describe('unexpected-dom', function() {
 
         it('should throw on unmatched class set', function() {
           this.body.innerHTML = '<i class="bar"></i>';
-          var el = this.body.firstChild;
+          const el = this.body.firstChild;
 
           expect(
-            function() {
+            () => {
               expect(el, 'to have attributes', {
                 class: 'foo bar baz'
               });
@@ -842,7 +841,7 @@ describe('unexpected-dom', function() {
           });
         });
 
-        describe('exact matches', function() {
+        describe('exact matches', () => {
           it('should match an exact class set', function() {
             this.body.innerHTML = '<i class="foo bar baz"></i>';
 
@@ -861,10 +860,10 @@ describe('unexpected-dom', function() {
 
           it('should throw if class set contains more classes than comparator', function() {
             this.body.innerHTML = '<i class="foo bar baz"></i>';
-            var el = this.body.firstChild;
+            const el = this.body.firstChild;
 
             expect(
-              function() {
+              () => {
                 expect(el, 'to only have attributes', {
                   class: 'foo baz'
                 });
@@ -876,10 +875,10 @@ describe('unexpected-dom', function() {
 
           it('should throw if class set contains less classes than comparator', function() {
             this.body.innerHTML = '<i class="foo baz"></i>';
-            var el = this.body.firstChild;
+            const el = this.body.firstChild;
 
             expect(
-              function() {
+              () => {
                 expect(el, 'to only have attributes', {
                   class: 'foo bar baz'
                 });
@@ -891,8 +890,8 @@ describe('unexpected-dom', function() {
         });
       });
 
-      describe('style attribute', function() {
-        describe('lax comparison', function() {
+      describe('style attribute', () => {
+        describe('lax comparison', () => {
           it('should do string comparisons', function() {
             this.body.innerHTML =
               '<i style="color: red; background: blue"></i>';
@@ -922,10 +921,10 @@ describe('unexpected-dom', function() {
 
           it('should fail when styles are missing', function() {
             this.body.innerHTML = '<i style="color: red"></i>';
-            var node = this.body.firstChild;
+            const node = this.body.firstChild;
 
             expect(
-              function() {
+              () => {
                 expect(node, 'to have attributes', {
                   style: 'background: blue'
                 });
@@ -960,10 +959,10 @@ describe('unexpected-dom', function() {
 
           it('should fail on missing partial object comparisons', function() {
             this.body.innerHTML = '<i style="color: red"></i>';
-            var node = this.body.firstChild;
+            const node = this.body.firstChild;
 
             expect(
-              function() {
+              () => {
                 expect(node, 'to have attributes', {
                   style: {
                     background: 'blue'
@@ -986,7 +985,7 @@ describe('unexpected-dom', function() {
           });
         });
 
-        describe('strict comparison', function() {
+        describe('strict comparison', () => {
           it('should do string comparisons', function() {
             this.body.innerHTML =
               '<i style="color: red; background: blue"></i>';
@@ -1008,10 +1007,10 @@ describe('unexpected-dom', function() {
           it('should fail when styles are missing', function() {
             this.body.innerHTML =
               '<i style="color: red; background: blue"></i>';
-            var node = this.body.firstChild;
+            const node = this.body.firstChild;
 
             expect(
-              function() {
+              () => {
                 expect(node, 'to only have attributes', {
                   style: 'background: blue'
                 });
@@ -1036,10 +1035,10 @@ describe('unexpected-dom', function() {
           it('should fail on missing partial object comparisons', function() {
             this.body.innerHTML =
               '<i style="color: red; background: blue"></i>';
-            var node = this.body.firstChild;
+            const node = this.body.firstChild;
 
             expect(
-              function() {
+              () => {
                 expect(node, 'to only have attributes', {
                   style: {
                     background: 'blue'
@@ -1055,22 +1054,22 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('not to have attributes', function() {
-    describe('when given one of more strings', function() {
-      it('should pass if the given element does not have any the provided attribute names', function() {
+  describe('not to have attributes', () => {
+    describe('when given one of more strings', () => {
+      it('should pass if the given element does not have any the provided attribute names', () => {
         body.innerHTML = '<div style="color: red; background: blue" />';
-        var node = body.firstChild;
+        const node = body.firstChild;
 
         expect(node, 'not to have attributes', 'data-test-id', 'class');
       });
 
-      it('should fail if the given element has one of the provided attributes', function() {
+      it('should fail if the given element has one of the provided attributes', () => {
         body.innerHTML =
           '<div style="color: red; background: blue" class="my-class"/>';
-        var node = body.firstChild;
+        const node = body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
           'to throw',
@@ -1084,13 +1083,13 @@ describe('unexpected-dom', function() {
         );
       });
 
-      it('should fail if the given element has multiple of the provided attributes', function() {
+      it('should fail if the given element has multiple of the provided attributes', () => {
         body.innerHTML =
           '<div data-test-id="my-div" style="color: red; background: blue" class="my-class"/>';
-        var node = body.firstChild;
+        const node = body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
           'to throw',
@@ -1106,21 +1105,21 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('when given an array', function() {
-      it('should pass if the given element does not have any of the provided attribute names', function() {
+    describe('when given an array', () => {
+      it('should pass if the given element does not have any of the provided attribute names', () => {
         body.innerHTML = '<div style="color: red; background: blue" />';
-        var node = body.firstChild;
+        const node = body.firstChild;
 
         expect(node, 'not to have attributes', ['data-test-id', 'class']);
       });
 
-      it('should fail if the given element has one of the provided attributes', function() {
+      it('should fail if the given element has one of the provided attributes', () => {
         body.innerHTML =
           '<div style="color: red; background: blue" class="my-class"/>';
-        var node = body.firstChild;
+        const node = body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
           'to throw',
@@ -1134,13 +1133,13 @@ describe('unexpected-dom', function() {
         );
       });
 
-      it('should fail if the given element has multiple of the provided attributes', function() {
+      it('should fail if the given element has multiple of the provided attributes', () => {
         body.innerHTML =
           '<div data-test-id="my-div" style="color: red; background: blue" class="my-class"/>';
-        var node = body.firstChild;
+        const node = body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
           'to throw',
@@ -1157,21 +1156,21 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('to have children', function() {
-    describe('with no children flag', function() {
+  describe('to have children', () => {
+    describe('with no children flag', () => {
       it('should match element with no children', function() {
         this.body.innerHTML = '<div></div>';
-        var el = this.body.firstChild;
+        const el = this.body.firstChild;
 
         expect(el, 'to have no children');
       });
 
       it('should fail on element with HTMLElement children', function() {
         this.body.innerHTML = '<div><p></p></div>';
-        var el = this.body.firstChild;
+        const el = this.body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(el, 'to have no children');
           },
           'to throw',
@@ -1181,10 +1180,10 @@ describe('unexpected-dom', function() {
 
       it('should fail on element with HTMLComment children', function() {
         this.body.innerHTML = '<div><!-- Comment --></div>';
-        var el = this.body.firstChild;
+        const el = this.body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(el, 'to have no children');
           },
           'to throw',
@@ -1194,10 +1193,10 @@ describe('unexpected-dom', function() {
 
       it('should fail on element with TextNode children', function() {
         this.body.innerHTML = '<div>I am a text</div>';
-        var el = this.body.firstChild;
+        const el = this.body.firstChild;
 
         expect(
-          function() {
+          () => {
             expect(el, 'to have no children');
           },
           'to throw',
@@ -1207,11 +1206,11 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('to satisfy', function() {
-    it('should fail if an unsupported property is passed in the value', function() {
+  describe('to satisfy', () => {
+    it('should fail if an unsupported property is passed in the value', () => {
       body.innerHTML = '<div foo="bar"></div>';
       expect(
-        function() {
+        () => {
           expect(body.firstChild, 'to satisfy', { foo: 'bar' });
         },
         'to throw',
@@ -1219,9 +1218,9 @@ describe('unexpected-dom', function() {
       );
     });
 
-    describe('with boolean attributes', function() {
-      describe('draggable', function() {
-        it('should allow "true"', function() {
+    describe('with boolean attributes', () => {
+      describe('draggable', () => {
+        it('should allow "true"', () => {
           body.innerHTML = '<div draggable="true"></div>';
           expect(body, 'to satisfy', {
             children: [
@@ -1234,7 +1233,7 @@ describe('unexpected-dom', function() {
           });
         });
 
-        it('should allow "false"', function() {
+        it('should allow "false"', () => {
           body.innerHTML = '<div draggable="false"></div>';
           expect(body, 'to satisfy', {
             children: [
@@ -1247,10 +1246,10 @@ describe('unexpected-dom', function() {
           });
         });
 
-        it('should error on mismatch', function() {
+        it('should error on mismatch', () => {
           body.innerHTML = '<div draggable="true"></div>';
           expect(
-            function() {
+            () => {
               expect(body, 'to satisfy', {
                 children: [
                   {
@@ -1274,17 +1273,17 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('with a textContent property', function() {
-      it('should succeed', function() {
+    describe('with a textContent property', () => {
+      it('should succeed', () => {
         body.innerHTML = '<div foo="bar">foobarquux</div>';
         expect(body, 'to satisfy', { textContent: 'foobarquux' });
       });
 
-      it('should fail', function() {
+      it('should fail', () => {
         body.innerHTML = '<div foo="bar">foobarquux</div>';
 
         expect(
-          function() {
+          () => {
             expect(body, 'to satisfy', { textContent: 'fooquux' });
           },
           'to throw',
@@ -1300,8 +1299,8 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('with an HTML fragment string passed as the children attribute', function() {
-      it('should succeed', function() {
+    describe('with an HTML fragment string passed as the children attribute', () => {
+      it('should succeed', () => {
         expect(
           '<div foo="bar">foo<span>bar</span></div>',
           'when parsed as HTML fragment to satisfy',
@@ -1314,9 +1313,9 @@ describe('unexpected-dom', function() {
         );
       });
 
-      it('should fail with a diff', function() {
+      it('should fail with a diff', () => {
         expect(
-          function() {
+          () => {
             expect(
               '<div foo="bar">foo<span>bar</span></div>',
               'when parsed as HTML fragment to satisfy',
@@ -1345,8 +1344,8 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('when comparing class atttributes', function() {
-      it('should succeed when both are present but empty', function() {
+    describe('when comparing class atttributes', () => {
+      it('should succeed when both are present but empty', () => {
         expect(
           '<div class="Component"><span class="foobar"></span><label><span class="">Some test stuff</span></label></div>',
           'when parsed as HTML to satisfy',
@@ -1354,7 +1353,7 @@ describe('unexpected-dom', function() {
         );
       });
 
-      it('should succeed when the RHS is absent and LHS has a value', function() {
+      it('should succeed when the RHS is absent and LHS has a value', () => {
         expect(
           '<div class="Component"><span></span><label><span class="foobar">Some test stuff</span></label></div>',
           'when parsed as HTML to satisfy',
@@ -1362,7 +1361,7 @@ describe('unexpected-dom', function() {
         );
       });
 
-      it('should succeed when the RHS is absent and LHS is empty', function() {
+      it('should succeed when the RHS is absent and LHS is empty', () => {
         expect(
           '<div class="Component"><span></span><label><span class="">Some test stuff</span></label></div>',
           'when parsed as HTML to satisfy',
@@ -1371,9 +1370,9 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('HTMLFragment', function() {
-      describe('with a string as the value', function() {
-        it('should succeed', function() {
+    describe('HTMLFragment', () => {
+      describe('with a string as the value', () => {
+        it('should succeed', () => {
           expect(
             '<div foo="bar">foo</div><div>bar</div>',
             'when parsed as HTML fragment to satisfy',
@@ -1381,9 +1380,9 @@ describe('unexpected-dom', function() {
           );
         });
 
-        it('should fail with an error', function() {
+        it('should fail with an error', () => {
           expect(
-            function() {
+            () => {
               expect(
                 '<div>foo</div><div>bar</div>',
                 'when parsed as HTML fragment to satisfy',
@@ -1411,10 +1410,10 @@ describe('unexpected-dom', function() {
         });
       });
 
-      describe('with the exhaustively flag', function() {
-        it('should fail with a diff', function() {
+      describe('with the exhaustively flag', () => {
+        it('should fail with a diff', () => {
           expect(
-            function() {
+            () => {
               expect(
                 '<div foo="bar" baz="quux">foo</div><div>bar</div>',
                 'when parsed as HTML fragment to exhaustively satisfy',
@@ -1438,8 +1437,8 @@ describe('unexpected-dom', function() {
         });
       });
 
-      describe('with an HTMLFragment as the value', function() {
-        it('should succeed', function() {
+      describe('with an HTMLFragment as the value', () => {
+        it('should succeed', () => {
           expect(
             '<div foo="bar">foo</div><div>bar</div>',
             'when parsed as HTML fragment to satisfy',
@@ -1447,9 +1446,9 @@ describe('unexpected-dom', function() {
           );
         });
 
-        it('should fail with an error', function() {
+        it('should fail with an error', () => {
           expect(
-            function() {
+            () => {
               expect(
                 '<div>foo</div><div>bar</div>',
                 'when parsed as HTML fragment to satisfy',
@@ -1476,7 +1475,7 @@ describe('unexpected-dom', function() {
           );
         });
 
-        describe('and it contains an ignore comment', function() {
+        describe('and it contains an ignore comment', () => {
           it('ignores the corresponding subtree', () => {
             expect(
               [
@@ -1509,9 +1508,9 @@ describe('unexpected-dom', function() {
             );
           });
 
-          it('inspects correctly when another subtree', function() {
+          it('inspects correctly when another subtree', () => {
             expect(
-              function() {
+              () => {
                 expect(
                   '<div foo="bar">foo</div><div><div>bar</div></div><div>baz</div>',
                   'when parsed as HTML fragment to satisfy',
@@ -1543,8 +1542,8 @@ describe('unexpected-dom', function() {
         });
       });
 
-      describe('with an array as the value', function() {
-        it('should succeed', function() {
+      describe('with an array as the value', () => {
+        it('should succeed', () => {
           expect(
             '<div foo="bar">foo</div><div>bar</div>',
             'when parsed as HTML fragment to satisfy',
@@ -1555,9 +1554,9 @@ describe('unexpected-dom', function() {
           );
         });
 
-        it('should fail with an error', function() {
+        it('should fail with an error', () => {
           expect(
-            function() {
+            () => {
               expect(
                 '<div foo="baz">foo</div><div>foobar</div>',
                 'when parsed as HTML fragment to satisfy',
@@ -1597,8 +1596,8 @@ describe('unexpected-dom', function() {
         });
       });
 
-      describe('with an object as the value', function() {
-        it('should succeed', function() {
+      describe('with an object as the value', () => {
+        it('should succeed', () => {
           expect(
             '<div foo="bar">foo</div><div>bar</div>',
             'when parsed as HTML fragment to satisfy',
@@ -1608,9 +1607,9 @@ describe('unexpected-dom', function() {
           );
         });
 
-        it('should fail with an error', function() {
+        it('should fail with an error', () => {
           expect(
-            function() {
+            () => {
               expect(
                 '<div foo="baz">foo</div><div>foobar</div>',
                 'when parsed as HTML fragment to satisfy',
@@ -1638,10 +1637,10 @@ describe('unexpected-dom', function() {
         });
       });
 
-      describe('with a regexp as the value', function() {
-        it('should fail', function() {
+      describe('with a regexp as the value', () => {
+        it('should fail', () => {
           expect(
-            function() {
+            () => {
               expect(
                 '<div foo="bar">foo</div><div>bar</div>',
                 'when parsed as HTML fragment to satisfy',
@@ -1656,40 +1655,36 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('HTMLElement with a string as the value', function() {
-      it('should succeed when the subject equals the value parsed as HTML', function() {
-        return expect(
+    describe('HTMLElement with a string as the value', () => {
+      it('should succeed when the subject equals the value parsed as HTML', () =>
+        expect(
           parseHtml('<div foo="bar" baz="quux">hey</div>'),
           'to satisfy',
           '<div foo="bar" baz="quux">hey</div>'
-        );
-      });
+        ));
 
-      it('should fail when the subject has the wrong text content', function() {
-        return expect(
+      it('should fail when the subject has the wrong text content', () =>
+        expect(
           parseHtml('<div foo="bar" baz="quux">hey</div>'),
           'to satisfy',
           '<div foo="bar" baz="quux">hey</div>'
-        );
-      });
+        ));
 
-      it('should succeed when the subject equals the value parsed as HTML', function() {
-        return expect(
+      it('should succeed when the subject equals the value parsed as HTML', () =>
+        expect(
           parseHtml('<div foo="bar" baz="quux">hey</div>'),
           'to satisfy',
           '<div foo="bar">hey</div>'
-        );
-      });
+        ));
 
-      it('should fail when the subject is missing an attribute', function() {
-        return expect(
-          function() {
-            return expect(
+      it('should fail when the subject is missing an attribute', () =>
+        expect(
+          () =>
+            expect(
               parseHtml('<div foo="bar">hey</div>'),
               'to satisfy',
               '<div bar="quux">hey</div>'
-            );
-          },
+            ),
           'to error',
           'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
             '\n' +
@@ -1697,52 +1692,46 @@ describe('unexpected-dom', function() {
             '  foo="bar"\n' +
             "  // missing bar should equal 'quux'\n" +
             '>hey</div>'
-        );
-      });
+        ));
 
-      it('should succeed when the subject has an extra class', function() {
-        return expect(
+      it('should succeed when the subject has an extra class', () =>
+        expect(
           parseHtml('<div class="foo bar">hey</div>'),
           'to satisfy',
           '<div class="bar">hey</div>'
-        );
-      });
+        ));
 
-      it('should fail when the subject is missing a class', function() {
-        return expect(
-          function() {
-            return expect(
+      it('should fail when the subject is missing a class', () =>
+        expect(
+          () =>
+            expect(
               parseHtml('<div class="foo">hey</div>'),
               'to satisfy',
               '<div class="bar">hey</div>'
-            );
-          },
+            ),
           'to error',
           'expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>\n' +
             '\n' +
             '<div\n' +
             "  class=\"foo\" // expected [ 'foo' ] to contain 'bar'\n" +
             '>hey</div>'
-        );
-      });
+        ));
 
-      it('should succeed when the subject has an extra inline style', function() {
-        return expect(
+      it('should succeed when the subject has an extra inline style', () =>
+        expect(
           parseHtml('<div style="color: tan; width: 120px;">hey</div>'),
           'to satisfy',
           '<div style="color: tan;">hey</div>'
-        );
-      });
+        ));
 
-      it('should fail when the subject is missing an inline style', function() {
-        return expect(
-          function() {
-            return expect(
+      it('should fail when the subject is missing an inline style', () =>
+        expect(
+          () =>
+            expect(
               parseHtml('<div style="width: 120px;">hey</div>'),
               'to satisfy',
               '<div style="color: tan;">hey</div>'
-            );
-          },
+            ),
           'to error',
           'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan;">hey</div>\n' +
             '\n' +
@@ -1754,28 +1743,25 @@ describe('unexpected-dom', function() {
             "                       //   // missing color: 'tan'\n" +
             '                       // }\n' +
             '>hey</div>'
-        );
-      });
+        ));
     });
 
-    describe('HTMLElement with a DOM element as the value', function() {
-      it('should succeed when the subject equals the value parsed as HTML', function() {
-        return expect(
+    describe('HTMLElement with a DOM element as the value', () => {
+      it('should succeed when the subject equals the value parsed as HTML', () =>
+        expect(
           parseHtml('<div foo="bar" baz="quux">hey</div>'),
           'to satisfy',
           parseHtml('<div foo="bar" baz="quux">hey</div>')
-        );
-      });
+        ));
 
-      it('should fail when the subject has the wrong text content', function() {
-        return expect(
-          function() {
-            return expect(
+      it('should fail when the subject has the wrong text content', () =>
+        expect(
+          () =>
+            expect(
               parseHtml('<div foo="bar" baz="quux">foobar</div>'),
               'to satisfy',
               parseHtml('<div foo="bar" baz="quux">hey</div>')
-            );
-          },
+            ),
           'to error',
           'expected <div baz="quux" foo="bar">foobar</div> to satisfy <div baz="quux" foo="bar">hey</div>\n' +
             '\n' +
@@ -1785,26 +1771,23 @@ describe('unexpected-dom', function() {
             '         // -foobar\n' +
             '         // +hey\n' +
             '</div>'
-        );
-      });
+        ));
 
-      it('should succeed when the subject equals the value parsed as HTML', function() {
-        return expect(
+      it('should succeed when the subject equals the value parsed as HTML', () =>
+        expect(
           parseHtml('<div foo="bar" baz="quux">hey</div>'),
           'to satisfy',
           parseHtml('<div foo="bar">hey</div>')
-        );
-      });
+        ));
 
-      it('should fail when the subject is missing an attribute', function() {
-        return expect(
-          function() {
-            return expect(
+      it('should fail when the subject is missing an attribute', () =>
+        expect(
+          () =>
+            expect(
               parseHtml('<div foo="bar">hey</div>'),
               'to satisfy',
               parseHtml('<div bar="quux">hey</div>')
-            );
-          },
+            ),
           'to error',
           'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
             '\n' +
@@ -1812,68 +1795,60 @@ describe('unexpected-dom', function() {
             '  foo="bar"\n' +
             "  // missing bar should equal 'quux'\n" +
             '>hey</div>'
-        );
-      });
+        ));
 
-      it('should succeed when the subject has an extra class', function() {
-        return expect(
+      it('should succeed when the subject has an extra class', () =>
+        expect(
           parseHtml('<div class="foo bar">hey</div>'),
           'to satisfy',
           parseHtml('<div class="bar">hey</div>')
-        );
-      });
+        ));
 
-      it('should fail when the subject is missing a class', function() {
-        return expect(
-          function() {
-            return expect(
+      it('should fail when the subject is missing a class', () =>
+        expect(
+          () =>
+            expect(
               parseHtml('<div class="foo">hey</div>'),
               'to satisfy',
               parseHtml('<div class="bar">hey</div>')
-            );
-          },
+            ),
           'to error',
           'expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>\n' +
             '\n' +
             '<div\n' +
             "  class=\"foo\" // expected [ 'foo' ] to contain 'bar'\n" +
             '>hey</div>'
-        );
-      });
+        ));
 
-      it('should succeed when the subject has an extra inline style', function() {
-        return expect(
+      it('should succeed when the subject has an extra inline style', () =>
+        expect(
           parseHtml('<div style="color: tan; width: 120px;">hey</div>'),
           'to satisfy',
           parseHtml('<div style="color: tan;">hey</div>')
-        );
-      });
+        ));
 
-      it('should not fail for invalid style attributes on the LHS', function() {
-        return expect(
+      it('should not fail for invalid style attributes on the LHS', () =>
+        expect(
           parseHtml('<div style="color; width: 120px;">hey</div>'),
           'to satisfy',
           parseHtml('<div style="width: 120px;">hey</div>')
-        );
-      });
+        ));
 
-      it('should treat an empty style string no requirements on the style attribute', function() {
-        return expect(
+      it('should treat an empty style string no requirements on the style attribute', () =>
+        expect(
           parseHtml('<div style="color; width: 120px;">hey</div>'),
           'to satisfy',
           parseHtml('<div style="">hey</div>')
-        );
-      });
+        ));
 
-      it('should fail when the RHS has invalid styles', function() {
-        return expect(
-          function() {
-            return expect(
+      it('should fail when the RHS has invalid styles', () =>
+        expect(
+          () =>
+            expect(
               parseHtml('<div style="width: 120px;">hey</div>'),
               'to satisfy',
               parseHtml('<div style="color;background;width: 120px">hey</div>')
-            );
-          },
+            ),
           'to error',
           'expected <div style="width: 120px">hey</div> to satisfy <div style="width: 120px">hey</div>\n' +
             '\n' +
@@ -1882,18 +1857,16 @@ describe('unexpected-dom', function() {
             "                       // to satisfy { name: 'div', attributes: { style: 'color;background;width: 120px' }, children: [ 'hey' ] }\n" +
             "                       //   Expectation contains invalid styles: 'color;background'\n" +
             '>hey</div>'
-        );
-      });
+        ));
 
-      it('should fail when the subject is missing an inline style', function() {
-        return expect(
-          function() {
-            return expect(
+      it('should fail when the subject is missing an inline style', () =>
+        expect(
+          () =>
+            expect(
               parseHtml('<div style="width: 120px;">hey</div>'),
               'to satisfy',
               parseHtml('<div style="color: tan;">hey</div>')
-            );
-          },
+            ),
           'to error',
           'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan">hey</div>\n' +
             '\n' +
@@ -1905,17 +1878,16 @@ describe('unexpected-dom', function() {
             "                       //   // missing color: 'tan'\n" +
             '                       // }\n' +
             '>hey</div>'
-        );
-      });
+        ));
     });
 
-    describe('text node with a text node as the value', function() {
-      it('should succeed', function() {
+    describe('text node with a text node as the value', () => {
+      it('should succeed', () => {
         expect(parseHtml('foobar'), 'to satisfy', parseHtml('foobar'));
       });
 
       // Doesn't alter the semantics, but needs to be supported:
-      it('should succeed when the exhaustively flag is set', function() {
+      it('should succeed when the exhaustively flag is set', () => {
         expect(
           parseHtml('foobar'),
           'to exhaustively satisfy',
@@ -1923,9 +1895,9 @@ describe('unexpected-dom', function() {
         );
       });
 
-      it('should fail with a diff', function() {
+      it('should fail with a diff', () => {
         expect(
-          function() {
+          () => {
             expect(parseHtml('foobar'), 'to satisfy', parseHtml('bar'));
           },
           'to error',
@@ -1934,19 +1906,19 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('text node with a regexp as the value', function() {
-      it('should succeed', function() {
+    describe('text node with a regexp as the value', () => {
+      it('should succeed', () => {
         expect(parseHtml('foobar'), 'to satisfy', /^foo/);
       });
 
       // Doesn't alter the semantics, but needs to be supported:
-      it('should succeed when the exhaustively flag is set', function() {
+      it('should succeed when the exhaustively flag is set', () => {
         expect(parseHtml('foobar'), 'to exhaustively satisfy', /^foo/);
       });
 
-      it('should fail with a diff', function() {
+      it('should fail with a diff', () => {
         expect(
-          function() {
+          () => {
             expect(parseHtml('foobar'), 'to satisfy', /^f00/);
           },
           'to error',
@@ -1955,16 +1927,16 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('with a name assertion', function() {
-      it('should succeed', function() {
+    describe('with a name assertion', () => {
+      it('should succeed', () => {
         body.innerHTML = '<div foo="bar"></div>';
         expect(body.firstChild, 'to satisfy', { name: /^d/ });
       });
 
-      it('should fail with a diff', function() {
+      it('should fail with a diff', () => {
         body.innerHTML = '<div foo="bar"></div>';
         expect(
-          function() {
+          () => {
             expect(body.firstChild, 'to satisfy', { name: /^sp/ });
           },
           'to throw',
@@ -1976,19 +1948,19 @@ describe('unexpected-dom', function() {
         );
       });
 
-      describe('in an XML document with a mixed case node name', function() {
-        var xmlDoc = new jsdom.JSDOM(
+      describe('in an XML document with a mixed case node name', () => {
+        const xmlDoc = new jsdom.JSDOM(
           '<?xml version="1.0"?><fooBar hey="there"></fooBar>',
           { contentType: 'text/xml' }
         ).window.document;
 
-        it('should succeed', function() {
+        it('should succeed', () => {
           expect(xmlDoc.firstChild, 'to satisfy', { name: 'fooBar' });
         });
 
-        it('should fail with a diff', function() {
+        it('should fail with a diff', () => {
           expect(
-            function() {
+            () => {
               expect(xmlDoc.firstChild, 'to satisfy', { name: 'fooBarQuux' });
             },
             'to throw',
@@ -2002,14 +1974,14 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('with a children assertion', function() {
-      it('should succeed', function() {
+    describe('with a children assertion', () => {
+      it('should succeed', () => {
         body.innerHTML = '<div foo="bar">hey</div>';
         expect(body.firstChild, 'to satisfy', { children: ['hey'] });
       });
 
-      it('should succeed with a node child', function() {
-        var node = document.createElement('div');
+      it('should succeed with a node child', () => {
+        const node = document.createElement('div');
         node.innerHTML = '<div foo="bar">hey</div>';
         body.innerHTML = '<div><div foo="bar">hey</div></div>';
         expect(body.firstChild, 'to satisfy', {
@@ -2017,10 +1989,10 @@ describe('unexpected-dom', function() {
         });
       });
 
-      it('should fail with a diff', function() {
+      it('should fail with a diff', () => {
         body.innerHTML = '<div foo="bar">hey</div>';
         expect(
-          function() {
+          () => {
             expect(body.firstChild, 'to satisfy', { children: ['there'] });
           },
           'to throw',
@@ -2035,11 +2007,11 @@ describe('unexpected-dom', function() {
         );
       });
 
-      describe('when using ignore', function() {
-        it('should succeed', function() {
-          var node = document.createElement('div');
+      describe('when using ignore', () => {
+        it('should succeed', () => {
+          const node = document.createElement('div');
           node.innerHTML = '<!-- ignore -->';
-          var commentNode = node.firstChild;
+          const commentNode = node.firstChild;
           body.innerHTML =
             '<div><span>ignore</span><span>important</span></div>';
           expect(body.firstChild, 'to satisfy', {
@@ -2054,22 +2026,22 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('when matching against <!-- ignore -->', function() {
-      var ignoreComment = parseHtmlNode('<!--ignore-->');
+    describe('when matching against <!-- ignore -->', () => {
+      const ignoreComment = parseHtmlNode('<!--ignore-->');
 
-      it('should match a text node', function() {
+      it('should match a text node', () => {
         expect(parseHtmlNode('foo'), 'to satisfy', ignoreComment);
       });
 
-      it('should match an element', function() {
+      it('should match an element', () => {
         expect(parseHtmlNode('<div>foo</div>'), 'to satisfy', ignoreComment);
       });
 
-      it('should match a comment', function() {
+      it('should match a comment', () => {
         expect(parseHtmlNode('<!-- foo -->'), 'to satisfy', ignoreComment);
       });
 
-      it('should match a doctype', function() {
+      it('should match a doctype', () => {
         expect(
           parseHtmlDocument('<!DOCTYPE html>').firstChild,
           'to satisfy',
@@ -2077,7 +2049,7 @@ describe('unexpected-dom', function() {
         );
       });
 
-      it('should match a document', function() {
+      it('should match a document', () => {
         expect(
           '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>',
           'when parsed as xml to satisfy',
@@ -2086,11 +2058,11 @@ describe('unexpected-dom', function() {
       });
     });
 
-    it('should fail with a diff', function() {
+    it('should fail with a diff', () => {
       body.innerHTML =
         '<div foo="bar" id="quux">foobar</div><div foo="quux">hey</div>';
       expect(
-        function() {
+        () => {
           expect(body, 'queried for', 'div', 'to satisfy', {
             1: { attributes: { foo: 'bar' } }
           });
@@ -2118,9 +2090,9 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('queried for', function() {
-    it('should work with HTMLDocument', function() {
-      var document = new jsdom.JSDOM(
+  describe('queried for', () => {
+    it('should work with HTMLDocument', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
       ).window.document;
       expect(document, 'queried for first', 'div', 'to have attributes', {
@@ -2128,21 +2100,21 @@ describe('unexpected-dom', function() {
       });
     });
 
-    it('should provide the results as the fulfillment value when no assertion is provided', function() {
-      var document = new jsdom.JSDOM(
+    it('should provide the results as the fulfillment value when no assertion is provided', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
       ).window.document;
-      return expect(document, 'queried for first', 'div').then(function(div) {
+      return expect(document, 'queried for first', 'div').then(div => {
         expect(div, 'to have attributes', { id: 'foo' });
       });
     });
 
-    it('should error out if the selector matches no elements, first flag set', function() {
-      var document = new jsdom.JSDOM(
+    it('should error out if the selector matches no elements, first flag set', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
       ).window.document;
       expect(
-        function() {
+        () => {
           expect(
             document.body,
             'queried for first',
@@ -2157,12 +2129,12 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should error out if the selector matches no elements, first flag not set', function() {
-      var document = new jsdom.JSDOM(
+    it('should error out if the selector matches no elements, first flag not set', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
       ).window.document;
       expect(
-        function() {
+        () => {
           expect(
             document.body,
             'queried for',
@@ -2177,29 +2149,29 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should return an array-like NodeList', function() {
-      var document = new jsdom.JSDOM(
+    it('should return an array-like NodeList', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>'
       ).window.document;
 
       expect(document, 'queried for', 'div', 'to be a', 'DOMNodeList');
     });
 
-    it('should be able to use array semantics', function() {
-      var document = new jsdom.JSDOM(
+    it('should be able to use array semantics', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>'
       ).window.document;
 
       expect(document, 'queried for', 'div', 'to have length', 3);
     });
 
-    it('should fail array checks with useful nested error message', function() {
-      var document = new jsdom.JSDOM(
+    it('should fail array checks with useful nested error message', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><head></head><body><div></div><div></div><div></div></body></html>'
       ).window.document;
 
       expect(
-        function() {
+        () => {
           expect(document, 'queried for', 'div', 'to have length', 1);
         },
         'to throw',
@@ -2210,22 +2182,22 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('to contain no elements matching', function() {
-    it('should pass when not matching anything', function() {
-      var document = new jsdom.JSDOM(
+  describe('to contain no elements matching', () => {
+    it('should pass when not matching anything', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body></body></html>'
       ).window.document;
 
       expect(document, 'to contain no elements matching', '.foo');
     });
 
-    it('should fail when matching a single node', function() {
-      var document = new jsdom.JSDOM(
+    it('should fail when matching a single node', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
       ).window.document;
 
       expect(
-        function() {
+        () => {
           expect(document, 'to contain no elements matching', '.foo');
         },
         'to throw',
@@ -2238,13 +2210,13 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should fail when matching a NodeList', function() {
-      var document = new jsdom.JSDOM(
+    it('should fail when matching a NodeList', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div class="foo"></div><div class="foo"></div></body></html>'
       ).window.document;
 
       expect(
-        function() {
+        () => {
           expect(document, 'to contain no elements matching', '.foo');
         },
         'to throw',
@@ -2259,22 +2231,22 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('to contain elements matching', function() {
-    it('should pass when matching an element', function() {
-      var document = new jsdom.JSDOM(
+  describe('to contain elements matching', () => {
+    it('should pass when matching an element', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
       ).window.document;
 
       expect(document, 'to contain elements matching', '.foo');
     });
 
-    it('should fail when no elements match', function() {
-      var document = new jsdom.JSDOM(
+    it('should fail when no elements match', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div class="foo"></div><div class="foo"></div></body></html>'
       ).window.document;
 
       expect(
-        function() {
+        () => {
           expect(document, 'to contain elements matching', '.bar');
         },
         'to throw',
@@ -2290,22 +2262,22 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('to match', function() {
-    it('should match an element correctly', function() {
-      var document = new jsdom.JSDOM(
+  describe('to match', () => {
+    it('should match an element correctly', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
       ).window.document;
 
       expect(document.body.firstChild, 'to match', '.foo');
     });
 
-    it('should fail on matching element with a non-matching selector', function() {
-      var document = new jsdom.JSDOM(
+    it('should fail on matching element with a non-matching selector', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
       ).window.document;
 
       expect(
-        function() {
+        () => {
           expect(document.body.firstChild, 'to match', '.bar');
         },
         'to throw',
@@ -2313,21 +2285,21 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it("should not match an element that doesn't match the selector", function() {
-      var document = new jsdom.JSDOM(
+    it("should not match an element that doesn't match the selector", () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
       ).window.document;
 
       expect(document.body.firstChild, 'not to match', '.bar');
     });
 
-    it('should fail when matching with a selector that was not expected to match', function() {
-      var document = new jsdom.JSDOM(
+    it('should fail when matching with a selector that was not expected to match', () => {
+      const document = new jsdom.JSDOM(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
       ).window.document;
 
       expect(
-        function() {
+        () => {
           expect(document.body.firstChild, 'not to match', '.foo');
         },
         'to throw',
@@ -2336,10 +2308,10 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('diffing', function() {
+  describe('diffing', () => {
     expect.addAssertion(
       '<string|DOMNode|DOMDocument> diffed with <string|DOMNode|DOMDocument> <assertion>',
-      function(expect, subject, value) {
+      (expect, subject, value) => {
         if (typeof subject === 'string') {
           subject = parseHtml(subject);
         }
@@ -2350,7 +2322,7 @@ describe('unexpected-dom', function() {
       }
     );
 
-    it('should work with HTMLElement', function() {
+    it('should work with HTMLElement', () => {
       expect(
         '<div><div id="foo"></div><div id="bar"></div></div>',
         'diffed with',
@@ -2364,7 +2336,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should work with HTMLElement with text nodes and comments inside', function() {
+    it('should work with HTMLElement with text nodes and comments inside', () => {
       expect(
         '<div>foo<!--bar--></div>',
         'diffed with',
@@ -2379,7 +2351,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should report a missing child correctly', function() {
+    it('should report a missing child correctly', () => {
       expect(
         '<div>foo<!--bar--></div>',
         'diffed with',
@@ -2393,7 +2365,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should report an extraneous child correctly', function() {
+    it('should report an extraneous child correctly', () => {
       expect(
         '<div>foo<span></span><!--bar--></div>',
         'diffed with',
@@ -2407,7 +2379,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should produce a nested diff when the outer elements are identical', function() {
+    it('should produce a nested diff when the outer elements are identical', () => {
       expect(
         '<div>foo<span><span>foo</span></span><!--bar--></div>',
         'diffed with',
@@ -2426,7 +2398,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should produce a nested diff when when the outer element has a different set of attributes', function() {
+    it('should produce a nested diff when when the outer element has a different set of attributes', () => {
       expect(
         '<div>foo<span id="foo" class="bar"><span>foo</span></span><!--bar--></div>',
         'diffed with',
@@ -2447,7 +2419,7 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should diff documents with stuff around the documentElement', function() {
+    it('should diff documents with stuff around the documentElement', () => {
       expect(
         new jsdom.JSDOM(
           '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
@@ -2465,9 +2437,9 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('when parsed as HTML', function() {
-    var htmlSrc = '<!DOCTYPE html><html><body class="bar">foo</body></html>';
-    it('should parse a string as a complete HTML document', function() {
+  describe('when parsed as HTML', () => {
+    const htmlSrc = '<!DOCTYPE html><html><body class="bar">foo</body></html>';
+    it('should parse a string as a complete HTML document', () => {
       expect(
         htmlSrc,
         'when parsed as HTML',
@@ -2480,14 +2452,13 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should provide the parsed document as the fulfillment value when no assertion is provided', function() {
-      return expect(htmlSrc, 'parsed as HTML').then(function(document) {
+    it('should provide the parsed document as the fulfillment value when no assertion is provided', () =>
+      expect(htmlSrc, 'parsed as HTML').then(document => {
         expect(document, 'to equal', new jsdom.JSDOM(htmlSrc).window.document);
-      });
-    });
+      }));
 
-    describe('with the "fragment" flag', function() {
-      it('should return a DocumentFragment instance', function() {
+    describe('with the "fragment" flag', () => {
+      it('should return a DocumentFragment instance', () => {
         expect(
           '<div>foo</div><div>bar</div>',
           'when parsed as HTML fragment',
@@ -2500,22 +2471,20 @@ describe('unexpected-dom', function() {
         );
       });
 
-      it('should provide the parsed fragment as the fulfillment value when no assertion is provided', function() {
-        return expect(
-          '<div>foo</div><div>bar</div>',
-          'parsed as HTML fragment'
-        ).then(function(fragment) {
-          expect(fragment, 'to satisfy', [
-            { children: 'foo' },
-            { children: 'bar' }
-          ]);
-        });
-      });
+      it('should provide the parsed fragment as the fulfillment value when no assertion is provided', () =>
+        expect('<div>foo</div><div>bar</div>', 'parsed as HTML fragment').then(
+          fragment => {
+            expect(fragment, 'to satisfy', [
+              { children: 'foo' },
+              { children: 'bar' }
+            ]);
+          }
+        ));
     });
 
-    it('should fail when the next assertion fails', function() {
+    it('should fail when the next assertion fails', () => {
       expect(
-        function() {
+        () => {
           expect(
             htmlSrc,
             'when parsed as HTML',
@@ -2538,28 +2507,27 @@ describe('unexpected-dom', function() {
       );
     });
 
-    describe('when the DOMParser global is available', function() {
-      var originalDOMParser, DOMParserSpy, parseFromStringSpy;
+    describe('when the DOMParser global is available', () => {
+      let originalDOMParser, DOMParserSpy, parseFromStringSpy;
 
-      beforeEach(function() {
+      beforeEach(() => {
         originalDOMParser = global.DOMParser;
         global.DOMParser = DOMParserSpy = sinon
-          .spy(function() {
-            return {
-              parseFromString: (parseFromStringSpy = sinon
-                .spy(function(htmlString, contentType) {
-                  return new jsdom.JSDOM(htmlString).window.document;
-                })
-                .named('parseFromString'))
-            };
-          })
+          .spy(() => ({
+            parseFromString: (parseFromStringSpy = sinon
+              .spy(
+                (htmlString, contentType) =>
+                  new jsdom.JSDOM(htmlString).window.document
+              )
+              .named('parseFromString'))
+          }))
           .named('DOMParser');
       });
-      afterEach(function() {
+      afterEach(() => {
         global.DOMParser = originalDOMParser;
       });
 
-      it('should use DOMParser to parse the document', function() {
+      it('should use DOMParser to parse the document', () => {
         expect(
           htmlSrc,
           'when parsed as HTML',
@@ -2571,7 +2539,7 @@ describe('unexpected-dom', function() {
         expect(
           [DOMParserSpy, parseFromStringSpy],
           'to have calls satisfying',
-          function() {
+          () => {
             // eslint-disable-next-line no-new
             new DOMParserSpy();
             parseFromStringSpy(htmlSrc, 'text/html');
@@ -2580,15 +2548,15 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('when the document global is available', function() {
-      var originalDocument, createHTMLDocumentSpy, mockDocument;
+    describe('when the document global is available', () => {
+      let originalDocument, createHTMLDocumentSpy, mockDocument;
 
-      beforeEach(function() {
+      beforeEach(() => {
         originalDocument = global.document;
         global.document = {
           implementation: {
             createHTMLDocument: (createHTMLDocumentSpy = sinon
-              .spy(function() {
+              .spy(() => {
                 mockDocument = new jsdom.JSDOM(htmlSrc).window.document;
                 mockDocument.open = sinon.spy().named('document.open');
                 mockDocument.write = sinon.spy().named('document.write');
@@ -2599,11 +2567,11 @@ describe('unexpected-dom', function() {
           }
         };
       });
-      afterEach(function() {
+      afterEach(() => {
         global.document = originalDocument;
       });
 
-      it('should use document.implementation.createHTMLDocument to parse the document', function() {
+      it('should use document.implementation.createHTMLDocument to parse the document', () => {
         expect(
           htmlSrc,
           'when parsed as HTML',
@@ -2620,7 +2588,7 @@ describe('unexpected-dom', function() {
             mockDocument.close
           ],
           'to have calls satisfying',
-          function() {
+          () => {
             createHTMLDocumentSpy('');
             mockDocument.open();
             mockDocument.write(htmlSrc);
@@ -2631,9 +2599,9 @@ describe('unexpected-dom', function() {
     });
   });
 
-  describe('when parsed as XML', function() {
-    var xmlSrc = '<?xml version="1.0"?><fooBar yes="sir">foo</fooBar>';
-    it('should parse a string as a complete XML document', function() {
+  describe('when parsed as XML', () => {
+    const xmlSrc = '<?xml version="1.0"?><fooBar yes="sir">foo</fooBar>';
+    it('should parse a string as a complete XML document', () => {
       expect(
         xmlSrc,
         'when parsed as XML',
@@ -2649,20 +2617,19 @@ describe('unexpected-dom', function() {
       );
     });
 
-    it('should provide the parsed document as the fulfillment value when no assertion is provided', function() {
-      return expect(
+    it('should provide the parsed document as the fulfillment value when no assertion is provided', () =>
+      expect(
         '<?xml version="1.0"?><fooBar yes="sir">foo</fooBar>',
         'parsed as XML'
-      ).then(function(document) {
+      ).then(document => {
         expect(document, 'queried for first', 'fooBar', 'to have attributes', {
           yes: 'sir'
         });
-      });
-    });
+      }));
 
-    describe('to satisfy', function() {
-      describe('when comparing an array of children', function() {
-        it('should succeed with a text child', function() {
+    describe('to satisfy', () => {
+      describe('when comparing an array of children', () => {
+        it('should succeed with a text child', () => {
           expect(
             [
               '<?xml version="1.0"?>',
@@ -2685,30 +2652,29 @@ describe('unexpected-dom', function() {
       });
     });
 
-    describe('when the DOMParser global is available', function() {
-      var originalDOMParser, DOMParserSpy, parseFromStringSpy;
+    describe('when the DOMParser global is available', () => {
+      let originalDOMParser, DOMParserSpy, parseFromStringSpy;
 
-      beforeEach(function() {
+      beforeEach(() => {
         originalDOMParser = global.DOMParser;
         global.DOMParser = DOMParserSpy = sinon
-          .spy(function() {
-            return {
-              parseFromString: (parseFromStringSpy = sinon
-                .spy(function(xmlString, contentType) {
-                  return new jsdom.JSDOM(xmlString, {
+          .spy(() => ({
+            parseFromString: (parseFromStringSpy = sinon
+              .spy(
+                (xmlString, contentType) =>
+                  new jsdom.JSDOM(xmlString, {
                     contentType: 'text/xml'
-                  }).window.document;
-                })
-                .named('parseFromString'))
-            };
-          })
+                  }).window.document
+              )
+              .named('parseFromString'))
+          }))
           .named('DOMParser');
       });
-      afterEach(function() {
+      afterEach(() => {
         global.DOMParser = originalDOMParser;
       });
 
-      it('should use DOMParser to parse the document', function() {
+      it('should use DOMParser to parse the document', () => {
         expect(
           xmlSrc,
           'when parsed as XML',
@@ -2720,7 +2686,7 @@ describe('unexpected-dom', function() {
         expect(
           [DOMParserSpy, parseFromStringSpy],
           'to have calls satisfying',
-          function() {
+          () => {
             // eslint-disable-next-line no-new
             new DOMParserSpy();
             parseFromStringSpy(xmlSrc, 'text/xml');
@@ -2730,7 +2696,7 @@ describe('unexpected-dom', function() {
     });
   });
 
-  it('should produce a good satisfy diff in a real world example', function() {
+  it('should produce a good satisfy diff in a real world example', () => {
     body.innerHTML =
       '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">' +
       '<li class="selected" data-index="0">' +
@@ -2746,7 +2712,7 @@ describe('unexpected-dom', function() {
       '</ul>';
 
     expect(
-      function() {
+      () => {
         expect(body.firstChild, 'to satisfy', {
           attributes: {
             style: { display: 'block' },
@@ -2812,9 +2778,9 @@ describe('unexpected-dom', function() {
     );
   });
 
-  it('should compare XML element names case sensitively', function() {
+  it('should compare XML element names case sensitively', () => {
     expect(
-      function() {
+      () => {
         expect(parseXml('<foO></foO>').firstChild, 'to satisfy', {
           name: 'foo'
         });
@@ -2827,12 +2793,12 @@ describe('unexpected-dom', function() {
     );
   });
 
-  it('should compare XML element names case sensitively, even when the owner document lacks a contentType attribute', function() {
+  it('should compare XML element names case sensitively, even when the owner document lacks a contentType attribute', () => {
     expect(
-      function() {
-        var document = parseXml('<foO></foO>');
+      () => {
+        const document = parseXml('<foO></foO>');
         document.firstChild._ownerDocument = {
-          toString: function() {
+          toString() {
             return '[object XMLDocument]';
           }
         };
@@ -2848,12 +2814,12 @@ describe('unexpected-dom', function() {
     );
   });
 
-  it('should compare XML element names case sensitively, even when the owner document lacks a contentType attribute', function() {
+  it('should compare XML element names case sensitively, even when the owner document lacks a contentType attribute', () => {
     expect(
-      function() {
-        var document = parseXml('<foO></foO>');
+      () => {
+        const document = parseXml('<foO></foO>');
         document.firstChild._ownerDocument = {
-          toString: function() {
+          toString() {
             return '[object XMLDocument]';
           }
         };
