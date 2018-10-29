@@ -9,15 +9,16 @@
     "unexpected-dom.min.js"
   ],
   "scripts": {
-    "build:browserify": "browserify lib/index.js --standalone unexpected.dom --debug --x jsdom > unexpected-dom.js",
-    "build:min": "uglifyjs unexpected-dom.js > unexpected-dom.min.js",
-    "build": "npm run build:browserify && npm run build:min",
+    "bundle:browserify": "browserify lib/index.js --standalone unexpected.dom --debug --x jsdom > unexpected-dom.js",
+    "bundle:min": "uglifyjs unexpected-dom.js > unexpected-dom.min.js",
+    "bundle": "npm run bundle:browserify && npm run bundle:min",
+    "build": "babel --out-dir lib --quiet src",
     "changelog": "offline-github-changelog > CHANGELOG.md",
     "lint": "eslint .",
     "test": "mocha test documentation",
-    "travis": "npm run lint && npm run coverage && npm run build",
+    "travis": "npm run lint && npm run coverage && npm run build && npm run bundle",
     "coverage": "nyc --reporter=lcov --reporter=text mocha --reporter dot test documentation",
-    "preversion": "npm run lint && npm run test && npm run build && git add unexpected-dom.*",
+    "preversion": "npm run lint && npm run test && npm run build && npm run bundle && git add unexpected-dom.*",
     "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && deploy-site.sh",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
@@ -40,6 +41,9 @@
   },
   "homepage": "https://github.com/unexpectedjs/unexpected-dom",
   "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-core": "6.26.0",
+    "babel-preset-env": "1.7.0",
     "browserify": "^14.3.0",
     "coveralls": "^2.13.1",
     "eslint": "4.19.0",

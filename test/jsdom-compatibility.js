@@ -1,6 +1,6 @@
 /*global describe, it*/
 var unexpected = require('unexpected');
-var unexpectedDom = require('../lib/index');
+var unexpectedDom = require('../src/index');
 var jsdom = require('jsdom');
 
 var expect = unexpected.clone().installPlugin(unexpectedDom);
