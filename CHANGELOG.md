@@ -1,3 +1,9 @@
+### v4.9.0 (2018-10-29)
+
+- [#224](https://github.com/Munter/unexpected-dom/pull/224) Modernize the codebase ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#223](https://github.com/Munter/unexpected-dom/pull/223) Added transpilation step ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#225](https://github.com/Munter/unexpected-dom/pull/225) lebab --transform template --replace test ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+
 ### v4.8.0 (2018-10-26)
 
 - [#222](https://github.com/Munter/unexpected-dom/pull/222) Fix: Validate style attributes on the RHS ([Sune Simonsen](mailto:sune@we-knowhow.dk))
