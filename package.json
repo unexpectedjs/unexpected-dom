@@ -59,7 +59,7 @@
     "nyc": "13.1.0",
     "offline-github-changelog": "1.2.0",
     "prettier": "1.14.3",
-    "sinon": "^2.3.0",
+    "sinon": "^7.1.0",
     "uglifyjs": "^2.4.11",
     "unexpected": "10.37.2",
     "unexpected-documentation-site-generator": "4.7.1",
