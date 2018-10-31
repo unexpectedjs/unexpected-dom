@@ -4,10 +4,11 @@ sudo: required
 language: node_js
 cache:
   directories:
-  - node_modules
+    - node_modules
 node_js:
-  - "6"
-  - "7"
+  - '6'
+  - '8'
+  - '10'
 
 addons:
   apt:
@@ -16,11 +17,11 @@ addons:
       - g++-4.8
 env: CXX="g++-4.8" CC="gcc-4.8"
 
-script: "npm run-script travis"
-after_success: "<coverage/lcov.info ./node_modules/coveralls/bin/coveralls.js"
+script: 'npm run-script travis'
+after_success: '<coverage/lcov.info ./node_modules/coveralls/bin/coveralls.js'
 
 # jsdom 3.x fails on these, but jsdom 4.x+ fails on those below :(((
 matrix:
   allow_failures:
-    - node_js: "3"
-    - node_js: "4"
+    - node_js: '3'
+    - node_js: '4'
