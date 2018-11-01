@@ -62,7 +62,7 @@
     "sinon": "^7.1.0",
     "uglifyjs": "^2.4.11",
     "unexpected": "10.37.2",
-    "unexpected-documentation-site-generator": "4.7.1",
+    "unexpected-documentation-site-generator": "5.0.0",
     "unexpected-markdown": "1.7.4",
     "unexpected-sinon": "^10.7.1"
   },
