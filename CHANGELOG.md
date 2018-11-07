@@ -1,3 +1,16 @@
+### v4.9.5 (2018-11-07)
+
+- [#241](https://github.com/Munter/unexpected-dom/pull/241) Allow dashes in style names and values ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#240](https://github.com/Munter/unexpected-dom/pull/240) Upgrade unexpected-documentation-site-generator to version 5.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#237](https://github.com/Munter/unexpected-dom/pull/237) Upgrade sinon to version 7.1.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#239](https://github.com/Munter/unexpected-dom/pull/239) Upgrade unexpected-documentation-site-generator to version 4.7.1 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#235](https://github.com/Munter/unexpected-dom/pull/235) Upgrade nyc to version 13.1.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#236](https://github.com/Munter/unexpected-dom/pull/236) Upgrade prettier to version 1.14.3 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#226](https://github.com/Munter/unexpected-dom/pull/226) Upgrade babel-core to version 6.26.3 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#227](https://github.com/Munter/unexpected-dom/pull/227) Upgrade browserify to version 16.2.3 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#229](https://github.com/Munter/unexpected-dom/pull/229) Upgrade eslint to version 5.8.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#231](https://github.com/Munter/unexpected-dom/pull/231) Upgrade eslint-plugin-import to version 2.14.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+
 ### v4.9.0 (2018-10-29)
 
 - [#224](https://github.com/Munter/unexpected-dom/pull/224) Modernize the codebase ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
