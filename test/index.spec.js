@@ -1822,14 +1822,18 @@ describe('unexpected-dom', () => {
 
       it('should succeed when the subject has an extra inline style', () =>
         expect(
-          parseHtml('<div style="color: tan; width: 120px;">hey</div>'),
+          parseHtml(
+            '<div style="color: tan; width: 120px; z-index: 700; background-repeat: no-repeat">hey</div>'
+          ),
           'to satisfy',
-          parseHtml('<div style="color: tan;">hey</div>')
+          parseHtml(
+            '<div style="color: tan; z-index: 700;background-repeat: no-repeat">hey</div>'
+          )
         ));
 
       it('should not fail for invalid style attributes on the LHS', () =>
         expect(
-          parseHtml('<div style="color; width: 120px;">hey</div>'),
+          parseHtml('<div style="color; width: 120px; z-index: 700">hey</div>'),
           'to satisfy',
           parseHtml('<div style="width: 120px;">hey</div>')
         ));
