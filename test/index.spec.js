@@ -41,13 +41,12 @@ expect.addAssertion(
   '<array> to produce a diff of <string>',
   (expect, subject, value) => {
     expect.errorMode = 'bubble';
-    subject = subject.map(
-      item =>
-        typeof item === 'string'
-          ? new jsdom.JSDOM(
-              `<!DOCTYPE html><html><head></head><body>${item}</body></html>`
-            ).window.document.body.firstChild
-          : item
+    subject = subject.map(item =>
+      typeof item === 'string'
+        ? new jsdom.JSDOM(
+            `<!DOCTYPE html><html><head></head><body>${item}</body></html>`
+          ).window.document.body.firstChild
+        : item
     );
     expect(
       expect.diff(subject[0], subject[1]).diff.toString(),
