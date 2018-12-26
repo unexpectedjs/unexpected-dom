@@ -707,7 +707,7 @@ module.exports = {
       '<DOMElement> to only have (class|classes) <array|string>',
       (expect, subject, value) =>
         expect(subject, 'to have attributes', {
-          class: className => {
+          class: expect.it(className => {
             const actualClasses = getClassNamesFromAttributeValue(className);
             if (typeof value === 'string') {
               value = getClassNamesFromAttributeValue(value);
@@ -715,7 +715,7 @@ module.exports = {
             return bubbleError(() =>
               expect(actualClasses.sort(), 'to equal', value.sort())
             );
-          }
+          })
         })
     );
 
@@ -1104,6 +1104,13 @@ module.exports = {
                     expect(attrs.style, 'to satisfy', expectedStyleObj)
                   );
                 }
+              } else if (
+                expect.findTypeOf(expectedAttributeValue).is('expect.it')
+              ) {
+                expect.context.thisObject = subject;
+                return bubbleError(() =>
+                  expectedAttributeValue(attributeValue, expect.context)
+                );
               } else {
                 return bubbleError(() =>
                   expect(attributeValue, 'to satisfy', expectedAttributeValue)
