@@ -48,11 +48,7 @@ expect.addAssertion(
           ).window.document.body.firstChild
         : item
     );
-    expect(
-      expect.diff(subject[0], subject[1]).diff.toString(),
-      'to equal',
-      value
-    );
+    expect(expect.diff(subject[0], subject[1]).toString(), 'to equal', value);
   }
 );
 
@@ -2321,7 +2317,7 @@ describe('unexpected-dom', () => {
         if (typeof value === 'string') {
           value = parseHtml(value);
         }
-        return expect.shift(expect.diff(subject, value).diff.toString());
+        return expect.shift(expect.diff(subject, value).toString());
       }
     );
 

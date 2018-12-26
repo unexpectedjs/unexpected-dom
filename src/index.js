@@ -444,7 +444,7 @@ module.exports = {
           diff(
             makeAttachedDOMNodeList(actual.childNodes),
             makeAttachedDOMNodeList(expected.childNodes)
-          ).diff
+          )
         );
         return output;
       }
@@ -494,7 +494,7 @@ module.exports = {
           diff(
             makeAttachedDOMNodeList(actual.childNodes),
             makeAttachedDOMNodeList(expected.childNodes)
-          ).diff
+          )
         );
         return output;
       }
@@ -686,7 +686,7 @@ module.exports = {
               diff(
                 makeAttachedDOMNodeList(actual.childNodes),
                 makeAttachedDOMNodeList(expected.childNodes)
-              ).diff
+              )
             )
             .nl()
             .outdentLines();
@@ -1267,7 +1267,7 @@ module.exports = {
                         .nl()
                         .indentLines()
                         .i()
-                        .block(childrenDiff.diff)
+                        .block(childrenDiff)
                         .nl()
                         .outdentLines();
                     } else {
