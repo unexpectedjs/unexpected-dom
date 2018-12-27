@@ -1,3 +1,11 @@
+### v4.10.0 (2018-12-27)
+
+- [#243](https://github.com/Munter/unexpected-dom/pull/243) Fixed use of deprecated to satisfy function ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#228](https://github.com/Munter/unexpected-dom/pull/228) Upgrade coveralls to version 3.0.2 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#230](https://github.com/Munter/unexpected-dom/pull/230) Upgrade eslint-config-pretty-standard to version 2.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#234](https://github.com/Munter/unexpected-dom/pull/234) Upgrade mocha to version 5.2.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#232](https://github.com/Munter/unexpected-dom/pull/232) Upgrade eslint-plugin-prettier to version 3.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+
 ### v4.9.5 (2018-11-07)
 
 - [#241](https://github.com/Munter/unexpected-dom/pull/241) Allow dashes in style names and values ([Sune Simonsen](mailto:sune@we-knowhow.dk))
