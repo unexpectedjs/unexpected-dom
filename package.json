@@ -61,7 +61,7 @@
     "prettier": "~1.15.1",
     "sinon": "^7.1.0",
     "uglifyjs": "^2.4.11",
-    "unexpected": "^10.37.2",
+    "unexpected": "^11.0.0-4",
     "unexpected-documentation-site-generator": "^5.0.0",
     "unexpected-markdown": "^2.0.0",
     "unexpected-sinon": "^10.7.1"
@@ -71,6 +71,6 @@
     "magicpen-prism": "^2.3.0"
   },
   "peerDependencies": {
-    "unexpected": "^10.27.0"
+    "unexpected": "^10.27.0 || ^11.0.0-4"
   }
 }
