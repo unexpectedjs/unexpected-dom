@@ -1,3 +1,8 @@
+### v4.11.0 (2019-01-04)
+
+- [#245](https://github.com/Munter/unexpected-dom/pull/245) Allow the next major version of unexpected ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#244](https://github.com/Munter/unexpected-dom/pull/244) Upgrade unexpected-markdown to version 2.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+
 ### v4.10.0 (2018-12-27)
 
 - [#243](https://github.com/Munter/unexpected-dom/pull/243) Fixed use of deprecated to satisfy function ([Sune Simonsen](mailto:sune@we-knowhow.dk))
