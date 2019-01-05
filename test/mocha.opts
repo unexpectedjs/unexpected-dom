@@ -1,2 +1,3 @@
 --require ./bootstrap-unexpected-markdown.js
+--require ./test/common/node.js
 --require unexpected-markdown

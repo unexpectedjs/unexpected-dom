@@ -1,14 +1,4 @@
-/*global describe, it, beforeEach, afterEach*/
-const unexpected = require('unexpected');
-const unexpectedDom = require('../src/index');
-const sinon = require('sinon');
-const jsdom = require('jsdom');
-
-const expect = unexpected
-  .clone()
-  .installPlugin(require('unexpected-sinon'))
-  .installPlugin(unexpectedDom);
-
+/*global expect, describe, it, beforeEach, afterEach*/
 expect.addAssertion('<any> to inspect as itself', (expect, subject) => {
   const originalSubject = subject;
   if (typeof subject === 'string') {
