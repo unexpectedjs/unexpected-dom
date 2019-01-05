@@ -1,4 +1,4 @@
-/*global expect, jsdom, sinon, DOMParser, describe, it, beforeEach, afterEach*/
+/*global expect, jsdom, sinon, describe, it, beforeEach, afterEach, DOMParser:true*/
 expect.addAssertion(
   '<any> to inspect as <string>',
   (expect, subject, value) => {
@@ -61,8 +61,7 @@ function parseHtmlNode(str) {
 
 function parseXml(str) {
   if (typeof DOMParser !== 'undefined') {
-    // eslint-disable-next-line no-undef
-    return new DOMParser().parseFromString(str, 'text/xml');
+    return new DOMParser().parseFromString(str, 'application/xml');
   } else {
     return new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
   }
@@ -2487,23 +2486,25 @@ describe('unexpected-dom', () => {
     });
 
     describe('when the DOMParser global is available', () => {
-      let originalDOMParser, DOMParserSpy, parseFromStringSpy;
+      const OriginalDOMParser = root.DOMParser;
+      const safeParseHtmlDocument =
+        typeof jsdom !== 'undefined'
+          ? str => new jsdom.JSDOM(str).window.document
+          : str => new OriginalDOMParser().parseFromString(str, 'text/html');
 
+      let DOMParserSpy;
+      let parseFromStringSpy;
       beforeEach(() => {
-        originalDOMParser = global.DOMParser;
-        global.DOMParser = DOMParserSpy = sinon
+        DOMParser = DOMParserSpy = sinon
           .spy(() => ({
             parseFromString: (parseFromStringSpy = sinon
-              .spy(
-                (htmlString, contentType) =>
-                  new jsdom.JSDOM(htmlString).window.document
-              )
+              .spy(htmlString => safeParseHtmlDocument(htmlString))
               .named('parseFromString'))
           }))
           .named('DOMParser');
       });
       afterEach(() => {
-        global.DOMParser = originalDOMParser;
+        DOMParser = OriginalDOMParser;
       });
 
       it('should use DOMParser to parse the document', () => {
@@ -2586,7 +2587,7 @@ describe('unexpected-dom', () => {
         'when parsed as XML',
         expect
           .it('to be an', 'XMLDocument')
-          .and('to equal', parseXml(xmlSrc, { contentType: 'text/xml' }))
+          .and('to equal', parseXml(xmlSrc))
           .and('queried for first', 'fooBar', 'to have attributes', {
             yes: 'sir'
           })
@@ -2629,25 +2630,27 @@ describe('unexpected-dom', () => {
     });
 
     describe('when the DOMParser global is available', () => {
-      let originalDOMParser, DOMParserSpy, parseFromStringSpy;
+      const OriginalDOMParser = root.DOMParser;
+      const safeParseXmlDocument =
+        typeof jsdom !== 'undefined'
+          ? str =>
+              new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document
+          : str =>
+              new OriginalDOMParser().parseFromString(str, 'application/xml');
 
+      let DOMParserSpy;
+      let parseFromStringSpy;
       beforeEach(() => {
-        originalDOMParser = global.DOMParser;
-        global.DOMParser = DOMParserSpy = sinon
+        DOMParser = DOMParserSpy = sinon
           .spy(() => ({
             parseFromString: (parseFromStringSpy = sinon
-              .spy(
-                (xmlString, contentType) =>
-                  new jsdom.JSDOM(xmlString, {
-                    contentType: 'text/xml'
-                  }).window.document
-              )
+              .spy(xmlString => safeParseXmlDocument(xmlString))
               .named('parseFromString'))
           }))
           .named('DOMParser');
       });
       afterEach(() => {
-        global.DOMParser = originalDOMParser;
+        DOMParser = OriginalDOMParser;
       });
 
       it('should use DOMParser to parse the document', () => {
