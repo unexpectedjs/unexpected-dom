@@ -34,7 +34,7 @@ const root = typeof jsdom !== 'undefined' ? new jsdom.JSDOM().window : window;
 const parseHtmlDocument =
   typeof jsdom !== 'undefined'
     ? str => new jsdom.JSDOM(str).window.document
-    : str => new OriginalDOMParser().parseFromString(str, 'text/html');
+    : str => new DOMParser().parseFromString(str, 'text/html');
 
 function parseHtml(str) {
   return parseHtmlDocument(`<!DOCTYPE html><html><body>${str}</body></html>`)
@@ -62,7 +62,7 @@ function parseHtmlNode(str) {
 function parseXml(str) {
   if (typeof DOMParser !== 'undefined') {
     // eslint-disable-next-line no-undef
-    return new OriginalDOMParser().parseFromString(str, 'text/xml');
+    return new DOMParser().parseFromString(str, 'text/xml');
   } else {
     return new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
   }
@@ -2586,10 +2586,7 @@ describe('unexpected-dom', () => {
         'when parsed as XML',
         expect
           .it('to be an', 'XMLDocument')
-          .and(
-            'to equal',
-            new jsdom.JSDOM(xmlSrc, { contentType: 'text/xml' }).window.document
-          )
+          .and('to equal', parseXml(xmlSrc, { contentType: 'text/xml' }))
           .and('queried for first', 'fooBar', 'to have attributes', {
             yes: 'sir'
           })
