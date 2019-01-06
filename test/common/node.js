@@ -2,7 +2,7 @@
 /* eslint no-unused-vars: "off" */
 expect = require('unexpected')
   .clone()
-  .installPlugin(require('unexpected-sinon'))
-  .installPlugin(require('../../src/index'));
+  .use(require('unexpected-sinon'))
+  .use(require('../../src/index'));
 jsdom = require('jsdom');
 sinon = require('sinon');
