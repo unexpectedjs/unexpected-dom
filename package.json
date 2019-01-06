@@ -17,7 +17,7 @@
     "lint": "eslint .",
     "test": "mocha ./test/*.js `find documentation -name '*.md'`",
     "test-headless": "karma start --single-run",
-    "ci": "npm run lint && npm run coverage && npm run build && npm run bundle",
+    "ci": "npm run lint && npm run coverage && npm run build && npm run bundle && npm run test-headless",
     "coverage": "nyc --reporter=lcov --reporter=text npm test -- --reporter dot",
     "preversion": "npm run build && npm run bundle && npm run lint && npm run test && git add unexpected-dom.*",
     "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && gh-pages -d site-build",
