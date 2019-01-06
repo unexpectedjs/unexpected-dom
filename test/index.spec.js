@@ -70,11 +70,11 @@ function parseXml(str) {
 describe('unexpected-dom', () => {
   expect.output.preferredWidth = 100;
 
-  let document;
+  let theDocument;
   let body;
   beforeEach(function() {
-    document = root.document;
-    body = document.body;
+    theDocument = root.document;
+    body = theDocument.body;
     // FIXME: defined for compatibility
     this.body = body;
   });
@@ -319,11 +319,11 @@ describe('unexpected-dom', () => {
   });
 
   it('should consider two DOM elements equal when they are of same type and have same attributes', () => {
-    const el1 = document.createElement('h1');
-    const el2 = document.createElement('h1');
-    const el3 = document.createElement('h1');
+    const el1 = theDocument.createElement('h1');
+    const el2 = theDocument.createElement('h1');
+    const el3 = theDocument.createElement('h1');
     el3.id = 'el3';
-    const paragraph = document.createElement('p');
+    const paragraph = theDocument.createElement('p');
 
     expect(el1, 'to be', el1);
     expect(el1, 'not to be', el2);
@@ -334,15 +334,15 @@ describe('unexpected-dom', () => {
 
   describe('to have text', () => {
     it('should succeed', () => {
-      document.body.innerHTML = '<div>foo</div>';
-      return expect(document.body, 'to have text', 'foo');
+      theDocument.body.innerHTML = '<div>foo</div>';
+      return expect(theDocument.body, 'to have text', 'foo');
     });
 
     it('should fail with a diff', () => {
-      document.body.innerHTML = '<div>foo</div>';
+      theDocument.body.innerHTML = '<div>foo</div>';
       expect(
         () => {
-          expect(document.body, 'to have text', 'bar');
+          expect(theDocument.body, 'to have text', 'bar');
         },
         'to throw',
         "expected <body><div>foo</div></body> to have text 'bar'\n" +
@@ -353,8 +353,8 @@ describe('unexpected-dom', () => {
     });
 
     it('should use "to satisfy" semantics', () => {
-      document.body.innerHTML = '<div>foo</div>';
-      return expect(document.body, 'to have text', /fo/);
+      theDocument.body.innerHTML = '<div>foo</div>';
+      return expect(theDocument.body, 'to have text', /fo/);
     });
   });
 
@@ -1959,7 +1959,7 @@ describe('unexpected-dom', () => {
       });
 
       it('should succeed with a node child', () => {
-        const node = document.createElement('div');
+        const node = theDocument.createElement('div');
         node.innerHTML = '<div foo="bar">hey</div>';
         body.innerHTML = '<div><div foo="bar">hey</div></div>';
         expect(body.firstChild, 'to satisfy', {
@@ -1987,7 +1987,7 @@ describe('unexpected-dom', () => {
 
       describe('when using ignore', () => {
         it('should succeed', () => {
-          const node = document.createElement('div');
+          const node = theDocument.createElement('div');
           node.innerHTML = '<!-- ignore -->';
           const commentNode = node.firstChild;
           body.innerHTML =
