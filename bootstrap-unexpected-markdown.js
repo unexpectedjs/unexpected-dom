@@ -1,11 +1,8 @@
-/*global unexpected:true, expect:true, createElement:true*/ //eslint-disable-line no-unused-vars
-unexpected = require('unexpected').clone();
-unexpected.output.preferredWidth = 80;
-unexpected.use(require('./src/'));
+/*global unexpected:true, expect:true, jsdom:true, createElement:true, window:true, document:true*/
+/* eslint no-unused-vars: "off" */
 
-var jsdom = require('jsdom');
-var window = new jsdom.JSDOM().window;
-var document = window.document;
+unexpected = expect;
+unexpected.output.preferredWidth = 80;
 
 createElement = function createElement(html) {
   var root = document.createElement('div');
@@ -19,4 +16,5 @@ createElement = function createElement(html) {
   return root.firstChild;
 };
 
-expect = unexpected;
+window = new jsdom.JSDOM().window;
+document = window.document;
