@@ -1,3 +1,2 @@
---recursive
 --require ./bootstrap-unexpected-markdown.js
 --require unexpected-markdown
