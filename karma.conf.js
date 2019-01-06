@@ -11,7 +11,7 @@ module.exports = function(config) {
       './node_modules/sinon/pkg/sinon.js',
       './unexpected-dom.js',
       './test/common/browser.js',
-      './test/index.spec.js'
+      './build/test/index.spec.js'
     ],
 
     client: {
