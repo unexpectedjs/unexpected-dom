@@ -1,4 +1,4 @@
-/*global expect, jsdom, sinon, describe, it, beforeEach, afterEach, DOMParser:true*/
+/*global expect, jsdom, sinon, describe, it, beforeEach, afterEach, document:true, DOMParser:true*/
 expect.addAssertion(
   '<any> to inspect as <string>',
   (expect, subject, value) => {
@@ -2528,55 +2528,62 @@ describe('unexpected-dom', () => {
       });
     });
 
-    describe('when the document global is available', () => {
-      let originalDocument, createHTMLDocumentSpy, mockDocument;
+    if (typeof jsdom !== 'undefined') {
+      describe('when the document global is available', () => {
+        const OriginalDOMParser = root.DOMParser;
+        let originalDocument, createHTMLDocumentSpy, mockDocument;
 
-      beforeEach(() => {
-        originalDocument = global.document;
-        global.document = {
-          implementation: {
-            createHTMLDocument: (createHTMLDocumentSpy = sinon
-              .spy(() => {
-                mockDocument = new jsdom.JSDOM(htmlSrc).window.document;
-                mockDocument.open = sinon.spy().named('document.open');
-                mockDocument.write = sinon.spy().named('document.write');
-                mockDocument.close = sinon.spy().named('document.close');
-                return mockDocument;
-              })
-              .named('createHTMLDocument'))
-          }
-        };
-      });
-      afterEach(() => {
-        global.document = originalDocument;
-      });
+        beforeEach(() => {
+          mockDocument = parseHtmlDocument(htmlSrc);
+          mockDocument.open = sinon.spy().named('document.open');
+          mockDocument.write = sinon.spy().named('document.write');
+          mockDocument.close = sinon.spy().named('document.close');
 
-      it('should use document.implementation.createHTMLDocument to parse the document', () => {
-        expect(
-          htmlSrc,
-          'when parsed as HTML',
-          'queried for first',
-          'body',
-          'to have text',
-          'foo'
-        );
-        expect(
-          [
-            createHTMLDocumentSpy,
-            mockDocument.open,
-            mockDocument.write,
-            mockDocument.close
-          ],
-          'to have calls satisfying',
-          () => {
-            createHTMLDocumentSpy('');
-            mockDocument.open();
-            mockDocument.write(htmlSrc);
-            mockDocument.close();
-          }
-        );
+          DOMParser = undefined; // force the "implementation" path
+          originalDocument = root.document;
+
+          document = {
+            implementation: {
+              createHTMLDocument: (createHTMLDocumentSpy = sinon
+                .spy(() => {
+                  return mockDocument;
+                })
+                .named('createHTMLDocument'))
+            }
+          };
+        });
+        afterEach(() => {
+          DOMParser = OriginalDOMParser;
+          document = originalDocument;
+        });
+
+        it('should use document.implementation.createHTMLDocument to parse the document', () => {
+          expect(
+            htmlSrc,
+            'when parsed as HTML',
+            'queried for first',
+            'body',
+            'to have text',
+            'foo'
+          );
+          expect(
+            [
+              createHTMLDocumentSpy,
+              mockDocument.open,
+              mockDocument.write,
+              mockDocument.close
+            ],
+            'to have calls satisfying',
+            () => {
+              createHTMLDocumentSpy('');
+              mockDocument.open();
+              mockDocument.write(htmlSrc);
+              mockDocument.close();
+            }
+          );
+        });
       });
-    });
+    }
   });
 
   describe('when parsed as XML', () => {
