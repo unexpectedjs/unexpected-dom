@@ -1820,6 +1820,41 @@ describe('unexpected-dom', () => {
           parseHtml('<div style="">hey</div>')
         ));
 
+      it('should not fail for a style attribute with hex value (short) on the RHS', () => {
+        expect(
+          parseHtml('<div style="border-left-color: #000">hey</div>'),
+          'to satisfy',
+          parseHtml('<div style="border-left-color: #000;">hey</div>')
+        );
+      });
+
+      it('should not fail for a style attribute with hex value (long) on the RHS', () => {
+        expect(
+          parseHtml('<div style="border-left-color: #1BcD3F">hey</div>'),
+          'to satisfy',
+          parseHtml('<div style="border-left-color: #1BcD3F;">hey</div>')
+        );
+      });
+
+      it('should fail when the RHS has invalid styles', () =>
+        expect(
+          () =>
+            expect(
+              parseHtml('<div style="border-left-color: #FFF">hey</div>'),
+              'to satisfy',
+              parseHtml('<div style="border-left-color: #FFFF;">hey</div>')
+            ),
+          'to error',
+          'expected <div style="border-left-color: #FFF">hey</div>\n' +
+            'to satisfy <div style="border-left-color: #FFFF">hey</div>\n' +
+            '\n' +
+            '<div\n' +
+            '  style="border-left-color: #FFF" // expected <div style="border-left-color: #FFF">hey</div>\n' +
+            "                                  // to satisfy { name: 'div', attributes: { style: 'border-left-color: #FFFF;' }, children: [ 'hey' ] }\n" +
+            "                                  //   Expectation contains invalid styles: 'border-left-color: #FFFF'\n" +
+            '>hey</div>'
+        ));
+
       it('should fail when the RHS has invalid styles', () =>
         expect(
           () =>

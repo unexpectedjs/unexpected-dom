@@ -85,7 +85,12 @@ function isEnumeratedAttribute(attrName) {
 function validateStyles(expect, str) {
   const invalidStyles = str
     .split(';')
-    .filter(part => !/^\s*(\w|-)+\s*:\s*(\w|-)+\s*$|^$/.test(part));
+    .filter(
+      part =>
+        !/^\s*(\w|-)+\s*:\s*(#(?:[0-9a-fA-F]{3}){1,2}|(\w|-)+)\s*$|^$/.test(
+          part
+        )
+    );
 
   if (invalidStyles.length > 0) {
     expect.errorMode = 'nested';
