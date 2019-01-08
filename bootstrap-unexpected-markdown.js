@@ -1,6 +1,10 @@
 /*global unexpected:true, expect:true, jsdom:true, createElement:true, window:true, document:true*/
 /* eslint no-unused-vars: "off" */
 
+if (typeof expect === 'undefined') {
+  require('./test/common/node');
+}
+
 unexpected = expect;
 unexpected.output.preferredWidth = 80;
 
