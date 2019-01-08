@@ -1820,6 +1820,14 @@ describe('unexpected-dom', () => {
           parseHtml('<div style="">hey</div>')
         ));
 
+      it('should not fail for a style attribute with hex value on the RHS', () => {
+        expect(
+          parseHtml('<div style="border-left-color: #1BcD3F">hey</div>'),
+          'to satisfy',
+          parseHtml('<div style="border-left-color: #1BcD3F;">hey</div>')
+        );
+      });
+
       it('should fail when the RHS has invalid styles', () =>
         expect(
           () =>
