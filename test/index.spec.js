@@ -1,23 +1,17 @@
-/*global describe, it, beforeEach, afterEach*/
-const unexpected = require('unexpected');
-const unexpectedDom = require('../src/index');
-const sinon = require('sinon');
-const jsdom = require('jsdom');
-
-const expect = unexpected
-  .clone()
-  .installPlugin(require('unexpected-sinon'))
-  .installPlugin(unexpectedDom);
+/*global expect, jsdom, sinon, describe, it, beforeEach, afterEach, document:true, DOMParser:true*/
+expect.addAssertion(
+  '<any> to inspect as <string>',
+  (expect, subject, value) => {
+    if (typeof subject === 'string') {
+      subject = parseHtml(subject);
+    }
+    expect(expect.inspect(subject).toString(), 'to equal', value);
+  }
+);
 
 expect.addAssertion('<any> to inspect as itself', (expect, subject) => {
-  const originalSubject = subject;
   if (typeof subject === 'string') {
-    subject = new jsdom.JSDOM(
-      `<!DOCTYPE html><html><head></head><body>${subject}</body></html>`
-    ).window.document.body.firstChild;
-  }
-  if (typeof originalSubject === 'string') {
-    expect(expect.inspect(subject).toString(), 'to equal', originalSubject);
+    expect(subject, 'to inspect as', subject);
   } else {
     throw new Error(
       'subject must be given as a string when expected to inspect as itself'
@@ -26,44 +20,31 @@ expect.addAssertion('<any> to inspect as itself', (expect, subject) => {
 });
 
 expect.addAssertion(
-  '<any> to inspect as <string>',
-  (expect, subject, value) => {
-    if (typeof subject === 'string') {
-      subject = new jsdom.JSDOM(
-        `<!DOCTYPE html><html><head></head><body>${subject}</body></html>`
-      ).window.document.body.firstChild;
-    }
-    expect(expect.inspect(subject).toString(), 'to equal', value);
-  }
-);
-
-expect.addAssertion(
   '<array> to produce a diff of <string>',
   (expect, subject, value) => {
     expect.errorMode = 'bubble';
     subject = subject.map(item =>
-      typeof item === 'string'
-        ? new jsdom.JSDOM(
-            `<!DOCTYPE html><html><head></head><body>${item}</body></html>`
-          ).window.document.body.firstChild
-        : item
+      typeof item === 'string' ? parseHtml(item) : item
     );
     expect(expect.diff(subject[0], subject[1]).toString(), 'to equal', value);
   }
 );
 
-function parseHtml(str) {
-  return new jsdom.JSDOM(`<!DOCTYPE html><html><body>${str}</body></html>`)
-    .window.document.body.firstChild;
-}
+const root = typeof jsdom !== 'undefined' ? new jsdom.JSDOM().window : window;
+const parseHtmlDocument =
+  typeof jsdom !== 'undefined'
+    ? str => new jsdom.JSDOM(str).window.document
+    : str => new DOMParser().parseFromString(str, 'text/html');
 
-function parseHtmlDocument(str) {
-  return new jsdom.JSDOM(str).window.document;
+function parseHtml(str) {
+  return parseHtmlDocument(`<!DOCTYPE html><html><body>${str}</body></html>`)
+    .body.firstChild;
 }
 
 function parseHtmlFragment(str) {
-  str = `<html><head></head><body>${str}</body></html>`;
-  const htmlDocument = new jsdom.JSDOM(str).window.document;
+  const htmlDocument = parseHtmlDocument(
+    `<html><head></head><body>${str}</body></html>`
+  );
   const body = htmlDocument.body;
   const documentFragment = htmlDocument.createDocumentFragment();
   if (body) {
@@ -80,8 +61,7 @@ function parseHtmlNode(str) {
 
 function parseXml(str) {
   if (typeof DOMParser !== 'undefined') {
-    // eslint-disable-next-line no-undef
-    return new DOMParser().parseFromString(str, 'text/xml');
+    return new DOMParser().parseFromString(str, 'application/xml');
   } else {
     return new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
   }
@@ -90,17 +70,19 @@ function parseXml(str) {
 describe('unexpected-dom', () => {
   expect.output.preferredWidth = 100;
 
-  let document, body;
+  let theDocument;
+  let body;
   beforeEach(function() {
-    this.window = new jsdom.JSDOM().window;
-    document = this.window.document;
-    body = this.body = document.body;
+    theDocument = root.document;
+    body = theDocument.body;
+    // FIXME: defined for compatibility
+    this.body = body;
   });
 
   it('should inspect an HTML document correctly', () => {
     expect(
-      new jsdom.JSDOM('<!DOCTYPE html><html><head></head><BODY></BODY></html>')
-        .window.document,
+      '<!DOCTYPE html><html><head></head><BODY></BODY></html>',
+      'when parsed as HTML',
       'to inspect as',
       '<!DOCTYPE html><html><head></head><body></body></html>'
     );
@@ -117,9 +99,8 @@ describe('unexpected-dom', () => {
 
   it('should inspect a document with nodes around the documentElement correctly', () => {
     expect(
-      new jsdom.JSDOM(
-        '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
-      ).window.document,
+      '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->',
+      'when parsed as HTML',
       'to inspect as',
       '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
     );
@@ -225,9 +206,9 @@ describe('unexpected-dom', () => {
           expect(
             '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
             'when parsed as HTML to satisfy',
-            new jsdom.JSDOM(
+            parseHtmlDocument(
               '<!DOCTYPE html><html><head></head><body>foo</body></html>'
-            ).window.document
+            )
           );
         });
 
@@ -237,9 +218,9 @@ describe('unexpected-dom', () => {
               expect(
                 '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
                 'when parsed as HTML to satisfy',
-                new jsdom.JSDOM(
+                parseHtmlDocument(
                   '<!DOCTYPE html><html><body class="foo"></body></html>'
-                ).window.document
+                )
               );
             },
             'to throw',
@@ -331,19 +312,18 @@ describe('unexpected-dom', () => {
 
   it('should allow regular assertions defined for the object type to work on an HTMLElement', () => {
     expect(
-      new jsdom.JSDOM('<html><head></head><body></body></html>').window.document
-        .firstChild,
+      parseHtmlDocument('<html><head></head><body></body></html>').firstChild,
       'to have properties',
       { nodeType: 1 }
     );
   });
 
   it('should consider two DOM elements equal when they are of same type and have same attributes', () => {
-    const el1 = document.createElement('h1');
-    const el2 = document.createElement('h1');
-    const el3 = document.createElement('h1');
+    const el1 = theDocument.createElement('h1');
+    const el2 = theDocument.createElement('h1');
+    const el3 = theDocument.createElement('h1');
     el3.id = 'el3';
-    const paragraph = document.createElement('p');
+    const paragraph = theDocument.createElement('p');
 
     expect(el1, 'to be', el1);
     expect(el1, 'not to be', el2);
@@ -354,15 +334,15 @@ describe('unexpected-dom', () => {
 
   describe('to have text', () => {
     it('should succeed', () => {
-      document.body.innerHTML = '<div>foo</div>';
-      return expect(document.body, 'to have text', 'foo');
+      theDocument.body.innerHTML = '<div>foo</div>';
+      return expect(theDocument.body, 'to have text', 'foo');
     });
 
     it('should fail with a diff', () => {
-      document.body.innerHTML = '<div>foo</div>';
+      theDocument.body.innerHTML = '<div>foo</div>';
       expect(
         () => {
-          expect(document.body, 'to have text', 'bar');
+          expect(theDocument.body, 'to have text', 'bar');
         },
         'to throw',
         "expected <body><div>foo</div></body> to have text 'bar'\n" +
@@ -373,8 +353,8 @@ describe('unexpected-dom', () => {
     });
 
     it('should use "to satisfy" semantics', () => {
-      document.body.innerHTML = '<div>foo</div>';
-      return expect(document.body, 'to have text', /fo/);
+      theDocument.body.innerHTML = '<div>foo</div>';
+      return expect(theDocument.body, 'to have text', /fo/);
     });
   });
 
@@ -1948,10 +1928,9 @@ describe('unexpected-dom', () => {
       });
 
       describe('in an XML document with a mixed case node name', () => {
-        const xmlDoc = new jsdom.JSDOM(
-          '<?xml version="1.0"?><fooBar hey="there"></fooBar>',
-          { contentType: 'text/xml' }
-        ).window.document;
+        const xmlDoc = parseXml(
+          '<?xml version="1.0"?><fooBar hey="there"></fooBar>'
+        );
 
         it('should succeed', () => {
           expect(xmlDoc.firstChild, 'to satisfy', { name: 'fooBar' });
@@ -1980,7 +1959,7 @@ describe('unexpected-dom', () => {
       });
 
       it('should succeed with a node child', () => {
-        const node = document.createElement('div');
+        const node = theDocument.createElement('div');
         node.innerHTML = '<div foo="bar">hey</div>';
         body.innerHTML = '<div><div foo="bar">hey</div></div>';
         expect(body.firstChild, 'to satisfy', {
@@ -2008,7 +1987,7 @@ describe('unexpected-dom', () => {
 
       describe('when using ignore', () => {
         it('should succeed', () => {
-          const node = document.createElement('div');
+          const node = theDocument.createElement('div');
           node.innerHTML = '<!-- ignore -->';
           const commentNode = node.firstChild;
           body.innerHTML =
@@ -2091,27 +2070,27 @@ describe('unexpected-dom', () => {
 
   describe('queried for', () => {
     it('should work with HTMLDocument', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
-      ).window.document;
+      );
       expect(document, 'queried for first', 'div', 'to have attributes', {
         id: 'foo'
       });
     });
 
     it('should provide the results as the fulfillment value when no assertion is provided', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
-      ).window.document;
+      );
       return expect(document, 'queried for first', 'div').then(div => {
         expect(div, 'to have attributes', { id: 'foo' });
       });
     });
 
     it('should error out if the selector matches no elements, first flag set', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
-      ).window.document;
+      );
       expect(
         () => {
           expect(
@@ -2129,9 +2108,9 @@ describe('unexpected-dom', () => {
     });
 
     it('should error out if the selector matches no elements, first flag not set', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
-      ).window.document;
+      );
       expect(
         () => {
           expect(
@@ -2149,25 +2128,25 @@ describe('unexpected-dom', () => {
     });
 
     it('should return an array-like NodeList', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>'
-      ).window.document;
+      );
 
       expect(document, 'queried for', 'div', 'to be a', 'DOMNodeList');
     });
 
     it('should be able to use array semantics', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>'
-      ).window.document;
+      );
 
       expect(document, 'queried for', 'div', 'to have length', 3);
     });
 
     it('should fail array checks with useful nested error message', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><head></head><body><div></div><div></div><div></div></body></html>'
-      ).window.document;
+      );
 
       expect(
         () => {
@@ -2183,17 +2162,17 @@ describe('unexpected-dom', () => {
 
   describe('to contain no elements matching', () => {
     it('should pass when not matching anything', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body></body></html>'
-      ).window.document;
+      );
 
       expect(document, 'to contain no elements matching', '.foo');
     });
 
     it('should fail when matching a single node', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
-      ).window.document;
+      );
 
       expect(
         () => {
@@ -2210,9 +2189,9 @@ describe('unexpected-dom', () => {
     });
 
     it('should fail when matching a NodeList', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div class="foo"></div><div class="foo"></div></body></html>'
-      ).window.document;
+      );
 
       expect(
         () => {
@@ -2232,17 +2211,17 @@ describe('unexpected-dom', () => {
 
   describe('to contain elements matching', () => {
     it('should pass when matching an element', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
-      ).window.document;
+      );
 
       expect(document, 'to contain elements matching', '.foo');
     });
 
     it('should fail when no elements match', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div class="foo"></div><div class="foo"></div></body></html>'
-      ).window.document;
+      );
 
       expect(
         () => {
@@ -2263,17 +2242,17 @@ describe('unexpected-dom', () => {
 
   describe('to match', () => {
     it('should match an element correctly', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
-      ).window.document;
+      );
 
       expect(document.body.firstChild, 'to match', '.foo');
     });
 
     it('should fail on matching element with a non-matching selector', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
-      ).window.document;
+      );
 
       expect(
         () => {
@@ -2285,17 +2264,17 @@ describe('unexpected-dom', () => {
     });
 
     it("should not match an element that doesn't match the selector", () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
-      ).window.document;
+      );
 
       expect(document.body.firstChild, 'not to match', '.bar');
     });
 
     it('should fail when matching with a selector that was not expected to match', () => {
-      const document = new jsdom.JSDOM(
+      const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div class="foo"></div></body></html>'
-      ).window.document;
+      );
 
       expect(
         () => {
@@ -2420,13 +2399,13 @@ describe('unexpected-dom', () => {
 
     it('should diff documents with stuff around the documentElement', () => {
       expect(
-        new jsdom.JSDOM(
+        parseHtmlDocument(
           '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
-        ).window.document,
+        ),
         'diffed with',
-        new jsdom.JSDOM(
+        parseHtmlDocument(
           '<!DOCTYPE html><html><head></head><body></body></html>'
-        ).window.document,
+        ),
         'to equal',
         '<!DOCTYPE html>\n' +
           '<!--foo--> // should be removed\n' +
@@ -2444,7 +2423,7 @@ describe('unexpected-dom', () => {
         'when parsed as HTML',
         expect
           .it('to be an', 'HTMLDocument')
-          .and('to equal', new jsdom.JSDOM(htmlSrc).window.document)
+          .and('to equal', parseHtmlDocument(htmlSrc))
           .and('queried for first', 'body', 'to have attributes', {
             class: 'bar'
           })
@@ -2453,7 +2432,7 @@ describe('unexpected-dom', () => {
 
     it('should provide the parsed document as the fulfillment value when no assertion is provided', () =>
       expect(htmlSrc, 'parsed as HTML').then(document => {
-        expect(document, 'to equal', new jsdom.JSDOM(htmlSrc).window.document);
+        expect(document, 'to equal', parseHtmlDocument(htmlSrc));
       }));
 
     describe('with the "fragment" flag', () => {
@@ -2507,23 +2486,25 @@ describe('unexpected-dom', () => {
     });
 
     describe('when the DOMParser global is available', () => {
-      let originalDOMParser, DOMParserSpy, parseFromStringSpy;
+      const OriginalDOMParser = root.DOMParser;
+      const safeParseHtmlDocument =
+        typeof jsdom !== 'undefined'
+          ? str => new jsdom.JSDOM(str).window.document
+          : str => new OriginalDOMParser().parseFromString(str, 'text/html');
 
+      let DOMParserSpy;
+      let parseFromStringSpy;
       beforeEach(() => {
-        originalDOMParser = global.DOMParser;
-        global.DOMParser = DOMParserSpy = sinon
+        DOMParser = DOMParserSpy = sinon
           .spy(() => ({
             parseFromString: (parseFromStringSpy = sinon
-              .spy(
-                (htmlString, contentType) =>
-                  new jsdom.JSDOM(htmlString).window.document
-              )
+              .spy(htmlString => safeParseHtmlDocument(htmlString))
               .named('parseFromString'))
           }))
           .named('DOMParser');
       });
       afterEach(() => {
-        global.DOMParser = originalDOMParser;
+        DOMParser = OriginalDOMParser;
       });
 
       it('should use DOMParser to parse the document', () => {
@@ -2547,55 +2528,62 @@ describe('unexpected-dom', () => {
       });
     });
 
-    describe('when the document global is available', () => {
-      let originalDocument, createHTMLDocumentSpy, mockDocument;
+    if (typeof jsdom !== 'undefined') {
+      describe('when the document global is available', () => {
+        const OriginalDOMParser = root.DOMParser;
+        let originalDocument, createHTMLDocumentSpy, mockDocument;
 
-      beforeEach(() => {
-        originalDocument = global.document;
-        global.document = {
-          implementation: {
-            createHTMLDocument: (createHTMLDocumentSpy = sinon
-              .spy(() => {
-                mockDocument = new jsdom.JSDOM(htmlSrc).window.document;
-                mockDocument.open = sinon.spy().named('document.open');
-                mockDocument.write = sinon.spy().named('document.write');
-                mockDocument.close = sinon.spy().named('document.close');
-                return mockDocument;
-              })
-              .named('createHTMLDocument'))
-          }
-        };
-      });
-      afterEach(() => {
-        global.document = originalDocument;
-      });
+        beforeEach(() => {
+          mockDocument = parseHtmlDocument(htmlSrc);
+          mockDocument.open = sinon.spy().named('document.open');
+          mockDocument.write = sinon.spy().named('document.write');
+          mockDocument.close = sinon.spy().named('document.close');
 
-      it('should use document.implementation.createHTMLDocument to parse the document', () => {
-        expect(
-          htmlSrc,
-          'when parsed as HTML',
-          'queried for first',
-          'body',
-          'to have text',
-          'foo'
-        );
-        expect(
-          [
-            createHTMLDocumentSpy,
-            mockDocument.open,
-            mockDocument.write,
-            mockDocument.close
-          ],
-          'to have calls satisfying',
-          () => {
-            createHTMLDocumentSpy('');
-            mockDocument.open();
-            mockDocument.write(htmlSrc);
-            mockDocument.close();
-          }
-        );
+          DOMParser = undefined; // force the "implementation" path
+          originalDocument = root.document;
+
+          document = {
+            implementation: {
+              createHTMLDocument: (createHTMLDocumentSpy = sinon
+                .spy(() => {
+                  return mockDocument;
+                })
+                .named('createHTMLDocument'))
+            }
+          };
+        });
+        afterEach(() => {
+          DOMParser = OriginalDOMParser;
+          document = originalDocument;
+        });
+
+        it('should use document.implementation.createHTMLDocument to parse the document', () => {
+          expect(
+            htmlSrc,
+            'when parsed as HTML',
+            'queried for first',
+            'body',
+            'to have text',
+            'foo'
+          );
+          expect(
+            [
+              createHTMLDocumentSpy,
+              mockDocument.open,
+              mockDocument.write,
+              mockDocument.close
+            ],
+            'to have calls satisfying',
+            () => {
+              createHTMLDocumentSpy('');
+              mockDocument.open();
+              mockDocument.write(htmlSrc);
+              mockDocument.close();
+            }
+          );
+        });
       });
-    });
+    }
   });
 
   describe('when parsed as XML', () => {
@@ -2606,10 +2594,7 @@ describe('unexpected-dom', () => {
         'when parsed as XML',
         expect
           .it('to be an', 'XMLDocument')
-          .and(
-            'to equal',
-            new jsdom.JSDOM(xmlSrc, { contentType: 'text/xml' }).window.document
-          )
+          .and('to equal', parseXml(xmlSrc))
           .and('queried for first', 'fooBar', 'to have attributes', {
             yes: 'sir'
           })
@@ -2652,25 +2637,27 @@ describe('unexpected-dom', () => {
     });
 
     describe('when the DOMParser global is available', () => {
-      let originalDOMParser, DOMParserSpy, parseFromStringSpy;
+      const OriginalDOMParser = root.DOMParser;
+      const safeParseXmlDocument =
+        typeof jsdom !== 'undefined'
+          ? str =>
+              new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document
+          : str =>
+              new OriginalDOMParser().parseFromString(str, 'application/xml');
 
+      let DOMParserSpy;
+      let parseFromStringSpy;
       beforeEach(() => {
-        originalDOMParser = global.DOMParser;
-        global.DOMParser = DOMParserSpy = sinon
+        DOMParser = DOMParserSpy = sinon
           .spy(() => ({
             parseFromString: (parseFromStringSpy = sinon
-              .spy(
-                (xmlString, contentType) =>
-                  new jsdom.JSDOM(xmlString, {
-                    contentType: 'text/xml'
-                  }).window.document
-              )
+              .spy(xmlString => safeParseXmlDocument(xmlString))
               .named('parseFromString'))
           }))
           .named('DOMParser');
       });
       afterEach(() => {
-        global.DOMParser = originalDOMParser;
+        DOMParser = OriginalDOMParser;
       });
 
       it('should use DOMParser to parse the document', () => {

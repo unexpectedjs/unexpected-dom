@@ -7,6 +7,7 @@ const config = {
       {
         devDependencies: [
           'bootstrap-unexpected-markdown.js',
+          'karma.conf.js',
           '**/test/**/*.js'
         ],
         optionalDependencies: false,
