@@ -1,5 +1,5 @@
 function focusMain() {
-    document.querySelector('.main').focus();
+  document.querySelector('.main').focus();
 }
 
 focusMain();
