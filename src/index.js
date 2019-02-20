@@ -87,9 +87,7 @@ function validateStyles(expect, str) {
     .split(';')
     .filter(
       part =>
-        !/^\s*(\w|-)+\s*:\s*(#(?:[0-9a-fA-F]{3}){1,2}|(\w|-)+)\s*$|^$/.test(
-          part
-        )
+        !/^\s*(\w|-)+\s*:\s*(#(?:[0-9a-fA-F]{3}){1,2}|[^#]+)\s*$|^$/.test(part)
     );
 
   if (invalidStyles.length > 0) {
