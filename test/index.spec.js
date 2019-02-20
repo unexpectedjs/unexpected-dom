@@ -1,4 +1,4 @@
-/*global expect, jsdom, sinon, describe, it, beforeEach, afterEach, document:true, DOMParser:true*/
+/*global expect, jsdom, sinon, describe, it, beforeEach, afterEach, DOMParser:true*/
 expect.addAssertion(
   '<any> to inspect as <string>',
   (expect, subject, value) => {
@@ -2577,6 +2577,7 @@ describe('unexpected-dom', () => {
           DOMParser = undefined; // force the "implementation" path
           originalDocument = root.document;
 
+          // eslint-disable-next-line no-global-assign
           document = {
             implementation: {
               createHTMLDocument: (createHTMLDocumentSpy = sinon
@@ -2587,8 +2588,10 @@ describe('unexpected-dom', () => {
             }
           };
         });
+
         afterEach(() => {
           DOMParser = OriginalDOMParser;
+          // eslint-disable-next-line no-global-assign
           document = originalDocument;
         });
 
