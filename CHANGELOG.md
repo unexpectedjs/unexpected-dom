@@ -1,3 +1,10 @@
+### v4.11.2 (2019-02-20)
+
+- [#252](https://github.com/unexpectedjs/unexpected-dom/pull/252) Upgrade mocha to version 6.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#253](https://github.com/unexpectedjs/unexpected-dom/pull/253) Relax the inline style validation in expectations ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#250](https://github.com/unexpectedjs/unexpected-dom/pull/250) Upgrade prettier to version 1.16.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#249](https://github.com/unexpectedjs/unexpected-dom/pull/249) Upgrade unexpected-documentation-site-generator to version 6.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+
 ### v4.11.1 (2019-01-08)
 
 - [#247](https://github.com/unexpectedjs/unexpected-dom/pull/247) Allow style attributes with hex values. ([Alex J Burke](mailto:alex@alexjeffburke.com))
@@ -43,7 +50,7 @@
 ### v4.6.4 (2018-10-02)
 
 - [#219](https://github.com/unexpectedjs/unexpected-dom/pull/219) Fix comment nodes being specified as children in a satisfy spec. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
-- [#220](https://github.com/unexpectedjs/unexpected-dom/pull/220) Model <!--ignore--> as its own type and implement the ignoring via an assertion ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [#220](https://github.com/unexpectedjs/unexpected-dom/pull/220) Model &lt;!--ignore--&gt; as its own type and implement the ignoring via an assertion ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
 
 ### v4.6.3 (2018-09-24)
 
@@ -75,7 +82,7 @@
 
 ### v4.4.0 (2018-03-28)
 
-- [#203](https://github.com/unexpectedjs/unexpected-dom/pull/203) Feature/improve attribute output with to satisfy ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [#203](https://github.com/unexpectedjs/unexpected-dom/pull/203) Feature\/improve attribute output with to satisfy ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
 
 ### v4.3.0 (2018-03-18)
 
@@ -88,17 +95,17 @@
 ### v4.1.0 (2018-03-18)
 
 - [#196](https://github.com/unexpectedjs/unexpected-dom/pull/196) Added a prettier setup ([Sune Simonsen](mailto:sune@we-knowhow.dk))
-- [#195](https://github.com/unexpectedjs/unexpected-dom/pull/195) Added a `not to have (attribute|attributes)` assertion. ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#195](https://github.com/unexpectedjs/unexpected-dom/pull/195) Added a `not to have \(attribute|attributes\)` assertion. ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#194](https://github.com/unexpectedjs/unexpected-dom/pull/194) Added a npmrc to avoid generating lock files ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 ### v4.0.0 (2017-05-22)
 
-- [#182](https://github.com/unexpectedjs/unexpected-dom/pull/182) Update jsdom (dev dep) to version 10 ([Andreas Lind](mailto:andreas@one.com))
+- [#182](https://github.com/unexpectedjs/unexpected-dom/pull/182) Update jsdom \(dev dep\) to version 10 ([Andreas Lind](mailto:andreas@one.com))
 - [#177](https://github.com/unexpectedjs/unexpected-dom/pull/177) Update to Unexpected 10.27, use expect.child ([Andreas Lind](mailto:andreas@one.com))
 
 ### v3.1.1 (2017-01-03)
 
-- [#165](https://github.com/unexpectedjs/unexpected-dom/pull/165) Implement <DOMTextNode> to [exhaustively] satisfy <regexp> ([Andreas Lind](mailto:andreas@one.com))
+- [#165](https://github.com/unexpectedjs/unexpected-dom/pull/165) Implement &lt;DOMTextNode&gt; to \[exhaustively\] satisfy &lt;regexp&gt; ([Andreas Lind](mailto:andreas@one.com))
 - [#146](https://github.com/unexpectedjs/unexpected-dom/pull/146) Update unexpected to 10.18.1. ([Andreas Lind](mailto:andreas@one.com))
 
 ### v3.1.0 (2016-04-06)
@@ -129,7 +136,7 @@
 
 ### v2.0.1 (2015-10-02)
 
-- [#33](https://github.com/unexpectedjs/unexpected-dom/pull/33) Fixed detection of HTML/XML in Safari and IE. ([Andreas Lind](mailto:andreas@one.com))
+- [#33](https://github.com/unexpectedjs/unexpected-dom/pull/33) Fixed detection of HTML\/XML in Safari and IE. ([Andreas Lind](mailto:andreas@one.com))
 
 ### v2.0.0 (2015-10-02)
 
@@ -138,7 +145,7 @@
 
 ### v1.4.0 (2015-10-01)
 
-- [#29](https://github.com/unexpectedjs/unexpected-dom/pull/29) To satisfy against DOMElement/string ([Andreas Lind](mailto:andreas@one.com))
+- [#29](https://github.com/unexpectedjs/unexpected-dom/pull/29) To satisfy against DOMElement\/string ([Andreas Lind](mailto:andreas@one.com))
 
 ### v1.3.0 (2015-09-10)
 
@@ -179,7 +186,7 @@
 
 ### v0.8.0 (2015-05-04)
 
-- [#14](https://github.com/unexpectedjs/unexpected-dom/pull/14) Implemented diff for 'to have attributes' + to have class(es) assertion ([Andreas Lind](mailto:andreas@one.com))
+- [#14](https://github.com/unexpectedjs/unexpected-dom/pull/14) Implemented diff for 'to have attributes' + to have class\(es\) assertion ([Andreas Lind](mailto:andreas@one.com))
 
 ### v0.6.0 (2015-04-23)
 
