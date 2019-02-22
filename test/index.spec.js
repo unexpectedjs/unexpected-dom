@@ -2858,4 +2858,184 @@ describe('unexpected-dom', () => {
         '></foO>'
     );
   });
+
+  describe('to contain', () => {
+    describe('on a DOMDocument', () => {
+      describe('when given a DOMElement', () => {
+        it('succeeds if the given structure is present', () => {
+          expect(
+            '<!DOCTYPE html><html><body><div><i>Hello</i> <span class="name something-else">Jane Doe</span></div></body></html>',
+            'when parsed as HTML to contain',
+            parseHtmlNode('<span class="name">Jane Doe</span>')
+          );
+        });
+      });
+    });
+
+    describe('on a DOMDocumentFragment', () => {
+      it('succeeds if the given structure is present', () => {
+        expect(
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
+          'when parsed as HTML fragment to contain',
+          '<span class="name">Jane Doe</span>'
+        );
+      });
+    });
+
+    describe('on a DOMElement', () => {
+      it('succeeds if the given structure is present', () => {
+        expect(
+          parseHtmlNode(
+            '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          ),
+          'to contain',
+          '<span class="name">Jane Doe</span>'
+        );
+      });
+    });
+
+    describe('on a DOMNodeList', () => {
+      it('succeeds if the given structure is present', () => {
+        expect(
+          '<div>Nothing here</div><div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
+          'when parsed as HTML fragment',
+          'queried for',
+          'div',
+          'to contain',
+          '<span class="name">Jane Doe</span>'
+        );
+      });
+    });
+
+    describe('when given a DOMElement', () => {
+      it('succeeds if the given structure is present', () => {
+        expect(
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
+          'when parsed as HTML',
+          'to contain',
+          parseHtmlNode('<span class="name">Jane Doe</span>')
+        );
+      });
+    });
+
+    describe('when given a spec', () => {
+      it('succeeds if the given structure is present', () => {
+        expect(
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            name: 'span',
+            attributes: { class: 'name' },
+            textContent: expect.it('to match', /^Jane/).and('to have length', 8)
+          }
+        );
+      });
+    });
+
+    describe('when given a string', () => {
+      it('succeeds if the given structure is present', () => {
+        expect(
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
+          'when parsed as HTML',
+          'to contain',
+          '<span class="name">Jane Doe</span>'
+        );
+      });
+
+      it('fails when given more than on node', () => {
+        expect(
+          () => {
+            expect(
+              '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
+              'when parsed as HTML',
+              'to contain',
+              '<span class="name">Jane Doe</span>!'
+            );
+          },
+          'to throw',
+          'HTMLElement to contain string: Only a single node is supported'
+        );
+      });
+    });
+
+    it('fails without a diff if no good candidates can be found in the given structure', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode(
+              '<div><div><div><div><div><div></div></div></div></div></div></div>'
+            ),
+            'to contain',
+            '<span class="name">John Doe</span>'
+          );
+        },
+        'to throw',
+        'expected <div><div><div><div><div><div></div></div></div></div></div></div>\n' +
+          'to contain \'<span class="name">John Doe</span>\''
+      );
+    });
+
+    it('fails with a diff if the given structure is not present', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode(
+              '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+            ),
+            'to contain',
+            '<span class="name">John Doe</span>'
+          );
+        },
+        'to throw',
+        'expected\n' +
+          '<div>\n' +
+          '  <i>Hello</i>\n' +
+          '  \n' +
+          '  <span class="name something-else">Jane Doe</span>\n' +
+          '</div>\n' +
+          'to contain \'<span class="name">John Doe</span>\'\n' +
+          '\n' +
+          '<span class="name something-else">\n' +
+          "  Jane Doe // should equal 'John Doe'\n" +
+          '           //\n' +
+          '           // -Jane Doe\n' +
+          '           // +John Doe\n' +
+          '</span>'
+      );
+    });
+
+    it('matches more strongly on ids when showing the best match', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode(
+              '<div><i>Hello</i> <span data-test-id="name" class="name something-else">Jane Doe</span> and <span class="name">John Doe</span></div>'
+            ),
+            'to contain',
+            '<span data-test-id="name">John Doe</span>'
+          );
+        },
+        'to throw',
+        'expected\n' +
+          '<div>\n' +
+          '  <i>Hello</i>\n' +
+          '  \n' +
+          '  <span class="name something-else" data-test-id="name">\n' +
+          '    Jane Doe\n' +
+          '  </span>\n' +
+          '  and\n' +
+          '  <span class="name">John Doe</span>\n' +
+          '</div>\n' +
+          'to contain \'<span data-test-id="name">John Doe</span>\'\n' +
+          '\n' +
+          '<span data-test-id="name" class="name something-else">\n' +
+          "  Jane Doe // should equal 'John Doe'\n" +
+          '           //\n' +
+          '           // -Jane Doe\n' +
+          '           // +John Doe\n' +
+          '</span>'
+      );
+    });
+  });
 });

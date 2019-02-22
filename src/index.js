@@ -253,6 +253,25 @@ function stringifyEndTag(element) {
   }
 }
 
+function ensureSupportedSpecOptions(options) {
+  const unsupportedOptions = Object.keys(options).filter(
+    key =>
+      key !== 'attributes' &&
+      key !== 'name' &&
+      key !== 'children' &&
+      key !== 'onlyAttributes' &&
+      key !== 'textContent'
+  );
+
+  if (unsupportedOptions.length > 0) {
+    throw new Error(
+      `Unsupported option${
+        unsupportedOptions.length === 1 ? '' : 's'
+      }: ${unsupportedOptions.join(', ')}`
+    );
+  }
+}
+
 module.exports = {
   name: 'unexpected-dom',
   installInto(expect) {
@@ -938,21 +957,7 @@ module.exports = {
       '<DOMElement> to [exhaustively] satisfy <object>',
       (expect, subject, value) => {
         const isHtml = isInsideHtmlDocument(subject);
-        const unsupportedOptions = Object.keys(value).filter(
-          key =>
-            key !== 'attributes' &&
-            key !== 'name' &&
-            key !== 'children' &&
-            key !== 'onlyAttributes' &&
-            key !== 'textContent'
-        );
-        if (unsupportedOptions.length > 0) {
-          throw new Error(
-            `Unsupported option${
-              unsupportedOptions.length === 1 ? '' : 's'
-            }: ${unsupportedOptions.join(', ')}`
-          );
-        }
+        ensureSupportedSpecOptions(value);
 
         const promiseByKey = {
           name: expect.promise(() => {
@@ -1445,6 +1450,182 @@ module.exports = {
       (expect, subject) => {
         expect.errorMode = 'nested';
         return expect.shift(parseXml(subject));
+      }
+    );
+
+    function scoreElementAgainstSpec(element, spec) {
+      const isHtml = isInsideHtmlDocument(element);
+
+      if (typeof spec.name === 'string') {
+        const nodeName = isHtml
+          ? element.nodeName.toLowerCase()
+          : element.nodeName;
+        const expectedNodeName = isHtml ? spec.name.toLowerCase() : spec.name;
+
+        if (nodeName !== expectedNodeName) {
+          return 0;
+        }
+      }
+
+      let score = 0;
+
+      if (
+        typeof spec.textContent === 'function' ||
+        (typeof spec.textContent === 'string' &&
+          element.textContent === spec.textContent)
+      ) {
+        score++;
+      }
+
+      const { class: className, style, ...attributes } = spec.attributes || {};
+
+      const ids = ['id', 'data-test-id', 'data-testid'];
+
+      Object.keys(attributes).forEach(attributeName => {
+        if (element.hasAttribute(attributeName)) {
+          score++;
+          if (
+            element.getAttribute(attributeName) === attributes[attributeName]
+          ) {
+            if (ids.includes(attributeName)) {
+              score += 100;
+            } else {
+              score++;
+            }
+          }
+        } else if (!attributes[attributeName]) {
+          score++;
+        }
+      });
+
+      const expectedChildren = spec.children || [];
+
+      if (expectedChildren.length === element.childNodes.length) {
+        score++;
+      }
+
+      expectedChildren.filter(Boolean).forEach((childSpec, i) => {
+        const child = element.childNodes[i];
+        const childType = expect.findTypeOf(child);
+
+        if (typeof childSpec.nodeType === 'number') {
+          if (child.nodeType === childSpec.nodeType) {
+            if (childType.is('DOMElement')) {
+              // Element
+              score += scoreElementAgainstSpec(
+                element.childNodes[i],
+                convertDOMNodeToSatisfySpec(childSpec)
+              );
+            }
+
+            score++;
+          }
+        } else if (
+          childType.is('DOMElement') &&
+          typeof childSpec === 'object'
+        ) {
+          score += scoreElementAgainstSpec(element.childNodes[i], childSpec);
+        } else if (childType.is('DOMTextNode')) {
+          if (typeof childSpec === 'string') {
+            score++;
+            if (child.nodeValue === childSpec) {
+              score++;
+            }
+          } else if (childSpec instanceof RegExp) {
+            score++;
+            if (childSpec.test(child.nodeValue)) {
+              score++;
+            }
+          }
+        }
+      });
+
+      return score;
+    }
+
+    function findMatchesWithGoodScore(data, spec) {
+      const elements =
+        typeof data.length === 'number' ? Array.from(data) : [data];
+
+      const result = [];
+      let bestScore = 0;
+
+      elements.forEach(element => {
+        const score = scoreElementAgainstSpec(element, spec);
+        bestScore = Math.max(score, bestScore);
+
+        if (score > 0 && score >= bestScore) {
+          result.push({ score, element });
+        }
+
+        for (var i = 0; i < element.childNodes.length; i += 1) {
+          const child = element.childNodes[i];
+          if (child.nodeType === 1) {
+            result.push(...findMatchesWithGoodScore(child, spec));
+          }
+        }
+      });
+
+      result.sort((a, b) => b.score - a.score);
+
+      if (result.length > 0) {
+        const bestScore = result[0].score;
+
+        return result.filter(({ score }) => score === bestScore);
+      }
+
+      return result;
+    }
+
+    expect.exportAssertion(
+      '<DOMDocument|DOMElement|DOMDocumentFragment|DOMNodeList> to contain <DOMElement|object|string>',
+      (expect, subject, value) => {
+        const isHtml = isInsideHtmlDocument(
+          typeof subject.length === 'number' ? subject[0] : subject
+        );
+        const valueType = expect.findTypeOf(value);
+        let spec = value;
+
+        if (valueType.is('DOMElement')) {
+          spec = convertDOMNodeToSatisfySpec(value, isHtml);
+        } else if (valueType.is('string')) {
+          const documentFragment = isHtml
+            ? parseHtml(value, true)
+            : parseXml(value);
+
+          if (documentFragment.childNodes.length !== 1) {
+            throw new Error(
+              'HTMLElement to contain string: Only a single node is supported'
+            );
+          }
+
+          spec = convertDOMNodeToSatisfySpec(
+            documentFragment.childNodes[0],
+            isHtml
+          );
+        }
+
+        const scoredElements = findMatchesWithGoodScore(subject, spec);
+
+        if (scoredElements.length === 0) {
+          expect.subjectOutput = output =>
+            expect.inspect(subject, Infinity, output);
+          expect.fail();
+        }
+
+        return expect.withError(
+          () =>
+            expect(
+              scoredElements.map(({ element }) => element),
+              'to have an item satisfying',
+              spec
+            ),
+          () => {
+            const bestMatch = scoredElements[0].element;
+
+            return expect(bestMatch, 'to satisfy', spec);
+          }
+        );
       }
     );
   }
