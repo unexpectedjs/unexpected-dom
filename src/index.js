@@ -1454,28 +1454,34 @@ module.exports = {
     );
 
     function scoreElementAgainstSpec(element, spec) {
+      const isTextMatching = (value, valueSpec) => {
+        if (typeof valueSpec === 'string') {
+          if (value === valueSpec) {
+            return true;
+          }
+        } else if (valueSpec instanceof RegExp) {
+          if (valueSpec.test(valueSpec)) {
+            return true;
+          }
+        } else if (typeof valueSpec === 'function') {
+          return true;
+        }
+
+        return false;
+      };
       const isHtml = isInsideHtmlDocument(element);
 
       let score = 0;
 
-      if (typeof spec.name === 'string') {
-        const nodeName = isHtml
-          ? element.nodeName.toLowerCase()
-          : element.nodeName;
-        const expectedNodeName = isHtml ? spec.name.toLowerCase() : spec.name;
+      const nodeName = isHtml
+        ? element.nodeName.toLowerCase()
+        : element.nodeName;
 
-        if (nodeName === expectedNodeName) {
-          score++;
-        }
-      } else if (typeof spec.name === 'function') {
+      if (isTextMatching(nodeName, spec.name)) {
         score++;
       }
 
-      if (
-        typeof spec.textContent === 'function' ||
-        (typeof spec.textContent === 'string' &&
-          element.textContent === spec.textContent)
-      ) {
+      if (isTextMatching(element.textContent, spec.textContent)) {
         score++;
       }
 
@@ -1484,16 +1490,20 @@ module.exports = {
           spec.attributes || {};
 
         if (className && element.hasAttribute('class')) {
-          const expectedClasses = getClassNamesFromAttributeValue(className);
-          const actualClasses = getClassNamesFromAttributeValue(
-            element.getAttribute('class')
-          );
+          if (typeof className === 'string') {
+            const expectedClasses = getClassNamesFromAttributeValue(className);
+            const actualClasses = getClassNamesFromAttributeValue(
+              element.getAttribute('class')
+            );
 
-          expectedClasses.forEach(expectedClass => {
-            if (actualClasses.indexOf(expectedClass) !== -1) {
-              score++;
-            }
-          });
+            expectedClasses.forEach(expectedClass => {
+              if (actualClasses.indexOf(expectedClass) !== -1) {
+                score++;
+              }
+            });
+          } else if (isTextMatching(element.getAttribute('class'), className)) {
+            score++;
+          }
         }
 
         if (style && element.hasAttribute('style')) {
@@ -1506,10 +1516,11 @@ module.exports = {
           Object.keys(expectedStyles).forEach(styleName => {
             const expectedStyle = expectedStyles[styleName];
 
-            if (
-              typeof expectedStyle === 'function' ||
-              expectedStyle === actualStyles[styleName]
-            ) {
+            if (expectedStyle) {
+              score++;
+            }
+
+            if (isTextMatching(actualStyles[styleName], expectedStyle)) {
               score++;
             }
           });
@@ -1558,16 +1569,9 @@ module.exports = {
         ) {
           score += scoreElementAgainstSpec(element.childNodes[i], childSpec);
         } else if (childType.is('DOMTextNode')) {
-          if (typeof childSpec === 'string') {
+          score++;
+          if (isTextMatching(child.nodeValue, childSpec)) {
             score++;
-            if (child.nodeValue === childSpec) {
-              score++;
-            }
-          } else if (childSpec instanceof RegExp) {
-            score++;
-            if (childSpec.test(child.nodeValue)) {
-              score++;
-            }
           }
         }
       });

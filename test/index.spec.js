@@ -2931,6 +2931,51 @@ describe('unexpected-dom', () => {
           }
         );
       });
+
+      it('supports searching for class names', () => {
+        expect(
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            attributes: { class: 'something-else name' }
+          }
+        );
+      });
+
+      it('supports searching for inline-styles by an object', () => {
+        expect(
+          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            attributes: { style: { 'background-color': 'red' } }
+          }
+        );
+      });
+
+      it('supports searching for inline-styles by a string', () => {
+        expect(
+          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            attributes: { style: 'background-color: red' }
+          }
+        );
+      });
+
+      it('supports using expect.it on the tag name', () => {
+        expect(
+          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            name: expect.it('to have length', 1),
+            textContent: 'Hello'
+          }
+        );
+      });
     });
 
     describe('when given a string', () => {
