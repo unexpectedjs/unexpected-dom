@@ -3033,6 +3033,35 @@ describe('unexpected-dom', () => {
       );
     });
 
+    it('matches on sub-trees when searching for the best match', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode(
+              '<div><i>Hello</i> <span class="name something-else"><em>Jane Doe</em></span> and <div>John Doe</div></div>'
+            ),
+            'to contain',
+            '<span class="name"><i>Jane Doe</i></span>'
+          );
+        },
+        'to throw',
+        'expected\n' +
+          '<div>\n' +
+          '  <i>Hello</i>\n' +
+          '  \n' +
+          '  <span class="name something-else"><em>...</em></span>\n' +
+          '  and\n' +
+          '  <div>John Doe</div>\n' +
+          '</div>\n' +
+          'to contain \'<span class="name"><i>Jane Doe</i></span>\'\n' +
+          '\n' +
+          '<span class="name something-else">\n' +
+          "  <em // should equal 'i'\n" +
+          '  >Jane Doe</em>\n' +
+          '</span>'
+      );
+    });
+
     it('matches more strongly on ids when showing the best match', () => {
       expect(
         () => {

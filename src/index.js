@@ -1479,26 +1479,60 @@ module.exports = {
         score++;
       }
 
-      const { class: className, style, ...attributes } = spec.attributes || {};
+      if (typeof element.hasAttribute === 'function') {
+        const { class: className, style, ...attributes } =
+          spec.attributes || {};
 
-      const ids = ['id', 'data-test-id', 'data-testid'];
+        if (className && element.hasAttribute('class')) {
+          const expectedClasses = getClassNamesFromAttributeValue(className);
+          const actualClasses = getClassNamesFromAttributeValue(
+            element.getAttribute('class')
+          );
 
-      Object.keys(attributes).forEach(attributeName => {
-        if (element.hasAttribute(attributeName)) {
-          score++;
-          if (
-            element.getAttribute(attributeName) === attributes[attributeName]
-          ) {
-            if (ids.includes(attributeName)) {
-              score += 100;
-            } else {
+          expectedClasses.forEach(expectedClass => {
+            if (actualClasses.indexOf(expectedClass) !== -1) {
               score++;
             }
-          }
-        } else if (!attributes[attributeName]) {
-          score++;
+          });
         }
-      });
+
+        if (style && element.hasAttribute('style')) {
+          const expectedStyles =
+            typeof style === 'string' ? styleStringToObject(style) : style;
+          const actualStyles = styleStringToObject(
+            element.getAttribute('style')
+          );
+
+          Object.keys(expectedStyles).forEach(styleName => {
+            const expectedStyle = expectedStyles[styleName];
+
+            if (
+              typeof expectedStyle === 'function' ||
+              expectedStyle === actualStyles[styleName]
+            ) {
+              score++;
+            }
+          });
+        }
+
+        const ids = ['id', 'data-test-id', 'data-testid'];
+
+        Object.keys(attributes).forEach(attributeName => {
+          if (element.hasAttribute(attributeName)) {
+            if (typeof attributes[attributeName] === 'boolean') {
+              score++;
+            }
+
+            if (
+              element.getAttribute(attributeName) === attributes[attributeName]
+            ) {
+              score += ids.includes(attributeName) ? 100 : 1;
+            }
+          } else if (!attributes[attributeName]) {
+            score++;
+          }
+        });
+      }
 
       const expectedChildren = spec.children || [];
 
