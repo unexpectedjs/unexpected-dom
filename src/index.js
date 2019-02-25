@@ -1456,18 +1456,20 @@ module.exports = {
     function scoreElementAgainstSpec(element, spec) {
       const isHtml = isInsideHtmlDocument(element);
 
+      let score = 0;
+
       if (typeof spec.name === 'string') {
         const nodeName = isHtml
           ? element.nodeName.toLowerCase()
           : element.nodeName;
         const expectedNodeName = isHtml ? spec.name.toLowerCase() : spec.name;
 
-        if (nodeName !== expectedNodeName) {
-          return 0;
+        if (nodeName === expectedNodeName) {
+          score++;
         }
+      } else if (typeof spec.name === 'function') {
+        score++;
       }
-
-      let score = 0;
 
       if (
         typeof spec.textContent === 'function' ||
@@ -1499,10 +1501,6 @@ module.exports = {
       });
 
       const expectedChildren = spec.children || [];
-
-      if (expectedChildren.length === element.childNodes.length) {
-        score++;
-      }
 
       expectedChildren.filter(Boolean).forEach((childSpec, i) => {
         const child = element.childNodes[i];

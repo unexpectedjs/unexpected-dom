@@ -3005,6 +3005,34 @@ describe('unexpected-dom', () => {
       );
     });
 
+    it('allows tag names to be different while finding the best match', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode(
+              '<div><i>Hello</i> <span class="name something-else">Jane Doe</span> and <div>John Doe</div></div>'
+            ),
+            'to contain',
+            '<div class="name">Jane Doe</div>'
+          );
+        },
+        'to throw',
+        'expected\n' +
+          '<div>\n' +
+          '  <i>Hello</i>\n' +
+          '  \n' +
+          '  <span class="name something-else">Jane Doe</span>\n' +
+          '  and\n' +
+          '  <div>John Doe</div>\n' +
+          '</div>\n' +
+          'to contain \'<div class="name">Jane Doe</div>\'\n' +
+          '\n' +
+          "<span // should equal 'div'\n" +
+          '  class="name something-else"\n' +
+          '>Jane Doe</span>'
+      );
+    });
+
     it('matches more strongly on ids when showing the best match', () => {
       expect(
         () => {
