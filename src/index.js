@@ -1644,6 +1644,8 @@ module.exports = {
           );
         }
 
+        ensureSupportedSpecOptions(spec);
+
         const scoredElements = findMatchesWithGoodScore(subject, spec);
 
         if (scoredElements.length === 0) {
