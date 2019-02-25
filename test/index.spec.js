@@ -2965,6 +2965,18 @@ describe('unexpected-dom', () => {
         );
       });
 
+      it('supports using regexps on the tag name', () => {
+        expect(
+          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            name: /^(i|span)$/,
+            textContent: 'Hello'
+          }
+        );
+      });
+
       it('supports using expect.it on the tag name', () => {
         expect(
           '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
@@ -2973,6 +2985,86 @@ describe('unexpected-dom', () => {
           {
             name: expect.it('to have length', 1),
             textContent: 'Hello'
+          }
+        );
+      });
+
+      it('supports using regexps on the class name', () => {
+        expect(
+          '<div><i class="greeting">Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            attributes: {
+              class: /^name something/
+            }
+          }
+        );
+      });
+
+      it('supports using expect.it on the class name', () => {
+        expect(
+          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            attributes: {
+              class: expect.it('to end with', 'else')
+            },
+            textContent: 'Jane Doe'
+          }
+        );
+      });
+
+      it('supports using declaring that the class should be undefined', () => {
+        expect(
+          '<div><i class="wat">Hello!</i> <i>Hello</i></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            attributes: {
+              class: undefined
+            },
+            textContent: 'Hello'
+          }
+        );
+      });
+
+      it('supports searching for boolean attributes', () => {
+        expect(
+          '<div><i class="greeting">Hello</i> <span class="name something-else and-this">Jane Doe</span> <input type="checkbox" checked="checked"></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            name: 'input',
+            attributes: { checked: true }
+          }
+        );
+      });
+
+      it('supports searching for false boolean attributes', () => {
+        expect(
+          '<div><input type="checkbox"></div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            name: 'input',
+            attributes: { checked: undefined }
+          }
+        );
+      });
+
+      it('supports searching for a child element', () => {
+        expect(
+          '<div><span class="greeting"><i>Hello</i><!-- comment --></span> Jane Doe</div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            name: 'span',
+            children: [
+              parseHtmlNode('<i>Hello</i>'),
+              parseHtmlNode('<!-- comment -->')
+            ]
           }
         );
       });
@@ -3002,6 +3094,42 @@ describe('unexpected-dom', () => {
           'HTMLElement to contain string: Only a single node is supported'
         );
       });
+    });
+
+    it('supports only stating a subset of the classes', () => {
+      expect(
+        '<div><i class="greeting">Hello</i> <span class="name something-else and-this">Jane Doe</span></div>',
+        'when parsed as HTML',
+        'to contain',
+        '<span class="name and-this">Jane Doe</span>'
+      );
+    });
+
+    it('supports searching for boolean attributes', () => {
+      expect(
+        '<div><i class="greeting">Hello</i> <span class="name something-else and-this">Jane Doe</span> <input type="checkbox" checked="checked"></div>',
+        'when parsed as HTML',
+        'to contain',
+        '<input type="checkbox" checked="checked">'
+      );
+    });
+
+    it('supports searching for style values', () => {
+      expect(
+        '<div><i style="color: red">Hello</i> <span style="color: blue: background: #bad5aa">Jane Doe</span><em style="background: orange">!</em></div>',
+        'when parsed as HTML',
+        'to contain',
+        '<span style="color: blue">Jane Doe</span>'
+      );
+    });
+
+    it('takes ignore comments into account when searching children', () => {
+      expect(
+        '<div><span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span></div>',
+        'when parsed as HTML',
+        'to contain',
+        '<span><span>Hello</span><!--ignore--></span>'
+      );
     });
 
     it('fails without a diff if no good candidates can be found in the given structure', () => {

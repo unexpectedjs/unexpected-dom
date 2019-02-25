@@ -1460,7 +1460,7 @@ module.exports = {
             return true;
           }
         } else if (valueSpec instanceof RegExp) {
-          if (valueSpec.test(valueSpec)) {
+          if (valueSpec.test(value)) {
             return true;
           }
         } else if (typeof valueSpec === 'function') {
@@ -1515,12 +1515,13 @@ module.exports = {
 
           Object.keys(expectedStyles).forEach(styleName => {
             const expectedStyle = expectedStyles[styleName];
+            const actualStyle = actualStyles[styleName];
 
-            if (expectedStyle) {
+            if (actualStyle) {
               score++;
             }
 
-            if (isTextMatching(actualStyles[styleName], expectedStyle)) {
+            if (isTextMatching(actualStyle, expectedStyle)) {
               score++;
             }
           });
@@ -1547,12 +1548,12 @@ module.exports = {
 
       const expectedChildren = spec.children || [];
 
-      expectedChildren.filter(Boolean).forEach((childSpec, i) => {
+      expectedChildren.forEach((childSpec, i) => {
         const child = element.childNodes[i];
         const childType = expect.findTypeOf(child);
 
         if (typeof childSpec.nodeType === 'number') {
-          if (child.nodeType === childSpec.nodeType) {
+          if (child && child.nodeType === childSpec.nodeType) {
             if (childType.is('DOMElement')) {
               // Element
               score += scoreElementAgainstSpec(
@@ -1562,17 +1563,19 @@ module.exports = {
             }
 
             score++;
+          } else if (expect.findTypeOf(childSpec).is('DOMIgnoreComment')) {
+            score++;
           }
         } else if (
           childType.is('DOMElement') &&
           typeof childSpec === 'object'
         ) {
           score += scoreElementAgainstSpec(element.childNodes[i], childSpec);
-        } else if (childType.is('DOMTextNode')) {
+        } else if (
+          childType.is('DOMTextNode') &&
+          isTextMatching(child.nodeValue, childSpec)
+        ) {
           score++;
-          if (isTextMatching(child.nodeValue, childSpec)) {
-            score++;
-          }
         }
       });
 
