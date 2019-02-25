@@ -3068,6 +3068,21 @@ describe('unexpected-dom', () => {
           }
         );
       });
+
+      it('supports the onlyAttributes flag', () => {
+        expect(
+          '<div><span class="greeting">Hello</span> Jane Doe</div>',
+          'when parsed as HTML',
+          'to contain',
+          {
+            name: 'span',
+            attributes: {
+              class: 'greeting'
+            },
+            onlyAttributes: true
+          }
+        );
+      });
     });
 
     describe('when given a string', () => {
