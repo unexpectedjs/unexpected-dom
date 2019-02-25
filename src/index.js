@@ -1486,8 +1486,9 @@ module.exports = {
       }
 
       if (typeof element.hasAttribute === 'function') {
-        const { class: className, style, ...attributes } =
-          spec.attributes || {};
+        const attributes = spec.attributes || {};
+        const className = attributes['class'];
+        const style = attributes.style;
 
         if (className && element.hasAttribute('class')) {
           if (typeof className === 'string') {
@@ -1527,9 +1528,14 @@ module.exports = {
           });
         }
 
+        const specialAttributes = ['style', 'class'];
         const ids = ['id', 'data-test-id', 'data-testid'];
 
         Object.keys(attributes).forEach(attributeName => {
+          if (specialAttributes.indexOf(attributeName) !== -1) {
+            return; // skip
+          }
+
           if (element.hasAttribute(attributeName)) {
             if (typeof attributes[attributeName] === 'boolean') {
               score++;
@@ -1538,7 +1544,7 @@ module.exports = {
             if (
               element.getAttribute(attributeName) === attributes[attributeName]
             ) {
-              score += ids.includes(attributeName) ? 100 : 1;
+              score += ids.indexOf(attributeName) !== -1 ? 100 : 1;
             }
           } else if (!attributes[attributeName]) {
             score++;
