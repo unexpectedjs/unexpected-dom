@@ -3147,6 +3147,32 @@ describe('unexpected-dom', () => {
       );
     });
 
+    it('should not match directly on the subject', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode(
+              '<span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span>'
+            ),
+            'to contain',
+            '<span><span>Hello</span><!--ignore--></span>'
+          );
+        },
+        'to throw',
+        'expected\n' +
+          '<span class="greeting">\n' +
+          '  <span>Hello</span>\n' +
+          '  <span class="name">Jane Doe</span>\n' +
+          '</span>\n' +
+          "to contain '<span><span>Hello</span><!--ignore--></span>'\n" +
+          '\n' +
+          '<span>\n' +
+          "  // missing { name: 'span', attributes: {}, children: [ 'Hello' ] }\n" +
+          '  Hello\n' +
+          '</span>'
+      );
+    });
+
     it('fails without a diff if no good candidates can be found in the given structure', () => {
       expect(
         () => {

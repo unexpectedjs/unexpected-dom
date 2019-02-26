@@ -1,4 +1,4 @@
-Assert that an element contains elements satisfying a given specification.
+Assert that an element contains descendant elements satisfying a given specification.
 
 ```js
 var element = createElement(`

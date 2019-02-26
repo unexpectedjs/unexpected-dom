@@ -1625,9 +1625,8 @@ module.exports = {
     expect.exportAssertion(
       '<DOMDocument|DOMElement|DOMDocumentFragment|DOMNodeList> to contain <DOMElement|object|string>',
       (expect, subject, value) => {
-        const isHtml = isInsideHtmlDocument(
-          typeof subject.length === 'number' ? subject[0] : subject
-        );
+        const nodes = subject.childNodes || subject;
+        const isHtml = isInsideHtmlDocument(nodes[0]);
         const valueType = expect.findTypeOf(value);
         let spec = value;
 
@@ -1652,7 +1651,7 @@ module.exports = {
 
         ensureSupportedSpecOptions(spec);
 
-        const scoredElements = findMatchesWithGoodScore(subject, spec);
+        const scoredElements = findMatchesWithGoodScore(nodes, spec);
 
         if (scoredElements.length === 0) {
           expect.subjectOutput = output =>
