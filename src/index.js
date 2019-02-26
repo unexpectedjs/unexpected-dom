@@ -1649,7 +1649,13 @@ module.exports = {
           );
         }
 
-        ensureSupportedSpecOptions(spec);
+        if (typeof spec === 'string') {
+          spec = {
+            textContent: spec
+          };
+        } else {
+          ensureSupportedSpecOptions(spec);
+        }
 
         const scoredElements = findMatchesWithGoodScore(nodes, spec);
 

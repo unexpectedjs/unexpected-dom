@@ -3147,6 +3147,15 @@ describe('unexpected-dom', () => {
       );
     });
 
+    it('supports searching for a plain string', () => {
+      expect(
+        '<div><span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span></div>',
+        'when parsed as HTML',
+        'to contain',
+        'Jane Doe'
+      );
+    });
+
     it('should not match directly on the subject', () => {
       expect(
         () => {

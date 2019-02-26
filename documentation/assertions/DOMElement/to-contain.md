@@ -21,7 +21,13 @@ string:
 expect(element, 'to contain', '<h1>Assert on text content</h1>');
 ```
 
-You can also assert against a DOM element:
+You can also assert that the element contains a given text node:
+
+```js
+expect(element, 'to contain', 'Assert on text content');
+```
+
+Or you can also assert against a DOM element:
 
 ```js
 expect(element, 'to contain', createElement('<h1>Assert on text content</h1>'));
