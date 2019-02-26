@@ -3167,6 +3167,20 @@ describe('unexpected-dom', () => {
       );
     });
 
+    it('fails when matching against an element with no children', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode('<div></div>'),
+            'to contain',
+            '<span>Jane Doe</span>'
+          );
+        },
+        'to throw',
+        'expected <div></div> to contain <span>Jane Doe</span>'
+      );
+    });
+
     it('should not match directly on the subject', () => {
       expect(
         () => {
@@ -3348,6 +3362,14 @@ describe('unexpected-dom', () => {
         ),
         'not to contain',
         '<span data-test-id="name">John Doe</span>'
+      );
+    });
+
+    it('succeeds if the element has no children', () => {
+      expect(
+        parseHtmlNode('<div></div>'),
+        'not to contain',
+        '<span>Jane Doe</span>'
       );
     });
 

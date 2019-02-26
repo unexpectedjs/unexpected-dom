@@ -1625,8 +1625,10 @@ module.exports = {
     expect.exportAssertion(
       '<DOMDocument|DOMElement|DOMDocumentFragment|DOMNodeList> [not] to contain <DOMElement|object|string>',
       (expect, subject, value) => {
-        const nodes = subject.childNodes || subject;
-        const isHtml = isInsideHtmlDocument(nodes[0]);
+        const nodes = subject.childNodes || makeAttachedDOMNodeList(subject);
+        const isHtml = isInsideHtmlDocument(
+          subject.childNodes ? subject : nodes
+        );
         const valueType = expect.findTypeOf(value);
         let spec = value;
 
