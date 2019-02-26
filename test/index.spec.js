@@ -3158,12 +3158,18 @@ describe('unexpected-dom', () => {
       );
     });
 
-    it('supports searching for a plain string', () => {
+    it('fails searching for a plain string', () => {
       expect(
-        '<div><span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span></div>',
-        'when parsed as HTML',
-        'to contain',
-        'Jane Doe'
+        () => {
+          expect(
+            '<div><span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span></div>',
+            'when parsed as HTML',
+            'to contain',
+            'Jane Doe'
+          );
+        },
+        'to throw',
+        'HTMLElement to contain string: please provide a HTML structure as a string'
       );
     });
 

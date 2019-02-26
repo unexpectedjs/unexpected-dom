@@ -1651,15 +1651,15 @@ module.exports = {
           );
 
           if (typeof spec === 'string') {
-            spec = {
-              textContent: spec
-            };
-          } else {
-            ensureSupportedSpecOptions(spec);
-
-            expect.argsOutput = output =>
-              output.appendInspected(documentFragment.childNodes[0]);
+            throw new Error(
+              'HTMLElement to contain string: please provide a HTML structure as a string'
+            );
           }
+
+          expect.argsOutput = output =>
+            output.appendInspected(documentFragment.childNodes[0]);
+
+          ensureSupportedSpecOptions(spec);
         }
 
         const scoredElements = findMatchesWithGoodScore(nodes, spec);
