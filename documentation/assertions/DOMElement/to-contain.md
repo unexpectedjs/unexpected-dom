@@ -86,3 +86,10 @@ to contain '<h1 class="heading">Assert on all content</h1>'
                          // +Assert on all content
 </h1>
 ```
+
+You can also assert that the element has no descendant elements satisfying the
+given specification:
+
+```js
+expect(element, 'not to contain', '<h1 class="heading">Assert on all content</h1>');
+```

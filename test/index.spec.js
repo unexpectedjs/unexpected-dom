@@ -3329,4 +3329,58 @@ describe('unexpected-dom', () => {
       );
     });
   });
+
+  describe('not to contain', () => {
+    it('succeeds if the given structure is not present', () => {
+      expect(
+        parseHtmlNode(
+          '<div><i>Hello</i> <span data-test-id="name" class="name something-else">Jane Doe</span> and <span class="name">John Doe</span></div>'
+        ),
+        'not to contain',
+        '<span data-test-id="name">John Doe</span>'
+      );
+    });
+
+    it("succeeds if the given structure doesn't match any descendant elements at all", () => {
+      expect(
+        parseHtmlNode(
+          '<div><div><div><div><div><div></div></div></div></div></div></div>'
+        ),
+        'not to contain',
+        '<span data-test-id="name">John Doe</span>'
+      );
+    });
+
+    it('shows a diff if the given structure is present', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode(
+              '<div><i>Hello</i> <span data-test-id="name" class="name something-else">Jane Doe</span> and <span class="name">John Doe</span></div>'
+            ),
+            'not to contain',
+            '<span data-test-id="name">Jane Doe</span>'
+          );
+        },
+        'to throw',
+        'expected\n' +
+          '<div>\n' +
+          '  <i>Hello</i>\n' +
+          '  \n' +
+          '  <span class="name something-else" data-test-id="name">\n' +
+          '    Jane Doe\n' +
+          '  </span>\n' +
+          '  and\n' +
+          '  <span class="name">John Doe</span>\n' +
+          '</div>\n' +
+          'not to contain \'<span data-test-id="name">Jane Doe</span>\'\n' +
+          '\n' +
+          'Found:\n' +
+          '\n' +
+          '<span class="name something-else" data-test-id="name">\n' +
+          '  Jane Doe\n' +
+          '</span>'
+      );
+    });
+  });
 });

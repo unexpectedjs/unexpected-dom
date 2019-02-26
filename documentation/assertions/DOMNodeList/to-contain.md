@@ -54,3 +54,16 @@ queried for li to contain '<li class="count">Three</li>'
     class="number" // expected [ 'number' ] to contain 'count'
   >Three</li>
 ```
+
+You can also assert that the element has no descendant elements satisfying the
+given specification:
+
+```js
+expect(
+  element,
+  'queried for',
+  'li',
+  'not to contain',
+  '<li class="count">Three</li>'
+);
+```

@@ -1623,7 +1623,7 @@ module.exports = {
     }
 
     expect.exportAssertion(
-      '<DOMDocument|DOMElement|DOMDocumentFragment|DOMNodeList> to contain <DOMElement|object|string>',
+      '<DOMDocument|DOMElement|DOMDocumentFragment|DOMNodeList> [not] to contain <DOMElement|object|string>',
       (expect, subject, value) => {
         const nodes = subject.childNodes || subject;
         const isHtml = isInsideHtmlDocument(nodes[0]);
@@ -1659,25 +1659,53 @@ module.exports = {
 
         const scoredElements = findMatchesWithGoodScore(nodes, spec);
 
-        if (scoredElements.length === 0) {
-          expect.subjectOutput = output =>
-            expect.inspect(subject, Infinity, output);
-          expect.fail();
-        }
+        if (expect.flags.not) {
+          if (scoredElements.length > 0) {
+            return expect.withError(
+              () =>
+                expect(
+                  scoredElements.map(({ element }) => element),
+                  'not to have an item satisfying',
+                  spec
+                ),
+              () => {
+                const bestMatch = scoredElements[0].element;
 
-        return expect.withError(
-          () =>
-            expect(
-              scoredElements.map(({ element }) => element),
-              'to have an item satisfying',
-              spec
-            ),
-          () => {
-            const bestMatch = scoredElements[0].element;
+                expect.subjectOutput = output =>
+                  expect.inspect(subject, Infinity, output);
 
-            return expect(bestMatch, 'to satisfy', spec);
+                expect.fail({
+                  diff: (output, diff, inspect, equal) => {
+                    return output
+                      .error('Found:')
+                      .nl(2)
+                      .appendInspected(bestMatch);
+                  }
+                });
+              }
+            );
           }
-        );
+        } else {
+          if (scoredElements.length === 0) {
+            expect.subjectOutput = output =>
+              expect.inspect(subject, Infinity, output);
+            expect.fail();
+          }
+
+          return expect.withError(
+            () =>
+              expect(
+                scoredElements.map(({ element }) => element),
+                'to have an item satisfying',
+                spec
+              ),
+            () => {
+              const bestMatch = scoredElements[0].element;
+
+              return expect(bestMatch, 'to satisfy', spec);
+            }
+          );
+        }
       }
     );
   }
