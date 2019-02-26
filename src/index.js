@@ -1647,14 +1647,17 @@ module.exports = {
             documentFragment.childNodes[0],
             isHtml
           );
-        }
 
-        if (typeof spec === 'string') {
-          spec = {
-            textContent: spec
-          };
-        } else {
-          ensureSupportedSpecOptions(spec);
+          if (typeof spec === 'string') {
+            spec = {
+              textContent: spec
+            };
+          } else {
+            ensureSupportedSpecOptions(spec);
+
+            expect.argsOutput = output =>
+              output.appendInspected(documentFragment.childNodes[0]);
+          }
         }
 
         const scoredElements = findMatchesWithGoodScore(nodes, spec);

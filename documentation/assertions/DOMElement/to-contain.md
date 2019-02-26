@@ -74,7 +74,7 @@ expected
     .
   </p>
 </section>
-to contain '<h1 class="heading">Assert on all content</h1>'
+to contain <h1 class="heading">Assert on all content</h1>
 
 <h1
   class="title" // expected [ 'title' ] to contain 'heading'

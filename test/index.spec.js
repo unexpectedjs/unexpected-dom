@@ -3184,7 +3184,7 @@ describe('unexpected-dom', () => {
           '  <span>Hello</span>\n' +
           '  <span class="name">Jane Doe</span>\n' +
           '</span>\n' +
-          "to contain '<span><span>Hello</span><!--ignore--></span>'\n" +
+          'to contain <span><span>Hello</span><!--ignore--></span>\n' +
           '\n' +
           '<span>\n' +
           "  // missing { name: 'span', attributes: {}, children: [ 'Hello' ] }\n" +
@@ -3206,7 +3206,7 @@ describe('unexpected-dom', () => {
         },
         'to throw',
         'expected <div><div><div><div><div><div></div></div></div></div></div></div>\n' +
-          'to contain \'<span class="name">John Doe</span>\''
+          'to contain <span class="name">John Doe</span>'
       );
     });
 
@@ -3228,7 +3228,7 @@ describe('unexpected-dom', () => {
           '  \n' +
           '  <span class="name something-else">Jane Doe</span>\n' +
           '</div>\n' +
-          'to contain \'<span class="name">John Doe</span>\'\n' +
+          'to contain <span class="name">John Doe</span>\n' +
           '\n' +
           '<span class="name something-else">\n' +
           "  Jane Doe // should equal 'John Doe'\n" +
@@ -3259,7 +3259,7 @@ describe('unexpected-dom', () => {
           '  and\n' +
           '  <div>John Doe</div>\n' +
           '</div>\n' +
-          'to contain \'<div class="name">Jane Doe</div>\'\n' +
+          'to contain <div class="name">Jane Doe</div>\n' +
           '\n' +
           "<span // should equal 'div'\n" +
           '  class="name something-else"\n' +
@@ -3287,7 +3287,7 @@ describe('unexpected-dom', () => {
           '  and\n' +
           '  <div>John Doe</div>\n' +
           '</div>\n' +
-          'to contain \'<span class="name"><i>Jane Doe</i></span>\'\n' +
+          'to contain <span class="name"><i>Jane Doe</i></span>\n' +
           '\n' +
           '<span class="name something-else">\n' +
           "  <em // should equal 'i'\n" +
@@ -3318,7 +3318,7 @@ describe('unexpected-dom', () => {
           '  and\n' +
           '  <span class="name">John Doe</span>\n' +
           '</div>\n' +
-          'to contain \'<span data-test-id="name">John Doe</span>\'\n' +
+          'to contain <span data-test-id="name">John Doe</span>\n' +
           '\n' +
           '<span data-test-id="name" class="name something-else">\n' +
           "  Jane Doe // should equal 'John Doe'\n" +
@@ -3373,7 +3373,7 @@ describe('unexpected-dom', () => {
           '  and\n' +
           '  <span class="name">John Doe</span>\n' +
           '</div>\n' +
-          'not to contain \'<span data-test-id="name">Jane Doe</span>\'\n' +
+          'not to contain <span data-test-id="name">Jane Doe</span>\n' +
           '\n' +
           'Found:\n' +
           '\n' +

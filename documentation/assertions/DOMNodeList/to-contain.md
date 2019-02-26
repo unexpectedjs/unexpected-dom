@@ -48,7 +48,7 @@ queried for li to contain '<li class="count">Three</li>'
     <li class="number">Two</li>,
     <li class="number">Three</li>
   ]
-  to contain '<li class="count">Three</li>'
+  to contain <li class="count">Three</li>
 
   <li
     class="number" // expected [ 'number' ] to contain 'count'
