@@ -2907,6 +2907,17 @@ describe('unexpected-dom', () => {
       });
     });
 
+    describe('on an XMLDocument', () => {
+      it('succeeds if the given structure is present', () => {
+        expect(
+          '<?xml version="1.0"?><qux><fooBar yes="sir">foo</fooBar> bax <Quux>baax</Quux></qux>',
+          'parsed as XML',
+          'to contain',
+          '<fooBar yes="sir">foo</fooBar>'
+        );
+      });
+    });
+
     describe('when given a DOMElement', () => {
       it('succeeds if the given structure is present', () => {
         expect(
