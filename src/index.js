@@ -1558,8 +1558,12 @@ module.exports = {
         const child = element.childNodes[i];
         const childType = expect.findTypeOf(child);
 
+        if (!child) {
+          return;
+        }
+
         if (typeof childSpec.nodeType === 'number') {
-          if (child && child.nodeType === childSpec.nodeType) {
+          if (child.nodeType === childSpec.nodeType) {
             if (childType.is('DOMElement')) {
               // Element
               score += scoreElementAgainstSpec(

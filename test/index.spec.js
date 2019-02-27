@@ -3348,6 +3348,88 @@ describe('unexpected-dom', () => {
           '</span>'
       );
     });
+
+    it('fails if the children is expected but the target is empty', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode('<div><span></span></div>'),
+            'to contain',
+            '<span><i>Hello</i></span>'
+          );
+        },
+        'to throw',
+        'expected <div><span></span></div> to contain <span><i>Hello</i></span>\n' +
+          '\n' +
+          '<span>\n' +
+          "  // missing { name: 'i', attributes: {}, children: [ 'Hello' ] }\n" +
+          '</span>'
+      );
+    });
+
+    it('fails if the an ignored child is expected but the target is empty', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode('<div><span></span></div>'),
+            'to contain',
+            '<span><!-- ignore --></span>'
+          );
+        },
+        'to throw',
+        'expected <div><span></span></div> to contain <span><!-- ignore --></span>\n' +
+          '\n' +
+          '<span>\n' +
+          '  // missing <!-- ignore -->\n' +
+          '</span>'
+      );
+    });
+
+    it('fails if more children is expected than what is available in the target', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode(
+              '<div><span><strong>Hello</strong><em>world</em></span></div>'
+            ),
+            'to contain',
+            '<span><strong>Hello</strong><!-- ignore -->!</span>'
+          );
+        },
+        'to throw',
+        'expected <div><span><strong>...</strong><em>...</em></span></div>\n' +
+          'to contain <span><strong>Hello</strong><!-- ignore -->!</span>\n' +
+          '\n' +
+          '<span>\n' +
+          '  <strong>Hello</strong>\n' +
+          '  <em>world</em>\n' +
+          "  // missing '!'\n" +
+          '</span>'
+      );
+    });
+
+    it('fails if less children is expected than what is available in the target', () => {
+      expect(
+        () => {
+          expect(
+            parseHtmlNode(
+              '<div><span><strong>Hello</strong><em>world</em>!</span></div>'
+            ),
+            'to contain',
+            '<span><strong>Hello</strong><em>world</em></span>'
+          );
+        },
+        'to throw',
+        'expected <div><span><strong>...</strong><em>...</em>!</span></div>\n' +
+          'to contain <span><strong>Hello</strong><em>world</em></span>\n' +
+          '\n' +
+          '<span>\n' +
+          '  <strong>Hello</strong>\n' +
+          '  <em>world</em>\n' +
+          '  ! // should be removed\n' +
+          '</span>'
+      );
+    });
   });
 
   describe('not to contain', () => {
