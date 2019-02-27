@@ -1548,7 +1548,7 @@ module.exports = {
             ) {
               score += ids.indexOf(attributeName) === -1 ? 1 : 100;
             }
-          } else if (!attributes[attributeName]) {
+          } else if (typeof attributes[attributeName] === 'undefined') {
             score++;
           }
         });
