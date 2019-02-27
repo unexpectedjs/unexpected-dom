@@ -1544,7 +1544,7 @@ module.exports = {
             if (
               element.getAttribute(attributeName) === attributes[attributeName]
             ) {
-              score += ids.indexOf(attributeName) !== -1 ? 100 : 1;
+              score += ids.indexOf(attributeName) === -1 ? 1 : 100;
             }
           } else if (!attributes[attributeName]) {
             score++;
