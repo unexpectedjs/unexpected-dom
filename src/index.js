@@ -1454,13 +1454,14 @@ module.exports = {
     );
 
     function scoreElementAgainstSpec(element, spec) {
-      const isTextMatching = (value, valueSpec) => {
+      const isTextSimilar = (value, valueSpec) => {
+        const actual = (value || '').trim().toLowerCase();
         if (typeof valueSpec === 'string') {
-          if (value === valueSpec) {
+          if (actual === valueSpec.trim().toLowerCase()) {
             return true;
           }
         } else if (valueSpec instanceof RegExp) {
-          if (valueSpec.test(value)) {
+          if (valueSpec.test(actual)) {
             return true;
           }
         } else if (typeof valueSpec === 'function') {
@@ -1469,6 +1470,7 @@ module.exports = {
 
         return false;
       };
+
       const isHtml = isInsideHtmlDocument(element);
 
       let score = 0;
@@ -1477,11 +1479,11 @@ module.exports = {
         ? element.nodeName.toLowerCase()
         : element.nodeName;
 
-      if (isTextMatching(nodeName, spec.name)) {
+      if (isTextSimilar(nodeName, spec.name)) {
         score++;
       }
 
-      if (isTextMatching(element.textContent, spec.textContent)) {
+      if (isTextSimilar(element.textContent, spec.textContent)) {
         score++;
       }
 
@@ -1502,7 +1504,7 @@ module.exports = {
                 score++;
               }
             });
-          } else if (isTextMatching(element.getAttribute('class'), className)) {
+          } else if (isTextSimilar(element.getAttribute('class'), className)) {
             score++;
           }
         }
@@ -1522,7 +1524,7 @@ module.exports = {
               score++;
             }
 
-            if (isTextMatching(actualStyle, expectedStyle)) {
+            if (isTextSimilar(actualStyle, expectedStyle)) {
               score++;
             }
           });
@@ -1583,7 +1585,7 @@ module.exports = {
           score += scoreElementAgainstSpec(element.childNodes[i], childSpec);
         } else if (
           childType.is('DOMTextNode') &&
-          isTextMatching(child.nodeValue, childSpec)
+          isTextSimilar(child.nodeValue, childSpec)
         ) {
           score++;
         }
