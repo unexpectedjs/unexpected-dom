@@ -1,3 +1,7 @@
+### v4.12.0 (2019-02-27)
+
+- [#255](https://github.com/unexpectedjs/unexpected-dom/pull/255) &lt;DOMDocument|DOMElement|DOMDocumentFragment&gt; \[not\] to contain &lt;DOMElement|object&gt; ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v4.11.2 (2019-02-20)
 
 - [#252](https://github.com/unexpectedjs/unexpected-dom/pull/252) Upgrade mocha to version 6.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
