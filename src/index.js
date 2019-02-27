@@ -253,6 +253,25 @@ function stringifyEndTag(element) {
   }
 }
 
+function ensureSupportedSpecOptions(options) {
+  const unsupportedOptions = Object.keys(options).filter(
+    key =>
+      key !== 'attributes' &&
+      key !== 'name' &&
+      key !== 'children' &&
+      key !== 'onlyAttributes' &&
+      key !== 'textContent'
+  );
+
+  if (unsupportedOptions.length > 0) {
+    throw new Error(
+      `Unsupported option${
+        unsupportedOptions.length === 1 ? '' : 's'
+      }: ${unsupportedOptions.join(', ')}`
+    );
+  }
+}
+
 module.exports = {
   name: 'unexpected-dom',
   installInto(expect) {
@@ -938,21 +957,7 @@ module.exports = {
       '<DOMElement> to [exhaustively] satisfy <object>',
       (expect, subject, value) => {
         const isHtml = isInsideHtmlDocument(subject);
-        const unsupportedOptions = Object.keys(value).filter(
-          key =>
-            key !== 'attributes' &&
-            key !== 'name' &&
-            key !== 'children' &&
-            key !== 'onlyAttributes' &&
-            key !== 'textContent'
-        );
-        if (unsupportedOptions.length > 0) {
-          throw new Error(
-            `Unsupported option${
-              unsupportedOptions.length === 1 ? '' : 's'
-            }: ${unsupportedOptions.join(', ')}`
-          );
-        }
+        ensureSupportedSpecOptions(value);
 
         const promiseByKey = {
           name: expect.promise(() => {
@@ -1445,6 +1450,273 @@ module.exports = {
       (expect, subject) => {
         expect.errorMode = 'nested';
         return expect.shift(parseXml(subject));
+      }
+    );
+
+    function scoreElementAgainstSpec(element, spec) {
+      const isTextSimilar = (value, valueSpec) => {
+        const actual = (value || '').trim().toLowerCase();
+        if (typeof valueSpec === 'string') {
+          if (actual === valueSpec.trim().toLowerCase()) {
+            return true;
+          }
+        } else if (valueSpec instanceof RegExp) {
+          if (valueSpec.test(actual)) {
+            return true;
+          }
+        } else if (typeof valueSpec === 'function') {
+          return true;
+        }
+
+        return false;
+      };
+
+      const isHtml = isInsideHtmlDocument(element);
+
+      let score = 0;
+
+      const nodeName = isHtml
+        ? element.nodeName.toLowerCase()
+        : element.nodeName;
+
+      if (isTextSimilar(nodeName, spec.name)) {
+        score++;
+      }
+
+      if (isTextSimilar(element.textContent, spec.textContent)) {
+        score++;
+      }
+
+      if (typeof element.hasAttribute === 'function') {
+        const attributes = spec.attributes || {};
+        const className = attributes['class'];
+        const style = attributes.style;
+
+        if (className && element.hasAttribute('class')) {
+          if (typeof className === 'string') {
+            const expectedClasses = getClassNamesFromAttributeValue(className);
+            const actualClasses = getClassNamesFromAttributeValue(
+              element.getAttribute('class')
+            );
+
+            expectedClasses.forEach(expectedClass => {
+              if (actualClasses.indexOf(expectedClass) !== -1) {
+                score++;
+              }
+            });
+          } else if (isTextSimilar(element.getAttribute('class'), className)) {
+            score++;
+          }
+        }
+
+        if (style && element.hasAttribute('style')) {
+          const expectedStyles =
+            typeof style === 'string' ? styleStringToObject(style) : style;
+          const actualStyles = styleStringToObject(
+            element.getAttribute('style')
+          );
+
+          Object.keys(expectedStyles).forEach(styleName => {
+            const expectedStyle = expectedStyles[styleName];
+            const actualStyle = actualStyles[styleName];
+
+            if (actualStyle) {
+              score++;
+            }
+
+            if (isTextSimilar(actualStyle, expectedStyle)) {
+              score++;
+            }
+          });
+        }
+
+        const specialAttributes = ['style', 'class'];
+        const ids = ['id', 'data-test-id', 'data-testid'];
+
+        Object.keys(attributes).forEach(attributeName => {
+          if (specialAttributes.indexOf(attributeName) !== -1) {
+            return; // skip
+          }
+
+          if (element.hasAttribute(attributeName)) {
+            if (typeof attributes[attributeName] === 'boolean') {
+              score++;
+            }
+
+            if (
+              element.getAttribute(attributeName) === attributes[attributeName]
+            ) {
+              score += ids.indexOf(attributeName) === -1 ? 1 : 100;
+            }
+          } else if (typeof attributes[attributeName] === 'undefined') {
+            score++;
+          }
+        });
+      }
+
+      const expectedChildren = spec.children || [];
+
+      expectedChildren.forEach((childSpec, i) => {
+        const child = element.childNodes[i];
+        const childType = expect.findTypeOf(child);
+
+        if (!child) {
+          return;
+        }
+
+        if (typeof childSpec.nodeType === 'number') {
+          if (child.nodeType === childSpec.nodeType) {
+            if (childType.is('DOMElement')) {
+              // Element
+              score += scoreElementAgainstSpec(
+                element.childNodes[i],
+                convertDOMNodeToSatisfySpec(childSpec)
+              );
+            }
+
+            score++;
+          } else if (expect.findTypeOf(childSpec).is('DOMIgnoreComment')) {
+            score++;
+          }
+        } else if (
+          childType.is('DOMElement') &&
+          typeof childSpec === 'object'
+        ) {
+          score += scoreElementAgainstSpec(element.childNodes[i], childSpec);
+        } else if (
+          childType.is('DOMTextNode') &&
+          isTextSimilar(child.nodeValue, childSpec)
+        ) {
+          score++;
+        }
+      });
+
+      return score;
+    }
+
+    function findMatchesWithGoodScore(data, spec) {
+      const elements =
+        typeof data.length === 'number' ? Array.from(data) : [data];
+
+      const result = [];
+      let bestScore = 0;
+
+      elements.forEach(element => {
+        const score = scoreElementAgainstSpec(element, spec);
+        bestScore = Math.max(score, bestScore);
+
+        if (score > 0 && score >= bestScore) {
+          result.push({ score, element });
+        }
+
+        for (var i = 0; i < element.childNodes.length; i += 1) {
+          const child = element.childNodes[i];
+          if (child.nodeType === 1) {
+            result.push(...findMatchesWithGoodScore(child, spec));
+          }
+        }
+      });
+
+      result.sort((a, b) => b.score - a.score);
+
+      if (result.length > 0) {
+        const bestScore = result[0].score;
+
+        return result.filter(({ score }) => score === bestScore);
+      }
+
+      return result;
+    }
+
+    expect.exportAssertion(
+      '<DOMDocument|DOMElement|DOMDocumentFragment|DOMNodeList> [not] to contain <DOMElement|object|string>',
+      (expect, subject, value) => {
+        const nodes = subject.childNodes || makeAttachedDOMNodeList(subject);
+        const isHtml = isInsideHtmlDocument(
+          subject.childNodes ? subject : nodes
+        );
+        const valueType = expect.findTypeOf(value);
+        let spec = value;
+
+        if (valueType.is('DOMElement')) {
+          spec = convertDOMNodeToSatisfySpec(value, isHtml);
+        } else if (valueType.is('string')) {
+          const documentFragment = isHtml
+            ? parseHtml(value, true)
+            : parseXml(value);
+
+          if (documentFragment.childNodes.length !== 1) {
+            throw new Error(
+              'HTMLElement to contain string: Only a single node is supported'
+            );
+          }
+
+          spec = convertDOMNodeToSatisfySpec(
+            documentFragment.childNodes[0],
+            isHtml
+          );
+
+          if (typeof spec === 'string') {
+            throw new Error(
+              'HTMLElement to contain string: please provide a HTML structure as a string'
+            );
+          }
+
+          expect.argsOutput = output =>
+            output.appendInspected(documentFragment.childNodes[0]);
+
+          ensureSupportedSpecOptions(spec);
+        }
+
+        const scoredElements = findMatchesWithGoodScore(nodes, spec);
+
+        if (expect.flags.not) {
+          if (scoredElements.length > 0) {
+            return expect.withError(
+              () =>
+                expect(
+                  scoredElements.map(({ element }) => element),
+                  'not to have an item satisfying',
+                  spec
+                ),
+              () => {
+                const bestMatch = scoredElements[0].element;
+
+                expect.subjectOutput = output =>
+                  expect.inspect(subject, Infinity, output);
+
+                expect.fail({
+                  diff: (output, diff, inspect, equal) => {
+                    return output
+                      .error('Found:')
+                      .nl(2)
+                      .appendInspected(bestMatch);
+                  }
+                });
+              }
+            );
+          }
+        } else {
+          if (scoredElements.length === 0) {
+            expect.subjectOutput = output =>
+              expect.inspect(subject, Infinity, output);
+            expect.fail();
+          }
+
+          return expect.withError(
+            () =>
+              expect(
+                scoredElements.map(({ element }) => element),
+                'to have an item satisfying',
+                spec
+              ),
+            () => {
+              const bestMatch = scoredElements[0].element;
+
+              return expect(bestMatch, 'to satisfy', spec);
+            }
+          );
+        }
       }
     );
   }
