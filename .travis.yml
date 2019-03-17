@@ -12,6 +12,7 @@ node_js:
   - 'node'
 
 addons:
+  chrome: stable
   apt:
     packages:
       - gcc-4.8
@@ -30,3 +31,6 @@ matrix:
   - name: BrowserStack IE11
     node_js: '8'
     env: BROWSER=ie11
+  - name: Chrome headless
+    node_js: "8"
+    env: BROWSER=ChromeHeadless
