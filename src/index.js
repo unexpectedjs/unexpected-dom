@@ -226,10 +226,9 @@ function stringifyAttribute(attributeName, value) {
 }
 
 function stringifyStartTag(element) {
-  const elementName =
-    element.ownerDocument.contentType === 'text/html'
-      ? element.nodeName.toLowerCase()
-      : element.nodeName;
+  const elementName = isInsideHtmlDocument(element)
+    ? element.nodeName.toLowerCase()
+    : element.nodeName;
   let str = `<${elementName}`;
   const attrs = getCanonicalAttributes(element);
 
@@ -818,7 +817,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMNodeList> to [exhaustively] satisfy <string>',
       (expect, subject, value) => {
-        const isHtml = subject.ownerDocument.contentType === 'text/html';
+        const isHtml = isInsideHtmlDocument(subject);
 
         expect.argsOutput = output =>
           output.code(value, isHtml ? 'html' : 'xml');
@@ -834,7 +833,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMNodeList> to [exhaustively] satisfy <DOMNodeList>',
       (expect, subject, value) => {
-        const isHtml = subject.ownerDocument.contentType === 'text/html';
+        const isHtml = isInsideHtmlDocument(subject);
         const satisfySpecs = [];
         for (let i = 0; i < value.length; i += 1) {
           satisfySpecs.push(convertDOMNodeToSatisfySpec(value[i], isHtml));
@@ -862,7 +861,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMDocumentFragment> to [exhaustively] satisfy <DOMDocumentFragment>',
       (expect, subject, { childNodes }) => {
-        const isHtml = subject.ownerDocument.contentType === 'text/html';
+        const isHtml = isInsideHtmlDocument(subject);
         return expect(
           subject,
           'to [exhaustively] satisfy',
