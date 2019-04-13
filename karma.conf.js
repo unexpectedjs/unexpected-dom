@@ -28,6 +28,8 @@ module.exports = function(config) {
         os: 'Windows',
         os_version: '7'
       }
-    }
+    },
+
+    reporters: ['dots', 'BrowserStack']
   });
 };
