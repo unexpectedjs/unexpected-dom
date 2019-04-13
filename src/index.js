@@ -974,12 +974,18 @@ module.exports = {
                   'The children and textContent properties are not supported together'
                 );
               }
+
+              let contentType = subject.ownerDocument.contentType;
+              if (!contentType) {
+                // provide a value in the absence of a contentType (IE11)
+                contentType = isInsideHtmlDocument(subject)
+                  ? 'text/html'
+                  : 'application/xml';
+              }
+
               return bubbleError(() =>
                 expect(
-                  makeAttachedDOMNodeList(
-                    subject.childNodes,
-                    subject.ownerDocument.contentType
-                  ),
+                  makeAttachedDOMNodeList(subject.childNodes, contentType),
                   'to satisfy',
                   value.children
                 )
