@@ -1594,7 +1594,9 @@ module.exports = {
 
     function findMatchesWithGoodScore(data, spec) {
       const elements =
-        typeof data.length === 'number' ? Array.from(data) : [data];
+        typeof data.length === 'number'
+          ? Array.prototype.slice.call(data)
+          : [data];
 
       const result = [];
       let bestScore = 0;
