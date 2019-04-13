@@ -162,9 +162,9 @@ describe('unexpected-dom', () => {
           '<div id="bar" the="same" heps="there" something="identical"></div>'
         ],
         'to produce a diff of',
-        '<div id="foo" // should equal \'bar\'\n' +
-          '     the="same" heps="hey" // should equal \'there\'\n' +
-          '     something="identical"></div>'
+        '<div heps="hey" // should equal \'there\'\n' +
+          '     id="foo" // should equal \'bar\'\n' +
+          '     something="identical" the="same"></div>'
       );
     });
 
@@ -397,10 +397,10 @@ describe('unexpected-dom', () => {
             "to have class 'quux'\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
             "  class=\"bar\" // expected [ 'bar' ] to contain 'quux'\n" +
             '  data-info="baz"\n' +
             '  disabled\n' +
+            '  id="foo"\n' +
             '>Press me</button>'
         );
       });
@@ -428,10 +428,10 @@ describe('unexpected-dom', () => {
             "to have classes [ 'quux', 'bar' ]\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
             "  class=\"bar\" // expected [ 'bar' ] to contain 'quux', 'bar'\n" +
             '  data-info="baz"\n' +
             '  disabled\n' +
+            '  id="foo"\n' +
             '>Press me</button>'
         );
       });
@@ -460,7 +460,6 @@ describe('unexpected-dom', () => {
               "to only have class 'quux'\n" +
               '\n' +
               '<button\n' +
-              '  id="foo"\n' +
               "  class=\"bar quux\" // expected [ 'bar', 'quux' ] to equal [ 'quux' ]\n" +
               '                   //\n' +
               '                   // [\n' +
@@ -469,6 +468,7 @@ describe('unexpected-dom', () => {
               '                   // ]\n' +
               '  data-info="baz"\n' +
               '  disabled\n' +
+              '  id="foo"\n' +
               '>Press me</button>'
           );
         });
@@ -496,7 +496,6 @@ describe('unexpected-dom', () => {
               "to only have classes [ 'bar', 'quux' ]\n" +
               '\n' +
               '<button\n' +
-              '  id="foo"\n' +
               "  class=\"bar quux foo\" // expected [ 'bar', 'foo', 'quux' ] to equal [ 'bar', 'quux' ]\n" +
               '                       //\n' +
               '                       // [\n' +
@@ -506,6 +505,7 @@ describe('unexpected-dom', () => {
               '                       // ]\n' +
               '  data-info="baz"\n' +
               '  disabled\n' +
+              '  id="foo"\n' +
               '>Press me</button>'
           );
         });
@@ -546,10 +546,10 @@ describe('unexpected-dom', () => {
             "to only have attributes 'id'\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
             '  class="bar" // should be removed\n' +
             '  data-info="baz" // should be removed\n' +
             '  disabled // should be removed\n' +
+            '  id="foo"\n' +
             '>Press me</button>'
         );
       });
@@ -584,10 +584,10 @@ describe('unexpected-dom', () => {
             "to have attributes 'id', 'foo'\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
             '  class="bar"\n' +
             '  data-info="baz"\n' +
             '  disabled\n' +
+            '  id="foo"\n' +
             '  // missing foo\n' +
             '>Press me</button>'
         );
@@ -624,10 +624,10 @@ describe('unexpected-dom', () => {
             "to only have attributes [ 'id' ]\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
             '  class="bar" // should be removed\n' +
             '  data-info="baz" // should be removed\n' +
             '  disabled // should be removed\n' +
+            '  id="foo"\n' +
             '>Press me</button>'
         );
       });
@@ -656,10 +656,10 @@ describe('unexpected-dom', () => {
             "to have attributes [ 'id', 'foo' ]\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
             '  class="bar"\n' +
             '  data-info="baz"\n' +
             '  disabled\n' +
+            '  id="foo"\n' +
             '  // missing foo\n' +
             '>Press me</button>'
         );
@@ -725,10 +725,10 @@ describe('unexpected-dom', () => {
             "to only have attributes { id: 'foo' }\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
             '  class="bar" // should be removed\n' +
             '  data-info="baz" // should be removed\n' +
             '  disabled // should be removed\n' +
+            '  id="foo"\n' +
             '>Press me</button>'
         );
       });
@@ -763,10 +763,10 @@ describe('unexpected-dom', () => {
             "to have attributes { id: 'foo', foo: 'bar' }\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
             '  class="bar"\n' +
             '  data-info="baz"\n' +
             '  disabled\n' +
+            '  id="foo"\n' +
             "  // missing foo should equal 'bar'\n" +
             '>Press me</button>'
         );
@@ -1052,8 +1052,8 @@ describe('unexpected-dom', () => {
             "not to have attributes 'data-test-id', 'class'\n" +
             '\n' +
             '<div\n' +
-            '  style="color: red; background: blue"\n' +
             '  class="my-class" // should be removed\n' +
+            '  style="color: red; background: blue"\n' +
             '></div>'
         );
       });
@@ -1072,9 +1072,9 @@ describe('unexpected-dom', () => {
             "not to have attributes 'data-test-id', 'class'\n" +
             '\n' +
             '<div\n' +
+            '  class="my-class" // should be removed\n' +
             '  data-test-id="my-div" // should be removed\n' +
             '  style="color: red; background: blue"\n' +
-            '  class="my-class" // should be removed\n' +
             '></div>'
         );
       });
@@ -1102,8 +1102,8 @@ describe('unexpected-dom', () => {
             "not to have attributes [ 'data-test-id', 'class' ]\n" +
             '\n' +
             '<div\n' +
-            '  style="color: red; background: blue"\n' +
             '  class="my-class" // should be removed\n' +
+            '  style="color: red; background: blue"\n' +
             '></div>'
         );
       });
@@ -1122,9 +1122,9 @@ describe('unexpected-dom', () => {
             "not to have attributes [ 'data-test-id', 'class' ]\n" +
             '\n' +
             '<div\n' +
+            '  class="my-class" // should be removed\n' +
             '  data-test-id="my-div" // should be removed\n' +
             '  style="color: red; background: blue"\n' +
-            '  class="my-class" // should be removed\n' +
             '></div>'
         );
       });
@@ -1403,8 +1403,8 @@ describe('unexpected-dom', () => {
               '\n' +
               '  NodeList[\n' +
               '    <div\n' +
-              '      foo="bar"\n' +
               '      baz="quux" // should be removed\n' +
+              '      foo="bar"\n' +
               '    >foo</div>,\n' +
               '    <div>bar</div>\n' +
               '  ]'
@@ -1740,7 +1740,7 @@ describe('unexpected-dom', () => {
           'to error',
           'expected <div baz="quux" foo="bar">foobar</div> to satisfy <div baz="quux" foo="bar">hey</div>\n' +
             '\n' +
-            '<div foo="bar" baz="quux">\n' +
+            '<div baz="quux" foo="bar">\n' +
             "  foobar // should equal 'hey'\n" +
             '         //\n' +
             '         // -foobar\n' +
@@ -2419,8 +2419,8 @@ describe('unexpected-dom', () => {
         'to equal',
         '<div>\n' +
           '  foo\n' +
-          '  <span id="foo" // should be removed\n' +
-          '        class="bar" // should be removed\n' +
+          '  <span class="bar" // should be removed\n' +
+          '        id="foo" // should be removed\n' +
           '  >\n' +
           '    <span>\n' +
           '      -foo\n' +
@@ -3340,7 +3340,7 @@ describe('unexpected-dom', () => {
           '</div>\n' +
           'to contain <span data-test-id="name">John Doe</span>\n' +
           '\n' +
-          '<span data-test-id="name" class="name something-else">\n' +
+          '<span class="name something-else" data-test-id="name">\n' +
           "  Jane Doe // should equal 'John Doe'\n" +
           '           //\n' +
           '           // -Jane Doe\n' +

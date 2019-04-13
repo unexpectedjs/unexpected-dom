@@ -146,33 +146,24 @@ function getAttributes(element) {
   const isHtml = isInsideHtmlDocument(element);
   const attrs = element.attributes;
   const result = {};
+  const attributeNames = [];
 
   for (let i = 0; i < attrs.length; i += 1) {
-    if (attrs[i].name === 'class') {
-      result[attrs[i].name] =
-        (attrs[i].value && attrs[i].value.split(' ')) || [];
-    } else if (attrs[i].name === 'style') {
-      result[attrs[i].name] = styleStringToObject(attrs[i].value);
-    } else {
-      result[attrs[i].name] =
-        isHtml && isBooleanAttribute(attrs[i].name)
-          ? true
-          : attrs[i].value || '';
-    }
+    attributeNames.push(attrs[i].name);
   }
 
-  return result;
-}
+  attributeNames.sort();
 
-function getCanonicalAttributes(element) {
-  const attrs = getAttributes(element);
-  const result = {};
-
-  Object.keys(attrs)
-    .sort()
-    .forEach(key => {
-      result[key] = attrs[key];
-    });
+  attributeNames.forEach(name => {
+    const value = element.getAttribute(name);
+    if (name === 'class') {
+      result[name] = (value && value.split(' ')) || [];
+    } else if (name === 'style') {
+      result[name] = styleStringToObject(value);
+    } else {
+      result[name] = isHtml && isBooleanAttribute(name) ? true : value || '';
+    }
+  });
 
   return result;
 }
@@ -231,7 +222,7 @@ function stringifyStartTag(element) {
       ? element.nodeName.toLowerCase()
       : element.nodeName;
   let str = `<${elementName}`;
-  const attrs = getCanonicalAttributes(element);
+  const attrs = getAttributes(element);
 
   Object.keys(attrs).forEach(key => {
     str += ` ${stringifyAttribute(key, attrs[key])}`;

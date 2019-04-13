@@ -31,9 +31,9 @@ expected
 to have attributes 'id', 'class', 'data-test-id'
 
 <div
-  id="stock-info-box"
-  class="callout info"
   aria-label="Information box"
+  class="callout info"
+  id="stock-info-box"
   style="border: thin solid gray; padding: 12px"
   // missing data-test-id
 >The JS stock it up 9.5%</div>
@@ -78,9 +78,9 @@ to have attributes
 }
 
 <div
-  id="stock-info-box"
-  class="callout info" // expected [ 'callout', 'info' ] to contain 'warning'
   aria-label="Information box"
+  class="callout info" // expected [ 'callout', 'info' ] to contain 'warning'
+  id="stock-info-box"
   style="border: thin solid gray; padding: 12px" // expected { border: 'thin solid gray', padding: '12px' }
                                                  // to satisfy { border: 'thick solid gray' }
                                                  //
@@ -122,9 +122,9 @@ expected
 to only have attributes 'id', 'aria-label'
 
 <div
-  id="stock-info-box"
-  class="callout info" // should be removed
   aria-label="Information box"
+  class="callout info" // should be removed
+  id="stock-info-box"
   style="border: thin solid gray; padding: 12px" // should be removed
 >The JS stock it up 9.5%</div>
 ```
