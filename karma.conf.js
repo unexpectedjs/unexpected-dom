@@ -18,7 +18,16 @@ module.exports = function(config) {
       }
     },
 
-    browsers: ['ChromeHeadless'],
+    browserStack: {
+      video: false,
+      project:
+        process.env.TRAVIS_BRANCH === 'master' &&
+        !process.env.TRAVIS_PULL_REQUEST_BRANCH // Catch Travis "PR" builds
+          ? 'unexpected-dom'
+          : 'unexpected-dom-dev'
+    },
+
+    browsers: ['ChromeHeadless', 'ie11'],
 
     customLaunchers: {
       ie11: {
