@@ -473,7 +473,7 @@ module.exports = {
       name: 'HTMLDocument',
       base: 'DOMDocument',
       identify(obj) {
-        return this.baseType.identify(obj) && obj.contentType === 'text/html';
+        return this.baseType.identify(obj) && isInsideHtmlDocument(obj);
       }
     });
 
@@ -481,10 +481,7 @@ module.exports = {
       name: 'XMLDocument',
       base: 'DOMDocument',
       identify(obj) {
-        return (
-          this.baseType.identify(obj) &&
-          /^(?:application|text)\/xml|\+xml\b/.test(obj.contentType)
-        );
+        return this.baseType.identify(obj) && !isInsideHtmlDocument(obj);
       },
       inspect(document, depth, output, inspect) {
         output.code('<?xml version="1.0"?>', 'xml');
