@@ -3142,7 +3142,7 @@ describe('unexpected-dom', () => {
 
     it('supports searching for style values', () => {
       expect(
-        '<div><i style="color: red">Hello</i> <span style="color: blue: background: #bad5aa">Jane Doe</span><em style="background: orange">!</em></div>',
+        '<div><i style="color: red">Hello</i> <span style="color: blue; background: #bad5aa">Jane Doe</span><em style="background: orange">!</em></div>',
         'when parsed as HTML',
         'to contain',
         '<span style="color: blue">Jane Doe</span>'
