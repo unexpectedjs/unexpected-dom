@@ -400,7 +400,7 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
             '  Press me\n' +
             '</button>\n' +
             "to have class 'quux'\n" +
@@ -431,7 +431,7 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
             '  Press me\n' +
             '</button>\n' +
             "to have classes [ 'quux', 'bar' ]\n" +
@@ -463,7 +463,7 @@ describe('unexpected-dom', () => {
             },
             'to throw',
             'expected\n' +
-              '<button class="bar quux" data-info="baz" disabled id="foo">\n' +
+              '<button id="foo" class="bar quux" data-info="baz" disabled>\n' +
               '  Press me\n' +
               '</button>\n' +
               "to only have class 'quux'\n" +
@@ -499,7 +499,7 @@ describe('unexpected-dom', () => {
             },
             'to throw',
             'expected\n' +
-              '<button class="bar quux foo" data-info="baz" disabled id="foo">\n' +
+              '<button id="foo" class="bar quux foo" data-info="baz" disabled>\n' +
               '  Press me\n' +
               '</button>\n' +
               "to only have classes [ 'bar', 'quux' ]\n" +
@@ -549,7 +549,7 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
             '  Press me\n' +
             '</button>\n' +
             "to only have attributes 'id'\n" +
@@ -587,7 +587,7 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
             '  Press me\n' +
             '</button>\n' +
             "to have attributes 'id', 'foo'\n" +
@@ -627,7 +627,7 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
             '  Press me\n' +
             '</button>\n' +
             "to only have attributes [ 'id' ]\n" +
@@ -659,7 +659,7 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
             '  Press me\n' +
             '</button>\n' +
             "to have attributes [ 'id', 'foo' ]\n" +
@@ -728,7 +728,7 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
             '  Press me\n' +
             '</button>\n' +
             "to only have attributes { id: 'foo' }\n" +
@@ -766,7 +766,7 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button class="bar" data-info="baz" disabled id="foo">\n' +
+            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
             '  Press me\n' +
             '</button>\n' +
             "to have attributes { id: 'foo', foo: 'bar' }\n" +
@@ -1057,7 +1057,7 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
           'to throw',
-          'expected <div class="my-class" style="color: red; background: blue"></div>\n' +
+          'expected <div style="color: red; background: blue" class="my-class"></div>\n' +
             "not to have attributes 'data-test-id', 'class'\n" +
             '\n' +
             '<div\n' +
@@ -1077,7 +1077,7 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
           'to throw',
-          'expected <div class="my-class" data-test-id="my-div" style="color: red; background: blue"></div>\n' +
+          'expected <div data-test-id="my-div" style="color: red; background: blue" class="my-class"></div>\n' +
             "not to have attributes 'data-test-id', 'class'\n" +
             '\n' +
             '<div\n' +
@@ -1107,7 +1107,7 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
           'to throw',
-          'expected <div class="my-class" style="color: red; background: blue"></div>\n' +
+          'expected <div style="color: red; background: blue" class="my-class"></div>\n' +
             "not to have attributes [ 'data-test-id', 'class' ]\n" +
             '\n' +
             '<div\n' +
@@ -1127,7 +1127,7 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
           'to throw',
-          'expected <div class="my-class" data-test-id="my-div" style="color: red; background: blue"></div>\n' +
+          'expected <div data-test-id="my-div" style="color: red; background: blue" class="my-class"></div>\n' +
             "not to have attributes [ 'data-test-id', 'class' ]\n" +
             '\n' +
             '<div\n' +
@@ -1407,7 +1407,7 @@ describe('unexpected-dom', () => {
             'to throw',
             'expected \'<div foo="bar" baz="quux">foo</div><div>bar</div>\'\n' +
               'when parsed as HTML fragment to exhaustively satisfy \'<div foo="bar">foo</div><div>bar</div>\'\n' +
-              '  expected DocumentFragment[NodeList[ <div baz="quux" foo="bar">foo</div>, <div>bar</div> ]]\n' +
+              '  expected DocumentFragment[NodeList[ <div foo="bar" baz="quux">foo</div>, <div>bar</div> ]]\n' +
               '  to exhaustively satisfy <div foo="bar">foo</div><div>bar</div>\n' +
               '\n' +
               '  NodeList[\n' +
@@ -1747,7 +1747,7 @@ describe('unexpected-dom', () => {
               parseHtml('<div foo="bar" baz="quux">hey</div>')
             ),
           'to error',
-          'expected <div baz="quux" foo="bar">foobar</div> to satisfy <div baz="quux" foo="bar">hey</div>\n' +
+          'expected <div foo="bar" baz="quux">foobar</div> to satisfy <div foo="bar" baz="quux">hey</div>\n' +
             '\n' +
             '<div foo="bar" baz="quux">\n' +
             "  foobar // should equal 'hey'\n" +
@@ -3343,7 +3343,7 @@ describe('unexpected-dom', () => {
           '<div>\n' +
           '  <i>Hello</i>\n' +
           '  \n' +
-          '  <span class="name something-else" data-test-id="name">\n' +
+          '  <span data-test-id="name" class="name something-else">\n' +
           '    Jane Doe\n' +
           '  </span>\n' +
           '  and\n' +
@@ -3488,7 +3488,7 @@ describe('unexpected-dom', () => {
           '<div>\n' +
           '  <i>Hello</i>\n' +
           '  \n' +
-          '  <span class="name something-else" data-test-id="name">\n' +
+          '  <span data-test-id="name" class="name something-else">\n' +
           '    Jane Doe\n' +
           '  </span>\n' +
           '  and\n' +
@@ -3498,7 +3498,7 @@ describe('unexpected-dom', () => {
           '\n' +
           'Found:\n' +
           '\n' +
-          '<span class="name something-else" data-test-id="name">\n' +
+          '<span data-test-id="name" class="name something-else">\n' +
           '  Jane Doe\n' +
           '</span>'
       );

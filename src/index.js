@@ -164,19 +164,6 @@ function getAttributes(element) {
   return result;
 }
 
-function getCanonicalAttributes(element) {
-  const attrs = getAttributes(element);
-  const result = {};
-
-  Object.keys(attrs)
-    .sort()
-    .forEach(key => {
-      result[key] = attrs[key];
-    });
-
-  return result;
-}
-
 function entitify(value) {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -230,7 +217,7 @@ function stringifyStartTag(element) {
     ? element.nodeName.toLowerCase()
     : element.nodeName;
   let str = `<${elementName}`;
-  const attrs = getCanonicalAttributes(element);
+  const attrs = getAttributes(element);
 
   Object.keys(attrs).forEach(key => {
     str += ` ${stringifyAttribute(key, attrs[key])}`;

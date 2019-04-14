@@ -25,7 +25,7 @@ expect(element, 'to have attributes', 'id', 'class', 'data-test-id');
 
 ```output
 expected
-<div aria-label="Information box" class="callout info" id="stock-info-box" style="border: thin solid gray; padding: 12px">
+<div id="stock-info-box" class="callout info" aria-label="Information box" style="border: thin solid gray; padding: 12px">
   The JS stock it up 9.5%
 </div>
 to have attributes 'id', 'class', 'data-test-id'
@@ -67,7 +67,7 @@ expect(element, 'to have attributes', {
 
 ```output
 expected
-<div aria-label="Information box" class="callout info" id="stock-info-box" style="border: thin solid gray; padding: 12px">
+<div id="stock-info-box" class="callout info" aria-label="Information box" style="border: thin solid gray; padding: 12px">
   The JS stock it up 9.5%
 </div>
 to have attributes
@@ -116,7 +116,7 @@ expect(element, 'to only have attributes', 'id', 'aria-label');
 
 ```output
 expected
-<div aria-label="Information box" class="callout info" id="stock-info-box" style="border: thin solid gray; padding: 12px">
+<div id="stock-info-box" class="callout info" aria-label="Information box" style="border: thin solid gray; padding: 12px">
   The JS stock it up 9.5%
 </div>
 to only have attributes 'id', 'aria-label'
