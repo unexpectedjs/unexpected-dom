@@ -1,4 +1,13 @@
 /*global expect, jsdom, sinon, describe, it, beforeEach, afterEach, DOMParser:true*/
+const isIe =
+  window.navigator &&
+  /Windows/.test(window.navigator.userAgent) &&
+  /Trident\//.test(window.navigator.userAgent);
+
+it.skipIf = function(bool, descr, block) {
+  (bool ? it.skip : it)(descr, block);
+};
+
 expect.addAssertion(
   '<any> to inspect as <string>',
   (expect, subject, value) => {
@@ -1836,7 +1845,7 @@ describe('unexpected-dom', () => {
         );
       });
 
-      it('should fail when the RHS has invalid styles', () =>
+      it.skipIf(isIe, 'should fail when the RHS has invalid styles', () =>
         expect(
           () =>
             expect(
@@ -1853,9 +1862,10 @@ describe('unexpected-dom', () => {
             "                                  // to satisfy { name: 'div', attributes: { style: 'border-left-color: #FFFF;' }, children: [ 'hey' ] }\n" +
             "                                  //   Expectation contains invalid styles: 'border-left-color: #FFFF'\n" +
             '>hey</div>'
-        ));
+        )
+      );
 
-      it('should fail when the RHS has invalid styles', () =>
+      it.skipIf(isIe, 'should fail when the RHS has invalid styles', () =>
         expect(
           () =>
             expect(
@@ -1871,7 +1881,8 @@ describe('unexpected-dom', () => {
             "                       // to satisfy { name: 'div', attributes: { style: 'color;background;width: 120px' }, children: [ 'hey' ] }\n" +
             "                       //   Expectation contains invalid styles: 'color;background'\n" +
             '>hey</div>'
-        ));
+        )
+      );
 
       it('should fail when the subject is missing an inline style', () =>
         expect(
