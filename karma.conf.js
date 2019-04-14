@@ -4,8 +4,6 @@ module.exports = function(config) {
 
     files: [
       './node_modules/unexpected/unexpected.js',
-      './node_modules/unexpected-sinon/lib/unexpected-sinon.js',
-      './node_modules/sinon/pkg/sinon.js',
       './unexpected-dom.js',
       './test/common/browser.js',
       './build/test/index.spec.js'

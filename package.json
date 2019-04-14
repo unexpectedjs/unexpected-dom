@@ -68,12 +68,10 @@
     "nyc": "^13.1.0",
     "offline-github-changelog": "^1.2.0",
     "prettier": "~1.17.0",
-    "sinon": "^7.1.0",
     "uglifyjs": "^2.4.11",
     "unexpected": "^11.0.0-4",
     "unexpected-documentation-site-generator": "^6.0.0",
-    "unexpected-markdown": "^3.0.0",
-    "unexpected-sinon": "^10.7.1"
+    "unexpected-markdown": "^3.0.0"
   },
   "dependencies": {
     "extend": "^3.0.1",

@@ -1,4 +1,4 @@
-/*global expect, jsdom, sinon, describe, it, beforeEach, afterEach, DOMParser:true*/
+/*global expect, jsdom, describe, it, beforeEach, afterEach, DOMParser:true*/
 const isIe =
   window.navigator &&
   /Windows/.test(window.navigator.userAgent) &&
@@ -2533,22 +2533,20 @@ describe('unexpected-dom', () => {
 
     describe('when the DOMParser global is available', () => {
       const OriginalDOMParser = root.DOMParser;
-      const safeParseHtmlDocument =
-        typeof jsdom !== 'undefined'
-          ? str => new jsdom.JSDOM(str).window.document
-          : str => new OriginalDOMParser().parseFromString(str, 'text/html');
 
-      let DOMParserSpy;
-      let parseFromStringSpy;
       beforeEach(() => {
-        DOMParser = DOMParserSpy = sinon
-          .spy(() => ({
-            parseFromString: (parseFromStringSpy = sinon
-              .spy(htmlString => safeParseHtmlDocument(htmlString))
-              .named('parseFromString'))
-          }))
-          .named('DOMParser');
+        DOMParser = class DOMParser {
+          parseFromString(htmlString) {
+            return typeof jsdom !== 'undefined'
+              ? new jsdom.JSDOM(htmlString).window.document
+              : new OriginalDOMParser().parseFromString(
+                  htmlString,
+                  'text/html'
+                );
+          }
+        };
       });
+
       afterEach(() => {
         DOMParser = OriginalDOMParser;
       });
@@ -2562,46 +2560,29 @@ describe('unexpected-dom', () => {
           'to have text',
           'foo'
         );
-        expect(
-          [DOMParserSpy, parseFromStringSpy],
-          'to have calls satisfying',
-          () => {
-            // eslint-disable-next-line no-new
-            new DOMParserSpy();
-            parseFromStringSpy(htmlSrc, 'text/html');
-          }
-        );
       });
     });
 
     if (typeof jsdom !== 'undefined') {
       describe('when the document global is available', () => {
-        const OriginalDOMParser = root.DOMParser;
-        let originalDocument, createHTMLDocumentSpy, mockDocument;
+        const originalDocument = root.document;
+        const originalDOMParser = root.DOMParser;
 
         beforeEach(() => {
-          mockDocument = parseHtmlDocument(htmlSrc);
-          mockDocument.open = sinon.spy().named('document.open');
-          mockDocument.write = sinon.spy().named('document.write');
-          mockDocument.close = sinon.spy().named('document.close');
-
           DOMParser = undefined; // force the "implementation" path
-          originalDocument = root.document;
 
           // eslint-disable-next-line no-global-assign
           document = {
             implementation: {
-              createHTMLDocument: (createHTMLDocumentSpy = sinon
-                .spy(() => {
-                  return mockDocument;
-                })
-                .named('createHTMLDocument'))
+              createHTMLDocument() {
+                return parseHtmlDocument(htmlSrc);
+              }
             }
           };
         });
 
         afterEach(() => {
-          DOMParser = OriginalDOMParser;
+          DOMParser = originalDOMParser;
           // eslint-disable-next-line no-global-assign
           document = originalDocument;
         });
@@ -2614,21 +2595,6 @@ describe('unexpected-dom', () => {
             'body',
             'to have text',
             'foo'
-          );
-          expect(
-            [
-              createHTMLDocumentSpy,
-              mockDocument.open,
-              mockDocument.write,
-              mockDocument.close
-            ],
-            'to have calls satisfying',
-            () => {
-              createHTMLDocumentSpy('');
-              mockDocument.open();
-              mockDocument.write(htmlSrc);
-              mockDocument.close();
-            }
           );
         });
       });
@@ -2687,24 +2653,18 @@ describe('unexpected-dom', () => {
 
     describe('when the DOMParser global is available', () => {
       const OriginalDOMParser = root.DOMParser;
-      const safeParseXmlDocument =
-        typeof jsdom !== 'undefined'
-          ? str =>
-              new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document
-          : str =>
-              new OriginalDOMParser().parseFromString(str, 'application/xml');
 
-      let DOMParserSpy;
-      let parseFromStringSpy;
       beforeEach(() => {
-        DOMParser = DOMParserSpy = sinon
-          .spy(() => ({
-            parseFromString: (parseFromStringSpy = sinon
-              .spy(xmlString => safeParseXmlDocument(xmlString))
-              .named('parseFromString'))
-          }))
-          .named('DOMParser');
+        DOMParser = class DOMParser {
+          parseFromString(str) {
+            return typeof jsdom !== 'undefined'
+              ? new jsdom.JSDOM(str, { contentType: 'text/xml' }).window
+                  .document
+              : new OriginalDOMParser().parseFromString(str, 'application/xml');
+          }
+        };
       });
+
       afterEach(() => {
         DOMParser = OriginalDOMParser;
       });
@@ -2717,15 +2677,6 @@ describe('unexpected-dom', () => {
           'fooBar',
           'to have text',
           'foo'
-        );
-        expect(
-          [DOMParserSpy, parseFromStringSpy],
-          'to have calls satisfying',
-          () => {
-            // eslint-disable-next-line no-new
-            new DOMParserSpy();
-            parseFromStringSpy(xmlSrc, 'text/xml');
-          }
         );
       });
     });
