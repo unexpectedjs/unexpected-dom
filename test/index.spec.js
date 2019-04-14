@@ -167,13 +167,13 @@ describe('unexpected-dom', () => {
     it('should diff multiple mismatching attributes', () => {
       expect(
         [
-          '<div id="foo" the="same" heps="hey" something="identical"></div>',
-          '<div id="bar" the="same" heps="there" something="identical"></div>'
+          '<div title="the same" class="hey" id="foo" data-something="identical"></div>',
+          '<div title="the same" class="there" id="bar" data-something="identical"></div>'
         ],
         'to produce a diff of',
-        '<div id="foo" // should equal \'bar\'\n' +
-          '     the="same" heps="hey" // should equal \'there\'\n' +
-          '     something="identical"></div>'
+        '<div title="the same" class="hey" // should equal \'there\'\n' +
+          '     id="foo" // should equal \'bar\'\n' +
+          '     data-something="identical"></div>'
       );
     });
 
@@ -387,29 +387,29 @@ describe('unexpected-dom', () => {
     describe('with a single class passed as a string', () => {
       it('should succeed', () => {
         body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
         expect(body.firstChild, 'to have class', 'bar');
       });
 
       it('should fail with a diff', () => {
         body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
         expect(
           () => {
             expect(body.firstChild, 'to have class', 'quux');
           },
           'to throw',
           'expected\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
+            '<button disabled class="bar" id="foo" data-info="baz">\n' +
             '  Press me\n' +
             '</button>\n' +
             "to have class 'quux'\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
-            "  class=\"bar\" // expected [ 'bar' ] to contain 'quux'\n" +
-            '  data-info="baz"\n' +
             '  disabled\n' +
+            "  class=\"bar\" // expected [ 'bar' ] to contain 'quux'\n" +
+            '  id="foo"\n' +
+            '  data-info="baz"\n' +
             '>Press me</button>'
         );
       });
@@ -424,23 +424,23 @@ describe('unexpected-dom', () => {
 
       it('should fail with a diff', () => {
         body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
         expect(
           () => {
             expect(body.firstChild, 'to have classes', ['quux', 'bar']);
           },
           'to throw',
           'expected\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
+            '<button disabled class="bar" id="foo" data-info="baz">\n' +
             '  Press me\n' +
             '</button>\n' +
             "to have classes [ 'quux', 'bar' ]\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
-            "  class=\"bar\" // expected [ 'bar' ] to contain 'quux', 'bar'\n" +
-            '  data-info="baz"\n' +
             '  disabled\n' +
+            "  class=\"bar\" // expected [ 'bar' ] to contain 'quux', 'bar'\n" +
+            '  id="foo"\n' +
+            '  data-info="baz"\n' +
             '>Press me</button>'
         );
       });
@@ -450,34 +450,34 @@ describe('unexpected-dom', () => {
       describe('with a single class passed as a string', () => {
         it('should succeed', () => {
           body.innerHTML =
-            '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+            '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
           expect(body.firstChild, 'to only have class', 'bar');
         });
 
         it('should fail with a diff', () => {
           body.innerHTML =
-            '<button id="foo" class="bar quux" data-info="baz" disabled>Press me</button>';
+            '<button disabled class="bar quux" id="foo" data-info="baz">Press me</button>';
           expect(
             () => {
               expect(body.firstChild, 'to only have class', 'quux');
             },
             'to throw',
             'expected\n' +
-              '<button id="foo" class="bar quux" data-info="baz" disabled>\n' +
+              '<button disabled class="bar quux" id="foo" data-info="baz">\n' +
               '  Press me\n' +
               '</button>\n' +
               "to only have class 'quux'\n" +
               '\n' +
               '<button\n' +
-              '  id="foo"\n' +
+              '  disabled\n' +
               "  class=\"bar quux\" // expected [ 'bar', 'quux' ] to equal [ 'quux' ]\n" +
               '                   //\n' +
               '                   // [\n' +
               "                   //   'bar', // should be removed\n" +
               "                   //   'quux'\n" +
               '                   // ]\n' +
+              '  id="foo"\n' +
               '  data-info="baz"\n' +
-              '  disabled\n' +
               '>Press me</button>'
           );
         });
@@ -492,20 +492,20 @@ describe('unexpected-dom', () => {
 
         it('should fail with a diff', () => {
           body.innerHTML =
-            '<button id="foo" class="bar quux foo" data-info="baz" disabled>Press me</button>';
+            '<button disabled class="bar quux foo" id="foo" data-info="baz">Press me</button>';
           expect(
             () => {
               expect(body.firstChild, 'to only have classes', ['quux', 'bar']);
             },
             'to throw',
             'expected\n' +
-              '<button id="foo" class="bar quux foo" data-info="baz" disabled>\n' +
+              '<button disabled class="bar quux foo" id="foo" data-info="baz">\n' +
               '  Press me\n' +
               '</button>\n' +
               "to only have classes [ 'bar', 'quux' ]\n" +
               '\n' +
               '<button\n' +
-              '  id="foo"\n' +
+              '  disabled\n' +
               "  class=\"bar quux foo\" // expected [ 'bar', 'foo', 'quux' ] to equal [ 'bar', 'quux' ]\n" +
               '                       //\n' +
               '                       // [\n' +
@@ -513,8 +513,8 @@ describe('unexpected-dom', () => {
               "                       //   'foo', // should be removed\n" +
               "                       //   'quux'\n" +
               '                       // ]\n' +
+              '  id="foo"\n' +
               '  data-info="baz"\n' +
-              '  disabled\n' +
               '>Press me</button>'
           );
         });
@@ -526,7 +526,7 @@ describe('unexpected-dom', () => {
     describe('argument comparison', () => {
       it('should match exact arguments', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
 
         expect(
           this.body.firstChild,
@@ -540,7 +540,7 @@ describe('unexpected-dom', () => {
 
       it('should fail on exact arguments not met', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
         const el = this.body.firstChild;
 
         expect(
@@ -549,16 +549,16 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
+            '<button disabled class="bar" id="foo" data-info="baz">\n' +
             '  Press me\n' +
             '</button>\n' +
             "to only have attributes 'id'\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
-            '  class="bar" // should be removed\n' +
-            '  data-info="baz" // should be removed\n' +
             '  disabled // should be removed\n' +
+            '  class="bar" // should be removed\n' +
+            '  id="foo"\n' +
+            '  data-info="baz" // should be removed\n' +
             '>Press me</button>'
         );
       });
@@ -578,7 +578,7 @@ describe('unexpected-dom', () => {
 
       it('should fail on partial arguments not met', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
         const el = this.body.firstChild;
 
         expect(
@@ -587,16 +587,16 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
+            '<button disabled class="bar" id="foo" data-info="baz">\n' +
             '  Press me\n' +
             '</button>\n' +
             "to have attributes 'id', 'foo'\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
-            '  class="bar"\n' +
-            '  data-info="baz"\n' +
             '  disabled\n' +
+            '  class="bar"\n' +
+            '  id="foo"\n' +
+            '  data-info="baz"\n' +
             '  // missing foo\n' +
             '>Press me</button>'
         );
@@ -606,7 +606,7 @@ describe('unexpected-dom', () => {
     describe('array comparison', () => {
       it('should match exact arguments', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
 
         expect(this.body.firstChild, 'to only have attributes', [
           'id',
@@ -618,7 +618,7 @@ describe('unexpected-dom', () => {
 
       it('should fail on exact arguments not met', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
         const el = this.body.firstChild;
 
         expect(
@@ -627,30 +627,30 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
+            '<button disabled class="bar" id="foo" data-info="baz">\n' +
             '  Press me\n' +
             '</button>\n' +
             "to only have attributes [ 'id' ]\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
-            '  class="bar" // should be removed\n' +
-            '  data-info="baz" // should be removed\n' +
             '  disabled // should be removed\n' +
+            '  class="bar" // should be removed\n' +
+            '  id="foo"\n' +
+            '  data-info="baz" // should be removed\n' +
             '>Press me</button>'
         );
       });
 
       it('should match partial arguments', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
 
         expect(this.body.firstChild, 'to have attributes', ['id', 'class']);
       });
 
       it('should fail on partial arguments not met', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
         const el = this.body.firstChild;
 
         expect(
@@ -659,16 +659,16 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
+            '<button disabled class="bar" id="foo" data-info="baz">\n' +
             '  Press me\n' +
             '</button>\n' +
             "to have attributes [ 'id', 'foo' ]\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
-            '  class="bar"\n' +
-            '  data-info="baz"\n' +
             '  disabled\n' +
+            '  class="bar"\n' +
+            '  id="foo"\n' +
+            '  data-info="baz"\n' +
             '  // missing foo\n' +
             '>Press me</button>'
         );
@@ -705,7 +705,7 @@ describe('unexpected-dom', () => {
     describe('object comparison', () => {
       it('should match exact object', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
 
         expect(this.body.firstChild, 'to only have attributes', {
           id: 'foo',
@@ -717,7 +717,7 @@ describe('unexpected-dom', () => {
 
       it('should fail on exact object not satisfied', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
         const el = this.body.firstChild;
 
         expect(
@@ -728,23 +728,23 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
+            '<button disabled class="bar" id="foo" data-info="baz">\n' +
             '  Press me\n' +
             '</button>\n' +
             "to only have attributes { id: 'foo' }\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
-            '  class="bar" // should be removed\n' +
-            '  data-info="baz" // should be removed\n' +
             '  disabled // should be removed\n' +
+            '  class="bar" // should be removed\n' +
+            '  id="foo"\n' +
+            '  data-info="baz" // should be removed\n' +
             '>Press me</button>'
         );
       });
 
       it('should match partial object', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
 
         expect(this.body.firstChild, 'to have attributes', {
           id: 'foo',
@@ -754,7 +754,7 @@ describe('unexpected-dom', () => {
 
       it('should fail on partial object not satisfied', function() {
         this.body.innerHTML =
-          '<button id="foo" class="bar" data-info="baz" disabled>Press me</button>';
+          '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
         const el = this.body.firstChild;
 
         expect(
@@ -766,16 +766,16 @@ describe('unexpected-dom', () => {
           },
           'to throw',
           'expected\n' +
-            '<button id="foo" class="bar" data-info="baz" disabled>\n' +
+            '<button disabled class="bar" id="foo" data-info="baz">\n' +
             '  Press me\n' +
             '</button>\n' +
             "to have attributes { id: 'foo', foo: 'bar' }\n" +
             '\n' +
             '<button\n' +
-            '  id="foo"\n' +
-            '  class="bar"\n' +
-            '  data-info="baz"\n' +
             '  disabled\n' +
+            '  class="bar"\n' +
+            '  id="foo"\n' +
+            '  data-info="baz"\n' +
             "  // missing foo should equal 'bar'\n" +
             '>Press me</button>'
         );
@@ -878,16 +878,16 @@ describe('unexpected-dom', () => {
         describe('lax comparison', () => {
           it('should do string comparisons', function() {
             this.body.innerHTML =
-              '<i style="color: red; background: blue"></i>';
+              '<i style="background: blue; color: red"></i>';
 
             expect(this.body.firstChild, 'to have attributes', {
-              style: 'color: red; background: blue'
+              style: 'background: blue; color: red'
             });
           });
 
           it('should do string comparisons in any order', function() {
             this.body.innerHTML =
-              '<i style="color: red; background: blue"></i>';
+              '<i style="background: blue; color: red"></i>';
 
             expect(this.body.firstChild, 'to have attributes', {
               style: 'background: blue; color: red'
@@ -896,7 +896,7 @@ describe('unexpected-dom', () => {
 
           it('should do string comparisons on partial values', function() {
             this.body.innerHTML =
-              '<i style="color: red; background: blue"></i>';
+              '<i style="background: blue; color: red"></i>';
 
             expect(this.body.firstChild, 'to have attributes', {
               style: 'background: blue'
@@ -920,7 +920,7 @@ describe('unexpected-dom', () => {
 
           it('should do object comparisons', function() {
             this.body.innerHTML =
-              '<i style="color: red; background: blue"></i>';
+              '<i style="background: blue; color: red"></i>';
 
             expect(this.body.firstChild, 'to have attributes', {
               style: {
@@ -932,7 +932,7 @@ describe('unexpected-dom', () => {
 
           it('should do partial object comparisons', function() {
             this.body.innerHTML =
-              '<i style="color: red; background: blue"></i>';
+              '<i style="background: blue; color: red"></i>';
 
             expect(this.body.firstChild, 'to have attributes', {
               style: {
@@ -972,16 +972,16 @@ describe('unexpected-dom', () => {
         describe('strict comparison', () => {
           it('should do string comparisons', function() {
             this.body.innerHTML =
-              '<i style="color: red; background: blue"></i>';
+              '<i style="background: blue; color: red"></i>';
 
             expect(this.body.firstChild, 'to only have attributes', {
-              style: 'color: red; background: blue'
+              style: 'background: blue; color: red'
             });
           });
 
           it('should do string comparisons in any order', function() {
             this.body.innerHTML =
-              '<i style="color: red; background: blue"></i>';
+              '<i style="background: blue; color: red"></i>';
 
             expect(this.body.firstChild, 'to only have attributes', {
               style: 'background: blue; color: red'
@@ -990,7 +990,7 @@ describe('unexpected-dom', () => {
 
           it('should fail when styles are missing', function() {
             this.body.innerHTML =
-              '<i style="color: red; background: blue"></i>';
+              '<i style="background: blue; color: red"></i>';
             const node = this.body.firstChild;
 
             expect(
@@ -1006,7 +1006,7 @@ describe('unexpected-dom', () => {
 
           it('should do object comparisons', function() {
             this.body.innerHTML =
-              '<i style="color: red; background: blue"></i>';
+              '<i style="background: blue; color: red"></i>';
 
             expect(this.body.firstChild, 'to only have attributes', {
               style: {
@@ -1018,7 +1018,7 @@ describe('unexpected-dom', () => {
 
           it('should fail on missing partial object comparisons', function() {
             this.body.innerHTML =
-              '<i style="color: red; background: blue"></i>';
+              '<i style="background: blue; color: red"></i>';
             const node = this.body.firstChild;
 
             expect(
@@ -1041,7 +1041,7 @@ describe('unexpected-dom', () => {
   describe('not to have attributes', () => {
     describe('when given one of more strings', () => {
       it('should pass if the given element does not have any the provided attribute names', () => {
-        body.innerHTML = '<div style="color: red; background: blue" />';
+        body.innerHTML = '<div style="background: blue; color: red" />';
         const node = body.firstChild;
 
         expect(node, 'not to have attributes', 'data-test-id', 'class');
@@ -1049,7 +1049,7 @@ describe('unexpected-dom', () => {
 
       it('should fail if the given element has one of the provided attributes', () => {
         body.innerHTML =
-          '<div style="color: red; background: blue" class="my-class"/>';
+          '<div class="my-class" style="background: blue; color: red"/>';
         const node = body.firstChild;
 
         expect(
@@ -1057,19 +1057,19 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
           'to throw',
-          'expected <div style="color: red; background: blue" class="my-class"></div>\n' +
+          'expected <div class="my-class" style="background: blue; color: red"></div>\n' +
             "not to have attributes 'data-test-id', 'class'\n" +
             '\n' +
             '<div\n' +
-            '  style="color: red; background: blue"\n' +
             '  class="my-class" // should be removed\n' +
+            '  style="background: blue; color: red"\n' +
             '></div>'
         );
       });
 
       it('should fail if the given element has multiple of the provided attributes', () => {
         body.innerHTML =
-          '<div data-test-id="my-div" style="color: red; background: blue" class="my-class"/>';
+          '<div class="my-class" style="background: blue; color: red" data-test-id="my-div"/>';
         const node = body.firstChild;
 
         expect(
@@ -1077,13 +1077,13 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
           'to throw',
-          'expected <div data-test-id="my-div" style="color: red; background: blue" class="my-class"></div>\n' +
+          'expected <div class="my-class" style="background: blue; color: red" data-test-id="my-div"></div>\n' +
             "not to have attributes 'data-test-id', 'class'\n" +
             '\n' +
             '<div\n' +
-            '  data-test-id="my-div" // should be removed\n' +
-            '  style="color: red; background: blue"\n' +
             '  class="my-class" // should be removed\n' +
+            '  style="background: blue; color: red"\n' +
+            '  data-test-id="my-div" // should be removed\n' +
             '></div>'
         );
       });
@@ -1091,7 +1091,7 @@ describe('unexpected-dom', () => {
 
     describe('when given an array', () => {
       it('should pass if the given element does not have any of the provided attribute names', () => {
-        body.innerHTML = '<div style="color: red; background: blue" />';
+        body.innerHTML = '<div style="background: blue; color: red" />';
         const node = body.firstChild;
 
         expect(node, 'not to have attributes', ['data-test-id', 'class']);
@@ -1099,7 +1099,7 @@ describe('unexpected-dom', () => {
 
       it('should fail if the given element has one of the provided attributes', () => {
         body.innerHTML =
-          '<div style="color: red; background: blue" class="my-class"/>';
+          '<div class="my-class" style="background: blue; color: red"/>';
         const node = body.firstChild;
 
         expect(
@@ -1107,19 +1107,19 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
           'to throw',
-          'expected <div style="color: red; background: blue" class="my-class"></div>\n' +
+          'expected <div class="my-class" style="background: blue; color: red"></div>\n' +
             "not to have attributes [ 'data-test-id', 'class' ]\n" +
             '\n' +
             '<div\n' +
-            '  style="color: red; background: blue"\n' +
             '  class="my-class" // should be removed\n' +
+            '  style="background: blue; color: red"\n' +
             '></div>'
         );
       });
 
       it('should fail if the given element has multiple of the provided attributes', () => {
         body.innerHTML =
-          '<div data-test-id="my-div" style="color: red; background: blue" class="my-class"/>';
+          '<div class="my-class" style="background: blue; color: red" data-test-id="my-div"/>';
         const node = body.firstChild;
 
         expect(
@@ -1127,13 +1127,13 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
           'to throw',
-          'expected <div data-test-id="my-div" style="color: red; background: blue" class="my-class"></div>\n' +
+          'expected <div class="my-class" style="background: blue; color: red" data-test-id="my-div"></div>\n' +
             "not to have attributes [ 'data-test-id', 'class' ]\n" +
             '\n' +
             '<div\n' +
-            '  data-test-id="my-div" // should be removed\n' +
-            '  style="color: red; background: blue"\n' +
             '  class="my-class" // should be removed\n' +
+            '  style="background: blue; color: red"\n' +
+            '  data-test-id="my-div" // should be removed\n' +
             '></div>'
         );
       });
@@ -2084,7 +2084,7 @@ describe('unexpected-dom', () => {
 
     it('should fail with a diff', () => {
       body.innerHTML =
-        '<div foo="bar" id="quux">foobar</div><div foo="quux">hey</div>';
+        '<div id="quux" foo="bar">foobar</div><div foo="quux">hey</div>';
       expect(
         () => {
           expect(body, 'queried for', 'div', 'to satisfy', {
@@ -2094,15 +2094,15 @@ describe('unexpected-dom', () => {
         'to throw',
         'expected\n' +
           '<body>\n' +
-          '  <div foo="bar" id="quux">foobar</div>\n' +
+          '  <div id="quux" foo="bar">foobar</div>\n' +
           '  <div foo="quux">hey</div>\n' +
           '</body>\n' +
           "queried for div to satisfy { 1: { attributes: { foo: 'bar' } } }\n" +
-          '  expected NodeList[ <div foo="bar" id="quux">foobar</div>, <div foo="quux">hey</div> ]\n' +
+          '  expected NodeList[ <div id="quux" foo="bar">foobar</div>, <div foo="quux">hey</div> ]\n' +
           "  to satisfy { 1: { attributes: { foo: 'bar' } } }\n" +
           '\n' +
           '  NodeList[\n' +
-          '    <div foo="bar" id="quux">foobar</div>,\n' +
+          '    <div id="quux" foo="bar">foobar</div>,\n' +
           '    <div\n' +
           "      foo=\"quux\" // expected 'quux' to equal 'bar'\n" +
           '                 //\n' +
@@ -2422,16 +2422,16 @@ describe('unexpected-dom', () => {
       );
     });
 
-    it('should produce a nested diff when when the outer element has a different set of attributes', () => {
+    it('should produce a nested diff when the outer element has a different set of attributes', () => {
       expect(
-        '<div>foo<span id="foo" class="bar"><span>foo</span></span><!--bar--></div>',
+        '<div>foo<span class="bar" id="foo"><span>foo</span></span><!--bar--></div>',
         'diffed with',
         '<div>foo<span><span>bar</span></span><!--bar--></div>',
         'to equal',
         '<div>\n' +
           '  foo\n' +
-          '  <span id="foo" // should be removed\n' +
-          '        class="bar" // should be removed\n' +
+          '  <span class="bar" // should be removed\n' +
+          '        id="foo" // should be removed\n' +
           '  >\n' +
           '    <span>\n' +
           '      -foo\n' +
@@ -2733,7 +2733,7 @@ describe('unexpected-dom', () => {
 
   it('should produce a good satisfy diff in a real world example', () => {
     body.innerHTML =
-      '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">' +
+      '<ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">' +
       '<li class="selected" data-index="0">' +
       '<span class="before"></span>' +
       '<strong class="match">pr</strong>' +
@@ -2775,7 +2775,7 @@ describe('unexpected-dom', () => {
       },
       'to throw',
       'expected\n' +
-        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">\n' +
+        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">\n' +
         '  <li class="selected" data-index="0">\n' +
         '    <span class="before"></span>\n' +
         '    <strong class="match">...</strong>\n' +
@@ -2793,7 +2793,7 @@ describe('unexpected-dom', () => {
         '  children: [ { attributes: ..., children: ... }, { attributes: ..., children: ... } ]\n' +
         '}\n' +
         '\n' +
-        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">\n' +
+        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">\n' +
         '  <li class="selected" data-index="0">\n' +
         '    <span class="before"></span>\n' +
         '    <strong class="match">...</strong>\n' +
@@ -3332,7 +3332,7 @@ describe('unexpected-dom', () => {
         () => {
           expect(
             parseHtmlNode(
-              '<div><i>Hello</i> <span data-test-id="name" class="name something-else">Jane Doe</span> and <span class="name">John Doe</span></div>'
+              '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>'
             ),
             'to contain',
             '<span data-test-id="name">John Doe</span>'
@@ -3343,7 +3343,7 @@ describe('unexpected-dom', () => {
           '<div>\n' +
           '  <i>Hello</i>\n' +
           '  \n' +
-          '  <span data-test-id="name" class="name something-else">\n' +
+          '  <span class="name something-else" data-test-id="name">\n' +
           '    Jane Doe\n' +
           '  </span>\n' +
           '  and\n' +
@@ -3351,7 +3351,7 @@ describe('unexpected-dom', () => {
           '</div>\n' +
           'to contain <span data-test-id="name">John Doe</span>\n' +
           '\n' +
-          '<span data-test-id="name" class="name something-else">\n' +
+          '<span class="name something-else" data-test-id="name">\n' +
           "  Jane Doe // should equal 'John Doe'\n" +
           '           //\n' +
           '           // -Jane Doe\n' +
@@ -3447,7 +3447,7 @@ describe('unexpected-dom', () => {
     it('succeeds if the given structure is not present', () => {
       expect(
         parseHtmlNode(
-          '<div><i>Hello</i> <span data-test-id="name" class="name something-else">Jane Doe</span> and <span class="name">John Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>'
         ),
         'not to contain',
         '<span data-test-id="name">John Doe</span>'
@@ -3477,7 +3477,7 @@ describe('unexpected-dom', () => {
         () => {
           expect(
             parseHtmlNode(
-              '<div><i>Hello</i> <span data-test-id="name" class="name something-else">Jane Doe</span> and <span class="name">John Doe</span></div>'
+              '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>'
             ),
             'not to contain',
             '<span data-test-id="name">Jane Doe</span>'
@@ -3488,7 +3488,7 @@ describe('unexpected-dom', () => {
           '<div>\n' +
           '  <i>Hello</i>\n' +
           '  \n' +
-          '  <span data-test-id="name" class="name something-else">\n' +
+          '  <span class="name something-else" data-test-id="name">\n' +
           '    Jane Doe\n' +
           '  </span>\n' +
           '  and\n' +
@@ -3498,7 +3498,7 @@ describe('unexpected-dom', () => {
           '\n' +
           'Found:\n' +
           '\n' +
-          '<span data-test-id="name" class="name something-else">\n' +
+          '<span class="name something-else" data-test-id="name">\n' +
           '  Jane Doe\n' +
           '</span>'
       );
