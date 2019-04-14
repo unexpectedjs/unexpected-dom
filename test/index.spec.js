@@ -1048,12 +1048,12 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
           'to throw',
-          'expected <div class="my-class" style="color: red; background: blue"></div>\n' +
+          'expected <div class="my-class" style="background: blue; color: red"></div>\n' +
             "not to have attributes 'data-test-id', 'class'\n" +
             '\n' +
             '<div\n' +
             '  class="my-class" // should be removed\n' +
-            '  style="color: red; background: blue"\n' +
+            '  style="background: blue; color: red"\n' +
             '></div>'
         );
       });
@@ -1068,13 +1068,13 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
           'to throw',
-          'expected <div class="my-class" data-test-id="my-div" style="color: red; background: blue"></div>\n' +
+          'expected <div class="my-class" data-test-id="my-div" style="background: blue; color: red"></div>\n' +
             "not to have attributes 'data-test-id', 'class'\n" +
             '\n' +
             '<div\n' +
             '  class="my-class" // should be removed\n' +
             '  data-test-id="my-div" // should be removed\n' +
-            '  style="color: red; background: blue"\n' +
+            '  style="background: blue; color: red"\n' +
             '></div>'
         );
       });
@@ -1098,19 +1098,19 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
           'to throw',
-          'expected <div class="my-class" style="color: red; background: blue"></div>\n' +
+          'expected <div class="my-class" style="background: blue; color: red"></div>\n' +
             "not to have attributes [ 'data-test-id', 'class' ]\n" +
             '\n' +
             '<div\n' +
             '  class="my-class" // should be removed\n' +
-            '  style="color: red; background: blue"\n' +
+            '  style="background: blue; color: red"\n' +
             '></div>'
         );
       });
 
       it('should fail if the given element has multiple of the provided attributes', () => {
         body.innerHTML =
-          '<div data-test-id="my-div" style="color: red; background: blue" class="my-class"/>';
+          '<div data-test-id="my-div" style="background: blue; color: red" class="my-class"/>';
         const node = body.firstChild;
 
         expect(
@@ -1118,13 +1118,13 @@ describe('unexpected-dom', () => {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
           'to throw',
-          'expected <div class="my-class" data-test-id="my-div" style="color: red; background: blue"></div>\n' +
+          'expected <div class="my-class" data-test-id="my-div" style="background: blue; color: red"></div>\n' +
             "not to have attributes [ 'data-test-id', 'class' ]\n" +
             '\n' +
             '<div\n' +
             '  class="my-class" // should be removed\n' +
             '  data-test-id="my-div" // should be removed\n' +
-            '  style="color: red; background: blue"\n' +
+            '  style="background: blue; color: red"\n' +
             '></div>'
         );
       });
@@ -2764,7 +2764,7 @@ describe('unexpected-dom', () => {
       },
       'to throw',
       'expected\n' +
-        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">\n' +
+        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="bottom: auto; display: block; left: 0px; top: 0px">\n' +
         '  <li class="selected" data-index="0">\n' +
         '    <span class="before"></span>\n' +
         '    <strong class="match">...</strong>\n' +
@@ -2782,7 +2782,7 @@ describe('unexpected-dom', () => {
         '  children: [ { attributes: ..., children: ... }, { attributes: ..., children: ... } ]\n' +
         '}\n' +
         '\n' +
-        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="display: block; bottom: auto; top: 0px; left: 0px">\n' +
+        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="bottom: auto; display: block; left: 0px; top: 0px">\n' +
         '  <li class="selected" data-index="0">\n' +
         '    <span class="before"></span>\n' +
         '    <strong class="match">...</strong>\n' +

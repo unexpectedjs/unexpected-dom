@@ -101,6 +101,7 @@ function validateStyles(expect, str) {
 
 function styleStringToObject(str) {
   const styles = {};
+  const outputStyles = {};
 
   str.split(';').forEach(rule => {
     const tuple = rule.split(':').map(part => part.trim());
@@ -110,7 +111,13 @@ function styleStringToObject(str) {
     }
   });
 
-  return styles;
+  const styleNames = Object.keys(styles).sort();
+
+  styleNames.forEach(styleName => {
+    outputStyles[styleName] = styles[styleName];
+  });
+
+  return outputStyles;
 }
 
 function getClassNamesFromAttributeValue(attributeValue) {
