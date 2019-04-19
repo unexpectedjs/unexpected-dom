@@ -20,7 +20,7 @@ expect(element, 'to match', '[data-test-id=approve]');
 
 ```output
 expected
-<button class="primary" data-test-id="publish" disabled>
+<button data-test-id="publish" class="primary" disabled>
   Publish
 </button>
 to match '[data-test-id=approve]'

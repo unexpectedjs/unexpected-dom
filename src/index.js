@@ -164,19 +164,6 @@ function getAttributes(element) {
   return result;
 }
 
-function getCanonicalAttributes(element) {
-  const attrs = getAttributes(element);
-  const result = {};
-
-  Object.keys(attrs)
-    .sort()
-    .forEach(key => {
-      result[key] = attrs[key];
-    });
-
-  return result;
-}
-
 function entitify(value) {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -226,12 +213,11 @@ function stringifyAttribute(attributeName, value) {
 }
 
 function stringifyStartTag(element) {
-  const elementName =
-    element.ownerDocument.contentType === 'text/html'
-      ? element.nodeName.toLowerCase()
-      : element.nodeName;
+  const elementName = isInsideHtmlDocument(element)
+    ? element.nodeName.toLowerCase()
+    : element.nodeName;
   let str = `<${elementName}`;
-  const attrs = getCanonicalAttributes(element);
+  const attrs = getAttributes(element);
 
   Object.keys(attrs).forEach(key => {
     str += ` ${stringifyAttribute(key, attrs[key])}`;
@@ -476,7 +462,7 @@ module.exports = {
       name: 'HTMLDocument',
       base: 'DOMDocument',
       identify(obj) {
-        return this.baseType.identify(obj) && obj.contentType === 'text/html';
+        return this.baseType.identify(obj) && isInsideHtmlDocument(obj);
       }
     });
 
@@ -484,10 +470,7 @@ module.exports = {
       name: 'XMLDocument',
       base: 'DOMDocument',
       identify(obj) {
-        return (
-          this.baseType.identify(obj) &&
-          /^(?:application|text)\/xml|\+xml\b/.test(obj.contentType)
-        );
+        return this.baseType.identify(obj) && !isInsideHtmlDocument(obj);
       },
       inspect(document, depth, output, inspect) {
         output.code('<?xml version="1.0"?>', 'xml');
@@ -818,7 +801,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMNodeList> to [exhaustively] satisfy <string>',
       (expect, subject, value) => {
-        const isHtml = subject.ownerDocument.contentType === 'text/html';
+        const isHtml = isInsideHtmlDocument(subject);
 
         expect.argsOutput = output =>
           output.code(value, isHtml ? 'html' : 'xml');
@@ -834,7 +817,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMNodeList> to [exhaustively] satisfy <DOMNodeList>',
       (expect, subject, value) => {
-        const isHtml = subject.ownerDocument.contentType === 'text/html';
+        const isHtml = isInsideHtmlDocument(subject);
         const satisfySpecs = [];
         for (let i = 0; i < value.length; i += 1) {
           satisfySpecs.push(convertDOMNodeToSatisfySpec(value[i], isHtml));
@@ -862,7 +845,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMDocumentFragment> to [exhaustively] satisfy <DOMDocumentFragment>',
       (expect, subject, { childNodes }) => {
-        const isHtml = subject.ownerDocument.contentType === 'text/html';
+        const isHtml = isInsideHtmlDocument(subject);
         return expect(
           subject,
           'to [exhaustively] satisfy',
@@ -978,12 +961,18 @@ module.exports = {
                   'The children and textContent properties are not supported together'
                 );
               }
+
+              let contentType = subject.ownerDocument.contentType;
+              if (!contentType) {
+                // provide a value in the absence of a contentType (IE11)
+                contentType = isInsideHtmlDocument(subject)
+                  ? 'text/html'
+                  : 'application/xml';
+              }
+
               return bubbleError(() =>
                 expect(
-                  makeAttachedDOMNodeList(
-                    subject.childNodes,
-                    subject.ownerDocument.contentType
-                  ),
+                  makeAttachedDOMNodeList(subject.childNodes, contentType),
                   'to satisfy',
                   value.children
                 )
@@ -1596,7 +1585,9 @@ module.exports = {
 
     function findMatchesWithGoodScore(data, spec) {
       const elements =
-        typeof data.length === 'number' ? Array.from(data) : [data];
+        typeof data.length === 'number'
+          ? Array.prototype.slice.call(data)
+          : [data];
 
       const result = [];
       let bestScore = 0;
