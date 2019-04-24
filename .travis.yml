@@ -1,36 +1,38 @@
-services:
-  - docker
-sudo: required
 language: node_js
-cache:
-  directories:
-    - node_modules
+
+env:
+  - TARGET=test
+
 node_js:
   - '6'
-  - '8'
+  - '8.7.0'
+  - '9'
   - '10'
-  - 'node'
+
+matrix:
+  include:
+  - name: Lint
+    node_js: '8.7.0'
+    env:
+      - TARGET=lint
+  - name: Coverage
+    node_js: '8.7.0'
+    env:
+      - TARGET=coverage
+  - name: BrowserStack IE11
+    node_js: '8.7.0'
+    env:
+      - TARGET=test-browser
+      - BROWSER=ie11
+  - name: Chrome headless
+    node_js: '8.7.0'
+    env:
+      - TARGET=test-browser
+      - BROWSER=ChromeHeadless
 
 addons:
   chrome: stable
-  apt:
-    packages:
-      - gcc-4.8
-      - g++-4.8
-env: CXX="g++-4.8" CC="gcc-4.8"
 
-script: 'npm run ci'
+script: npm run $TARGET
+
 after_success: '<coverage/lcov.info ./node_modules/coveralls/bin/coveralls.js'
-
-# jsdom 3.x fails on these, but jsdom 4.x+ fails on those below :(((
-matrix:
-  allow_failures:
-    - node_js: '3'
-    - node_js: '4'
-  include:
-  - name: BrowserStack IE11
-    node_js: '8'
-    env: BROWSER=ie11
-  - name: Chrome headless
-    node_js: "8"
-    env: BROWSER=ChromeHeadless
