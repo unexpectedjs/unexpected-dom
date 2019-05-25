@@ -99,6 +99,14 @@ function validateStyles(expect, str) {
   }
 }
 
+function removeValueFromArray(array, value) {
+  const indexOfValue = array.indexOf(value);
+  if (indexOfValue > -1) {
+    array.splice(indexOfValue, 1);
+  }
+  return array;
+}
+
 function styleStringToObject(str) {
   const styles = {};
 
@@ -1324,6 +1332,52 @@ module.exports = {
 
         value.forEach(name => {
           delete attributes[name];
+        });
+
+        return expect(subject, 'to only have attributes', attributes);
+      }
+    );
+
+    expect.exportAssertion(
+      '<DOMElement> not to have (attribute|attributes) <object>',
+      (expect, subject, value) => {
+        const isHtml = isInsideHtmlDocument(subject);
+        const attributes = getAttributes(subject);
+
+        Object.keys(value).forEach(attributeName => {
+          let attributeValue = value[attributeName];
+
+          if (attributeName === 'class') {
+            if (typeof attributeValue === 'string') {
+              attributeValue = getClassNamesFromAttributeValue(attributeValue);
+            }
+            if (Array.isArray(attributeValue)) {
+              attributeValue.forEach(namedValue =>
+                removeValueFromArray(attributes[attributeName], namedValue)
+              );
+            }
+          } else if (attributeName === 'style') {
+            if (attributeValue === 'string') {
+              attributeValue = styleStringToObject(attributeValue);
+            }
+            if (typeof attributeValue === 'object' && attributeValue) {
+              Object.keys(attributeValue).forEach(namedValue => {
+                const actual = (attributes[attributeName] || {})[namedValue];
+                const expected = attributeValue[namedValue];
+                if (actual === expected) {
+                  delete attributes[attributeName][namedValue];
+                }
+              });
+            }
+          } else if (isHtml && isBooleanAttribute(attributeName)) {
+            if (attributeValue) {
+              delete attributes[attributeName];
+            } else {
+              attributes[attributeName] = true;
+            }
+          } else {
+            throw new Error('TODO');
+          }
         });
 
         return expect(subject, 'to only have attributes', attributes);

@@ -1038,7 +1038,129 @@ describe('unexpected-dom', () => {
     });
   });
 
-  describe('not to have attributes', () => {
+  describe('not to have attributes <object>', () => {
+    describe('class attributes', () => {
+      it('should work with string classes', function() {
+        this.body.innerHTML = '<i class="foo bar baz"></i>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              class: 'foo bar'
+            }),
+          'to throw'
+        );
+      });
+
+      it('should work with array classes', function() {
+        this.body.innerHTML = '<i class="foo bar baz"></i>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              class: ['foo', 'bar']
+            }),
+          'to throw'
+        );
+      });
+    });
+
+    describe('style attributes', () => {
+      it('should throw when the style is present', function() {
+        this.body.innerHTML = '<i style="color: #000"></i>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              style: {
+                color: '#000'
+              }
+            }),
+          'to throw'
+        );
+      });
+
+      it('should not throw when the style is present', function() {
+        this.body.innerHTML = '<i style="color: #fff"></i>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              style: {
+                color: '#000'
+              }
+            }),
+          'not to throw'
+        );
+      });
+
+      it('should throw when the style is totally missing', function() {
+        this.body.innerHTML = '<i></i>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              style: {
+                color: '#000'
+              }
+            }),
+          'not to throw'
+        );
+      });
+    });
+
+    describe('boolean attributes', () => {
+      it('should throw on true presence', function() {
+        this.body.innerHTML = '<button disabled></button>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              disabled: true
+            }),
+          'to throw'
+        );
+      });
+
+      it('should not throw on true absence', function() {
+        this.body.innerHTML = '<button></button>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              disabled: true
+            }),
+          'not to throw'
+        );
+      });
+
+      it('should throw on false absence', function() {
+        this.body.innerHTML = '<button></button>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              disabled: false
+            }),
+          'to throw'
+        );
+      });
+
+      it('should not throw on false presence', function() {
+        this.body.innerHTML = '<button></button>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              disabled: true
+            }),
+          'not to throw'
+        );
+      });
+    });
+  });
+
+  describe('not to have attributes <array>', () => {
     describe('when given one of more strings', () => {
       it('should pass if the given element does not have any the provided attribute names', () => {
         body.innerHTML = '<div style="background: blue; color: red" />';
