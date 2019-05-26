@@ -1158,6 +1158,44 @@ describe('unexpected-dom', () => {
         );
       });
     });
+
+    describe('string attributes', () => {
+      it('should throw on string presence', function() {
+        this.body.innerHTML = '<i data-foo="bar"></i>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              'data-foo': 'bar'
+            }),
+          'to throw'
+        );
+      });
+
+      it('should not throw on string being different', function() {
+        this.body.innerHTML = '<i data-foo="bar"></i>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              'data-foo': 'baz'
+            }),
+          'not to throw'
+        );
+      });
+
+      it('should not throw on string being absent', function() {
+        this.body.innerHTML = '<i></i>';
+
+        expect(
+          () =>
+            expect(this.body.firstChild, 'not to have attributes', {
+              'data-foo': 'baz'
+            }),
+          'not to throw'
+        );
+      });
+    });
   });
 
   describe('not to have attributes <array>', () => {

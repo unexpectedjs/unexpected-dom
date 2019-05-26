@@ -1376,7 +1376,10 @@ module.exports = {
               attributes[attributeName] = true;
             }
           } else {
-            throw new Error('TODO');
+            const actualValue = attributes[attributeName];
+            if (actualValue && actualValue === attributeValue) {
+              delete attributes[attributeName];
+            }
           }
         });
 
