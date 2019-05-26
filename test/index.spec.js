@@ -1048,7 +1048,8 @@ describe('unexpected-dom', () => {
             expect(this.body.firstChild, 'not to have attributes', {
               class: 'foo bar'
             }),
-          'to throw'
+          'to throw',
+          /^expected/
         );
       });
 
@@ -1060,7 +1061,8 @@ describe('unexpected-dom', () => {
             expect(this.body.firstChild, 'not to have attributes', {
               class: ['foo', 'bar']
             }),
-          'to throw'
+          'to throw',
+          /^expected/
         );
       });
     });
@@ -1076,7 +1078,8 @@ describe('unexpected-dom', () => {
                 color: '#000'
               }
             }),
-          'to throw'
+          'to throw',
+          /^expected/
         );
       });
 
@@ -1118,7 +1121,8 @@ describe('unexpected-dom', () => {
             expect(this.body.firstChild, 'not to have attributes', {
               disabled: true
             }),
-          'to throw'
+          'to throw',
+          /^expected/
         );
       });
 
@@ -1142,7 +1146,8 @@ describe('unexpected-dom', () => {
             expect(this.body.firstChild, 'not to have attributes', {
               disabled: false
             }),
-          'to throw'
+          'to throw',
+          /^expected/
         );
       });
 
@@ -1168,7 +1173,8 @@ describe('unexpected-dom', () => {
             expect(this.body.firstChild, 'not to have attributes', {
               'data-foo': 'bar'
             }),
-          'to throw'
+          'to throw',
+          /^expected/
         );
       });
 
