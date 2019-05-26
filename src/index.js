@@ -711,9 +711,9 @@ module.exports = {
     });
 
     expect.exportAssertion(
-      '<DOMElement> to have (class|classes) <array|string>',
+      '<DOMElement> [not] to have (class|classes) <array|string>',
       (expect, subject, value) =>
-        expect(subject, 'to have attributes', { class: value })
+        expect(subject, '[not] to have attributes', { class: value })
     );
 
     expect.exportAssertion(
