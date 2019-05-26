@@ -99,6 +99,14 @@ function validateStyles(expect, str) {
   }
 }
 
+function removeValueFromArray(array, value) {
+  const indexOfValue = array.indexOf(value);
+  if (indexOfValue > -1) {
+    array.splice(indexOfValue, 1);
+  }
+  return array;
+}
+
 function styleStringToObject(str) {
   const styles = {};
 
@@ -722,6 +730,23 @@ module.exports = {
             );
           })
         })
+    );
+
+    expect.exportAssertion(
+      '<DOMElement> not to have (class|classes) <array|string>',
+      (expect, subject, value) => {
+        const expectedClasses = getAttributes(subject).class;
+
+        if (typeof value === 'string') {
+          value = getClassNamesFromAttributeValue(value);
+        }
+
+        value.forEach(namedValue =>
+          removeValueFromArray(expectedClasses, namedValue)
+        );
+
+        return expect(subject, 'to only have classes', expectedClasses);
+      }
     );
 
     expect.exportAssertion(
