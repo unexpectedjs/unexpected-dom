@@ -92,7 +92,7 @@ describe('unexpected-dom', () => {
     expect(
       '<!DOCTYPE html><html><head></head><BODY></BODY></html>',
       'when parsed as HTML',
-      'to inspect as',
+      'to inspect as snapshot',
       '<!DOCTYPE html><html><head></head><body></body></html>'
     );
   });
