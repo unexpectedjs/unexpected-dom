@@ -470,7 +470,7 @@ describe('unexpected-dom', () => {
               '\n' +
               '<button\n' +
               '  disabled\n' +
-              "  class=\"bar quux\" // expected [ 'bar', 'quux' ] to equal [ 'bar' ]\n" +
+              "  class=\"bar quux\" // expected [ 'bar', 'quux' ] not to contain 'quux'\n" +
               '                   //\n' +
               '                   // [\n' +
               "                   //   'bar',\n" +
