@@ -446,6 +446,44 @@ describe('unexpected-dom', () => {
       });
     });
 
+    describe('with the "not" flag', () => {
+      describe('with a single class passed as a string', () => {
+        it('should succeed', () => {
+          body.innerHTML =
+            '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
+          expect(body.firstChild, 'not to have class', 'foo');
+        });
+
+        it('should fail with a diff', () => {
+          body.innerHTML =
+            '<button disabled class="bar quux" id="foo" data-info="baz">Press me</button>';
+          expect(
+            () => {
+              expect(body.firstChild, 'not to have class', 'quux');
+            },
+            'to throw',
+            'expected\n' +
+              '<button disabled class="bar quux" id="foo" data-info="baz">\n' +
+              '  Press me\n' +
+              '</button>\n' +
+              "not to have class 'quux'\n" +
+              '\n' +
+              '<button\n' +
+              '  disabled\n' +
+              "  class=\"bar quux\" // expected [ 'bar', 'quux' ] not to contain 'quux'\n" +
+              '                   //\n' +
+              '                   // [\n' +
+              "                   //   'bar',\n" +
+              "                   //   'quux' // should be removed\n" +
+              '                   // ]\n' +
+              '  id="foo"\n' +
+              '  data-info="baz"\n' +
+              '>Press me</button>'
+          );
+        });
+      });
+    });
+
     describe('with the "only" flag', () => {
       describe('with a single class passed as a string', () => {
         it('should succeed', () => {
