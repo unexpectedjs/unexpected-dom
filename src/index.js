@@ -99,14 +99,6 @@ function validateStyles(expect, str) {
   }
 }
 
-function removeValueFromArray(array, value) {
-  const indexOfValue = array.indexOf(value);
-  if (indexOfValue > -1) {
-    array.splice(indexOfValue, 1);
-  }
-  return array;
-}
-
 function styleStringToObject(str) {
   const styles = {};
 
