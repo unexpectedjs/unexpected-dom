@@ -811,9 +811,7 @@ module.exports = {
         return node;
       } else {
         throw new Error(
-          `to satisfy: Node type ${
-            node.nodeType
-          } is not yet supported in the value`
+          `to satisfy: Node type ${node.nodeType} is not yet supported in the value`
         );
       }
     }
