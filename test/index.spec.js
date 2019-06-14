@@ -3652,15 +3652,18 @@ describe('unexpected-dom', () => {
     });
 
     it('shows a diff if the given structure is present', () => {
-      expect(() => {
-        expect(
-          parseHtmlNode(
-            '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>'
-          ),
-          'not to contain',
-          '<span data-test-id="name">Jane Doe</span>'
-        );
-      }, 'to throw an error satisfying to equal snapshot', expect.unindent`
+      expect(
+        () => {
+          expect(
+            parseHtmlNode(
+              '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>'
+            ),
+            'not to contain',
+            '<span data-test-id="name">Jane Doe</span>'
+          );
+        },
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
         expected
         <div>
           <i>Hello</i>
@@ -3678,7 +3681,8 @@ describe('unexpected-dom', () => {
         <span class="name something-else" data-test-id="name">
           Jane Doe
         </span>
-      `);
+      `
+      );
     });
   });
 });
