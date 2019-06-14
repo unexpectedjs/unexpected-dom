@@ -9,6 +9,16 @@ it.skipIf = function(bool, descr, block) {
 };
 
 expect.addAssertion(
+  '<function> to throw an error satisfying <assertion>',
+  (expect, cb) =>
+    expect(cb, 'to throw').then(err =>
+      expect.shift(
+        err.isUnexpected ? err.getErrorMessage('text').toString() : err.message
+      )
+    )
+);
+
+expect.addAssertion(
   '<any> to inspect as <string>',
   (expect, subject, value) => {
     if (typeof subject === 'string') {
@@ -101,7 +111,7 @@ describe('unexpected-dom', () => {
     expect(
       '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>',
       'when parsed as XML',
-      'to inspect as',
+      'to inspect as snapshot',
       '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>'
     );
   });
@@ -110,7 +120,7 @@ describe('unexpected-dom', () => {
     expect(
       '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->',
       'when parsed as HTML',
-      'to inspect as',
+      'to inspect as snapshot',
       '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
     );
   });
@@ -232,21 +242,23 @@ describe('unexpected-dom', () => {
                 )
               );
             },
-            'to throw',
-            'expected \'<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>\'\n' +
-              'when parsed as HTML to satisfy <!DOCTYPE html><html><head></head><body class="foo"></body></html>\n' +
-              '  expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>\n' +
-              '  to satisfy <!DOCTYPE html><html><head></head><body class="foo"></body></html>\n' +
-              '\n' +
-              '  <!DOCTYPE html>\n' +
-              '  <html>\n' +
-              '    <head></head>\n' +
-              '    <body\n' +
-              "      class=\"bar\" // expected [ 'bar' ] to contain 'foo'\n" +
-              '    >\n' +
-              '      foo // should be removed\n' +
-              '    </body>\n' +
-              '  </html>'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+              expected '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>'
+              when parsed as HTML to satisfy <!DOCTYPE html><html><head></head><body class="foo"></body></html>
+                expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>
+                to satisfy <!DOCTYPE html><html><head></head><body class="foo"></body></html>
+
+                <!DOCTYPE html>
+                <html>
+                  <head></head>
+                  <body
+                    class="bar" // expected [ 'bar' ] to contain 'foo'
+                  >
+                    foo // should be removed
+                  </body>
+                </html>
+            `
           );
         });
       });
@@ -269,21 +281,23 @@ describe('unexpected-dom', () => {
                 '<!DOCTYPE html><html><head></head><body class="foo"></body></html>'
               );
             },
-            'to throw',
-            'expected \'<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>\'\n' +
-              'when parsed as HTML to satisfy \'<!DOCTYPE html><html><head></head><body class="foo"></body></html>\'\n' +
-              '  expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>\n' +
-              '  to satisfy \'<!DOCTYPE html><html><head></head><body class="foo"></body></html>\'\n' +
-              '\n' +
-              '  <!DOCTYPE html>\n' +
-              '  <html>\n' +
-              '    <head></head>\n' +
-              '    <body\n' +
-              "      class=\"bar\" // expected [ 'bar' ] to contain 'foo'\n" +
-              '    >\n' +
-              '      foo // should be removed\n' +
-              '    </body>\n' +
-              '  </html>'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>'
+            when parsed as HTML to satisfy '<!DOCTYPE html><html><head></head><body class="foo"></body></html>'
+              expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>
+              to satisfy '<!DOCTYPE html><html><head></head><body class="foo"></body></html>'
+
+              <!DOCTYPE html>
+              <html>
+                <head></head>
+                <body
+                  class="bar" // expected [ 'bar' ] to contain 'foo'
+                >
+                  foo // should be removed
+                </body>
+              </html>
+          `
           );
         });
       });
@@ -353,11 +367,13 @@ describe('unexpected-dom', () => {
         () => {
           expect(theDocument.body, 'to have text', 'bar');
         },
-        'to throw',
-        "expected <body><div>foo</div></body> to have text 'bar'\n" +
-          '\n' +
-          '-foo\n' +
-          '+bar'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <body><div>foo</div></body> to have text 'bar'
+
+        -foo
+        +bar
+      `
       );
     });
 
@@ -375,12 +391,14 @@ describe('unexpected-dom', () => {
         () => {
           expect(body.firstChild, 'to have class', 'foo');
         },
-        'to throw',
-        "expected <button>Press me</button> to have class 'foo'\n" +
-          '\n' +
-          '<button\n' +
-          "  // missing class should satisfy 'foo'\n" +
-          '>Press me</button>'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <button>Press me</button> to have class 'foo'
+
+        <button
+          // missing class should satisfy 'foo'
+        >Press me</button>
+      `
       );
     });
 
@@ -398,19 +416,21 @@ describe('unexpected-dom', () => {
           () => {
             expect(body.firstChild, 'to have class', 'quux');
           },
-          'to throw',
-          'expected\n' +
-            '<button disabled class="bar" id="foo" data-info="baz">\n' +
-            '  Press me\n' +
-            '</button>\n' +
-            "to have class 'quux'\n" +
-            '\n' +
-            '<button\n' +
-            '  disabled\n' +
-            "  class=\"bar\" // expected [ 'bar' ] to contain 'quux'\n" +
-            '  id="foo"\n' +
-            '  data-info="baz"\n' +
-            '>Press me</button>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected
+          <button disabled class="bar" id="foo" data-info="baz">
+            Press me
+          </button>
+          to have class 'quux'
+
+          <button
+            disabled
+            class="bar" // expected [ 'bar' ] to contain 'quux'
+            id="foo"
+            data-info="baz"
+          >Press me</button>
+        `
         );
       });
     });
@@ -429,19 +449,21 @@ describe('unexpected-dom', () => {
           () => {
             expect(body.firstChild, 'to have classes', ['quux', 'bar']);
           },
-          'to throw',
-          'expected\n' +
-            '<button disabled class="bar" id="foo" data-info="baz">\n' +
-            '  Press me\n' +
-            '</button>\n' +
-            "to have classes [ 'quux', 'bar' ]\n" +
-            '\n' +
-            '<button\n' +
-            '  disabled\n' +
-            "  class=\"bar\" // expected [ 'bar' ] to contain 'quux', 'bar'\n" +
-            '  id="foo"\n' +
-            '  data-info="baz"\n' +
-            '>Press me</button>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected
+          <button disabled class="bar" id="foo" data-info="baz">
+            Press me
+          </button>
+          to have classes [ 'quux', 'bar' ]
+
+          <button
+            disabled
+            class="bar" // expected [ 'bar' ] to contain 'quux', 'bar'
+            id="foo"
+            data-info="baz"
+          >Press me</button>
+        `
         );
       });
     });
@@ -461,24 +483,26 @@ describe('unexpected-dom', () => {
             () => {
               expect(body.firstChild, 'not to have class', 'quux');
             },
-            'to throw',
-            'expected\n' +
-              '<button disabled class="bar quux" id="foo" data-info="baz">\n' +
-              '  Press me\n' +
-              '</button>\n' +
-              "not to have class 'quux'\n" +
-              '\n' +
-              '<button\n' +
-              '  disabled\n' +
-              "  class=\"bar quux\" // expected [ 'bar', 'quux' ] not to contain 'quux'\n" +
-              '                   //\n' +
-              '                   // [\n' +
-              "                   //   'bar',\n" +
-              "                   //   'quux' // should be removed\n" +
-              '                   // ]\n' +
-              '  id="foo"\n' +
-              '  data-info="baz"\n' +
-              '>Press me</button>'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected
+            <button disabled class="bar quux" id="foo" data-info="baz">
+              Press me
+            </button>
+            not to have class 'quux'
+
+            <button
+              disabled
+              class="bar quux" // expected [ 'bar', 'quux' ] not to contain 'quux'
+                               //
+                               // [
+                               //   'bar',
+                               //   'quux' // should be removed
+                               // ]
+              id="foo"
+              data-info="baz"
+            >Press me</button>
+          `
           );
         });
       });
@@ -499,24 +523,26 @@ describe('unexpected-dom', () => {
             () => {
               expect(body.firstChild, 'to only have class', 'quux');
             },
-            'to throw',
-            'expected\n' +
-              '<button disabled class="bar quux" id="foo" data-info="baz">\n' +
-              '  Press me\n' +
-              '</button>\n' +
-              "to only have class 'quux'\n" +
-              '\n' +
-              '<button\n' +
-              '  disabled\n' +
-              "  class=\"bar quux\" // expected [ 'bar', 'quux' ] to equal [ 'quux' ]\n" +
-              '                   //\n' +
-              '                   // [\n' +
-              "                   //   'bar', // should be removed\n" +
-              "                   //   'quux'\n" +
-              '                   // ]\n' +
-              '  id="foo"\n' +
-              '  data-info="baz"\n' +
-              '>Press me</button>'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected
+            <button disabled class="bar quux" id="foo" data-info="baz">
+              Press me
+            </button>
+            to only have class 'quux'
+
+            <button
+              disabled
+              class="bar quux" // expected [ 'bar', 'quux' ] to equal [ 'quux' ]
+                               //
+                               // [
+                               //   'bar', // should be removed
+                               //   'quux'
+                               // ]
+              id="foo"
+              data-info="baz"
+            >Press me</button>
+          `
           );
         });
       });
@@ -535,25 +561,27 @@ describe('unexpected-dom', () => {
             () => {
               expect(body.firstChild, 'to only have classes', ['quux', 'bar']);
             },
-            'to throw',
-            'expected\n' +
-              '<button disabled class="bar quux foo" id="foo" data-info="baz">\n' +
-              '  Press me\n' +
-              '</button>\n' +
-              "to only have classes [ 'bar', 'quux' ]\n" +
-              '\n' +
-              '<button\n' +
-              '  disabled\n' +
-              "  class=\"bar quux foo\" // expected [ 'bar', 'foo', 'quux' ] to equal [ 'bar', 'quux' ]\n" +
-              '                       //\n' +
-              '                       // [\n' +
-              "                       //   'bar',\n" +
-              "                       //   'foo', // should be removed\n" +
-              "                       //   'quux'\n" +
-              '                       // ]\n' +
-              '  id="foo"\n' +
-              '  data-info="baz"\n' +
-              '>Press me</button>'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected
+            <button disabled class="bar quux foo" id="foo" data-info="baz">
+              Press me
+            </button>
+            to only have classes [ 'bar', 'quux' ]
+
+            <button
+              disabled
+              class="bar quux foo" // expected [ 'bar', 'foo', 'quux' ] to equal [ 'bar', 'quux' ]
+                                   //
+                                   // [
+                                   //   'bar',
+                                   //   'foo', // should be removed
+                                   //   'quux'
+                                   // ]
+              id="foo"
+              data-info="baz"
+            >Press me</button>
+          `
           );
         });
       });
@@ -585,19 +613,21 @@ describe('unexpected-dom', () => {
           () => {
             expect(el, 'to only have attributes', 'id');
           },
-          'to throw',
-          'expected\n' +
-            '<button disabled class="bar" id="foo" data-info="baz">\n' +
-            '  Press me\n' +
-            '</button>\n' +
-            "to only have attributes 'id'\n" +
-            '\n' +
-            '<button\n' +
-            '  disabled // should be removed\n' +
-            '  class="bar" // should be removed\n' +
-            '  id="foo"\n' +
-            '  data-info="baz" // should be removed\n' +
-            '>Press me</button>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected
+          <button disabled class="bar" id="foo" data-info="baz">
+            Press me
+          </button>
+          to only have attributes 'id'
+
+          <button
+            disabled // should be removed
+            class="bar" // should be removed
+            id="foo"
+            data-info="baz" // should be removed
+          >Press me</button>
+        `
         );
       });
 
@@ -623,20 +653,22 @@ describe('unexpected-dom', () => {
           () => {
             expect(el, 'to have attributes', 'id', 'foo');
           },
-          'to throw',
-          'expected\n' +
-            '<button disabled class="bar" id="foo" data-info="baz">\n' +
-            '  Press me\n' +
-            '</button>\n' +
-            "to have attributes 'id', 'foo'\n" +
-            '\n' +
-            '<button\n' +
-            '  disabled\n' +
-            '  class="bar"\n' +
-            '  id="foo"\n' +
-            '  data-info="baz"\n' +
-            '  // missing foo\n' +
-            '>Press me</button>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected
+          <button disabled class="bar" id="foo" data-info="baz">
+            Press me
+          </button>
+          to have attributes 'id', 'foo'
+
+          <button
+            disabled
+            class="bar"
+            id="foo"
+            data-info="baz"
+            // missing foo
+          >Press me</button>
+        `
         );
       });
     });
@@ -663,19 +695,21 @@ describe('unexpected-dom', () => {
           () => {
             expect(el, 'to only have attributes', ['id']);
           },
-          'to throw',
-          'expected\n' +
-            '<button disabled class="bar" id="foo" data-info="baz">\n' +
-            '  Press me\n' +
-            '</button>\n' +
-            "to only have attributes [ 'id' ]\n" +
-            '\n' +
-            '<button\n' +
-            '  disabled // should be removed\n' +
-            '  class="bar" // should be removed\n' +
-            '  id="foo"\n' +
-            '  data-info="baz" // should be removed\n' +
-            '>Press me</button>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected
+          <button disabled class="bar" id="foo" data-info="baz">
+            Press me
+          </button>
+          to only have attributes [ 'id' ]
+
+          <button
+            disabled // should be removed
+            class="bar" // should be removed
+            id="foo"
+            data-info="baz" // should be removed
+          >Press me</button>
+        `
         );
       });
 
@@ -695,20 +729,22 @@ describe('unexpected-dom', () => {
           () => {
             expect(el, 'to have attributes', ['id', 'foo']);
           },
-          'to throw',
-          'expected\n' +
-            '<button disabled class="bar" id="foo" data-info="baz">\n' +
-            '  Press me\n' +
-            '</button>\n' +
-            "to have attributes [ 'id', 'foo' ]\n" +
-            '\n' +
-            '<button\n' +
-            '  disabled\n' +
-            '  class="bar"\n' +
-            '  id="foo"\n' +
-            '  data-info="baz"\n' +
-            '  // missing foo\n' +
-            '>Press me</button>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected
+          <button disabled class="bar" id="foo" data-info="baz">
+            Press me
+          </button>
+          to have attributes [ 'id', 'foo' ]
+
+          <button
+            disabled
+            class="bar"
+            id="foo"
+            data-info="baz"
+            // missing foo
+          >Press me</button>
+        `
         );
       });
 
@@ -728,13 +764,15 @@ describe('unexpected-dom', () => {
             () => {
               expect(el, 'to have attributes', { quux: undefined });
             },
-            'to throw',
-            'expected <button id="foo" quux="baz">Press me</button> to have attributes { quux: undefined }\n' +
-              '\n' +
-              '<button\n' +
-              '  id="foo"\n' +
-              '  quux="baz" // should be removed\n' +
-              '>Press me</button>'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected <button id="foo" quux="baz">Press me</button> to have attributes { quux: undefined }
+
+            <button
+              id="foo"
+              quux="baz" // should be removed
+            >Press me</button>
+          `
           );
         });
       });
@@ -764,19 +802,21 @@ describe('unexpected-dom', () => {
               id: 'foo'
             });
           },
-          'to throw',
-          'expected\n' +
-            '<button disabled class="bar" id="foo" data-info="baz">\n' +
-            '  Press me\n' +
-            '</button>\n' +
-            "to only have attributes { id: 'foo' }\n" +
-            '\n' +
-            '<button\n' +
-            '  disabled // should be removed\n' +
-            '  class="bar" // should be removed\n' +
-            '  id="foo"\n' +
-            '  data-info="baz" // should be removed\n' +
-            '>Press me</button>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected
+          <button disabled class="bar" id="foo" data-info="baz">
+            Press me
+          </button>
+          to only have attributes { id: 'foo' }
+
+          <button
+            disabled // should be removed
+            class="bar" // should be removed
+            id="foo"
+            data-info="baz" // should be removed
+          >Press me</button>
+        `
         );
       });
 
@@ -802,20 +842,22 @@ describe('unexpected-dom', () => {
               foo: 'bar'
             });
           },
-          'to throw',
-          'expected\n' +
-            '<button disabled class="bar" id="foo" data-info="baz">\n' +
-            '  Press me\n' +
-            '</button>\n' +
-            "to have attributes { id: 'foo', foo: 'bar' }\n" +
-            '\n' +
-            '<button\n' +
-            '  disabled\n' +
-            '  class="bar"\n' +
-            '  id="foo"\n' +
-            '  data-info="baz"\n' +
-            "  // missing foo should equal 'bar'\n" +
-            '>Press me</button>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected
+          <button disabled class="bar" id="foo" data-info="baz">
+            Press me
+          </button>
+          to have attributes { id: 'foo', foo: 'bar' }
+
+          <button
+            disabled
+            class="bar"
+            id="foo"
+            data-info="baz"
+            // missing foo should equal 'bar'
+          >Press me</button>
+        `
         );
       });
 
@@ -838,12 +880,14 @@ describe('unexpected-dom', () => {
                 class: 'foo bar baz'
               });
             },
-            'to throw',
-            'expected <i class="bar"></i> to have attributes { class: \'foo bar baz\' }\n' +
-              '\n' +
-              '<i\n' +
-              "  class=\"bar\" // expected [ 'bar' ] to contain 'foo', 'bar', 'baz'\n" +
-              '></i>'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected <i class="bar"></i> to have attributes { class: 'foo bar baz' }
+
+            <i
+              class="bar" // expected [ 'bar' ] to contain 'foo', 'bar', 'baz'
+            ></i>
+          `
           );
         });
 
@@ -890,8 +934,23 @@ describe('unexpected-dom', () => {
                   class: 'foo baz'
                 });
               },
-              'to throw',
-              /to only have attributes \{ class: 'foo baz' \}/
+              'to throw an error satisfying to equal snapshot',
+              expect.unindent`
+              expected <i class="foo bar baz"></i> to only have attributes { class: 'foo baz' }
+
+              <i
+                class="foo bar baz" // expected [ 'bar', 'baz', 'foo' ] to equal [ 'baz', 'foo' ]
+                                    //
+                                    // [
+                                    //   'bar', // should equal 'baz'
+                                    //          //
+                                    //          // -bar
+                                    //          // +baz
+                                    //   'baz', // should be removed
+                                    //   'foo'
+                                    // ]
+              ></i>
+            `
             );
           });
 
@@ -905,8 +964,23 @@ describe('unexpected-dom', () => {
                   class: 'foo bar baz'
                 });
               },
-              'to throw',
-              /to only have attributes \{ class: 'foo bar baz' \}/
+              'to throw an error satisfying to equal snapshot',
+              expect.unindent`
+              expected <i class="foo baz"></i> to only have attributes { class: 'foo bar baz' }
+
+              <i
+                class="foo baz" // expected [ 'baz', 'foo' ] to equal [ 'bar', 'baz', 'foo' ]
+                                //
+                                // [
+                                //   'baz', // should equal 'bar'
+                                //          //
+                                //          // -baz
+                                //          // +bar
+                                //   // missing 'baz'
+                                //   'foo'
+                                // ]
+              ></i>
+            `
             );
           });
         });
@@ -951,8 +1025,19 @@ describe('unexpected-dom', () => {
                   style: 'background: blue'
                 });
               },
-              'to throw',
-              /to have attributes \{ style: 'background: blue' \}/
+              'to throw an error satisfying to equal snapshot',
+              expect.unindent`
+              expected <i style="color: red"></i> to have attributes { style: 'background: blue' }
+
+              <i
+                style="color: red" // expected { color: 'red' } to satisfy { background: 'blue' }
+                                   //
+                                   // {
+                                   //   color: 'red'
+                                   //   // missing background: 'blue'
+                                   // }
+              ></i>
+            `
             );
           });
 
@@ -991,8 +1076,19 @@ describe('unexpected-dom', () => {
                   }
                 });
               },
-              'to throw',
-              /to have attributes \{ style: \{ background: 'blue' \} \}/
+              'to throw an error satisfying to equal snapshot',
+              expect.unindent`
+              expected <i style="color: red"></i> to have attributes { style: { background: 'blue' } }
+
+              <i
+                style="color: red" // expected { color: 'red' } to satisfy { background: 'blue' }
+                                   //
+                                   // {
+                                   //   color: 'red'
+                                   //   // missing background: 'blue'
+                                   // }
+              ></i>
+            `
             );
           });
 
@@ -1037,8 +1133,20 @@ describe('unexpected-dom', () => {
                   style: 'background: blue'
                 });
               },
-              'to throw',
-              /to only have attributes \{ style: 'background: blue' \}/
+              'to throw an error satisfying to equal snapshot',
+              expect.unindent`
+              expected <i style="background: blue; color: red"></i>
+              to only have attributes { style: 'background: blue' }
+
+              <i
+                style="background: blue; color: red" // expected { background: 'blue', color: 'red' } to exhaustively satisfy { background: 'blue' }
+                                                     //
+                                                     // {
+                                                     //   background: 'blue',
+                                                     //   color: 'red' // should be removed
+                                                     // }
+              ></i>
+            `
             );
           });
 
@@ -1067,8 +1175,20 @@ describe('unexpected-dom', () => {
                   }
                 });
               },
-              'to throw',
-              /to only have attributes \{ style: \{ background: 'blue' \} \}/
+              'to throw an error satisfying to equal snapshot',
+              expect.unindent`
+              expected <i style="background: blue; color: red"></i>
+              to only have attributes { style: { background: 'blue' } }
+
+              <i
+                style="background: blue; color: red" // expected { background: 'blue', color: 'red' } to exhaustively satisfy { background: 'blue' }
+                                                     //
+                                                     // {
+                                                     //   background: 'blue',
+                                                     //   color: 'red' // should be removed
+                                                     // }
+              ></i>
+            `
             );
           });
         });
@@ -1094,14 +1214,16 @@ describe('unexpected-dom', () => {
           () => {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
-          'to throw',
-          'expected <div class="my-class" style="background: blue; color: red"></div>\n' +
-            "not to have attributes 'data-test-id', 'class'\n" +
-            '\n' +
-            '<div\n' +
-            '  class="my-class" // should be removed\n' +
-            '  style="background: blue; color: red"\n' +
-            '></div>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected <div class="my-class" style="background: blue; color: red"></div>
+          not to have attributes 'data-test-id', 'class'
+
+          <div
+            class="my-class" // should be removed
+            style="background: blue; color: red"
+          ></div>
+        `
         );
       });
 
@@ -1114,15 +1236,17 @@ describe('unexpected-dom', () => {
           () => {
             expect(node, 'not to have attributes', 'data-test-id', 'class');
           },
-          'to throw',
-          'expected <div class="my-class" style="background: blue; color: red" data-test-id="my-div"></div>\n' +
-            "not to have attributes 'data-test-id', 'class'\n" +
-            '\n' +
-            '<div\n' +
-            '  class="my-class" // should be removed\n' +
-            '  style="background: blue; color: red"\n' +
-            '  data-test-id="my-div" // should be removed\n' +
-            '></div>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected <div class="my-class" style="background: blue; color: red" data-test-id="my-div"></div>
+          not to have attributes 'data-test-id', 'class'
+
+          <div
+            class="my-class" // should be removed
+            style="background: blue; color: red"
+            data-test-id="my-div" // should be removed
+          ></div>
+        `
         );
       });
     });
@@ -1144,14 +1268,16 @@ describe('unexpected-dom', () => {
           () => {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
-          'to throw',
-          'expected <div class="my-class" style="background: blue; color: red"></div>\n' +
-            "not to have attributes [ 'data-test-id', 'class' ]\n" +
-            '\n' +
-            '<div\n' +
-            '  class="my-class" // should be removed\n' +
-            '  style="background: blue; color: red"\n' +
-            '></div>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected <div class="my-class" style="background: blue; color: red"></div>
+          not to have attributes [ 'data-test-id', 'class' ]
+
+          <div
+            class="my-class" // should be removed
+            style="background: blue; color: red"
+          ></div>
+        `
         );
       });
 
@@ -1164,15 +1290,17 @@ describe('unexpected-dom', () => {
           () => {
             expect(node, 'not to have attributes', ['data-test-id', 'class']);
           },
-          'to throw',
-          'expected <div class="my-class" style="background: blue; color: red" data-test-id="my-div"></div>\n' +
-            "not to have attributes [ 'data-test-id', 'class' ]\n" +
-            '\n' +
-            '<div\n' +
-            '  class="my-class" // should be removed\n' +
-            '  style="background: blue; color: red"\n' +
-            '  data-test-id="my-div" // should be removed\n' +
-            '></div>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected <div class="my-class" style="background: blue; color: red" data-test-id="my-div"></div>
+          not to have attributes [ 'data-test-id', 'class' ]
+
+          <div
+            class="my-class" // should be removed
+            style="background: blue; color: red"
+            data-test-id="my-div" // should be removed
+          ></div>
+        `
         );
       });
     });
@@ -1195,8 +1323,8 @@ describe('unexpected-dom', () => {
           () => {
             expect(el, 'to have no children');
           },
-          'to throw',
-          /^expected <div><p><\/p><\/div> to have no children/
+          'to throw an error satisfying to equal snapshot',
+          'expected <div><p></p></div> to have no children'
         );
       });
 
@@ -1208,8 +1336,8 @@ describe('unexpected-dom', () => {
           () => {
             expect(el, 'to have no children');
           },
-          'to throw',
-          /^expected <div><!-- Comment --><\/div> to have no children/
+          'to throw an error satisfying to equal snapshot',
+          'expected <div><!-- Comment --></div> to have no children'
         );
       });
 
@@ -1221,8 +1349,8 @@ describe('unexpected-dom', () => {
           () => {
             expect(el, 'to have no children');
           },
-          'to throw',
-          /^expected <div>I am a text<\/div> to have no children/
+          'to throw an error satisfying to equal snapshot',
+          'expected <div>I am a text</div> to have no children'
         );
       });
     });
@@ -1235,7 +1363,7 @@ describe('unexpected-dom', () => {
         () => {
           expect(body.firstChild, 'to satisfy', { foo: 'bar' });
         },
-        'to throw',
+        'to throw an error satisfying to equal snapshot',
         'Unsupported option: foo'
       );
     });
@@ -1282,14 +1410,16 @@ describe('unexpected-dom', () => {
                 ]
               });
             },
-            'to throw',
-            'expected <body><div draggable></div></body> to satisfy { children: [ { attributes: ... } ] }\n' +
-              '\n' +
-              '<body>\n' +
-              '  <div\n' +
-              "    draggable=\"true\" // Invalid expected value false. Supported values include: 'true', 'false'\n" +
-              '  ></div>\n' +
-              '</body>'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected <body><div draggable></div></body> to satisfy { children: [ { attributes: ... } ] }
+
+            <body>
+              <div
+                draggable="true" // Invalid expected value false. Supported values include: 'true', 'false'
+              ></div>
+            </body>
+          `
           );
         });
       });
@@ -1308,15 +1438,17 @@ describe('unexpected-dom', () => {
           () => {
             expect(body, 'to satisfy', { textContent: 'fooquux' });
           },
-          'to throw',
-          'expected <body><div foo="bar">foobarquux</div></body> to satisfy { textContent: \'fooquux\' }\n' +
-            '\n' +
-            '<body>\n' +
-            "  <div foo=\"bar\">foobarquux</div> // expected 'foobarquux' to equal 'fooquux'\n" +
-            '                                  //\n' +
-            '                                  // -foobarquux\n' +
-            '                                  // +fooquux\n' +
-            '</body>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected <body><div foo="bar">foobarquux</div></body> to satisfy { textContent: 'fooquux' }
+
+          <body>
+            <div foo="bar">foobarquux</div> // expected 'foobarquux' to equal 'fooquux'
+                                            //
+                                            // -foobarquux
+                                            // +fooquux
+          </body>
+        `
         );
       });
     });
@@ -1349,19 +1481,21 @@ describe('unexpected-dom', () => {
               ]
             );
           },
-          'to throw',
-          'expected \'<div foo="bar">foo<span>bar</span></div>\'\n' +
-            "when parsed as HTML fragment to satisfy [ { name: 'div', children: '<span>bar</span>foo' } ]\n" +
-            '  expected DocumentFragment[NodeList[ <div foo="bar">foo<span>...</span></div> ]]\n' +
-            "  to satisfy [ { name: 'div', children: '<span>bar</span>foo' } ]\n" +
-            '\n' +
-            '  NodeList[\n' +
-            '    <div foo="bar">\n' +
-            '      ┌─▷\n' +
-            '      │   foo\n' +
-            '      └── <span>bar</span> // should be moved\n' +
-            '    </div>\n' +
-            '  ]'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected '<div foo="bar">foo<span>bar</span></div>'
+          when parsed as HTML fragment to satisfy [ { name: 'div', children: '<span>bar</span>foo' } ]
+            expected DocumentFragment[NodeList[ <div foo="bar">foo<span>...</span></div> ]]
+            to satisfy [ { name: 'div', children: '<span>bar</span>foo' } ]
+
+            NodeList[
+              <div foo="bar">
+                ┌─▷
+                │   foo
+                └── <span>bar</span> // should be moved
+              </div>
+            ]
+        `
         );
       });
     });
@@ -1411,23 +1545,25 @@ describe('unexpected-dom', () => {
                 '<div>quux</div><div baz="quux">bar</div>'
               );
             },
-            'to throw',
-            "expected '<div>foo</div><div>bar</div>'\n" +
-              'when parsed as HTML fragment to satisfy \'<div>quux</div><div baz="quux">bar</div>\'\n' +
-              '  expected DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]\n' +
-              '  to satisfy <div>quux</div><div baz="quux">bar</div>\n' +
-              '\n' +
-              '  NodeList[\n' +
-              '    <div>\n' +
-              "      foo // should equal 'quux'\n" +
-              '          //\n' +
-              '          // -foo\n' +
-              '          // +quux\n' +
-              '    </div>,\n' +
-              '    <div\n' +
-              "      // missing baz should equal 'quux'\n" +
-              '    >bar</div>\n' +
-              '  ]'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected '<div>foo</div><div>bar</div>'
+            when parsed as HTML fragment to satisfy '<div>quux</div><div baz="quux">bar</div>'
+              expected DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]
+              to satisfy <div>quux</div><div baz="quux">bar</div>
+
+              NodeList[
+                <div>
+                  foo // should equal 'quux'
+                      //
+                      // -foo
+                      // +quux
+                </div>,
+                <div
+                  // missing baz should equal 'quux'
+                >bar</div>
+              ]
+          `
           );
         });
       });
@@ -1442,19 +1578,21 @@ describe('unexpected-dom', () => {
                 '<div foo="bar">foo</div><div>bar</div>'
               );
             },
-            'to throw',
-            'expected \'<div foo="bar" baz="quux">foo</div><div>bar</div>\'\n' +
-              'when parsed as HTML fragment to exhaustively satisfy \'<div foo="bar">foo</div><div>bar</div>\'\n' +
-              '  expected DocumentFragment[NodeList[ <div foo="bar" baz="quux">foo</div>, <div>bar</div> ]]\n' +
-              '  to exhaustively satisfy <div foo="bar">foo</div><div>bar</div>\n' +
-              '\n' +
-              '  NodeList[\n' +
-              '    <div\n' +
-              '      foo="bar"\n' +
-              '      baz="quux" // should be removed\n' +
-              '    >foo</div>,\n' +
-              '    <div>bar</div>\n' +
-              '  ]'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected '<div foo="bar" baz="quux">foo</div><div>bar</div>'
+            when parsed as HTML fragment to exhaustively satisfy '<div foo="bar">foo</div><div>bar</div>'
+              expected DocumentFragment[NodeList[ <div foo="bar" baz="quux">foo</div>, <div>bar</div> ]]
+              to exhaustively satisfy <div foo="bar">foo</div><div>bar</div>
+
+              NodeList[
+                <div
+                  foo="bar"
+                  baz="quux" // should be removed
+                >foo</div>,
+                <div>bar</div>
+              ]
+          `
           );
         });
       });
@@ -1477,23 +1615,25 @@ describe('unexpected-dom', () => {
                 parseHtmlFragment('<div>quux</div><div baz="quux">bar</div>')
               );
             },
-            'to throw',
-            "expected '<div>foo</div><div>bar</div>'\n" +
-              'when parsed as HTML fragment to satisfy DocumentFragment[NodeList[ <div>quux</div>, <div baz="quux">bar</div> ]]\n' +
-              '  expected DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]\n' +
-              '  to satisfy DocumentFragment[NodeList[ <div>quux</div>, <div baz="quux">bar</div> ]]\n' +
-              '\n' +
-              '  NodeList[\n' +
-              '    <div>\n' +
-              "      foo // should equal 'quux'\n" +
-              '          //\n' +
-              '          // -foo\n' +
-              '          // +quux\n' +
-              '    </div>,\n' +
-              '    <div\n' +
-              "      // missing baz should equal 'quux'\n" +
-              '    >bar</div>\n' +
-              '  ]'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected '<div>foo</div><div>bar</div>'
+            when parsed as HTML fragment to satisfy DocumentFragment[NodeList[ <div>quux</div>, <div baz="quux">bar</div> ]]
+              expected DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]
+              to satisfy DocumentFragment[NodeList[ <div>quux</div>, <div baz="quux">bar</div> ]]
+
+              NodeList[
+                <div>
+                  foo // should equal 'quux'
+                      //
+                      // -foo
+                      // +quux
+                </div>,
+                <div
+                  // missing baz should equal 'quux'
+                >bar</div>
+              ]
+          `
           );
         });
 
@@ -1541,24 +1681,24 @@ describe('unexpected-dom', () => {
                   )
                 );
               },
-              'to throw',
-              [
-                'expected \'<div foo="bar">foo</div><div><div>bar</div></div><div>baz</div>\'',
-                'when parsed as HTML fragment to satisfy DocumentFragment[NodeList[ <div foo="bar">foo!</div>, <!--ignore-->, <div>baz</div> ]]',
-                '  expected DocumentFragment[NodeList[ <div foo="bar">foo</div>, <div><div>...</div></div>, <div>baz</div> ]]',
-                '  to satisfy DocumentFragment[NodeList[ <div foo="bar">foo!</div>, <!--ignore-->, <div>baz</div> ]]',
-                '',
-                '  NodeList[',
-                '    <div foo="bar">',
-                "      foo // should equal 'foo!'",
-                '          //',
-                '          // -foo',
-                '          // +foo!',
-                '    </div>,',
-                '    <div><div>...</div></div>,',
-                '    <div>baz</div>',
-                '  ]'
-              ].join('\n')
+              'to throw an error satisfying to equal snapshot',
+              expect.unindent`
+              expected '<div foo="bar">foo</div><div><div>bar</div></div><div>baz</div>'
+              when parsed as HTML fragment to satisfy DocumentFragment[NodeList[ <div foo="bar">foo!</div>, <!--ignore-->, <div>baz</div> ]]
+                expected DocumentFragment[NodeList[ <div foo="bar">foo</div>, <div><div>...</div></div>, <div>baz</div> ]]
+                to satisfy DocumentFragment[NodeList[ <div foo="bar">foo!</div>, <!--ignore-->, <div>baz</div> ]]
+
+                NodeList[
+                  <div foo="bar">
+                    foo // should equal 'foo!'
+                        //
+                        // -foo
+                        // +foo!
+                  </div>,
+                  <div><div>...</div></div>,
+                  <div>baz</div>
+                ]
+            `
             );
           });
         });
@@ -1588,32 +1728,34 @@ describe('unexpected-dom', () => {
                 ]
               );
             },
-            'to throw',
-            'expected \'<div foo="baz">foo</div><div>foobar</div>\' when parsed as HTML fragment\n' +
-              'to satisfy [\n' +
-              "  { attributes: { foo: 'bar' }, children: [ 'foo' ] },\n" +
-              "  { name: 'div', children: [ 'bar' ] }\n" +
-              ']\n' +
-              '  expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]] to satisfy\n' +
-              '  [\n' +
-              "    { attributes: { foo: 'bar' }, children: [ 'foo' ] },\n" +
-              "    { name: 'div', children: [ 'bar' ] }\n" +
-              '  ]\n' +
-              '\n' +
-              '  NodeList[\n' +
-              '    <div\n' +
-              "      foo=\"baz\" // expected 'baz' to equal 'bar'\n" +
-              '                //\n' +
-              '                // -baz\n' +
-              '                // +bar\n' +
-              '    >foo</div>,\n' +
-              '    <div>\n' +
-              "      foobar // should equal 'bar'\n" +
-              '             //\n' +
-              '             // -foobar\n' +
-              '             // +bar\n' +
-              '    </div>\n' +
-              '  ]'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected '<div foo="baz">foo</div><div>foobar</div>' when parsed as HTML fragment
+            to satisfy [
+              { attributes: { foo: 'bar' }, children: [ 'foo' ] },
+              { name: 'div', children: [ 'bar' ] }
+            ]
+              expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]] to satisfy
+              [
+                { attributes: { foo: 'bar' }, children: [ 'foo' ] },
+                { name: 'div', children: [ 'bar' ] }
+              ]
+
+              NodeList[
+                <div
+                  foo="baz" // expected 'baz' to equal 'bar'
+                            //
+                            // -baz
+                            // +bar
+                >foo</div>,
+                <div>
+                  foobar // should equal 'bar'
+                         //
+                         // -foobar
+                         // +bar
+                </div>
+              ]
+          `
           );
         });
       });
@@ -1640,21 +1782,23 @@ describe('unexpected-dom', () => {
                 }
               );
             },
-            'to throw',
-            'expected \'<div foo="baz">foo</div><div>foobar</div>\'\n' +
-              "when parsed as HTML fragment to satisfy { 1: { name: 'div', children: [ 'bar' ] } }\n" +
-              '  expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]]\n' +
-              "  to satisfy { 1: { name: 'div', children: [ 'bar' ] } }\n" +
-              '\n' +
-              '  NodeList[\n' +
-              '    <div foo="baz">foo</div>,\n' +
-              '    <div>\n' +
-              "      foobar // should equal 'bar'\n" +
-              '             //\n' +
-              '             // -foobar\n' +
-              '             // +bar\n' +
-              '    </div>\n' +
-              '  ]'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected '<div foo="baz">foo</div><div>foobar</div>'
+            when parsed as HTML fragment to satisfy { 1: { name: 'div', children: [ 'bar' ] } }
+              expected DocumentFragment[NodeList[ <div foo="baz">foo</div>, <div>foobar</div> ]]
+              to satisfy { 1: { name: 'div', children: [ 'bar' ] } }
+
+              NodeList[
+                <div foo="baz">foo</div>,
+                <div>
+                  foobar // should equal 'bar'
+                         //
+                         // -foobar
+                         // +bar
+                </div>
+              ]
+          `
           );
         });
       });
@@ -1669,9 +1813,11 @@ describe('unexpected-dom', () => {
                 /foo/
               );
             },
-            'to throw',
-            'expected \'<div foo="bar">foo</div><div>bar</div>\' when parsed as HTML fragment to satisfy /foo/\n' +
-              '  expected DocumentFragment[NodeList[ <div foo="bar">foo</div>, <div>bar</div> ]] to satisfy /foo/'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected '<div foo="bar">foo</div><div>bar</div>' when parsed as HTML fragment to satisfy /foo/
+              expected DocumentFragment[NodeList[ <div foo="bar">foo</div>, <div>bar</div> ]] to satisfy /foo/
+          `
           );
         });
       });
@@ -2002,12 +2148,14 @@ describe('unexpected-dom', () => {
           () => {
             expect(body.firstChild, 'to satisfy', { name: /^sp/ });
           },
-          'to throw',
-          'expected <div foo="bar"></div> to satisfy { name: /^sp/ }\n' +
-            '\n' +
-            '<div // should match /^sp/\n' +
-            '  foo="bar"\n' +
-            '></div>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected <div foo="bar"></div> to satisfy { name: /^sp/ }
+
+          <div // should match /^sp/
+            foo="bar"
+          ></div>
+        `
         );
       });
 
@@ -2025,12 +2173,14 @@ describe('unexpected-dom', () => {
             () => {
               expect(xmlDoc.firstChild, 'to satisfy', { name: 'fooBarQuux' });
             },
-            'to throw',
-            'expected <fooBar hey="there"></fooBar> to satisfy { name: \'fooBarQuux\' }\n' +
-              '\n' +
-              "<fooBar // should equal 'fooBarQuux'\n" +
-              '  hey="there"\n' +
-              '></fooBar>'
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected <fooBar hey="there"></fooBar> to satisfy { name: 'fooBarQuux' }
+
+            <fooBar // should equal 'fooBarQuux'
+              hey="there"
+            ></fooBar>
+          `
           );
         });
       });
@@ -2057,15 +2207,17 @@ describe('unexpected-dom', () => {
           () => {
             expect(body.firstChild, 'to satisfy', { children: ['there'] });
           },
-          'to throw',
-          'expected <div foo="bar">hey</div> to satisfy { children: [ \'there\' ] }\n' +
-            '\n' +
-            '<div foo="bar">\n' +
-            "  hey // should equal 'there'\n" +
-            '      //\n' +
-            '      // -hey\n' +
-            '      // +there\n' +
-            '</div>'
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected <div foo="bar">hey</div> to satisfy { children: [ 'there' ] }
+
+          <div foo="bar">
+            hey // should equal 'there'
+                //
+                // -hey
+                // +there
+          </div>
+        `
         );
       });
 
@@ -2129,25 +2281,27 @@ describe('unexpected-dom', () => {
             1: { attributes: { foo: 'bar' } }
           });
         },
-        'to throw',
-        'expected\n' +
-          '<body>\n' +
-          '  <div id="quux" foo="bar">foobar</div>\n' +
-          '  <div foo="quux">hey</div>\n' +
-          '</body>\n' +
-          "queried for div to satisfy { 1: { attributes: { foo: 'bar' } } }\n" +
-          '  expected NodeList[ <div id="quux" foo="bar">foobar</div>, <div foo="quux">hey</div> ]\n' +
-          "  to satisfy { 1: { attributes: { foo: 'bar' } } }\n" +
-          '\n' +
-          '  NodeList[\n' +
-          '    <div id="quux" foo="bar">foobar</div>,\n' +
-          '    <div\n' +
-          "      foo=\"quux\" // expected 'quux' to equal 'bar'\n" +
-          '                 //\n' +
-          '                 // -quux\n' +
-          '                 // +bar\n' +
-          '    >hey</div>\n' +
-          '  ]'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected
+        <body>
+          <div id="quux" foo="bar">foobar</div>
+          <div foo="quux">hey</div>
+        </body>
+        queried for div to satisfy { 1: { attributes: { foo: 'bar' } } }
+          expected NodeList[ <div id="quux" foo="bar">foobar</div>, <div foo="quux">hey</div> ]
+          to satisfy { 1: { attributes: { foo: 'bar' } } }
+
+          NodeList[
+            <div id="quux" foo="bar">foobar</div>,
+            <div
+              foo="quux" // expected 'quux' to equal 'bar'
+                         //
+                         // -quux
+                         // +bar
+            >hey</div>
+          ]
+      `
       );
     });
   });
@@ -2185,9 +2339,11 @@ describe('unexpected-dom', () => {
             { id: 'foo' }
           );
         },
-        'to throw',
-        'expected <body><div id="foo"></div></body> queried for first .blabla to have attributes { id: \'foo\' }\n' +
-          '  The selector .blabla yielded no results'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <body><div id="foo"></div></body> queried for first .blabla to have attributes { id: 'foo' }
+          The selector .blabla yielded no results
+      `
       );
     });
 
@@ -2202,12 +2358,16 @@ describe('unexpected-dom', () => {
             'queried for',
             '.blabla',
             'to have attributes',
-            { id: 'foo' }
+            {
+              id: 'foo'
+            }
           );
         },
-        'to throw',
-        'expected <body><div id="foo"></div></body> queried for .blabla to have attributes { id: \'foo\' }\n' +
-          '  The selector .blabla yielded no results'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <body><div id="foo"></div></body> queried for .blabla to have attributes { id: 'foo' }
+          The selector .blabla yielded no results
+      `
       );
     });
 
@@ -2236,10 +2396,12 @@ describe('unexpected-dom', () => {
         () => {
           expect(document, 'queried for', 'div', 'to have length', 1);
         },
-        'to throw',
-        'expected <!DOCTYPE html><html><head></head><body>...</body></html> queried for div to have length 1\n' +
-          '  expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1\n' +
-          '    expected 3 to be 1'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <!DOCTYPE html><html><head></head><body>...</body></html> queried for div to have length 1
+          expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1
+            expected 3 to be 1
+      `
       );
     });
   });
@@ -2262,13 +2424,15 @@ describe('unexpected-dom', () => {
         () => {
           expect(document, 'to contain no elements matching', '.foo');
         },
-        'to throw',
-        'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
-          "to contain no elements matching '.foo'\n" +
-          '\n' +
-          'NodeList[\n' +
-          '  <div class="foo"></div> // should be removed\n' +
-          ']'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <!DOCTYPE html><html><head></head><body>...</body></html>
+        to contain no elements matching '.foo'
+
+        NodeList[
+          <div class="foo"></div> // should be removed
+        ]
+      `
       );
     });
 
@@ -2281,14 +2445,16 @@ describe('unexpected-dom', () => {
         () => {
           expect(document, 'to contain no elements matching', '.foo');
         },
-        'to throw',
-        'expected <!DOCTYPE html><html><head></head><body>...</body></html>\n' +
-          "to contain no elements matching '.foo'\n" +
-          '\n' +
-          'NodeList[\n' +
-          '  <div class="foo"></div>, // should be removed\n' +
-          '  <div class="foo"></div> // should be removed\n' +
-          ']'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <!DOCTYPE html><html><head></head><body>...</body></html>
+        to contain no elements matching '.foo'
+
+        NodeList[
+          <div class="foo"></div>, // should be removed
+          <div class="foo"></div> // should be removed
+        ]
+      `
       );
     });
   });
@@ -2311,15 +2477,15 @@ describe('unexpected-dom', () => {
         () => {
           expect(document, 'to contain elements matching', '.bar');
         },
-        'to throw',
-        [
-          'expected',
-          '<!DOCTYPE html><html>',
-          '  <head></head>',
-          '  <body><div class="foo"></div><div class="foo"></div></body>',
-          '</html>',
-          "to contain elements matching '.bar'"
-        ].join('\n')
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected
+        <!DOCTYPE html><html>
+          <head></head>
+          <body><div class="foo"></div><div class="foo"></div></body>
+        </html>
+        to contain elements matching '.bar'
+      `
       );
     });
   });
@@ -2342,7 +2508,7 @@ describe('unexpected-dom', () => {
         () => {
           expect(document.body.firstChild, 'to match', '.bar');
         },
-        'to throw',
+        'to throw an error satisfying to equal snapshot',
         'expected <div class="foo"></div> to match \'.bar\''
       );
     });
@@ -2364,7 +2530,7 @@ describe('unexpected-dom', () => {
         () => {
           expect(document.body.firstChild, 'not to match', '.foo');
         },
-        'to throw',
+        'to throw an error satisfying to equal snapshot',
         'expected <div class="foo"></div> not to match \'.foo\''
       );
     });
@@ -2556,16 +2722,18 @@ describe('unexpected-dom', () => {
             { class: 'quux' }
           );
         },
-        'to throw',
-        'expected \'<!DOCTYPE html><html><body class="bar">foo</body></html>\'\n' +
-          "when parsed as HTML queried for first 'body' to have attributes { class: 'quux' }\n" +
-          '  expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>\n' +
-          "  queried for first body to have attributes { class: 'quux' }\n" +
-          '    expected <body class="bar">foo</body> to have attributes { class: \'quux\' }\n' +
-          '\n' +
-          '    <body\n' +
-          "      class=\"bar\" // expected [ 'bar' ] to contain 'quux'\n" +
-          '    >foo</body>'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected '<!DOCTYPE html><html><body class="bar">foo</body></html>'
+        when parsed as HTML queried for first 'body' to have attributes { class: 'quux' }
+          expected <!DOCTYPE html><html><head></head><body class="bar">...</body></html>
+          queried for first body to have attributes { class: 'quux' }
+            expected <body class="bar">foo</body> to have attributes { class: 'quux' }
+
+            <body
+              class="bar" // expected [ 'bar' ] to contain 'quux'
+            >foo</body>
+      `
       );
     });
 
@@ -2762,43 +2930,45 @@ describe('unexpected-dom', () => {
           ]
         });
       },
-      'to throw',
-      'expected\n' +
-        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">\n' +
-        '  <li class="selected" data-index="0">\n' +
-        '    <span class="before"></span>\n' +
-        '    <strong class="match">...</strong>\n' +
-        '    <span class="after">...</span>\n' +
-        '  </li>\n' +
-        '  <li data-index="1">\n' +
-        '    <span class="before"></span>\n' +
-        '    <strong class="match">...</strong>\n' +
-        '    <span class="after">...</span>\n' +
-        '  </li>\n' +
-        '</ul>\n' +
-        'to satisfy\n' +
-        '{\n' +
-        "  attributes: { style: { display: 'block' }, class: [ 'knockout-autocomplete', 'floating-menu' ] },\n" +
-        '  children: [ { attributes: ..., children: ... }, { attributes: ..., children: ... } ]\n' +
-        '}\n' +
-        '\n' +
-        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">\n' +
-        '  <li class="selected" data-index="0">\n' +
-        '    <span class="before"></span>\n' +
-        '    <strong class="match">...</strong>\n' +
-        '    <span class="after">...</span>\n' +
-        '  </li>\n' +
-        '  <li data-index="1">\n' +
-        '    <span class="before"></span>\n' +
-        '    <strong class="match">pr</strong>\n' +
-        '    <span class="after">\n' +
-        "      otected // should equal 'odtected'\n" +
-        '              //\n' +
-        '              // -otected\n' +
-        '              // +odtected\n' +
-        '    </span>\n' +
-        '  </li>\n' +
-        '</ul>'
+      'to throw an error satisfying to equal snapshot',
+      expect.unindent`
+      expected
+      <ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">
+        <li class="selected" data-index="0">
+          <span class="before"></span>
+          <strong class="match">...</strong>
+          <span class="after">...</span>
+        </li>
+        <li data-index="1">
+          <span class="before"></span>
+          <strong class="match">...</strong>
+          <span class="after">...</span>
+        </li>
+      </ul>
+      to satisfy
+      {
+        attributes: { style: { display: 'block' }, class: [ 'knockout-autocomplete', 'floating-menu' ] },
+        children: [ { attributes: ..., children: ... }, { attributes: ..., children: ... } ]
+      }
+
+      <ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">
+        <li class="selected" data-index="0">
+          <span class="before"></span>
+          <strong class="match">...</strong>
+          <span class="after">...</span>
+        </li>
+        <li data-index="1">
+          <span class="before"></span>
+          <strong class="match">pr</strong>
+          <span class="after">
+            otected // should equal 'odtected'
+                    //
+                    // -otected
+                    // +odtected
+          </span>
+        </li>
+      </ul>
+    `
     );
   });
 
@@ -2809,11 +2979,13 @@ describe('unexpected-dom', () => {
           name: 'foo'
         });
       },
-      'to throw',
-      "expected <foO></foO> to satisfy { name: 'foo' }\n" +
-        '\n' +
-        "<foO // should equal 'foo'\n" +
-        '></foO>'
+      'to throw an error satisfying to equal snapshot',
+      expect.unindent`
+      expected <foO></foO> to satisfy { name: 'foo' }
+
+      <foO // should equal 'foo'
+      ></foO>
+    `
     );
   });
 
@@ -2830,11 +3002,13 @@ describe('unexpected-dom', () => {
           name: 'foo'
         });
       },
-      'to throw',
-      "expected <foO></foO> to satisfy { name: 'foo' }\n" +
-        '\n' +
-        "<foO // should equal 'foo'\n" +
-        '></foO>'
+      'to throw an error satisfying to equal snapshot',
+      expect.unindent`
+      expected <foO></foO> to satisfy { name: 'foo' }
+
+      <foO // should equal 'foo'
+      ></foO>
+    `
     );
   });
 
@@ -2851,11 +3025,13 @@ describe('unexpected-dom', () => {
           name: 'foo'
         });
       },
-      'to throw',
-      "expected <foO></foO> to satisfy { name: 'foo' }\n" +
-        '\n' +
-        "<foO // should equal 'foo'\n" +
-        '></foO>'
+      'to throw an error satisfying to equal snapshot',
+      expect.unindent`
+      expected <foO></foO> to satisfy { name: 'foo' }
+
+      <foO // should equal 'foo'
+      ></foO>
+    `
     );
   });
 
@@ -3116,7 +3292,7 @@ describe('unexpected-dom', () => {
               '<span class="name">Jane Doe</span>!'
             );
           },
-          'to throw',
+          'to throw an error satisfying to equal snapshot',
           'HTMLElement to contain string: Only a single node is supported'
         );
       });
@@ -3168,7 +3344,7 @@ describe('unexpected-dom', () => {
             'Jane Doe'
           );
         },
-        'to throw',
+        'to throw an error satisfying to equal snapshot',
         'HTMLElement to contain string: please provide a HTML structure as a string'
       );
     });
@@ -3182,7 +3358,7 @@ describe('unexpected-dom', () => {
             '<span>Jane Doe</span>'
           );
         },
-        'to throw',
+        'to throw an error satisfying to equal snapshot',
         'expected <div></div> to contain <span>Jane Doe</span>'
       );
     });
@@ -3198,18 +3374,20 @@ describe('unexpected-dom', () => {
             '<span><span>Hello</span><!--ignore--></span>'
           );
         },
-        'to throw',
-        'expected\n' +
-          '<span class="greeting">\n' +
-          '  <span>Hello</span>\n' +
-          '  <span class="name">Jane Doe</span>\n' +
-          '</span>\n' +
-          'to contain <span><span>Hello</span><!--ignore--></span>\n' +
-          '\n' +
-          '<span>\n' +
-          "  // missing { name: 'span', attributes: {}, children: [ 'Hello' ] }\n" +
-          '  Hello\n' +
-          '</span>'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected
+        <span class="greeting">
+          <span>Hello</span>
+          <span class="name">Jane Doe</span>
+        </span>
+        to contain <span><span>Hello</span><!--ignore--></span>
+
+        <span>
+          // missing { name: 'span', attributes: {}, children: [ 'Hello' ] }
+          Hello
+        </span>
+      `
       );
     });
 
@@ -3224,9 +3402,11 @@ describe('unexpected-dom', () => {
             '<span class="name">John Doe</span>'
           );
         },
-        'to throw',
-        'expected <div><div><div><div><div><div></div></div></div></div></div></div>\n' +
-          'to contain <span class="name">John Doe</span>'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <div><div><div><div><div><div></div></div></div></div></div></div>
+        to contain <span class="name">John Doe</span>
+      `
       );
     });
 
@@ -3241,21 +3421,23 @@ describe('unexpected-dom', () => {
             '<span class="name">John Doe</span>'
           );
         },
-        'to throw',
-        'expected\n' +
-          '<div>\n' +
-          '  <i>Hello</i>\n' +
-          '  \n' +
-          '  <span class="name something-else">Jane Doe</span>\n' +
-          '</div>\n' +
-          'to contain <span class="name">John Doe</span>\n' +
-          '\n' +
-          '<span class="name something-else">\n' +
-          "  Jane Doe // should equal 'John Doe'\n" +
-          '           //\n' +
-          '           // -Jane Doe\n' +
-          '           // +John Doe\n' +
-          '</span>'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+          expected
+          <div>
+            <i>Hello</i>
+            
+            <span class="name something-else">Jane Doe</span>
+          </div>
+          to contain <span class="name">John Doe</span>
+
+          <span class="name something-else">
+            Jane Doe // should equal 'John Doe'
+                     //
+                     // -Jane Doe
+                     // +John Doe
+          </span>
+        `
       );
     });
 
@@ -3270,20 +3452,22 @@ describe('unexpected-dom', () => {
             '<div class="name">Jane Doe</div>'
           );
         },
-        'to throw',
-        'expected\n' +
-          '<div>\n' +
-          '  <i>Hello</i>\n' +
-          '  \n' +
-          '  <span class="name something-else">Jane Doe</span>\n' +
-          '  and\n' +
-          '  <div>John Doe</div>\n' +
-          '</div>\n' +
-          'to contain <div class="name">Jane Doe</div>\n' +
-          '\n' +
-          "<span // should equal 'div'\n" +
-          '  class="name something-else"\n' +
-          '>Jane Doe</span>'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+          expected
+          <div>
+            <i>Hello</i>
+            
+            <span class="name something-else">Jane Doe</span>
+            and
+            <div>John Doe</div>
+          </div>
+          to contain <div class="name">Jane Doe</div>
+
+          <span // should equal 'div'
+            class="name something-else"
+          >Jane Doe</span>
+        `
       );
     });
 
@@ -3298,21 +3482,23 @@ describe('unexpected-dom', () => {
             '<span class="name"><i>Jane Doe</i></span>'
           );
         },
-        'to throw',
-        'expected\n' +
-          '<div>\n' +
-          '  <i>Hello</i>\n' +
-          '  \n' +
-          '  <span class="name something-else"><em>...</em></span>\n' +
-          '  and\n' +
-          '  <div>John Doe</div>\n' +
-          '</div>\n' +
-          'to contain <span class="name"><i>Jane Doe</i></span>\n' +
-          '\n' +
-          '<span class="name something-else">\n' +
-          "  <em // should equal 'i'\n" +
-          '  >Jane Doe</em>\n' +
-          '</span>'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+          expected
+          <div>
+            <i>Hello</i>
+            
+            <span class="name something-else"><em>...</em></span>
+            and
+            <div>John Doe</div>
+          </div>
+          to contain <span class="name"><i>Jane Doe</i></span>
+
+          <span class="name something-else">
+            <em // should equal 'i'
+            >Jane Doe</em>
+          </span>
+        `
       );
     });
 
@@ -3327,25 +3513,27 @@ describe('unexpected-dom', () => {
             '<span data-test-id="name">John Doe</span>'
           );
         },
-        'to throw',
-        'expected\n' +
-          '<div>\n' +
-          '  <i>Hello</i>\n' +
-          '  \n' +
-          '  <span class="name something-else" data-test-id="name">\n' +
-          '    Jane Doe\n' +
-          '  </span>\n' +
-          '  and\n' +
-          '  <span class="name">John Doe</span>\n' +
-          '</div>\n' +
-          'to contain <span data-test-id="name">John Doe</span>\n' +
-          '\n' +
-          '<span class="name something-else" data-test-id="name">\n' +
-          "  Jane Doe // should equal 'John Doe'\n" +
-          '           //\n' +
-          '           // -Jane Doe\n' +
-          '           // +John Doe\n' +
-          '</span>'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+          expected
+          <div>
+            <i>Hello</i>
+            
+            <span class="name something-else" data-test-id="name">
+              Jane Doe
+            </span>
+            and
+            <span class="name">John Doe</span>
+          </div>
+          to contain <span data-test-id="name">John Doe</span>
+
+          <span class="name something-else" data-test-id="name">
+            Jane Doe // should equal 'John Doe'
+                     //
+                     // -Jane Doe
+                     // +John Doe
+          </span>
+        `
       );
     });
 
@@ -3358,12 +3546,14 @@ describe('unexpected-dom', () => {
             '<span><i>Hello</i></span>'
           );
         },
-        'to throw',
-        'expected <div><span></span></div> to contain <span><i>Hello</i></span>\n' +
-          '\n' +
-          '<span>\n' +
-          "  // missing { name: 'i', attributes: {}, children: [ 'Hello' ] }\n" +
-          '</span>'
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <div><span></span></div> to contain <span><i>Hello</i></span>
+
+        <span>
+          // missing { name: 'i', attributes: {}, children: [ 'Hello' ] }
+        </span>
+      `
       );
     });
 
@@ -3376,7 +3566,7 @@ describe('unexpected-dom', () => {
             '<span><!-- ignore --></span>'
           );
         },
-        'to throw',
+        'to throw an error satisfying to equal snapshot',
         'expected <div><span></span></div> to contain <span><!-- ignore --></span>\n' +
           '\n' +
           '<span>\n' +
@@ -3396,7 +3586,7 @@ describe('unexpected-dom', () => {
             '<span><strong>Hello</strong><!-- ignore -->!</span>'
           );
         },
-        'to throw',
+        'to throw an error satisfying to equal snapshot',
         'expected <div><span><strong>...</strong><em>...</em></span></div>\n' +
           'to contain <span><strong>Hello</strong><!-- ignore -->!</span>\n' +
           '\n' +
@@ -3419,7 +3609,7 @@ describe('unexpected-dom', () => {
             '<span><strong>Hello</strong><em>world</em></span>'
           );
         },
-        'to throw',
+        'to throw an error satisfying to equal snapshot',
         'expected <div><span><strong>...</strong><em>...</em>!</span></div>\n' +
           'to contain <span><strong>Hello</strong><em>world</em></span>\n' +
           '\n' +
@@ -3462,35 +3652,33 @@ describe('unexpected-dom', () => {
     });
 
     it('shows a diff if the given structure is present', () => {
-      expect(
-        () => {
-          expect(
-            parseHtmlNode(
-              '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>'
-            ),
-            'not to contain',
-            '<span data-test-id="name">Jane Doe</span>'
-          );
-        },
-        'to throw',
-        'expected\n' +
-          '<div>\n' +
-          '  <i>Hello</i>\n' +
-          '  \n' +
-          '  <span class="name something-else" data-test-id="name">\n' +
-          '    Jane Doe\n' +
-          '  </span>\n' +
-          '  and\n' +
-          '  <span class="name">John Doe</span>\n' +
-          '</div>\n' +
-          'not to contain <span data-test-id="name">Jane Doe</span>\n' +
-          '\n' +
-          'Found:\n' +
-          '\n' +
-          '<span class="name something-else" data-test-id="name">\n' +
-          '  Jane Doe\n' +
-          '</span>'
-      );
+      expect(() => {
+        expect(
+          parseHtmlNode(
+            '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>'
+          ),
+          'not to contain',
+          '<span data-test-id="name">Jane Doe</span>'
+        );
+      }, 'to throw an error satisfying to equal snapshot', expect.unindent`
+        expected
+        <div>
+          <i>Hello</i>
+          
+          <span class="name something-else" data-test-id="name">
+            Jane Doe
+          </span>
+          and
+          <span class="name">John Doe</span>
+        </div>
+        not to contain <span data-test-id="name">Jane Doe</span>
+
+        Found:
+
+        <span class="name something-else" data-test-id="name">
+          Jane Doe
+        </span>
+      `);
     });
   });
 });
