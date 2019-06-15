@@ -3473,7 +3473,7 @@ describe('unexpected-dom', () => {
           expected
           <div>
             <i>Hello</i>
-            
+
             <span class="name something-else">Jane Doe</span>
           </div>
           to contain <span class="name">John Doe</span>
@@ -3504,7 +3504,7 @@ describe('unexpected-dom', () => {
           expected
           <div>
             <i>Hello</i>
-            
+
             <span class="name something-else">Jane Doe</span>
             and
             <div>John Doe</div>
@@ -3534,7 +3534,7 @@ describe('unexpected-dom', () => {
           expected
           <div>
             <i>Hello</i>
-            
+
             <span class="name something-else"><em>...</em></span>
             and
             <div>John Doe</div>
@@ -3565,7 +3565,7 @@ describe('unexpected-dom', () => {
           expected
           <div>
             <i>Hello</i>
-            
+
             <span class="name something-else" data-test-id="name">
               Jane Doe
             </span>
@@ -3720,7 +3720,7 @@ describe('unexpected-dom', () => {
           expected
           <div>
             <i>Hello</i>
-            
+
             <span class="name something-else" data-test-id="name">
               Jane Doe
             </span>

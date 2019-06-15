@@ -44,11 +44,15 @@ expect(element, 'queried for', '[data-test-id=numbers] > li', 'to satisfy', [
 
 ```output
 expected
-<section><h1>Numbers</h1><hr><ol data-test-id="numbers">
-  <li class="number">...</li>
-  <li class="number">...</li>
-  <li class="number">...</li>
-</ol></section>
+<section>
+  <h1>Numbers</h1>
+  <hr>
+  <ol data-test-id="numbers">
+    <li class="number">...</li>
+    <li class="number">...</li>
+    <li class="number">...</li>
+  </ol>
+</section>
 queried for [data-test-id=numbers] > li to satisfy [ '<li>Three</li>', '<li>Two</li>', '<li>One</li>' ]
   expected
   NodeList[
@@ -86,11 +90,15 @@ expect(
 
 ```output
 expected
-<section><h1>Numbers</h1><hr><ol data-test-id="numbers">
-  <li class="number">...</li>
-  <li class="number">...</li>
-  <li class="number">...</li>
-</ol></section>
+<section>
+  <h1>Numbers</h1>
+  <hr>
+  <ol data-test-id="numbers">
+    <li class="number">...</li>
+    <li class="number">...</li>
+    <li class="number">...</li>
+  </ol>
+</section>
 queried for
 [data-test-id=numbers] > li to exhaustively satisfy [
   '<li class="number">One</li>',

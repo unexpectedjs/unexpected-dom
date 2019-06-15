@@ -42,11 +42,15 @@ expect(element, 'queried for first', '[data-test-id=emojies]', 'to satisfy', {
 
 ```output
 expected
-<section><h1>Numbers</h1><hr><ol data-test-id="numbers">
-  <li>One</li>
-  <li>Two</li>
-  <li>Three</li>
-</ol></section>
+<section>
+  <h1>Numbers</h1>
+  <hr>
+  <ol data-test-id="numbers">
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+  </ol>
+</section>
 queried for first [data-test-id=emojies] to satisfy { children: expect.it('to have length', 666) }
   The selector [data-test-id=emojies] yielded no results
 ```
@@ -64,11 +68,15 @@ expect(
 
 ```output
 expected
-<section><h1>Numbers</h1><hr><ol data-test-id="numbers">
-  <li>...</li>
-  <li>...</li>
-  <li>...</li>
-</ol></section>
+<section>
+  <h1>Numbers</h1>
+  <hr>
+  <ol data-test-id="numbers">
+    <li>...</li>
+    <li>...</li>
+    <li>...</li>
+  </ol>
+</section>
 queried for first [data-test-id=numbers] to have no children
   expected
   <ol data-test-id="numbers">

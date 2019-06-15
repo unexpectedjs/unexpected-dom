@@ -24,11 +24,15 @@ expect(element, 'to contain elements matching', '[data-test-id=emojies]');
 
 ```output
 expected
-<section><h1>Numbers</h1><hr><ol data-test-id="numbers">
-  <li>One</li>
-  <li>Two</li>
-  <li>Three</li>
-</ol></section>
+<section>
+  <h1>Numbers</h1>
+  <hr>
+  <ol data-test-id="numbers">
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+  </ol>
+</section>
 to contain elements matching '[data-test-id=emojies]'
 ```
 
@@ -47,11 +51,15 @@ expect(element, 'to contain no elements matching', 'li');
 
 ```output
 expected
-<section><h1>Numbers</h1><hr><ol data-test-id="numbers">
-  <li>...</li>
-  <li>...</li>
-  <li>...</li>
-</ol></section>
+<section>
+  <h1>Numbers</h1>
+  <hr>
+  <ol data-test-id="numbers">
+    <li>...</li>
+    <li>...</li>
+    <li>...</li>
+  </ol>
+</section>
 to contain no elements matching 'li'
 
 NodeList[
