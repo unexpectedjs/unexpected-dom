@@ -69,9 +69,10 @@
     "offline-github-changelog": "^1.2.0",
     "prettier": "~1.18.2",
     "uglifyjs": "^2.4.11",
-    "unexpected": "^11.0.0-4",
+    "unexpected": "^11.6.1",
     "unexpected-documentation-site-generator": "^6.0.0",
-    "unexpected-markdown": "^3.0.0"
+    "unexpected-markdown": "^3.0.0",
+    "unexpected-snapshot": "^0.5.0"
   },
   "dependencies": {
     "extend": "^3.0.1",
