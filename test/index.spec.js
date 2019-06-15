@@ -9,6 +9,16 @@ it.skipIf = function(bool, descr, block) {
 };
 
 expect.addAssertion(
+  '<function> to error satisfying <assertion>',
+  (expect, cb) =>
+    expect(cb, 'to error').then(err =>
+      expect.shift(
+        err.isUnexpected ? err.getErrorMessage('text').toString() : err.message
+      )
+    )
+);
+
+expect.addAssertion(
   '<function> to throw an error satisfying <assertion>',
   (expect, cb) =>
     expect(cb, 'to throw').then(err =>
@@ -1853,13 +1863,15 @@ describe('unexpected-dom', () => {
               'to satisfy',
               '<div bar="quux">hey</div>'
             ),
-          'to error',
-          'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
-            '\n' +
-            '<div\n' +
-            '  foo="bar"\n' +
-            "  // missing bar should equal 'quux'\n" +
-            '>hey</div>'
+          'to error satisfying to equal snapshot',
+          expect.unindent`
+            expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>
+
+            <div
+              foo="bar"
+              // missing bar should equal 'quux'
+            >hey</div>
+          `
         ));
 
       it('should succeed when the subject has an extra class', () =>
@@ -1877,12 +1889,14 @@ describe('unexpected-dom', () => {
               'to satisfy',
               '<div class="bar">hey</div>'
             ),
-          'to error',
-          'expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>\n' +
-            '\n' +
-            '<div\n' +
-            "  class=\"foo\" // expected [ 'foo' ] to contain 'bar'\n" +
-            '>hey</div>'
+          'to error satisfying to equal snapshot',
+          expect.unindent`
+            expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>
+
+            <div
+              class="foo" // expected [ 'foo' ] to contain 'bar'
+            >hey</div>
+          `
         ));
 
       it('should succeed when the subject has an extra inline style', () =>
@@ -1900,17 +1914,19 @@ describe('unexpected-dom', () => {
               'to satisfy',
               '<div style="color: tan;">hey</div>'
             ),
-          'to error',
-          'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan;">hey</div>\n' +
-            '\n' +
-            '<div\n' +
-            "  style=\"width: 120px\" // expected { width: '120px' } to satisfy { color: 'tan' }\n" +
-            '                       //\n' +
-            '                       // {\n' +
-            "                       //   width: '120px'\n" +
-            "                       //   // missing color: 'tan'\n" +
-            '                       // }\n' +
-            '>hey</div>'
+          'to error satisfying to equal snapshot',
+          expect.unindent`
+            expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan;">hey</div>
+
+            <div
+              style="width: 120px" // expected { width: '120px' } to satisfy { color: 'tan' }
+                                   //
+                                   // {
+                                   //   width: '120px'
+                                   //   // missing color: 'tan'
+                                   // }
+            >hey</div>
+          `
         ));
     });
 
@@ -1930,15 +1946,17 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div foo="bar" baz="quux">hey</div>')
             ),
-          'to error',
-          'expected <div foo="bar" baz="quux">foobar</div> to satisfy <div foo="bar" baz="quux">hey</div>\n' +
-            '\n' +
-            '<div foo="bar" baz="quux">\n' +
-            "  foobar // should equal 'hey'\n" +
-            '         //\n' +
-            '         // -foobar\n' +
-            '         // +hey\n' +
-            '</div>'
+          'to error satisfying to equal snapshot',
+          expect.unindent`
+            expected <div foo="bar" baz="quux">foobar</div> to satisfy <div foo="bar" baz="quux">hey</div>
+
+            <div foo="bar" baz="quux">
+              foobar // should equal 'hey'
+                     //
+                     // -foobar
+                     // +hey
+            </div>
+          `
         ));
 
       it('should succeed when the subject equals the value parsed as HTML', () =>
@@ -1956,13 +1974,15 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div bar="quux">hey</div>')
             ),
-          'to error',
-          'expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>\n' +
-            '\n' +
-            '<div\n' +
-            '  foo="bar"\n' +
-            "  // missing bar should equal 'quux'\n" +
-            '>hey</div>'
+          'to error satisfying to equal snapshot',
+          expect.unindent`
+            expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>
+
+            <div
+              foo="bar"
+              // missing bar should equal 'quux'
+            >hey</div>
+          `
         ));
 
       it('should succeed when the subject has an extra class', () =>
@@ -1980,12 +2000,14 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div class="bar">hey</div>')
             ),
-          'to error',
-          'expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>\n' +
-            '\n' +
-            '<div\n' +
-            "  class=\"foo\" // expected [ 'foo' ] to contain 'bar'\n" +
-            '>hey</div>'
+          'to error satisfying to equal snapshot',
+          expect.unindent`
+            expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>
+
+            <div
+              class="foo" // expected [ 'foo' ] to contain 'bar'
+            >hey</div>
+          `
         ));
 
       it('should succeed when the subject has an extra inline style', () =>
@@ -2037,15 +2059,17 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div style="border-left-color: #FFFF;">hey</div>')
             ),
-          'to error',
-          'expected <div style="border-left-color: #FFF">hey</div>\n' +
-            'to satisfy <div style="border-left-color: #FFFF">hey</div>\n' +
-            '\n' +
-            '<div\n' +
-            '  style="border-left-color: #FFF" // expected <div style="border-left-color: #FFF">hey</div>\n' +
-            "                                  // to satisfy { name: 'div', attributes: { style: 'border-left-color: #FFFF;' }, children: [ 'hey' ] }\n" +
-            "                                  //   Expectation contains invalid styles: 'border-left-color: #FFFF'\n" +
-            '>hey</div>'
+          'to error satisfying to equal snapshot',
+          expect.unindent`
+            expected <div style="border-left-color: #FFF">hey</div>
+            to satisfy <div style="border-left-color: #FFFF">hey</div>
+
+            <div
+              style="border-left-color: #FFF" // expected <div style="border-left-color: #FFF">hey</div>
+                                              // to satisfy { name: 'div', attributes: { style: 'border-left-color: #FFFF;' }, children: [ 'hey' ] }
+                                              //   Expectation contains invalid styles: 'border-left-color: #FFFF'
+            >hey</div>
+          `
         )
       );
 
@@ -2057,14 +2081,16 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div style="color;background;width: 120px">hey</div>')
             ),
-          'to error',
-          'expected <div style="width: 120px">hey</div> to satisfy <div style="width: 120px">hey</div>\n' +
-            '\n' +
-            '<div\n' +
-            '  style="width: 120px" // expected <div style="width: 120px">hey</div>\n' +
-            "                       // to satisfy { name: 'div', attributes: { style: 'color;background;width: 120px' }, children: [ 'hey' ] }\n" +
-            "                       //   Expectation contains invalid styles: 'color;background'\n" +
-            '>hey</div>'
+          'to error satisfying to equal snapshot',
+          expect.unindent`
+            expected <div style="width: 120px">hey</div> to satisfy <div style="width: 120px">hey</div>
+
+            <div
+              style="width: 120px" // expected <div style="width: 120px">hey</div>
+                                   // to satisfy { name: 'div', attributes: { style: 'color;background;width: 120px' }, children: [ 'hey' ] }
+                                   //   Expectation contains invalid styles: 'color;background'
+            >hey</div>
+          `
         )
       );
 
@@ -2076,17 +2102,19 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div style="color: tan;">hey</div>')
             ),
-          'to error',
-          'expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan">hey</div>\n' +
-            '\n' +
-            '<div\n' +
-            "  style=\"width: 120px\" // expected { width: '120px' } to satisfy { color: 'tan' }\n" +
-            '                       //\n' +
-            '                       // {\n' +
-            "                       //   width: '120px'\n" +
-            "                       //   // missing color: 'tan'\n" +
-            '                       // }\n' +
-            '>hey</div>'
+          'to error satisfying to equal snapshot',
+          expect.unindent`
+            expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan">hey</div>
+
+            <div
+              style="width: 120px" // expected { width: '120px' } to satisfy { color: 'tan' }
+                                   //
+                                   // {
+                                   //   width: '120px'
+                                   //   // missing color: 'tan'
+                                   // }
+            >hey</div>
+          `
         ));
     });
 
@@ -2109,8 +2137,13 @@ describe('unexpected-dom', () => {
           () => {
             expect(parseHtml('foobar'), 'to satisfy', parseHtml('bar'));
           },
-          'to error',
-          'expected foobar to satisfy bar\n' + '\n' + '-foobar\n' + '+bar'
+          'to error satisfying to equal snapshot',
+          expect.unindent`
+          expected foobar to satisfy bar
+
+          -foobar
+          +bar
+        `
         );
       });
     });
@@ -2130,7 +2163,7 @@ describe('unexpected-dom', () => {
           () => {
             expect(parseHtml('foobar'), 'to satisfy', /^f00/);
           },
-          'to error',
+          'to error satisfying to equal snapshot',
           'expected foobar to satisfy /^f00/'
         );
       });
@@ -2555,12 +2588,14 @@ describe('unexpected-dom', () => {
         '<div><div id="foo"></div><div id="bar"></div></div>',
         'diffed with',
         '<div><div id="foo"></div><div id="quux"></div></div>',
-        'to equal',
-        '<div>\n' +
-          '  <div id="foo"></div>\n' +
-          '  <div id="bar" // should equal \'quux\'\n' +
-          '  ></div>\n' +
-          '</div>'
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            <div id="foo"></div>
+            <div id="bar" // should equal 'quux'
+            ></div>
+          </div>
+        `
       );
     });
 
@@ -2569,13 +2604,15 @@ describe('unexpected-dom', () => {
         '<div>foo<!--bar--></div>',
         'diffed with',
         '<div>quux<!--baz--></div>',
-        'to equal',
-        '<div>\n' +
-          '  -foo\n' +
-          '  +quux\n' +
-          '  -<!--bar-->\n' +
-          '  +<!--baz-->\n' +
-          '</div>'
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            -foo
+            +quux
+            -<!--bar-->
+            +<!--baz-->
+          </div>
+        `
       );
     });
 
@@ -2584,12 +2621,14 @@ describe('unexpected-dom', () => {
         '<div>foo<!--bar--></div>',
         'diffed with',
         '<div>foo<span></span><!--bar--></div>',
-        'to equal',
-        '<div>\n' +
-          '  foo\n' +
-          '  // missing <span></span>\n' +
-          '  <!--bar-->\n' +
-          '</div>'
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            foo
+            // missing <span></span>
+            <!--bar-->
+          </div>
+        `
       );
     });
 
@@ -2598,12 +2637,14 @@ describe('unexpected-dom', () => {
         '<div>foo<span></span><!--bar--></div>',
         'diffed with',
         '<div>foo<!--bar--></div>',
-        'to equal',
-        '<div>\n' +
-          '  foo\n' +
-          '  <span></span> // should be removed\n' +
-          '  <!--bar-->\n' +
-          '</div>'
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            foo
+            <span></span> // should be removed
+            <!--bar-->
+          </div>
+        `
       );
     });
 
@@ -2612,17 +2653,19 @@ describe('unexpected-dom', () => {
         '<div>foo<span><span>foo</span></span><!--bar--></div>',
         'diffed with',
         '<div>foo<span><span>bar</span></span><!--bar--></div>',
-        'to equal',
-        '<div>\n' +
-          '  foo\n' +
-          '  <span>\n' +
-          '    <span>\n' +
-          '      -foo\n' +
-          '      +bar\n' +
-          '    </span>\n' +
-          '  </span>\n' +
-          '  <!--bar-->\n' +
-          '</div>'
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            foo
+            <span>
+              <span>
+                -foo
+                +bar
+              </span>
+            </span>
+            <!--bar-->
+          </div>
+        `
       );
     });
 
@@ -2631,19 +2674,21 @@ describe('unexpected-dom', () => {
         '<div>foo<span class="bar" id="foo"><span>foo</span></span><!--bar--></div>',
         'diffed with',
         '<div>foo<span><span>bar</span></span><!--bar--></div>',
-        'to equal',
-        '<div>\n' +
-          '  foo\n' +
-          '  <span class="bar" // should be removed\n' +
-          '        id="foo" // should be removed\n' +
-          '  >\n' +
-          '    <span>\n' +
-          '      -foo\n' +
-          '      +bar\n' +
-          '    </span>\n' +
-          '  </span>\n' +
-          '  <!--bar-->\n' +
-          '</div>'
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            foo
+            <span class="bar" // should be removed
+                  id="foo" // should be removed
+            >
+              <span>
+                -foo
+                +bar
+              </span>
+            </span>
+            <!--bar-->
+          </div>
+        `
       );
     });
 
@@ -2656,11 +2701,13 @@ describe('unexpected-dom', () => {
         parseHtmlDocument(
           '<!DOCTYPE html><html><head></head><body></body></html>'
         ),
-        'to equal',
-        '<!DOCTYPE html>\n' +
-          '<!--foo--> // should be removed\n' +
-          '<html><head></head><body></body></html>\n' +
-          '<!--bar--> // should be removed'
+        'to equal snapshot',
+        expect.unindent`
+          <!DOCTYPE html>
+          <!--foo--> // should be removed
+          <html><head></head><body></body></html>
+          <!--bar--> // should be removed
+        `
       );
     });
   });
@@ -3567,11 +3614,13 @@ describe('unexpected-dom', () => {
           );
         },
         'to throw an error satisfying to equal snapshot',
-        'expected <div><span></span></div> to contain <span><!-- ignore --></span>\n' +
-          '\n' +
-          '<span>\n' +
-          '  // missing <!-- ignore -->\n' +
-          '</span>'
+        expect.unindent`
+        expected <div><span></span></div> to contain <span><!-- ignore --></span>
+
+        <span>
+          // missing <!-- ignore -->
+        </span>
+      `
       );
     });
 
@@ -3587,14 +3636,16 @@ describe('unexpected-dom', () => {
           );
         },
         'to throw an error satisfying to equal snapshot',
-        'expected <div><span><strong>...</strong><em>...</em></span></div>\n' +
-          'to contain <span><strong>Hello</strong><!-- ignore -->!</span>\n' +
-          '\n' +
-          '<span>\n' +
-          '  <strong>Hello</strong>\n' +
-          '  <em>world</em>\n' +
-          "  // missing '!'\n" +
-          '</span>'
+        expect.unindent`
+        expected <div><span><strong>...</strong><em>...</em></span></div>
+        to contain <span><strong>Hello</strong><!-- ignore -->!</span>
+
+        <span>
+          <strong>Hello</strong>
+          <em>world</em>
+          // missing '!'
+        </span>
+      `
       );
     });
 
@@ -3610,14 +3661,16 @@ describe('unexpected-dom', () => {
           );
         },
         'to throw an error satisfying to equal snapshot',
-        'expected <div><span><strong>...</strong><em>...</em>!</span></div>\n' +
-          'to contain <span><strong>Hello</strong><em>world</em></span>\n' +
-          '\n' +
-          '<span>\n' +
-          '  <strong>Hello</strong>\n' +
-          '  <em>world</em>\n' +
-          '  ! // should be removed\n' +
-          '</span>'
+        expect.unindent`
+        expected <div><span><strong>...</strong><em>...</em>!</span></div>
+        to contain <span><strong>Hello</strong><em>world</em></span>
+
+        <span>
+          <strong>Hello</strong>
+          <em>world</em>
+          ! // should be removed
+        </span>
+      `
       );
     });
   });
@@ -3664,24 +3717,24 @@ describe('unexpected-dom', () => {
         },
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
-        expected
-        <div>
-          <i>Hello</i>
-          
+          expected
+          <div>
+            <i>Hello</i>
+            
+            <span class="name something-else" data-test-id="name">
+              Jane Doe
+            </span>
+            and
+            <span class="name">John Doe</span>
+          </div>
+          not to contain <span data-test-id="name">Jane Doe</span>
+
+          Found:
+
           <span class="name something-else" data-test-id="name">
             Jane Doe
           </span>
-          and
-          <span class="name">John Doe</span>
-        </div>
-        not to contain <span data-test-id="name">Jane Doe</span>
-
-        Found:
-
-        <span class="name something-else" data-test-id="name">
-          Jane Doe
-        </span>
-      `
+        `
       );
     });
   });
