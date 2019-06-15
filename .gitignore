@@ -4,3 +4,5 @@ coverage
 site-build
 .nyc_output
 lib
+unexpected-dom.js
+unexpected-dom.min.js
