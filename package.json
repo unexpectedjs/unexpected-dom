@@ -22,7 +22,8 @@
     "test-node": "mocha ./test/*.js",
     "test-headless": "npm run test-browser",
     "coverage": "nyc --reporter=lcov --reporter=text npm test",
-    "preversion": "npm run build && npm run bundle && npm run lint && npm run test && git add unexpected-dom.*",
+    "preversion": "npm run lint && npm run test",
+    "prepublishOnly": "npm run build && npm run bundle",
     "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && npm run generate-site && gh-pages -d site-build",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
