@@ -563,20 +563,25 @@ module.exports = {
             }
 
             let width = startTag.length;
-            const multipleLines = inspectedChildren.some(o => {
-              const size = o.size();
+            const sizes = inspectedChildren.map(inspectedChild =>
+              inspectedChild.size()
+            );
+
+            const multipleLines = sizes.some(size => {
               width += size.width;
-              return width > 60 || o.height > 1;
+              return width > 60 || size.height > 1;
             });
 
             if (multipleLines) {
               output.nl().indentLines();
 
               inspectedChildren.forEach((inspectedChild, index) => {
-                output
-                  .i()
-                  .block(inspectedChild)
-                  .nl();
+                const childSize = sizes[index];
+                if (childSize.width > 0 && childSize.height > 0) {
+                  output.i().block(inspectedChild);
+                }
+
+                output.nl();
               });
 
               output.outdentLines();
