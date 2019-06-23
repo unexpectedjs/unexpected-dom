@@ -1,3 +1,14 @@
+### v4.13.1 (2019-06-23)
+
+#### Pull requests
+
+- [#272](https://github.com/unexpectedjs/unexpected-dom/pull/272) Stop checking in the bundled files ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
+#### Commits to master
+
+- [Bump magicpen-prism to 3.0.2 to fix an issue with the Prism global.](https://github.com/unexpectedjs/unexpected-dom/commit/80aab327c56e40cd3c3ef15e40337ef43f28ed61) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Update changelog](https://github.com/unexpectedjs/unexpected-dom/commit/be54ee9f6c1de4f4d66147ca84bf2ffef278337a) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+
 ### v4.13.0 (2019-06-12)
 
 #### Pull requests
