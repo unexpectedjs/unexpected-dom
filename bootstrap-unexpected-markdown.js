@@ -1,4 +1,4 @@
-/*global unexpected:true, expect:true, jsdom:true, createElement:true, window:true, document:true*/
+/*global unexpected:true, expect:true, jsdom:true, createElement:true*/
 /* eslint no-unused-vars: "off" */
 
 if (typeof expect === 'undefined') {
@@ -20,5 +20,6 @@ createElement = function createElement(html) {
   return root.firstChild;
 };
 
+/* eslint-disable no-global-assign */
 window = new jsdom.JSDOM().window;
 document = window.document;
