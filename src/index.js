@@ -1,4 +1,4 @@
-/*global DOMParser*/
+/* global DOMParser */
 const matchesSelector = require('./matchesSelector');
 
 function getJSDOM() {

@@ -1,4 +1,4 @@
-/*global expect, jsdom, DOMParser:true*/
+/* global expect, jsdom, DOMParser:true */
 const isIe =
   window.navigator &&
   /Windows/.test(window.navigator.userAgent) &&
