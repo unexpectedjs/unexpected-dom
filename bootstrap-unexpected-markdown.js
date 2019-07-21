@@ -1,4 +1,4 @@
-/*global unexpected:true, expect:true, jsdom:true, createElement:true*/
+/* global unexpected:true, expect:true, jsdom:true, createElement:true */
 /* eslint no-unused-vars: "off" */
 
 if (typeof expect === 'undefined') {

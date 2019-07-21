@@ -1,6 +1,6 @@
 /unexpected-dom.js
 /unexpected-dom.min.js
-/site-build
-/lib
-/build
-/coverage
+/site-build/
+/lib/
+/build/
+/coverage/

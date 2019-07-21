@@ -1,3 +1,10 @@
+# Don't fight npm i --save
 package.json
-unexpected-dom.js
-unexpected-dom.min.js
+
+/unexpected-dom.js
+/unexpected-dom.min.js
+/.nyc_output/
+/site-build/
+/lib/
+/build/
+/coverage/

@@ -1,4 +1,4 @@
-/*global expect, jsdom, DOMParser:true*/
+/* global expect, jsdom, DOMParser:true */
 const isIe =
   window.navigator &&
   /Windows/.test(window.navigator.userAgent) &&
@@ -162,6 +162,147 @@ describe('unexpected-dom', () => {
   });
 
   describe('diffing', () => {
+    expect.addAssertion(
+      '<string|DOMNode|DOMDocument> diffed with <string|DOMNode|DOMDocument> <assertion>',
+      (expect, subject, value) => {
+        if (typeof subject === 'string') {
+          subject = parseHtml(subject);
+        }
+        if (typeof value === 'string') {
+          value = parseHtml(value);
+        }
+        return expect.shift(expect.diff(subject, value).toString());
+      }
+    );
+
+    it('should work with HTMLElement', () => {
+      expect(
+        '<div><div id="foo"></div><div id="bar"></div></div>',
+        'diffed with',
+        '<div><div id="foo"></div><div id="quux"></div></div>',
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            <div id="foo"></div>
+            <div id="bar" // should equal 'quux'
+            ></div>
+          </div>
+        `
+      );
+    });
+
+    it('should work with HTMLElement with text nodes and comments inside', () => {
+      expect(
+        '<div>foo<!--bar--></div>',
+        'diffed with',
+        '<div>quux<!--baz--></div>',
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            -foo
+            +quux
+            -<!--bar-->
+            +<!--baz-->
+          </div>
+        `
+      );
+    });
+
+    it('should report a missing child correctly', () => {
+      expect(
+        '<div>foo<!--bar--></div>',
+        'diffed with',
+        '<div>foo<span></span><!--bar--></div>',
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            foo
+            // missing <span></span>
+            <!--bar-->
+          </div>
+        `
+      );
+    });
+
+    it('should report an extraneous child correctly', () => {
+      expect(
+        '<div>foo<span></span><!--bar--></div>',
+        'diffed with',
+        '<div>foo<!--bar--></div>',
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            foo
+            <span></span> // should be removed
+            <!--bar-->
+          </div>
+        `
+      );
+    });
+
+    it('should produce a nested diff when the outer elements are identical', () => {
+      expect(
+        '<div>foo<span><span>foo</span></span><!--bar--></div>',
+        'diffed with',
+        '<div>foo<span><span>bar</span></span><!--bar--></div>',
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            foo
+            <span>
+              <span>
+                -foo
+                +bar
+              </span>
+            </span>
+            <!--bar-->
+          </div>
+        `
+      );
+    });
+
+    it('should produce a nested diff when the outer element has a different set of attributes', () => {
+      expect(
+        '<div>foo<span class="bar" id="foo"><span>foo</span></span><!--bar--></div>',
+        'diffed with',
+        '<div>foo<span><span>bar</span></span><!--bar--></div>',
+        'to equal snapshot',
+        expect.unindent`
+          <div>
+            foo
+            <span class="bar" // should be removed
+                  id="foo" // should be removed
+            >
+              <span>
+                -foo
+                +bar
+              </span>
+            </span>
+            <!--bar-->
+          </div>
+        `
+      );
+    });
+
+    it('should diff documents with stuff around the documentElement', () => {
+      expect(
+        parseHtmlDocument(
+          '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
+        ),
+        'diffed with',
+        parseHtmlDocument(
+          '<!DOCTYPE html><html><head></head><body></body></html>'
+        ),
+        'to equal snapshot',
+        expect.unindent`
+          <!DOCTYPE html>
+          <!--foo--> // should be removed
+          <html><head></head><body></body></html>
+          <!--bar--> // should be removed
+        `
+      );
+    });
+
     it('should diff elements with different node names', () => {
       expect(
         ['<div></div>', '<span></span>'],
@@ -1850,7 +1991,7 @@ describe('unexpected-dom', () => {
           '<div foo="bar" baz="quux">hey</div>'
         ));
 
-      it('should succeed when the subject equals the value parsed as HTML', () =>
+      it('should succeed when the subject equals the value parsed as HTML, except an extra attribute', () =>
         expect(
           parseHtml('<div foo="bar" baz="quux">hey</div>'),
           'to satisfy',
@@ -1961,7 +2102,7 @@ describe('unexpected-dom', () => {
           `
         ));
 
-      it('should succeed when the subject equals the value parsed as HTML', () =>
+      it('should succeed when the subject equals the value', () =>
         expect(
           parseHtml('<div foo="bar" baz="quux">hey</div>'),
           'to satisfy',
@@ -2571,149 +2712,6 @@ describe('unexpected-dom', () => {
     });
   });
 
-  describe('diffing', () => {
-    expect.addAssertion(
-      '<string|DOMNode|DOMDocument> diffed with <string|DOMNode|DOMDocument> <assertion>',
-      (expect, subject, value) => {
-        if (typeof subject === 'string') {
-          subject = parseHtml(subject);
-        }
-        if (typeof value === 'string') {
-          value = parseHtml(value);
-        }
-        return expect.shift(expect.diff(subject, value).toString());
-      }
-    );
-
-    it('should work with HTMLElement', () => {
-      expect(
-        '<div><div id="foo"></div><div id="bar"></div></div>',
-        'diffed with',
-        '<div><div id="foo"></div><div id="quux"></div></div>',
-        'to equal snapshot',
-        expect.unindent`
-          <div>
-            <div id="foo"></div>
-            <div id="bar" // should equal 'quux'
-            ></div>
-          </div>
-        `
-      );
-    });
-
-    it('should work with HTMLElement with text nodes and comments inside', () => {
-      expect(
-        '<div>foo<!--bar--></div>',
-        'diffed with',
-        '<div>quux<!--baz--></div>',
-        'to equal snapshot',
-        expect.unindent`
-          <div>
-            -foo
-            +quux
-            -<!--bar-->
-            +<!--baz-->
-          </div>
-        `
-      );
-    });
-
-    it('should report a missing child correctly', () => {
-      expect(
-        '<div>foo<!--bar--></div>',
-        'diffed with',
-        '<div>foo<span></span><!--bar--></div>',
-        'to equal snapshot',
-        expect.unindent`
-          <div>
-            foo
-            // missing <span></span>
-            <!--bar-->
-          </div>
-        `
-      );
-    });
-
-    it('should report an extraneous child correctly', () => {
-      expect(
-        '<div>foo<span></span><!--bar--></div>',
-        'diffed with',
-        '<div>foo<!--bar--></div>',
-        'to equal snapshot',
-        expect.unindent`
-          <div>
-            foo
-            <span></span> // should be removed
-            <!--bar-->
-          </div>
-        `
-      );
-    });
-
-    it('should produce a nested diff when the outer elements are identical', () => {
-      expect(
-        '<div>foo<span><span>foo</span></span><!--bar--></div>',
-        'diffed with',
-        '<div>foo<span><span>bar</span></span><!--bar--></div>',
-        'to equal snapshot',
-        expect.unindent`
-          <div>
-            foo
-            <span>
-              <span>
-                -foo
-                +bar
-              </span>
-            </span>
-            <!--bar-->
-          </div>
-        `
-      );
-    });
-
-    it('should produce a nested diff when the outer element has a different set of attributes', () => {
-      expect(
-        '<div>foo<span class="bar" id="foo"><span>foo</span></span><!--bar--></div>',
-        'diffed with',
-        '<div>foo<span><span>bar</span></span><!--bar--></div>',
-        'to equal snapshot',
-        expect.unindent`
-          <div>
-            foo
-            <span class="bar" // should be removed
-                  id="foo" // should be removed
-            >
-              <span>
-                -foo
-                +bar
-              </span>
-            </span>
-            <!--bar-->
-          </div>
-        `
-      );
-    });
-
-    it('should diff documents with stuff around the documentElement', () => {
-      expect(
-        parseHtmlDocument(
-          '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
-        ),
-        'diffed with',
-        parseHtmlDocument(
-          '<!DOCTYPE html><html><head></head><body></body></html>'
-        ),
-        'to equal snapshot',
-        expect.unindent`
-          <!DOCTYPE html>
-          <!--foo--> // should be removed
-          <html><head></head><body></body></html>
-          <!--bar--> // should be removed
-        `
-      );
-    });
-  });
-
   describe('when parsed as HTML', () => {
     const htmlSrc = '<!DOCTYPE html><html><body class="bar">foo</body></html>';
     it('should parse a string as a complete HTML document', () => {
@@ -3025,29 +3023,6 @@ describe('unexpected-dom', () => {
     expect(
       () => {
         expect(parseXml('<foO></foO>').firstChild, 'to satisfy', {
-          name: 'foo'
-        });
-      },
-      'to throw an error satisfying to equal snapshot',
-      expect.unindent`
-      expected <foO></foO> to satisfy { name: 'foo' }
-
-      <foO // should equal 'foo'
-      ></foO>
-    `
-    );
-  });
-
-  it('should compare XML element names case sensitively, even when the owner document lacks a contentType attribute', () => {
-    expect(
-      () => {
-        const document = parseXml('<foO></foO>');
-        document.firstChild._ownerDocument = {
-          toString() {
-            return '[object XMLDocument]';
-          }
-        };
-        expect(document.firstChild, 'to satisfy', {
           name: 'foo'
         });
       },

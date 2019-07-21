@@ -1,4 +1,4 @@
-/*global expect:true, jsdom:true*/
+/* global expect:true, jsdom:true */
 /* eslint no-unused-vars: "off" */
 expect = require('unexpected')
   .clone()
