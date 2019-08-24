@@ -1501,7 +1501,7 @@ module.exports = {
 
       if (typeof element.hasAttribute === 'function') {
         const attributes = spec.attributes || {};
-        const className = attributes['class'];
+        const className = attributes.class;
         const style = attributes.style;
 
         if (className && element.hasAttribute('class')) {
