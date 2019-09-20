@@ -1458,6 +1458,21 @@ module.exports = {
     );
 
     expect.exportAssertion(
+      '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to contain test id <string>',
+      (expect, subject, testId) => {
+        expect.errorMode = 'nested';
+
+        const escapedTestId = JSON.stringify(testId);
+
+        return expect(
+          subject,
+          '[not] to contain elements matching',
+          `[data-test-id=${escapedTestId}]`
+        );
+      }
+    );
+
+    expect.exportAssertion(
       '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to match <string>',
       (expect, subject, query) => {
         expect.subjectOutput = output =>
