@@ -1441,9 +1441,12 @@ module.exports = {
     );
 
     expect.exportAssertion(
-      '<DOMDocument|DOMElement|DOMDocumentFragment> to contain [no] elements matching <string>',
+      [
+        '<DOMDocument|DOMElement|DOMDocumentFragment> to contain [no] elements matching <string>',
+        '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to contain elements matching <string>'
+      ],
       (expect, subject, query) => {
-        if (expect.flags.no) {
+        if (expect.flags.no || expect.flags.not) {
           return expect(subject.querySelectorAll(query), 'to satisfy', []);
         }
 

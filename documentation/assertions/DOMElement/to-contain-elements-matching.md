@@ -36,17 +36,17 @@ expected
 to contain elements matching '[data-test-id=emojies]'
 ```
 
-Using the `no` flag, you can assert that the selector can't matching any
+Using the `not` flag, you can assert that the selector can't matching any
 descendant elements:
 
 ```js
-expect(element, 'to contain no elements matching', '[data-test-id=emojies]');
+expect(element, 'not to contain elements matching', '[data-test-id=emojies]');
 ```
 
 You get the following error when it fails:
 
 ```js
-expect(element, 'to contain no elements matching', 'li');
+expect(element, 'not to contain elements matching', 'li');
 ```
 
 ```output
@@ -60,7 +60,7 @@ expected
     <li>...</li>
   </ol>
 </section>
-to contain no elements matching 'li'
+not to contain elements matching 'li'
 
 NodeList[
   <li>One</li>, // should be removed

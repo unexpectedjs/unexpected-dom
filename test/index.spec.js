@@ -2627,13 +2627,13 @@ describe('unexpected-dom', () => {
     });
   });
 
-  describe('to contain no elements matching', () => {
+  describe('not to contain elements matching', () => {
     it('should pass when not matching anything', () => {
       const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body></body></html>'
       );
 
-      expect(document, 'to contain no elements matching', '.foo');
+      expect(document, 'not to contain elements matching', '.foo');
     });
 
     it('should fail when matching a single node', () => {
@@ -2643,12 +2643,12 @@ describe('unexpected-dom', () => {
 
       expect(
         () => {
-          expect(document, 'to contain no elements matching', '.foo');
+          expect(document, 'not to contain elements matching', '.foo');
         },
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
         expected <!DOCTYPE html><html><head></head><body>...</body></html>
-        to contain no elements matching '.foo'
+        not to contain elements matching '.foo'
 
         NodeList[
           <div class="foo"></div> // should be removed
@@ -2664,12 +2664,12 @@ describe('unexpected-dom', () => {
 
       expect(
         () => {
-          expect(document, 'to contain no elements matching', '.foo');
+          expect(document, 'not to contain elements matching', '.foo');
         },
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
         expected <!DOCTYPE html><html><head></head><body>...</body></html>
-        to contain no elements matching '.foo'
+        not to contain elements matching '.foo'
 
         NodeList[
           <div class="foo"></div>, // should be removed
