@@ -2582,6 +2582,51 @@ describe('unexpected-dom', () => {
     });
   });
 
+  describe('queried for test id', () => {
+    it('should work with HTMLDocument', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo" id="foo"></div></body></html>'
+      );
+      expect(document, 'queried for test id', 'foo', 'to have attributes', {
+        id: 'foo'
+      });
+    });
+
+    it('should provide the results as the fulfillment value when no assertion is provided', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo" id="foo"></div></body></html>'
+      );
+      return expect(document, 'queried for test id', 'foo').then(div => {
+        expect(div, 'to have attributes', { id: 'foo' });
+      });
+    });
+
+    it('should error out if the selector matches no elements', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
+      );
+
+      expect(
+        () => {
+          expect(
+            document.body,
+            'queried for test id',
+            'blabla',
+            'to have attributes',
+            { id: 'foo' }
+          );
+        },
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+          expected <body><div data-test-id="foo"></div></body>
+          queried for test id 'blabla' to have attributes { id: 'foo' }
+            expected DOMElement queried for first [data-test-id="blabla"]
+              The selector [data-test-id="blabla"] yielded no results
+        `
+      );
+    });
+  });
+
   describe('to contain no elements matching', () => {
     it('should pass when not matching anything', () => {
       const document = parseHtmlDocument(

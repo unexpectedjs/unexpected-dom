@@ -1426,6 +1426,21 @@ module.exports = {
     );
 
     expect.exportAssertion(
+      '<DOMDocument|DOMElement|DOMDocumentFragment> [when] queried for test id <string> <assertion?>',
+      (expect, subject, testId) => {
+        expect.errorMode = 'nested';
+
+        const escapedTestId = JSON.stringify(testId);
+
+        return expect(
+          subject,
+          'queried for first',
+          `[data-test-id=${escapedTestId}]`
+        ).then(queryResult => expect.shift(queryResult));
+      }
+    );
+
+    expect.exportAssertion(
       '<DOMDocument|DOMElement|DOMDocumentFragment> to contain [no] elements matching <string>',
       (expect, subject, query) => {
         if (expect.flags.no) {
