@@ -1483,6 +1483,23 @@ module.exports = {
     );
 
     expect.exportAssertion(
+      '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to have test id <string>',
+      (expect, subject, testId) => {
+        expect.errorMode = 'nested';
+        expect.subjectOutput = output =>
+          expect.inspect(subject, Infinity, output);
+
+        const escapedTestId = JSON.stringify(testId);
+
+        return expect(
+          subject,
+          '[not] to match',
+          `[data-test-id=${escapedTestId}]`
+        );
+      }
+    );
+
+    expect.exportAssertion(
       '<string> [when] parsed as (html|HTML) [fragment] <assertion?>',
       (expect, subject) => {
         expect.errorMode = 'nested';
