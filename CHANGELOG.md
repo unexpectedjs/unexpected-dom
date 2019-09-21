@@ -1,12 +1,23 @@
-### v4.13.1 (2019-06-23)
+### v4.14.0 (2019-09-21)
 
 #### Pull requests
 
+- [#286](https://github.com/unexpectedjs/unexpected-dom/pull/286) First class support for test id's ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#282](https://github.com/unexpectedjs/unexpected-dom/pull/282) Upgrade eslint-plugin-node to version 10.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#279](https://github.com/unexpectedjs/unexpected-dom/pull/279) Update linting setup ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [#277](https://github.com/unexpectedjs/unexpected-dom/pull/277) Upgrade karma-chrome-launcher to version 3.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#276](https://github.com/unexpectedjs/unexpected-dom/pull/276) Upgrade unexpected-markdown to version 4.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#274](https://github.com/unexpectedjs/unexpected-dom/pull/274) Upgrade unexpected snapshot ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#273](https://github.com/unexpectedjs/unexpected-dom/pull/273) Replaced some more output tests with snapshots ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#271](https://github.com/unexpectedjs/unexpected-dom/pull/271) Use snapshot testing for inspection and error checking ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#272](https://github.com/unexpectedjs/unexpected-dom/pull/272) Stop checking in the bundled files ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 #### Commits to master
 
-- [Bump magicpen-prism to 3.0.2 to fix an issue with the Prism global.](https://github.com/unexpectedjs/unexpected-dom/commit/80aab327c56e40cd3c3ef15e40337ef43f28ed61) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [eslint --fix .](https://github.com/unexpectedjs/unexpected-dom/commit/9a7839f965a48919399e2c729a6bee1c42b8579f) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Update eslint-config-standard to version 14.0.1](https://github.com/unexpectedjs/unexpected-dom/commit/9a0c254ad6316c9c7805a6469d1d62d2aed15f92) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [Fix lint](https://github.com/unexpectedjs/unexpected-dom/commit/09a7f5c43c8be10366dc402f0bac50b3222f398a) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Update eslint to version 6.0.0](https://github.com/unexpectedjs/unexpected-dom/commit/24a294ba8f8fc8f29b0ccc2d9e717315d626f731) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [Update changelog](https://github.com/unexpectedjs/unexpected-dom/commit/be54ee9f6c1de4f4d66147ca84bf2ffef278337a) ([Alex J Burke](mailto:alex@alexjeffburke.com))
 
 ### v4.13.0 (2019-06-12)
