@@ -8,12 +8,20 @@
     "url": "/assertions/DOMElement/not-to-have-attributes/"
   },
   {
+    "label": "queried for test id (DOMElement)",
+    "url": "/assertions/DOMElement/queried-for-test-id/"
+  },
+  {
     "label": "queried for (DOMElement)",
     "url": "/assertions/DOMElement/queried-for/"
   },
   {
     "label": "to contain elements matching (DOMElement)",
     "url": "/assertions/DOMElement/to-contain-elements-matching/"
+  },
+  {
+    "label": "to contain test id (DOMElement)",
+    "url": "/assertions/DOMElement/to-contain-test-id/"
   },
   {
     "label": "to contain (DOMElement)",
@@ -32,6 +40,10 @@
     "url": "/assertions/DOMElement/not-to-have-class/"
   },
   {
+    "label": "to have test id (DOMElement)",
+    "url": "/assertions/DOMElement/to-have-test-id/"
+  },
+  {
     "label": "to have text (DOMElement)",
     "url": "/assertions/DOMElement/to-have-text/"
   },
@@ -44,19 +56,19 @@
     "url": "/assertions/DOMElement/to-satisfy/"
   },
   {
-    "label": "to contain (DOMNodeList)",
-    "url": "/assertions/DOMNodeList/to-contain/"
-  },
-  {
-    "label": "to satisfy (DOMNodeList)",
-    "url": "/assertions/DOMNodeList/to-satisfy/"
-  },
-  {
     "label": "parsed as HTML (string)",
     "url": "/assertions/string/parsed-as-HTML/"
   },
   {
     "label": "parsed as XML (string)",
     "url": "/assertions/string/parsed-as-XML/"
+  },
+  {
+    "label": "to contain (DOMNodeList)",
+    "url": "/assertions/DOMNodeList/to-contain/"
+  },
+  {
+    "label": "to satisfy (DOMNodeList)",
+    "url": "/assertions/DOMNodeList/to-satisfy/"
   }
 ]
