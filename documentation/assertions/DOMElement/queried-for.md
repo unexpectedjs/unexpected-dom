@@ -1,6 +1,6 @@
 Queries the subject element with the given CSS selector and forwards it to another assertion.
 
-If the selector doesn't match anything is fails.
+If the selector doesn't match anything it fails.
 
 ```js
 var element = createElement(`

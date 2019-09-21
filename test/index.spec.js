@@ -2582,13 +2582,58 @@ describe('unexpected-dom', () => {
     });
   });
 
-  describe('to contain no elements matching', () => {
+  describe('queried for test id', () => {
+    it('should work with HTMLDocument', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo" id="foo"></div></body></html>'
+      );
+      expect(document, 'queried for test id', 'foo', 'to have attributes', {
+        id: 'foo'
+      });
+    });
+
+    it('should provide the results as the fulfillment value when no assertion is provided', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo" id="foo"></div></body></html>'
+      );
+      return expect(document, 'queried for test id', 'foo').then(div => {
+        expect(div, 'to have attributes', { id: 'foo' });
+      });
+    });
+
+    it('should error out if the selector matches no elements', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
+      );
+
+      expect(
+        () => {
+          expect(
+            document.body,
+            'queried for test id',
+            'blabla',
+            'to have attributes',
+            { id: 'foo' }
+          );
+        },
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+          expected <body><div data-test-id="foo"></div></body>
+          queried for test id 'blabla' to have attributes { id: 'foo' }
+            expected DOMElement queried for first [data-test-id="blabla"]
+              The selector [data-test-id="blabla"] yielded no results
+        `
+      );
+    });
+  });
+
+  describe('not to contain elements matching', () => {
     it('should pass when not matching anything', () => {
       const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body></body></html>'
       );
 
-      expect(document, 'to contain no elements matching', '.foo');
+      expect(document, 'not to contain elements matching', '.foo');
     });
 
     it('should fail when matching a single node', () => {
@@ -2598,12 +2643,12 @@ describe('unexpected-dom', () => {
 
       expect(
         () => {
-          expect(document, 'to contain no elements matching', '.foo');
+          expect(document, 'not to contain elements matching', '.foo');
         },
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
         expected <!DOCTYPE html><html><head></head><body>...</body></html>
-        to contain no elements matching '.foo'
+        not to contain elements matching '.foo'
 
         NodeList[
           <div class="foo"></div> // should be removed
@@ -2619,12 +2664,12 @@ describe('unexpected-dom', () => {
 
       expect(
         () => {
-          expect(document, 'to contain no elements matching', '.foo');
+          expect(document, 'not to contain elements matching', '.foo');
         },
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
         expected <!DOCTYPE html><html><head></head><body>...</body></html>
-        to contain no elements matching '.foo'
+        not to contain elements matching '.foo'
 
         NodeList[
           <div class="foo"></div>, // should be removed
@@ -2662,6 +2707,64 @@ describe('unexpected-dom', () => {
         </html>
         to contain elements matching '.bar'
       `
+      );
+    });
+  });
+
+  describe('to contain test id', () => {
+    it('should pass when the test id is found', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
+      );
+
+      expect(document, 'to contain test id', 'foo');
+    });
+
+    it('should fail when the test id is not found', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div><div data-test-id="bar"></div></body></html>'
+      );
+
+      expect(
+        () => {
+          expect(document, 'to contain test id', 'baz');
+        },
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+          expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain test id 'baz'
+            expected HTMLDocument to contain elements matching '[data-test-id="baz"]'
+        `
+      );
+    });
+  });
+
+  describe('not to contain test id', () => {
+    it('should pass when the test id is not found ', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body></body></html>'
+      );
+
+      expect(document, 'not to contain test id', 'foo');
+    });
+
+    it('should fail when the test id is found', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
+      );
+
+      expect(
+        () => {
+          expect(document, 'not to contain test id', 'foo');
+        },
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+          expected <!DOCTYPE html><html><head></head><body>...</body></html> not to contain test id 'foo'
+            expected HTMLDocument not to contain elements matching '[data-test-id="foo"]'
+
+            NodeList[
+              <div data-test-id="foo"></div> // should be removed
+            ]
+        `
       );
     });
   });
@@ -2708,6 +2811,60 @@ describe('unexpected-dom', () => {
         },
         'to throw an error satisfying to equal snapshot',
         'expected <div class="foo"></div> not to match \'.foo\''
+      );
+    });
+  });
+
+  describe('to have test id', () => {
+    it('should pass if the element have the given test id', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
+      );
+
+      expect(document.body.firstChild, 'to have test id', 'foo');
+    });
+
+    it('should fail if the element does not have the given test id', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
+      );
+
+      expect(
+        () => {
+          expect(document.body.firstChild, 'to have test id', 'bar');
+        },
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <div data-test-id="foo"></div> to have test id 'bar'
+          expected <div data-test-id="foo"></div> to match '[data-test-id="bar"]'
+      `
+      );
+    });
+  });
+
+  describe('not to have test id', () => {
+    it('should pass if the element does not have the given test id', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
+      );
+
+      expect(document.body.firstChild, 'not to have test id', 'bar');
+    });
+
+    it('should fail if the element have the given test id', () => {
+      const document = parseHtmlDocument(
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
+      );
+
+      expect(
+        () => {
+          expect(document.body.firstChild, 'not to have test id', 'foo');
+        },
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <div data-test-id="foo"></div> not to have test id 'foo'
+          expected <div data-test-id="foo"></div> not to match '[data-test-id="foo"]'
+      `
       );
     });
   });

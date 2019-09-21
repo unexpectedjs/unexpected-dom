@@ -1426,9 +1426,27 @@ module.exports = {
     );
 
     expect.exportAssertion(
-      '<DOMDocument|DOMElement|DOMDocumentFragment> to contain [no] elements matching <string>',
+      '<DOMDocument|DOMElement|DOMDocumentFragment> [when] queried for test id <string> <assertion?>',
+      (expect, subject, testId) => {
+        expect.errorMode = 'nested';
+
+        const escapedTestId = JSON.stringify(testId);
+
+        return expect(
+          subject,
+          'queried for first',
+          `[data-test-id=${escapedTestId}]`
+        ).then(queryResult => expect.shift(queryResult));
+      }
+    );
+
+    expect.exportAssertion(
+      [
+        '<DOMDocument|DOMElement|DOMDocumentFragment> to contain [no] elements matching <string>',
+        '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to contain elements matching <string>'
+      ],
       (expect, subject, query) => {
-        if (expect.flags.no) {
+        if (expect.flags.no || expect.flags.not) {
           return expect(subject.querySelectorAll(query), 'to satisfy', []);
         }
 
@@ -1440,12 +1458,44 @@ module.exports = {
     );
 
     expect.exportAssertion(
+      '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to contain test id <string>',
+      (expect, subject, testId) => {
+        expect.errorMode = 'nested';
+
+        const escapedTestId = JSON.stringify(testId);
+
+        return expect(
+          subject,
+          '[not] to contain elements matching',
+          `[data-test-id=${escapedTestId}]`
+        );
+      }
+    );
+
+    expect.exportAssertion(
       '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to match <string>',
       (expect, subject, query) => {
         expect.subjectOutput = output =>
           expect.inspect(subject, Infinity, output);
 
         return expect(matchesSelector(subject, query), '[not] to be true');
+      }
+    );
+
+    expect.exportAssertion(
+      '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to have test id <string>',
+      (expect, subject, testId) => {
+        expect.errorMode = 'nested';
+        expect.subjectOutput = output =>
+          expect.inspect(subject, Infinity, output);
+
+        const escapedTestId = JSON.stringify(testId);
+
+        return expect(
+          subject,
+          '[not] to match',
+          `[data-test-id=${escapedTestId}]`
+        );
       }
     );
 
