@@ -1,3 +1,9 @@
+### v4.14.1 (2019-09-22)
+
+- [Use the version hook to update changelog.](https://github.com/unexpectedjs/unexpected-dom/commit/961b52e6637992b91ccfa71546b03cf605ae18ed) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Replace browserify with rollup.](https://github.com/unexpectedjs/unexpected-dom/commit/e5bf29978507106ee3245faa801889273c51b9b0) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Update changelog](https://github.com/unexpectedjs/unexpected-dom/commit/d6654b7fe4d1ac210d9c1a334dabbe1e7f1a3544) ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v4.14.0 (2019-09-21)
 
 #### Pull requests
@@ -10,7 +16,6 @@
 - [#274](https://github.com/unexpectedjs/unexpected-dom/pull/274) Upgrade unexpected snapshot ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#273](https://github.com/unexpectedjs/unexpected-dom/pull/273) Replaced some more output tests with snapshots ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#271](https://github.com/unexpectedjs/unexpected-dom/pull/271) Use snapshot testing for inspection and error checking ([Sune Simonsen](mailto:sune@we-knowhow.dk))
-- [#272](https://github.com/unexpectedjs/unexpected-dom/pull/272) Stop checking in the bundled files ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 #### Commits to master
 
@@ -18,6 +23,16 @@
 - [Update eslint-config-standard to version 14.0.1](https://github.com/unexpectedjs/unexpected-dom/commit/9a0c254ad6316c9c7805a6469d1d62d2aed15f92) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [Fix lint](https://github.com/unexpectedjs/unexpected-dom/commit/09a7f5c43c8be10366dc402f0bac50b3222f398a) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
 - [Update eslint to version 6.0.0](https://github.com/unexpectedjs/unexpected-dom/commit/24a294ba8f8fc8f29b0ccc2d9e717315d626f731) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+### v4.13.1 (2019-06-23)
+
+#### Pull requests
+
+- [#272](https://github.com/unexpectedjs/unexpected-dom/pull/272) Stop checking in the bundled files ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
+#### Commits to master
+
+- [Bump magicpen-prism to 3.0.2 to fix an issue with the Prism global.](https://github.com/unexpectedjs/unexpected-dom/commit/80aab327c56e40cd3c3ef15e40337ef43f28ed61) ([Alex J Burke](mailto:alex@alexjeffburke.com))
 - [Update changelog](https://github.com/unexpectedjs/unexpected-dom/commit/be54ee9f6c1de4f4d66147ca84bf2ffef278337a) ([Alex J Burke](mailto:alex@alexjeffburke.com))
 
 ### v4.13.0 (2019-06-12)
