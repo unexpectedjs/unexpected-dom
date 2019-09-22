@@ -22,7 +22,8 @@
     "coverage": "nyc --reporter=lcov --reporter=text npm test",
     "preversion": "npm run lint && npm run test",
     "prepublishOnly": "npm run build && npm run bundle",
-    "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && npm run generate-site && gh-pages -d site-build",
+    "version": "offline-github-changelog --next=${npm_package_version} > CHANGELOG.md && git add CHANGELOG.md",
+    "postversion": "npm run generate-site && gh-pages -d site-build",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
   },
