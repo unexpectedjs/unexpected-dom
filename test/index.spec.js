@@ -1261,7 +1261,9 @@ describe('unexpected-dom', () => {
 
             expect(this.body.firstChild, 'to only have attributes', {
               style: {
-                background: 'url(https://www.example.com/picture.png)'
+                background: expect
+                  .it('to be', 'url(https://www.example.com/picture.png)')
+                  .or('to be', 'url("https://www.example.com/picture.png")')
               }
             });
           });
