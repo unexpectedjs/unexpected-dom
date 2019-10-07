@@ -1254,6 +1254,17 @@ describe('unexpected-dom', () => {
               }
             });
           });
+
+          it('should handle url values', function() {
+            this.body.innerHTML =
+              '<div style="background: url(https://www.example.com/picture.png)"></div>';
+
+            expect(this.body.firstChild, 'to only have attributes', {
+              style: {
+                background: 'url(https://www.example.com/picture.png)'
+              }
+            });
+          });
         });
 
         describe('strict comparison', () => {

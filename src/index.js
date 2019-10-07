@@ -103,10 +103,14 @@ function styleStringToObject(str) {
   const styles = {};
 
   str.split(';').forEach(rule => {
-    const tuple = rule.split(':').map(part => part.trim());
+    const colonIndex = rule.indexOf(':');
+
     // Guard against empty touples
-    if (tuple[0] && tuple[1]) {
-      styles[tuple[0]] = tuple[1];
+    if (colonIndex !== -1) {
+      const key = rule.slice(0, colonIndex).trim();
+      const value = rule.slice(colonIndex + 1).trim();
+
+      styles[key] = value;
     }
   });
 
