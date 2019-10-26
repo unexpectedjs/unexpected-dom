@@ -2496,12 +2496,10 @@ describe('unexpected-dom', () => {
 
     // Regression test for https://github.com/unexpectedjs/unexpected-dom/issues/294
     it('should produce a nice diff when satisfying a test node against an element with children', () => {
-      document.body.innerHTML = '<div>foo</div>';
-
       expect(
         () =>
           expect(
-            document.body.firstChild,
+            parseHtmlNode('<div>foo</div>'),
             'to satisfy',
             '<div><div><div>bar</div></div></div>'
           ),
