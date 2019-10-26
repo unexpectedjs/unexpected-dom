@@ -1623,6 +1623,9 @@ module.exports = {
       expectedChildren.forEach((childSpec, i) => {
         const child = element.childNodes[i];
         const childType = expect.findTypeOf(child);
+        if (expect.findTypeOf(childSpec).is('DOMNode')) {
+          childSpec = convertDOMNodeToSatisfySpec(childSpec);
+        }
 
         if (!child) {
           return;
