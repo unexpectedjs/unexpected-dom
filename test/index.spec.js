@@ -2496,7 +2496,7 @@ describe('unexpected-dom', () => {
 
     // Regression test for https://github.com/unexpectedjs/unexpected-dom/issues/294
     it('should produce a nice diff when satisfying a test node against an element with children', () => {
-      const document = new jsdom.JSDOM('<div>foo</div>').window.document;
+      document.body.innerHTML = '<div>foo</div>';
 
       expect(
         () =>
