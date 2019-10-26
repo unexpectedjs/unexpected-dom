@@ -1720,7 +1720,7 @@ describe('unexpected-dom', () => {
 
               NodeList[
                 <div>
-                  foo // should equal 'quux'
+                  foo // should equal quux
                       //
                       // -foo
                       // +quux
@@ -1790,7 +1790,7 @@ describe('unexpected-dom', () => {
 
               NodeList[
                 <div>
-                  foo // should equal 'quux'
+                  foo // should equal quux
                       //
                       // -foo
                       // +quux
@@ -1856,7 +1856,7 @@ describe('unexpected-dom', () => {
 
                 NodeList[
                   <div foo="bar">
-                    foo // should equal 'foo!'
+                    foo // should equal foo!
                         //
                         // -foo
                         // +foo!
@@ -2107,7 +2107,7 @@ describe('unexpected-dom', () => {
             expected <div foo="bar" baz="quux">foobar</div> to satisfy <div foo="bar" baz="quux">hey</div>
 
             <div foo="bar" baz="quux">
-              foobar // should equal 'hey'
+              foobar // should equal hey
                      //
                      // -foobar
                      // +hey
@@ -2222,7 +2222,7 @@ describe('unexpected-dom', () => {
 
             <div
               style="border-left-color: #FFF" // expected <div style="border-left-color: #FFF">hey</div>
-                                              // to satisfy { name: 'div', attributes: { style: 'border-left-color: #FFFF;' }, children: [ 'hey' ] }
+                                              // to satisfy { name: 'div', attributes: { style: 'border-left-color: #FFFF;' }, children: [ hey ] }
                                               //   Expectation contains invalid styles: 'border-left-color: #FFFF'
             >hey</div>
           `
@@ -2243,7 +2243,7 @@ describe('unexpected-dom', () => {
 
             <div
               style="width: 120px" // expected <div style="width: 120px">hey</div>
-                                   // to satisfy { name: 'div', attributes: { style: 'color;background;width: 120px' }, children: [ 'hey' ] }
+                                   // to satisfy { name: 'div', attributes: { style: 'color;background;width: 120px' }, children: [ hey ] }
                                    //   Expectation contains invalid styles: 'color;background'
             >hey</div>
           `
@@ -3600,7 +3600,7 @@ describe('unexpected-dom', () => {
         to contain <span><span>Hello</span><!--ignore--></span>
 
         <span>
-          // missing { name: 'span', attributes: {}, children: [ 'Hello' ] }
+          // missing <span>Hello</span>
           Hello
         </span>
       `
@@ -3648,7 +3648,7 @@ describe('unexpected-dom', () => {
           to contain <span class="name">John Doe</span>
 
           <span class="name something-else">
-            Jane Doe // should equal 'John Doe'
+            Jane Doe // should equal John Doe
                      //
                      // -Jane Doe
                      // +John Doe
@@ -3744,7 +3744,7 @@ describe('unexpected-dom', () => {
           to contain <span data-test-id="name">John Doe</span>
 
           <span class="name something-else" data-test-id="name">
-            Jane Doe // should equal 'John Doe'
+            Jane Doe // should equal John Doe
                      //
                      // -Jane Doe
                      // +John Doe
@@ -3767,7 +3767,7 @@ describe('unexpected-dom', () => {
         expected <div><span></span></div> to contain <span><i>Hello</i></span>
 
         <span>
-          // missing { name: 'i', attributes: {}, children: [ 'Hello' ] }
+          // missing <i>Hello</i>
         </span>
       `
       );
@@ -3812,7 +3812,7 @@ describe('unexpected-dom', () => {
         <span>
           <strong>Hello</strong>
           <em>world</em>
-          // missing '!'
+          // missing !
         </span>
       `
       );

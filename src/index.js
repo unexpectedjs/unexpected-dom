@@ -808,9 +808,7 @@ module.exports = {
                 : node.attributes[i].value || '';
           }
         }
-        result.children = Array.prototype.map.call(node.childNodes, childNode =>
-          convertDOMNodeToSatisfySpec(childNode, isHtml)
-        );
+        result.children = Array.prototype.slice.call(node.childNodes);
         return result;
       } else if (node.nodeType === 3) {
         // DOMTextNode
