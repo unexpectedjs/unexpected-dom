@@ -2493,6 +2493,28 @@ describe('unexpected-dom', () => {
       `
       );
     });
+
+    // Regression test for https://github.com/unexpectedjs/unexpected-dom/issues/294
+    it('should produce a nice diff when satisfying a test node against an element with children', () => {
+      const document = new jsdom.JSDOM('<div>foo</div>').window.document;
+
+      expect(
+        () =>
+          expect(
+            document.body.firstChild,
+            'to satisfy',
+            '<div><div><div>bar</div></div></div>'
+          ),
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <div>foo</div> to satisfy <div><div><div>bar</div></div></div>
+
+        <div>
+          foo // should satisfy <div><div>bar</div></div>
+        </div>
+      `
+      );
+    });
   });
 
   describe('queried for', () => {
