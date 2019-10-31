@@ -74,7 +74,7 @@ to contain <h1 class="heading">Assert on all content</h1>
   class="title" // expected [ 'title' ] to contain 'heading'
   data-test-id="title"
 >
-  Assert on text content // should equal 'Assert on all content'
+  Assert on text content // should equal Assert on all content
                          //
                          // -Assert on text content
                          // +Assert on all content

@@ -808,9 +808,7 @@ module.exports = {
                 : node.attributes[i].value || '';
           }
         }
-        result.children = Array.prototype.map.call(node.childNodes, childNode =>
-          convertDOMNodeToSatisfySpec(childNode, isHtml)
-        );
+        result.children = Array.prototype.slice.call(node.childNodes);
         return result;
       } else if (node.nodeType === 3) {
         // DOMTextNode
@@ -1519,7 +1517,23 @@ module.exports = {
       }
     );
 
-    function scoreElementAgainstSpec(element, spec) {
+    function memoize(fn) {
+      const map = new Map();
+      return node => {
+        let spec = map.get(node);
+        if (typeof spec === 'undefined') {
+          spec = fn(node);
+          map.set(node, spec);
+        }
+        return spec;
+      };
+    }
+
+    function scoreElementAgainstSpec(
+      element,
+      spec,
+      memoizedConvertDOMNodeToSatisfySpec
+    ) {
       const isTextSimilar = (value, valueSpec) => {
         const actual = (value || '').trim().toLowerCase();
         if (typeof valueSpec === 'string') {
@@ -1625,6 +1639,9 @@ module.exports = {
       expectedChildren.forEach((childSpec, i) => {
         const child = element.childNodes[i];
         const childType = expect.findTypeOf(child);
+        if (expect.findTypeOf(childSpec).is('DOMNode')) {
+          childSpec = memoizedConvertDOMNodeToSatisfySpec(childSpec);
+        }
 
         if (!child) {
           return;
@@ -1636,7 +1653,8 @@ module.exports = {
               // Element
               score += scoreElementAgainstSpec(
                 element.childNodes[i],
-                convertDOMNodeToSatisfySpec(childSpec)
+                memoizedConvertDOMNodeToSatisfySpec(childSpec),
+                memoizedConvertDOMNodeToSatisfySpec
               );
             }
 
@@ -1648,7 +1666,11 @@ module.exports = {
           childType.is('DOMElement') &&
           typeof childSpec === 'object'
         ) {
-          score += scoreElementAgainstSpec(element.childNodes[i], childSpec);
+          score += scoreElementAgainstSpec(
+            element.childNodes[i],
+            childSpec,
+            memoizedConvertDOMNodeToSatisfySpec
+          );
         } else if (
           childType.is('DOMTextNode') &&
           isTextSimilar(child.nodeValue, childSpec)
@@ -1660,7 +1682,14 @@ module.exports = {
       return score;
     }
 
-    function findMatchesWithGoodScore(data, spec) {
+    function findMatchesWithGoodScore(
+      data,
+      spec,
+      memoizedConvertDOMNodeToSatisfySpec
+    ) {
+      memoizedConvertDOMNodeToSatisfySpec =
+        memoizedConvertDOMNodeToSatisfySpec ||
+        memoize(convertDOMNodeToSatisfySpec);
       const elements =
         typeof data.length === 'number'
           ? Array.prototype.slice.call(data)
@@ -1670,7 +1699,11 @@ module.exports = {
       let bestScore = 0;
 
       elements.forEach(element => {
-        const score = scoreElementAgainstSpec(element, spec);
+        const score = scoreElementAgainstSpec(
+          element,
+          spec,
+          memoizedConvertDOMNodeToSatisfySpec
+        );
         bestScore = Math.max(score, bestScore);
 
         if (score > 0 && score >= bestScore) {
@@ -1680,7 +1713,13 @@ module.exports = {
         for (var i = 0; i < element.childNodes.length; i += 1) {
           const child = element.childNodes[i];
           if (child.nodeType === 1) {
-            result.push(...findMatchesWithGoodScore(child, spec));
+            result.push(
+              ...findMatchesWithGoodScore(
+                child,
+                spec,
+                memoizedConvertDOMNodeToSatisfySpec
+              )
+            );
           }
         }
       });
