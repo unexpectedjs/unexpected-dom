@@ -1,3 +1,15 @@
+### v4.14.2 (2019-10-31)
+
+#### Pull requests
+
+- [#295](https://github.com/unexpectedjs/unexpected-dom/pull/295) Fix weird output :\) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [#293](https://github.com/unexpectedjs/unexpected-dom/pull/293) Upgrade jsdom to version 15.2.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#292](https://github.com/unexpectedjs/unexpected-dom/pull/292) Fix problem where urls in style attributes would get cut ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
+#### Commits to master
+
+- [Don't use the typeless addAssertion syntax \(silences deprecation warning\)](https://github.com/unexpectedjs/unexpected-dom/commit/1869b96e371d72cf4e0bd5614d69c50f14e2f6ed) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+
 ### v4.14.1 (2019-09-22)
 
 - [Use the version hook to update changelog.](https://github.com/unexpectedjs/unexpected-dom/commit/961b52e6637992b91ccfa71546b03cf605ae18ed) ([Alex J Burke](mailto:alex@alexjeffburke.com))
