@@ -2927,12 +2927,10 @@ describe('unexpected-dom', () => {
         expect(
           '<div>foo</div><div>bar</div>',
           'when parsed as HTML fragment',
-          expect
-            .it('to be a', 'DOMDocumentFragment')
-            .and('to satisfy', [
-              { name: 'div', children: ['foo'] },
-              { name: 'div', children: ['bar'] }
-            ])
+          expect.it('to be a', 'DOMDocumentFragment').and('to satisfy', [
+            { name: 'div', children: ['foo'] },
+            { name: 'div', children: ['bar'] }
+          ])
         );
       });
 
