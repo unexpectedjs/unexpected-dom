@@ -2513,6 +2513,40 @@ describe('unexpected-dom', () => {
       `
       );
     });
+
+    describe('when used with expect.it', () => {
+      it('succeeds if the given structure is present', () => {
+        expect(
+          parseHtmlNode('<div></div>'),
+          'to satisfy',
+          expect.it('not to have attributes', 'class')
+        );
+      });
+
+      it('succeeds when used as the name option', () => {
+        expect(parseHtmlNode('<my-foo-bar></my-foo-bar>'), 'to satisfy', {
+          name: expect.it(value => value.indexOf('-').length === 2)
+        });
+      });
+
+      it('succeeds when used as the children option', () => {
+        expect(
+          parseHtmlNode(
+            '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          ),
+          'to satisfy',
+          {
+            children: expect.it('to have length', 3)
+          }
+        );
+      });
+
+      it('succeeds when used as the textContent option', () => {
+        expect(parseHtmlNode('<div>bar foo</div>'), 'to satisfy', {
+          textContent: expect.it('not to start with', 'foo')
+        });
+      });
+    });
   });
 
   describe('queried for', () => {
@@ -3313,18 +3347,6 @@ describe('unexpected-dom', () => {
           'when parsed as HTML',
           'to contain',
           parseHtmlNode('<span class="name">Jane Doe</span>')
-        );
-      });
-    });
-
-    describe('when used with expect.it', () => {
-      it('succeeds if the given structure is present', () => {
-        expect(
-          parseHtmlNode(
-            '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
-          ),
-          'to satisfy',
-          expect.it('to contain', '<span class="name">Jane Doe</span>')
         );
       });
     });
