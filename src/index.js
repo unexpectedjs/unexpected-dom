@@ -1750,7 +1750,11 @@ module.exports = {
         const valueType = expect.findTypeOf(value);
         let spec = value;
 
-        if (valueType.is('DOMElement')) {
+        if (valueType.is('expect.it')) {
+          throw new Error(
+            'Unsupported value for "to contain" assertion: expect.it'
+          );
+        } else if (valueType.is('DOMElement')) {
           spec = convertDOMNodeToSatisfySpec(value, isHtml);
         } else if (valueType.is('string')) {
           const documentFragment = isHtml

@@ -3544,6 +3544,22 @@ describe('unexpected-dom', () => {
       });
     });
 
+    describe('when used with expect.it', () => {
+      it('fails with an unsupported message at the top-level', () => {
+        expect(
+          () => {
+            expect(
+              parseHtmlNode('<div></div>'),
+              'to contain',
+              expect.it('not to have attributes', 'class')
+            );
+          },
+          'to throw',
+          'Unsupported value for "to contain" assertion: expect.it'
+        );
+      });
+    });
+
     it('supports only stating a subset of the classes', () => {
       expect(
         '<div><i class="greeting">Hello</i> <span class="name something-else and-this">Jane Doe</span></div>',
