@@ -2517,6 +2517,29 @@ describe('unexpected-dom', () => {
     describe('when used with expect.it', () => {
       it('succeeds if the given structure is present', () => {
         expect(
+          parseHtmlNode('<div class="foobar"></div>'),
+          'to satisfy',
+          expect.it('to have attributes', 'class')
+        );
+      });
+
+      it('fails with a diff if the given structure is absent', () => {
+        expect(() =>
+          expect(
+            parseHtmlNode('<div></div>'),
+            'to satisfy',
+            expect.it('to have attributes', 'class')
+          ),'to throw an error satisfying to equal snapshot', expect.unindent`
+            expected <div></div> to have attributes 'class'
+
+            <div
+              // missing class
+            ></div>
+          `);
+      });
+
+      it('succeeds with a negated assertion', () => {
+        expect(
           parseHtmlNode('<div></div>'),
           'to satisfy',
           expect.it('not to have attributes', 'class')
