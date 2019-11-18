@@ -965,8 +965,13 @@ module.exports = {
       '<DOMElement> to [exhaustively] satisfy <object>',
       (expect, subject, value) => {
         const isHtml = isInsideHtmlDocument(subject);
-        ensureSupportedSpecOptions(value);
 
+        if (expect.argTypes[0].is('expect.it')) {
+          expect.context.thisObject = subject;
+          return value(subject, expect.context);
+        }
+
+        ensureSupportedSpecOptions(value);
         const promiseByKey = {
           name: expect.promise(() => {
             if (value && typeof value.name !== 'undefined') {
@@ -1745,7 +1750,11 @@ module.exports = {
         const valueType = expect.findTypeOf(value);
         let spec = value;
 
-        if (valueType.is('DOMElement')) {
+        if (valueType.is('expect.it')) {
+          throw new Error(
+            'Unsupported value for "to contain" assertion: expect.it'
+          );
+        } else if (valueType.is('DOMElement')) {
           spec = convertDOMNodeToSatisfySpec(value, isHtml);
         } else if (valueType.is('string')) {
           const documentFragment = isHtml
