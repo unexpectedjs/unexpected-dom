@@ -1,3 +1,8 @@
+### v4.14.3 (2019-11-18)
+
+- [#297](https://github.com/unexpectedjs/unexpected-dom/pull/297) Support for expect.it ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#296](https://github.com/unexpectedjs/unexpected-dom/pull/296) Upgrade prettier to version 1.19.1 ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
 ### v4.14.2 (2019-10-31)
 
 #### Pull requests
