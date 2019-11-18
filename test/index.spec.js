@@ -3317,6 +3317,18 @@ describe('unexpected-dom', () => {
       });
     });
 
+    describe('when used with expect.it', () => {
+      it('succeeds if the given structure is present', () => {
+        expect(
+          parseHtmlNode(
+            '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          ),
+          'to satisfy',
+          expect.it('to contain', '<span class="name">Jane Doe</span>')
+        );
+      });
+    });
+
     describe('when given a spec', () => {
       it('succeeds if the given structure is present', () => {
         expect(

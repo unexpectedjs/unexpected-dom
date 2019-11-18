@@ -965,8 +965,13 @@ module.exports = {
       '<DOMElement> to [exhaustively] satisfy <object>',
       (expect, subject, value) => {
         const isHtml = isInsideHtmlDocument(subject);
-        ensureSupportedSpecOptions(value);
 
+        if (expect.argTypes[0].is('expect.it')) {
+          expect.context.thisObject = subject;
+          return value(subject, expect.context);
+        }
+
+        ensureSupportedSpecOptions(value);
         const promiseByKey = {
           name: expect.promise(() => {
             if (value && typeof value.name !== 'undefined') {
