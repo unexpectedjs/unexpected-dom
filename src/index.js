@@ -954,9 +954,11 @@ module.exports = {
 
     expect.exportAssertion(
       [
+        '<DOMElement> to [exhaustively] satisfy <DOMDocumentFragment>',
         '<DOMElement> to [exhaustively] satisfy <DOMTextNode>',
         '<DOMTextNode> to [exhaustively] satisfy <DOMElement>',
-        '<DOMElement|DOMDocumentFragment|DOMDocument> to [exhaustively] satisfy <regexp>'
+        '<DOMElement|DOMDocumentFragment|DOMDocument> to [exhaustively] satisfy <regexp>',
+        '<DOMDocumentFragment|DOMDocument> to [exhaustively] satisfy <DOMElement>'
       ],
       (expect, subject, value) => expect.fail()
     );
