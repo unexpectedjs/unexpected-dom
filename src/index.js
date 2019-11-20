@@ -278,22 +278,7 @@ module.exports = {
     expect.exportType({
       name: 'DOMNode',
       base: 'object',
-      identify(obj) {
-        return (
-          obj &&
-          obj.nodeName &&
-          [2, 3, 4, 5, 6, 7, 10, 11, 12].indexOf(obj.nodeType) > -1
-        );
-      },
-      equal(a, b) {
-        return a.nodeValue === b.nodeValue;
-      },
-      inspect(element, depth, output) {
-        return output.code(
-          `${element.nodeName} "${element.nodeValue}"`,
-          'prism-string'
-        );
-      }
+      identify: false
     });
 
     expect.exportType({
