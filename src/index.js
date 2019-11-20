@@ -497,6 +497,9 @@ module.exports = {
           .append(inspect(documentFragment.childNodes, depth))
           .text(']');
       },
+      equal(a, b, equal) {
+        return this.baseType.equal(a, b) && equal(a.childNodes, b.childNodes);
+      },
       diff(actual, expected, output, diff, inspect, equal) {
         output.inline = true;
         output.block(

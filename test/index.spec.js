@@ -1522,6 +1522,178 @@ describe('unexpected-dom', () => {
     });
   });
 
+  describe('to equal', () => {
+    describe('on HTML elements', () => {
+      it('should succeeds if they are equal', () => {
+        expect(
+          parseHtmlNode(
+            '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+          ),
+          'to equal',
+          parseHtmlNode(
+            '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+          )
+        );
+      });
+
+      it('should fail if they are not equal', () => {
+        expect(
+          () => {
+            expect(
+              parseHtmlNode(
+                '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+              ),
+              'to equal',
+              parseHtmlNode(
+                '<ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul>'
+              )
+            );
+          },
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+            expected <ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>
+            to equal <ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul>
+
+            <ul>
+              <li>John</li>
+              <li class="winner" // should be removed
+              >
+                Jane
+              </li>
+              <li // missing class="winner"
+              >
+                Annie
+              </li>
+            </ul>
+          `
+        );
+      });
+    });
+
+    describe('on DOM document fragments', () => {
+      it('should succeeds if they are equal', () => {
+        expect(
+          parseHtmlFragment(
+            '<h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+          ),
+          'to equal',
+          parseHtmlFragment(
+            '<h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+          )
+        );
+      });
+
+      it('should fail if they are not equal', () => {
+        expect(
+          () => {
+            expect(
+              parseHtmlFragment(
+                '<h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+              ),
+              'to equal',
+              parseHtmlFragment(
+                '<h1>Tournament</h1><ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul>'
+              )
+            );
+          },
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected
+          DocumentFragment[NodeList[
+            <h1>Tournament</h1>,
+            <ul><li>...</li><li class="winner">...</li><li>...</li></ul>
+          ]]
+          to equal
+          DocumentFragment[NodeList[
+            <h1>Tournament</h1>,
+            <ul><li>...</li><li>...</li><li class="winner">...</li></ul>
+          ]]
+
+          <h1>Tournament</h1>
+          <ul>
+            <li>John</li>
+            <li class="winner" // should be removed
+            >
+              Jane
+            </li>
+            <li // missing class="winner"
+            >
+              Annie
+            </li>
+          </ul>
+        `
+        );
+      });
+    });
+
+    describe('on text nodes', () => {
+      it('should succeeds if they are equal', () => {
+        expect(parseHtml('text'), 'to equal', parseHtml('text'));
+      });
+
+      it('should fail if they are not equal', () => {
+        expect(
+          () => {
+            expect(parseHtml('text'), 'to equal', parseHtml('hext'));
+          },
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected text to equal hext
+
+          -text
+          +hext
+        `
+        );
+      });
+    });
+
+    describe('on node lists', () => {
+      it('should succeeds if they are equal', () => {
+        expect(
+          parseHtmlFragment('<div>one</div><div>two</div><div>three</div>')
+            .childNodes,
+          'to equal',
+          parseHtmlFragment('<div>one</div><div>two</div><div>three</div>')
+            .childNodes
+        );
+      });
+
+      it('should fail if they are not equal', () => {
+        expect(
+          () => {
+            expect(
+              parseHtmlFragment('<div>one</div><div>two</div><div>three</div>')
+                .childNodes,
+              'to equal',
+              parseHtmlFragment('<div>1</div><div>2</div><div>3</div>')
+                .childNodes
+            );
+          },
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+          expected NodeList[ <div>one</div>, <div>two</div>, <div>three</div> ]
+          to equal NodeList[ <div>1</div>, <div>2</div>, <div>3</div> ]
+
+          NodeList[
+            <div>
+              -one
+              +1
+            </div>,
+            <div>
+              -two
+              +2
+            </div>,
+            <div>
+              -three
+              +3
+            </div>
+          ]
+        `
+        );
+      });
+    });
+  });
+
   describe('to satisfy', () => {
     it('should fail if an unsupported property is passed in the value', () => {
       body.innerHTML = '<div foo="bar"></div>';
