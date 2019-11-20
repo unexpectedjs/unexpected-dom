@@ -1,23 +1,27 @@
+### v4.14.5 (2019-11-20)
+
+- [#299](https://github.com/unexpectedjs/unexpected-dom/pull/299) Added an equal method to the DOMDocumentFragment type ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v4.14.4 (2019-11-20)
 
 - [#298](https://github.com/unexpectedjs/unexpected-dom/pull/298) Fix infinite recursion for edge-case comparison ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 ### v4.14.3 (2019-11-19)
 
-#### Pull requests
-
 - [#297](https://github.com/unexpectedjs/unexpected-dom/pull/297) Support for expect.it ([Alex J Burke](mailto:alex@alexjeffburke.com))
 - [#296](https://github.com/unexpectedjs/unexpected-dom/pull/296) Upgrade prettier to version 1.19.1 ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+### v4.14.2 (2019-10-31)
+
+#### Pull requests
+
 - [#295](https://github.com/unexpectedjs/unexpected-dom/pull/295) Fix weird output :\) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
 - [#293](https://github.com/unexpectedjs/unexpected-dom/pull/293) Upgrade jsdom to version 15.2.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#292](https://github.com/unexpectedjs/unexpected-dom/pull/292) Fix problem where urls in style attributes would get cut ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 #### Commits to master
 
 - [Don't use the typeless addAssertion syntax \(silences deprecation warning\)](https://github.com/unexpectedjs/unexpected-dom/commit/1869b96e371d72cf4e0bd5614d69c50f14e2f6ed) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
-
-### v4.14.2 (2019-10-07)
-
-- [#292](https://github.com/unexpectedjs/unexpected-dom/pull/292) Fix problem where urls in style attributes would get cut ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 ### v4.14.1 (2019-09-22)
 
