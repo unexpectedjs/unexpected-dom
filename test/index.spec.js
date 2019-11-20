@@ -1987,6 +1987,25 @@ describe('unexpected-dom', () => {
           );
         });
       });
+
+      describe('with an element as value', () => {
+        it('should fail without a diff', () => {
+          expect(
+            () => {
+              expect(
+                '<div>foo</div><div>bar</div>',
+                'when parsed as HTML fragment to satisfy',
+                parseHtmlNode('<div>foo</div>')
+              );
+            },
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+            expected '<div>foo</div><div>bar</div>' when parsed as HTML fragment to satisfy <div>foo</div>
+              expected DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]] to satisfy <div>foo</div>
+          `
+          );
+        });
+      });
     });
 
     describe('HTMLElement with a string as the value', () => {
@@ -2272,6 +2291,22 @@ describe('unexpected-dom', () => {
             >hey</div>
           `
         ));
+    });
+
+    describe('HTMLElement with DOMDocumentFragment as value', () => {
+      it('should fail without a diff', () => {
+        expect(
+          () => {
+            expect(
+              parseHtml('<div>foo</div>'),
+              'to satisfy',
+              parseHtmlFragment('<div>foo</div><div>bar</div>')
+            );
+          },
+          'to throw an error satisfying to equal snapshot',
+          'expected <div>foo</div> to satisfy DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]'
+        );
+      });
     });
 
     describe('text node with a text node as the value', () => {
