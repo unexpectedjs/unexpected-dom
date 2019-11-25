@@ -1570,6 +1570,60 @@ describe('unexpected-dom', () => {
       });
     });
 
+    describe('on DOM documents', () => {
+      it('should succeeds if they are equal', () => {
+        expect(
+          parseHtmlDocument(
+            '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul></body></html>'
+          ),
+          'to equal',
+          parseHtmlDocument(
+            '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul></body></html>'
+          )
+        );
+      });
+
+      it('should fail if they are not equal', () => {
+        expect(
+          () => {
+            expect(
+              parseHtmlDocument(
+                '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul></body></html>'
+              ),
+              'to equal',
+              parseHtmlDocument(
+                '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul></body></html>'
+              )
+            );
+          },
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+            expected <!DOCTYPE html><html><head></head><body>...</body></html>
+            to equal <!DOCTYPE html><html><head></head><body>...</body></html>
+
+            <!DOCTYPE html>
+            <html>
+              <head></head>
+              <body>
+                <h1>Tournament</h1>
+                <ul>
+                  <li>John</li>
+                  <li class="winner" // should be removed
+                  >
+                    Jane
+                  </li>
+                  <li // missing class="winner"
+                  >
+                    Annie
+                  </li>
+                </ul>
+              </body>
+            </html>
+          `
+        );
+      });
+    });
+
     describe('on DOM document fragments', () => {
       it('should succeeds if they are equal', () => {
         expect(
