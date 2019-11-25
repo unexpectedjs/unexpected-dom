@@ -450,6 +450,9 @@ module.exports = {
         }
         return output;
       },
+      equal(a, b, equal) {
+        return equal(a.childNodes, b.childNodes);
+      },
       diff(actual, expected, output, diff, inspect, equal) {
         output.inline = true;
         output.append(
@@ -498,7 +501,7 @@ module.exports = {
           .text(']');
       },
       equal(a, b, equal) {
-        return this.baseType.equal(a, b) && equal(a.childNodes, b.childNodes);
+        return equal(a.childNodes, b.childNodes);
       },
       diff(actual, expected, output, diff, inspect, equal) {
         output.inline = true;
