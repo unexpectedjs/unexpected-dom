@@ -1,3 +1,7 @@
+### v4.15.0 (2019-11-25)
+
+- [#301](https://github.com/unexpectedjs/unexpected-dom/pull/301) Add equals methods for DOMDocument and DOMDocumentFragment ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v4.14.5 (2019-11-20)
 
 - [#299](https://github.com/unexpectedjs/unexpected-dom/pull/299) Added an equal method to the DOMDocumentFragment type ([Sune Simonsen](mailto:sune@we-knowhow.dk))
