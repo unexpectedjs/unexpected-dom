@@ -286,8 +286,9 @@ module.exports = {
         );
       },
       equal(a, b) {
-        return a.nodeValue === b.nodeValue;
+        return a.nodeType === b.nodeType && a.nodeValue === b.nodeValue;
       },
+      diff: () => {},
       inspect(element, depth, output) {
         return output.code(
           `${element.nodeName} "${element.nodeValue}"`,

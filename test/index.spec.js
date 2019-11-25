@@ -1678,6 +1678,31 @@ describe('unexpected-dom', () => {
         `
         );
       });
+
+      describe('on nodes of different types', () => {
+        it('should fail', () => {
+          expect(
+            () => {
+              expect(
+                parseHtmlNode(
+                  '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+                ),
+                'to equal',
+                parseHtmlDocument(
+                  '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul></body></html>'
+                )
+              );
+            },
+            'to throw an error satisfying to equal snapshot',
+            expect.unindent`
+              expected <ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>
+              to equal <!DOCTYPE html><html><head></head><body>...</body></html>
+
+
+            `
+          );
+        });
+      });
     });
 
     describe('on text nodes', () => {
