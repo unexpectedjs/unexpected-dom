@@ -1,3 +1,7 @@
+### v4.16.0 (2019-11-25)
+
+- [#302](https://github.com/unexpectedjs/unexpected-dom/pull/302) Fix comparing nodes of different types for equality ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v4.15.0 (2019-11-25)
 
 - [#301](https://github.com/unexpectedjs/unexpected-dom/pull/301) Add equals methods for DOMDocument and DOMDocumentFragment ([Sune Simonsen](mailto:sune@we-knowhow.dk))
