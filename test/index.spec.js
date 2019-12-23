@@ -9,17 +9,6 @@ it.skipIf = function(bool, descr, block) {
 };
 
 expect.addAssertion(
-  '<function> to error satisfying <assertion>',
-  (expect, cb) =>
-    expect(cb, 'to error').then(err => {
-      expect.errorMode = 'nested';
-      return expect.shift(
-        err.isUnexpected ? err.getErrorMessage('text').toString() : err.message
-      );
-    })
-);
-
-expect.addAssertion(
   '<function> to throw an error satisfying <assertion>',
   (expect, cb) =>
     expect(cb, 'to throw').then(err => {
@@ -2289,7 +2278,7 @@ describe('unexpected-dom', () => {
               'to satisfy',
               '<div bar="quux">hey</div>'
             ),
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           expect.unindent`
             expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>
 
@@ -2315,7 +2304,7 @@ describe('unexpected-dom', () => {
               'to satisfy',
               '<div class="bar">hey</div>'
             ),
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           expect.unindent`
             expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>
 
@@ -2340,7 +2329,7 @@ describe('unexpected-dom', () => {
               'to satisfy',
               '<div style="color: tan;">hey</div>'
             ),
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           expect.unindent`
             expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan;">hey</div>
 
@@ -2372,7 +2361,7 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div foo="bar" baz="quux">hey</div>')
             ),
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           expect.unindent`
             expected <div foo="bar" baz="quux">foobar</div> to satisfy <div foo="bar" baz="quux">hey</div>
 
@@ -2400,7 +2389,7 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div bar="quux">hey</div>')
             ),
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           expect.unindent`
             expected <div foo="bar">hey</div> to satisfy <div bar="quux">hey</div>
 
@@ -2426,7 +2415,7 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div class="bar">hey</div>')
             ),
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           expect.unindent`
             expected <div class="foo">hey</div> to satisfy <div class="bar">hey</div>
 
@@ -2485,7 +2474,7 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div style="border-left-color: #FFFF;">hey</div>')
             ),
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           expect.unindent`
             expected <div style="border-left-color: #FFF">hey</div>
             to satisfy <div style="border-left-color: #FFFF">hey</div>
@@ -2507,7 +2496,7 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div style="color;background;width: 120px">hey</div>')
             ),
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           expect.unindent`
             expected <div style="width: 120px">hey</div> to satisfy <div style="width: 120px">hey</div>
 
@@ -2528,7 +2517,7 @@ describe('unexpected-dom', () => {
               'to satisfy',
               parseHtml('<div style="color: tan;">hey</div>')
             ),
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           expect.unindent`
             expected <div style="width: 120px">hey</div> to satisfy <div style="color: tan">hey</div>
 
@@ -2579,7 +2568,7 @@ describe('unexpected-dom', () => {
           () => {
             expect(parseHtml('foobar'), 'to satisfy', parseHtml('bar'));
           },
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           expect.unindent`
           expected foobar to satisfy bar
 
@@ -2605,7 +2594,7 @@ describe('unexpected-dom', () => {
           () => {
             expect(parseHtml('foobar'), 'to satisfy', /^f00/);
           },
-          'to error satisfying to equal snapshot',
+          'to throw an error satisfying to equal snapshot',
           'expected foobar to satisfy /^f00/'
         );
       });
