@@ -830,7 +830,7 @@ describe('unexpected-dom', () => {
   });
 
   it('should produce a good satisfy diff in a real world example', () => {
-    const body = parseHtmlDocument('').body;
+    const body = parseHtml('<div></div>').parentElement;
     body.innerHTML =
       '<ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">' +
       '<li class="selected" data-index="0">' +
