@@ -1,3 +1,5 @@
 --require ./test/common/node.js
 --require ./bootstrap-unexpected-markdown.js
 --require unexpected-markdown
+--exclude test/common/*.js
+--recursive
