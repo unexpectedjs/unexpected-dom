@@ -31,10 +31,16 @@ expect.addAssertion(
 );
 
 const root = typeof jsdom !== 'undefined' ? new jsdom.JSDOM().window : window;
+
 const parseHtmlDocument =
-  typeof jsdom !== 'undefined'
-    ? str => new jsdom.JSDOM(str).window.document
-    : str => new DOMParser().parseFromString(str, 'text/html');
+  typeof DOMParser !== 'undefined'
+    ? str => new DOMParser().parseFromString(str, 'text/html')
+    : str => new jsdom.JSDOM(str).window.document;
+
+const parseXmlDocument =
+  typeof DOMParser !== 'undefined'
+    ? str => new DOMParser().parseFromString(str, 'application/xml')
+    : str => new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
 
 function parseHtml(str) {
   return parseHtmlDocument(`<!DOCTYPE html><html><body>${str}</body></html>`)
@@ -55,25 +61,8 @@ function parseHtmlFragment(str) {
   return documentFragment;
 }
 
-function parseXml(str) {
-  if (typeof DOMParser !== 'undefined') {
-    return new DOMParser().parseFromString(str, 'application/xml');
-  } else {
-    return new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
-  }
-}
-
 describe('unexpected-dom', () => {
   expect.output.preferredWidth = 100;
-
-  let theDocument;
-  let body;
-  beforeEach(function() {
-    theDocument = root.document;
-    body = theDocument.body;
-    // FIXME: defined for compatibility
-    this.body = body;
-  });
 
   it('should inspect an HTML document correctly', () => {
     expect(
@@ -460,6 +449,7 @@ describe('unexpected-dom', () => {
   });
 
   it('should consider two DOM elements equal when they are of same type and have same attributes', () => {
+    const theDocument = parseHtmlDocument('');
     const el1 = theDocument.createElement('h1');
     const el2 = theDocument.createElement('h1');
     const el3 = theDocument.createElement('h1');
@@ -766,7 +756,7 @@ describe('unexpected-dom', () => {
         'when parsed as XML',
         expect
           .it('to be an', 'XMLDocument')
-          .and('to equal', parseXml(xmlSrc))
+          .and('to equal', parseXmlDocument(xmlSrc))
           .and('queried for first', 'fooBar', 'to have attributes', {
             yes: 'sir'
           })
@@ -840,6 +830,7 @@ describe('unexpected-dom', () => {
   });
 
   it('should produce a good satisfy diff in a real world example', () => {
+    const body = parseHtmlDocument('').body;
     body.innerHTML =
       '<ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">' +
       '<li class="selected" data-index="0">' +
@@ -926,7 +917,7 @@ describe('unexpected-dom', () => {
   it('should compare XML element names case sensitively', () => {
     expect(
       () => {
-        expect(parseXml('<foO></foO>').firstChild, 'to satisfy', {
+        expect(parseXmlDocument('<foO></foO>').firstChild, 'to satisfy', {
           name: 'foo'
         });
       },
@@ -943,7 +934,7 @@ describe('unexpected-dom', () => {
   it('should compare XML element names case sensitively, even when the owner document lacks a contentType attribute', () => {
     expect(
       () => {
-        const document = parseXml('<foO></foO>');
+        const document = parseXmlDocument('<foO></foO>');
         document.firstChild._ownerDocument = {
           toString() {
             return '[object XMLDocument]';
