@@ -10,12 +10,13 @@
   ],
   "scripts": {
     "bundle": "rollup -c",
+    "bundle-tests": "rollup -c rollup.tests.js --format umd > build/tests.js",
     "build": "babel --out-dir lib --quiet src",
     "build-tests": "babel --out-dir build/test --ignore test/common --quiet test",
     "changelog": "offline-github-changelog > CHANGELOG.md",
     "lint": "eslint . && prettier --check '**/*.js'",
     "test": "npm run test-node && npm run test-docs",
-    "test-browser": "npm run build && npm run bundle && npm run build-tests && karma start --single-run --browsers ${BROWSER:-ChromeHeadless}",
+    "test-browser": "npm run build && npm run bundle && npm run build-tests && npm run bundle-tests && karma start --single-run --browsers ${BROWSER:-ChromeHeadless}",
     "test-docs": "mocha `find documentation -name '*.md'`",
     "test-node": "mocha",
     "test-headless": "npm run test-browser",
@@ -45,6 +46,7 @@
   },
   "homepage": "https://github.com/unexpectedjs/unexpected-dom",
   "devDependencies": {
+    "@rollup/plugin-multi-entry": "^3.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
