@@ -486,34 +486,6 @@ describe('unexpected-dom', () => {
     expect(el1, 'not to equal', paragraph);
   });
 
-  describe('to have text', () => {
-    it('should succeed', () => {
-      theDocument.body.innerHTML = '<div>foo</div>';
-      return expect(theDocument.body, 'to have text', 'foo');
-    });
-
-    it('should fail with a diff', () => {
-      theDocument.body.innerHTML = '<div>foo</div>';
-      expect(
-        () => {
-          expect(theDocument.body, 'to have text', 'bar');
-        },
-        'to throw an error satisfying to equal snapshot',
-        expect.unindent`
-        expected <body><div>foo</div></body> to have text 'bar'
-
-        -foo
-        +bar
-      `
-      );
-    });
-
-    it('should use "to satisfy" semantics', () => {
-      theDocument.body.innerHTML = '<div>foo</div>';
-      return expect(theDocument.body, 'to have text', /fo/);
-    });
-  });
-
   describe('to have class', () => {
     it('should handle a non-existing class', () => {
       body.innerHTML = '<button>Press me</button>';
