@@ -486,56 +486,6 @@ describe('unexpected-dom', () => {
     expect(el1, 'not to equal', paragraph);
   });
 
-  describe('to have children', () => {
-    describe('with no children flag', () => {
-      it('should match element with no children', function() {
-        this.body.innerHTML = '<div></div>';
-        const el = this.body.firstChild;
-
-        expect(el, 'to have no children');
-      });
-
-      it('should fail on element with HTMLElement children', function() {
-        this.body.innerHTML = '<div><p></p></div>';
-        const el = this.body.firstChild;
-
-        expect(
-          () => {
-            expect(el, 'to have no children');
-          },
-          'to throw an error satisfying to equal snapshot',
-          'expected <div><p></p></div> to have no children'
-        );
-      });
-
-      it('should fail on element with HTMLComment children', function() {
-        this.body.innerHTML = '<div><!-- Comment --></div>';
-        const el = this.body.firstChild;
-
-        expect(
-          () => {
-            expect(el, 'to have no children');
-          },
-          'to throw an error satisfying to equal snapshot',
-          'expected <div><!-- Comment --></div> to have no children'
-        );
-      });
-
-      it('should fail on element with TextNode children', function() {
-        this.body.innerHTML = '<div>I am a text</div>';
-        const el = this.body.firstChild;
-
-        expect(
-          () => {
-            expect(el, 'to have no children');
-          },
-          'to throw an error satisfying to equal snapshot',
-          'expected <div>I am a text</div> to have no children'
-        );
-      });
-    });
-  });
-
   describe('to equal', () => {
     describe('on HTML elements', () => {
       it('should succeeds if they are equal', () => {
