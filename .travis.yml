@@ -4,7 +4,7 @@ env:
   - TARGET=test
 
 node_js:
-  - '8.7.0'
+  - '8.16.2'
   - '9'
   - '10'
   - node
@@ -12,20 +12,20 @@ node_js:
 matrix:
   include:
     - name: Lint
-      node_js: '8.7.0'
+      node_js: '8.16.2'
       env:
         - TARGET=lint
     - name: Coverage
-      node_js: '8.7.0'
+      node_js: '8.16.2'
       env:
         - TARGET=coverage
     - name: BrowserStack IE11
-      node_js: '8.7.0'
+      node_js: '8.16.2'
       env:
         - TARGET=test-browser
         - BROWSER=ie11
     - name: Chrome headless
-      node_js: '8.7.0'
+      node_js: '8.16.2'
       env:
         - TARGET=test-browser
         - BROWSER=ChromeHeadless
