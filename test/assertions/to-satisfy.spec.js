@@ -1074,6 +1074,72 @@ describe('"to satisfy" assertion', () => {
     );
   });
 
+  describe('XMLDocument', () => {
+    it('should compare XML element names case sensitively', () => {
+      expect(
+        () => {
+          expect(parseXmlDocument('<foO></foO>').firstChild, 'to satisfy', {
+            name: 'foo'
+          });
+        },
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <foO></foO> to satisfy { name: 'foo' }
+
+        <foO // should equal 'foo'
+        ></foO>
+      `
+      );
+    });
+
+    it('should compare XML element names case sensitively, even when the owner document lacks a contentType attribute', () => {
+      expect(
+        () => {
+          const document = parseXmlDocument('<foO></foO>');
+          document.firstChild._ownerDocument = {
+            toString() {
+              return '[object XMLDocument]';
+            }
+          };
+          expect(document.firstChild, 'to satisfy', {
+            name: 'foo'
+          });
+        },
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected <foO></foO> to satisfy { name: 'foo' }
+
+        <foO // should equal 'foo'
+        ></foO>
+      `
+      );
+    });
+
+    describe('with an array as the value', () => {
+      it('should succeed with a text child', () => {
+        expect(
+          parseXmlDocument(
+            [
+              '<?xml version="1.0"?>',
+              '<content>',
+              '  <hello type="greeting">World</hello>',
+              '</content>'
+            ].join('\n')
+          ),
+          'queried for first',
+          'hello',
+          'to satisfy',
+          {
+            attributes: {
+              type: 'greeting'
+            },
+            children: ['World']
+          }
+        );
+      });
+    });
+  });
+
   describe('when used with expect.it', () => {
     it('succeeds if the given structure is present', () => {
       expect(

@@ -773,31 +773,6 @@ describe('unexpected-dom', () => {
         });
       }));
 
-    describe('to satisfy', () => {
-      describe('when comparing an array of children', () => {
-        it('should succeed with a text child', () => {
-          expect(
-            [
-              '<?xml version="1.0"?>',
-              '<content>',
-              '  <hello type="greeting">World</hello>',
-              '</content>'
-            ].join('\n'),
-            'when parsed as XML',
-            'queried for first',
-            'hello',
-            'to satisfy',
-            {
-              attributes: {
-                type: 'greeting'
-              },
-              children: ['World']
-            }
-          );
-        });
-      });
-    });
-
     describe('when the DOMParser global is available', () => {
       const OriginalDOMParser = root.DOMParser;
 
@@ -910,46 +885,6 @@ describe('unexpected-dom', () => {
           </span>
         </li>
       </ul>
-    `
-    );
-  });
-
-  it('should compare XML element names case sensitively', () => {
-    expect(
-      () => {
-        expect(parseXmlDocument('<foO></foO>').firstChild, 'to satisfy', {
-          name: 'foo'
-        });
-      },
-      'to throw an error satisfying to equal snapshot',
-      expect.unindent`
-      expected <foO></foO> to satisfy { name: 'foo' }
-
-      <foO // should equal 'foo'
-      ></foO>
-    `
-    );
-  });
-
-  it('should compare XML element names case sensitively, even when the owner document lacks a contentType attribute', () => {
-    expect(
-      () => {
-        const document = parseXmlDocument('<foO></foO>');
-        document.firstChild._ownerDocument = {
-          toString() {
-            return '[object XMLDocument]';
-          }
-        };
-        expect(document.firstChild, 'to satisfy', {
-          name: 'foo'
-        });
-      },
-      'to throw an error satisfying to equal snapshot',
-      expect.unindent`
-      expected <foO></foO> to satisfy { name: 'foo' }
-
-      <foO // should equal 'foo'
-      ></foO>
     `
     );
   });
