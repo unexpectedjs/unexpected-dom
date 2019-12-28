@@ -1200,4 +1200,91 @@ describe('"to satisfy" assertion', () => {
       });
     });
   });
+
+  describe('when used in a real world example', () => {
+    it('should produce a good satisfy diff', () => {
+      const element = parseHtml(
+        '<ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">' +
+          '<li class="selected" data-index="0">' +
+          '<span class="before"></span>' +
+          '<strong class="match">pr</strong>' +
+          '<span class="after">ivate</span>' +
+          '</li>' +
+          '<li data-index="1">' +
+          '<span class="before"></span>' +
+          '<strong class="match">pr</strong>' +
+          '<span class="after">otected</span>' +
+          '</li>' +
+          '</ul>'
+      );
+
+      expect(
+        () => {
+          expect(element, 'to satisfy', {
+            attributes: {
+              style: { display: 'block' },
+              class: ['knockout-autocomplete', 'floating-menu']
+            },
+            children: [
+              {
+                attributes: { 'data-index': '0', class: 'selected' },
+                children: [
+                  { attributes: { class: 'before' }, children: [] },
+                  { attributes: { class: 'match' }, children: ['pr'] },
+                  { attributes: { class: 'after' }, children: ['ivate'] }
+                ]
+              },
+              {
+                attributes: { 'data-index': '1', class: undefined },
+                children: [
+                  { attributes: { class: 'before' }, children: [] },
+                  { attributes: { class: 'match' }, children: ['pr'] },
+                  { attributes: { class: 'after' }, children: ['odtected'] }
+                ]
+              }
+            ]
+          });
+        },
+        'to throw an error satisfying to equal snapshot',
+        expect.unindent`
+        expected
+        <ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">
+          <li class="selected" data-index="0">
+            <span class="before"></span>
+            <strong class="match">...</strong>
+            <span class="after">...</span>
+          </li>
+          <li data-index="1">
+            <span class="before"></span>
+            <strong class="match">...</strong>
+            <span class="after">...</span>
+          </li>
+        </ul>
+        to satisfy
+        {
+          attributes: { style: { display: 'block' }, class: [ 'knockout-autocomplete', 'floating-menu' ] },
+          children: [ { attributes: ..., children: ... }, { attributes: ..., children: ... } ]
+        }
+
+        <ul class="knockout-autocomplete menu scrollable floating-menu" style="left: 0px; top: 0px; bottom: auto; display: block">
+          <li class="selected" data-index="0">
+            <span class="before"></span>
+            <strong class="match">...</strong>
+            <span class="after">...</span>
+          </li>
+          <li data-index="1">
+            <span class="before"></span>
+            <strong class="match">pr</strong>
+            <span class="after">
+              otected // should equal 'odtected'
+                      //
+                      // -otected
+                      // +odtected
+            </span>
+          </li>
+        </ul>
+      `
+      );
+    });
+  });
 });
