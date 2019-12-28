@@ -750,7 +750,8 @@ describe('unexpected-dom', () => {
 
   describe('when parsed as XML', () => {
     const xmlSrc = '<?xml version="1.0"?><fooBar yes="sir">foo</fooBar>';
-    it('should parse a string as a complete XML document', () => {
+
+    it('should parse a string as a complete XML document (attributes)', () => {
       expect(
         xmlSrc,
         'when parsed as XML',
@@ -763,11 +764,19 @@ describe('unexpected-dom', () => {
       );
     });
 
-    it('should provide the parsed document as the fulfillment value when no assertion is provided', () =>
+    it('should parse a string as a complete XML document (text)', () => {
       expect(
-        '<?xml version="1.0"?><fooBar yes="sir">foo</fooBar>',
-        'parsed as XML'
-      ).then(document => {
+        xmlSrc,
+        'when parsed as XML',
+        'queried for first',
+        'fooBar',
+        'to have text',
+        'foo'
+      );
+    });
+
+    it('should provide the parsed document as the fulfillment value when no assertion is provided', () =>
+      expect(xmlSrc, 'parsed as XML').then(document => {
         expect(document, 'queried for first', 'fooBar', 'to have attributes', {
           yes: 'sir'
         });
@@ -775,10 +784,13 @@ describe('unexpected-dom', () => {
 
     describe('when the DOMParser global is available', () => {
       const OriginalDOMParser = root.DOMParser;
+      let seenDomParserArgs;
 
       beforeEach(() => {
+        seenDomParserArgs = null;
         DOMParser = class DOMParser {
           parseFromString(str) {
+            seenDomParserArgs = [str];
             return typeof jsdom !== 'undefined'
               ? new jsdom.JSDOM(str, { contentType: 'text/xml' }).window
                   .document
@@ -793,13 +805,16 @@ describe('unexpected-dom', () => {
 
       it('should use DOMParser to parse the document', () => {
         expect(
-          xmlSrc,
-          'when parsed as XML',
-          'queried for first',
-          'fooBar',
-          'to have text',
-          'foo'
-        );
+          () =>
+            expect(
+              xmlSrc,
+              'when parsed as XML',
+              expect.it('to be an', 'XMLDocument')
+            ),
+          'to be fulfilled'
+        ).then(() => {
+          expect(seenDomParserArgs, 'to equal', [xmlSrc]);
+        });
       });
     });
   });
