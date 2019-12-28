@@ -7,7 +7,7 @@ module.exports = function(config) {
       './node_modules/unexpected-snapshot/unexpected-snapshot-browser.js',
       './unexpected-dom.js',
       './test/common/browser.js',
-      './build/test/index.spec.js'
+      './build/tests.js'
     ],
 
     client: {
