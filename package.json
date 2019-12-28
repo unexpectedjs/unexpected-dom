@@ -77,7 +77,6 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-terser": "^5.1.2",
-    "uglifyjs": "^2.4.11",
     "unexpected": "^11.6.1",
     "unexpected-documentation-site-generator": "^6.0.0",
     "unexpected-markdown": "^4.0.0",
