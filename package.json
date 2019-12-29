@@ -77,7 +77,7 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-terser": "^5.1.2",
-    "unexpected": "git://github.com/unexpectedjs/unexpected.git#51c8fab",
+    "unexpected": "git://github.com/unexpectedjs/unexpected.git#ca41679",
     "unexpected-documentation-site-generator": "^6.0.0",
     "unexpected-markdown": "^4.0.0",
     "unexpected-snapshot": "^0.7.0"
