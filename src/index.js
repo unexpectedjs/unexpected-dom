@@ -268,6 +268,10 @@ module.exports = {
     expect = expect.child();
     expect.use(require('magicpen-prism'));
 
+    // export the items registered by magicpen-prism to callers
+    expect.exportTheme('html', expect.output.theme('html'));
+    expect.exportStyle('code', expect.output.styles.code);
+
     function bubbleError(body) {
       return expect.withError(body, err => {
         err.errorMode = 'bubble';
