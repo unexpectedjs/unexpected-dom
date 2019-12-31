@@ -1342,5 +1342,37 @@ describe('"to satisfy" assertion', () => {
         })
       );
     });
+
+    it('should produce a good satisfy diff (html with nested assertion)', () => {
+      const expectWithExtra = expect
+        .clone()
+        .addAssertion(
+          '<DOMElement> with an empty span injected <assertion>',
+          (expect, subject) => {
+            subject.innerHTML = '<span></span>';
+            return expect.shift(subject);
+          }
+        );
+
+      expect(
+        () => {
+          expectWithExtra(
+            parseHtml('<div></div>'),
+            'with an empty span injected',
+            'to satisfy',
+            { textContent: 'foo' }
+          );
+        },
+        'to throw',
+        expect.it(error => {
+          const message = error.getErrorMessage('html').toString();
+          expect(
+            message,
+            'to equal', // not using snapshot to demonstrate an issue with the env var
+            '<div style="font-family: monospace; white-space: nowrap"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #999">&lt;</span><span style="color: #905">div</span><span style="color: #999">&gt;&lt;</span><span style="color: #905">span</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">div</span><span style="color: #999">&gt;</span>&nbsp;<span style="color: red; font-weight: bold">with&nbsp;an&nbsp;empty&nbsp;span&nbsp;injected</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;satisfy</span>&nbsp;{&nbsp;<span style="color: #555">textContent</span>:&nbsp;<span style="color: #df5000">\'foo\'</span>&nbsp;}</div><div>&nbsp;</div><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">div</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div><div>&nbsp;</div></div>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div></div>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #df5000">\'\'</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;equal</span>&nbsp;<span style="color: #df5000">\'foo\'</span></div><div>&nbsp;</div><div><span style="color: green">foo</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">div</span><span style="color: #999">&gt;</span></div></div></div></div>'
+          );
+        })
+      );
+    });
   });
 });
