@@ -1,27 +1,11 @@
 [
   {
-    "label": "to contain test id (DOMElement)",
-    "url": "/assertions/DOMElement/to-contain-test-id/"
-  },
-  {
-    "label": "parsed as HTML (string)",
-    "url": "/assertions/string/parsed-as-HTML/"
-  },
-  {
-    "label": "to contain (DOMNodeList)",
-    "url": "/assertions/DOMNodeList/to-contain/"
-  },
-  {
-    "label": "to satisfy (DOMNodeList)",
-    "url": "/assertions/DOMNodeList/to-satisfy/"
+    "label": "to have class (DOMElement)",
+    "url": "/assertions/DOMElement/to-have-class/"
   },
   {
     "label": "not to have attributes (DOMElement)",
     "url": "/assertions/DOMElement/not-to-have-attributes/"
-  },
-  {
-    "label": "not to have class (DOMElement)",
-    "url": "/assertions/DOMElement/not-to-have-class/"
   },
   {
     "label": "queried for test id (DOMElement)",
@@ -36,24 +20,24 @@
     "url": "/assertions/DOMElement/to-contain-elements-matching/"
   },
   {
-    "label": "parsed as XML (string)",
-    "url": "/assertions/string/parsed-as-XML/"
-  },
-  {
-    "label": "to have attributes (DOMElement)",
-    "url": "/assertions/DOMElement/to-have-attributes/"
+    "label": "to contain test id (DOMElement)",
+    "url": "/assertions/DOMElement/to-contain-test-id/"
   },
   {
     "label": "to contain (DOMElement)",
     "url": "/assertions/DOMElement/to-contain/"
   },
   {
+    "label": "to have attributes (DOMElement)",
+    "url": "/assertions/DOMElement/to-have-attributes/"
+  },
+  {
     "label": "to have children (DOMElement)",
     "url": "/assertions/DOMElement/to-have-children/"
   },
   {
-    "label": "to have class (DOMElement)",
-    "url": "/assertions/DOMElement/to-have-class/"
+    "label": "not to have class (DOMElement)",
+    "url": "/assertions/DOMElement/not-to-have-class/"
   },
   {
     "label": "to have test id (DOMElement)",
@@ -70,5 +54,21 @@
   {
     "label": "to satisfy (DOMElement)",
     "url": "/assertions/DOMElement/to-satisfy/"
+  },
+  {
+    "label": "to contain (DOMNodeList)",
+    "url": "/assertions/DOMNodeList/to-contain/"
+  },
+  {
+    "label": "to satisfy (DOMNodeList)",
+    "url": "/assertions/DOMNodeList/to-satisfy/"
+  },
+  {
+    "label": "parsed as HTML (string)",
+    "url": "/assertions/string/parsed-as-HTML/"
+  },
+  {
+    "label": "parsed as XML (string)",
+    "url": "/assertions/string/parsed-as-XML/"
   }
 ]
