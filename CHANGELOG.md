@@ -1,3 +1,23 @@
+### v4.17.0 (2019-12-31)
+
+#### Pull requests
+
+- [#309](https://github.com/unexpectedjs/unexpected-dom/pull/309) Clone aware magic pen themes ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#308](https://github.com/unexpectedjs/unexpected-dom/pull/308) Upgrade eslint-plugin-node to version 11.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#306](https://github.com/unexpectedjs/unexpected-dom/pull/306) Replace babel with buble ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#304](https://github.com/unexpectedjs/unexpected-dom/pull/304) Split assertion tests into their own files. ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#305](https://github.com/unexpectedjs/unexpected-dom/pull/305) Upgrade nyc to version 15.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#303](https://github.com/unexpectedjs/unexpected-dom/pull/303) Upgrade unexpected-snapshot to version 0.7.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+#### Commits to master
+
+- [Add test of the HTML serialisation of real world example error diff.](https://github.com/unexpectedjs/unexpected-dom/commit/f60e2a8c28a4fc48d054549ee8638dcbf0d288c0) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Relocate real world example diff into "to satisfy" test file.](https://github.com/unexpectedjs/unexpected-dom/commit/aa17c4f888707b54b388f15addda4d4b7e82e55f) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Cleanup "when parsed as XML" tests.](https://github.com/unexpectedjs/unexpected-dom/commit/42e341c5baf06d9adaef1181fa415be29a060f65) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Relocate XML centric "to satisfy" tests into the assertion test file.](https://github.com/unexpectedjs/unexpected-dom/commit/1a2465388458fe91ed9ff9c6ca9d3c3846610f0c) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [Remove leftover uglifyjs dev dependency.](https://github.com/unexpectedjs/unexpected-dom/commit/941ec30a893ba1a6bc677d6bee01e68e079f97fa) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [+1 more](https://github.com/unexpectedjs/unexpected-dom/compare/v4.16.0...v4.17.0)
+
 ### v4.16.0 (2019-11-25)
 
 - [#302](https://github.com/unexpectedjs/unexpected-dom/pull/302) Fix comparing nodes of different types for equality ([Sune Simonsen](mailto:sune@we-knowhow.dk))
