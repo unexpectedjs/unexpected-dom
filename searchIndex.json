@@ -8,12 +8,12 @@
     "url": "/assertions/DOMElement/not-to-have-attributes/"
   },
   {
-    "label": "queried for test id (DOMElement)",
-    "url": "/assertions/DOMElement/queried-for-test-id/"
-  },
-  {
     "label": "queried for (DOMElement)",
     "url": "/assertions/DOMElement/queried-for/"
+  },
+  {
+    "label": "not to have class (DOMElement)",
+    "url": "/assertions/DOMElement/not-to-have-class/"
   },
   {
     "label": "to contain elements matching (DOMElement)",
@@ -36,8 +36,8 @@
     "url": "/assertions/DOMElement/to-have-children/"
   },
   {
-    "label": "not to have class (DOMElement)",
-    "url": "/assertions/DOMElement/not-to-have-class/"
+    "label": "queried for test id (DOMElement)",
+    "url": "/assertions/DOMElement/queried-for-test-id/"
   },
   {
     "label": "to have test id (DOMElement)",
