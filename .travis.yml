@@ -4,28 +4,29 @@ env:
   - TARGET=test
 
 node_js:
-  - '8.16.2'
-  - '9'
-  - '10'
+  - 8
+  - 9
+  - 10
+  - 12
   - node
 
 matrix:
   include:
     - name: Lint
-      node_js: '8.16.2'
+      node_js: 12
       env:
         - TARGET=lint
     - name: Coverage
-      node_js: '8.16.2'
+      node_js: 12
       env:
         - TARGET=coverage
     - name: BrowserStack IE11
-      node_js: '8.16.2'
+      node_js: 12
       env:
         - TARGET=test-browser
         - BROWSER=ie11
     - name: Chrome headless
-      node_js: '8.16.2'
+      node_js: 12
       env:
         - TARGET=test-browser
         - BROWSER=ChromeHeadless
