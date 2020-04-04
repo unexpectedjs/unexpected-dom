@@ -3,7 +3,7 @@
 describe('"to have class" assertion', () => {
   let body;
 
-  beforeEach(function() {
+  beforeEach(function () {
     const root =
       typeof jsdom !== 'undefined' ? new jsdom.JSDOM().window : window;
     body = root.document.body;

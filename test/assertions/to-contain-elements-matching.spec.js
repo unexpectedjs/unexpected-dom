@@ -2,8 +2,8 @@
 
 const parseHtmlDocument =
   typeof DOMParser !== 'undefined'
-    ? str => new DOMParser().parseFromString(str, 'text/html')
-    : str => new jsdom.JSDOM(str).window.document;
+    ? (str) => new DOMParser().parseFromString(str, 'text/html')
+    : (str) => new jsdom.JSDOM(str).window.document;
 
 describe('"to contain elements matching" assertion', () => {
   it('should pass when matching an element', () => {

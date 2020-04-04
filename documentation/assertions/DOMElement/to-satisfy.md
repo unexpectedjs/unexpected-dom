@@ -49,12 +49,12 @@ expect(element, 'queried for first', '[data-test-id=learn]', 'to satisfy', {
     {
       name: 'a',
       attributes: {
-        href: 'https://example.com/learn'
+        href: 'https://example.com/learn',
       },
-      children: ['here']
+      children: ['here'],
     },
-    '.'
-  ]
+    '.',
+  ],
 });
 ```
 

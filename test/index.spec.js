@@ -23,7 +23,7 @@ expect.addAssertion(
   '<array> to produce a diff of <string>',
   (expect, subject, value) => {
     expect.errorMode = 'bubble';
-    subject = subject.map(item =>
+    subject = subject.map((item) =>
       typeof item === 'string' ? parseHtml(item) : item
     );
     expect(expect.diff(subject[0], subject[1]).toString(), 'to equal', value);
@@ -34,13 +34,14 @@ const root = typeof jsdom !== 'undefined' ? new jsdom.JSDOM().window : window;
 
 const parseHtmlDocument =
   typeof DOMParser !== 'undefined'
-    ? str => new DOMParser().parseFromString(str, 'text/html')
-    : str => new jsdom.JSDOM(str).window.document;
+    ? (str) => new DOMParser().parseFromString(str, 'text/html')
+    : (str) => new jsdom.JSDOM(str).window.document;
 
 const parseXmlDocument =
   typeof DOMParser !== 'undefined'
-    ? str => new DOMParser().parseFromString(str, 'application/xml')
-    : str => new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
+    ? (str) => new DOMParser().parseFromString(str, 'application/xml')
+    : (str) =>
+        new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
 
 function parseHtml(str) {
   return parseHtmlDocument(`<!DOCTYPE html><html><body>${str}</body></html>`)
@@ -285,7 +286,7 @@ describe('unexpected-dom', () => {
       expect(
         [
           '<div title="the same" class="hey" id="foo" data-something="identical"></div>',
-          '<div title="the same" class="there" id="bar" data-something="identical"></div>'
+          '<div title="the same" class="there" id="bar" data-something="identical"></div>',
         ],
         'to produce a diff of',
         '<div title="the same" class="hey" // should equal \'there\'\n' +
@@ -423,7 +424,7 @@ describe('unexpected-dom', () => {
         expect(
           [
             '<div>foo</div><div>bar</div>',
-            '<div>foo<i>blah</i></div><span>bark</span>'
+            '<div>foo<i>blah</i></div><span>bark</span>',
           ].map(parseHtmlFragment),
           'to produce a diff of',
           '<div>\n' +
@@ -469,7 +470,7 @@ describe('unexpected-dom', () => {
         '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
       );
       expect(document, 'queried for first', 'div', 'to have attributes', {
-        id: 'foo'
+        id: 'foo',
       });
     });
 
@@ -477,7 +478,7 @@ describe('unexpected-dom', () => {
       const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
       );
-      return expect(document, 'queried for first', 'div').then(div => {
+      return expect(document, 'queried for first', 'div').then((div) => {
         expect(div, 'to have attributes', { id: 'foo' });
       });
     });
@@ -516,7 +517,7 @@ describe('unexpected-dom', () => {
             '.blabla',
             'to have attributes',
             {
-              id: 'foo'
+              id: 'foo',
             }
           );
         },
@@ -569,7 +570,7 @@ describe('unexpected-dom', () => {
         '<!DOCTYPE html><html><body><div data-test-id="foo" id="foo"></div></body></html>'
       );
       expect(document, 'queried for test id', 'foo', 'to have attributes', {
-        id: 'foo'
+        id: 'foo',
       });
     });
 
@@ -577,7 +578,7 @@ describe('unexpected-dom', () => {
       const document = parseHtmlDocument(
         '<!DOCTYPE html><html><body><div data-test-id="foo" id="foo"></div></body></html>'
       );
-      return expect(document, 'queried for test id', 'foo').then(div => {
+      return expect(document, 'queried for test id', 'foo').then((div) => {
         expect(div, 'to have attributes', { id: 'foo' });
       });
     });
@@ -618,13 +619,13 @@ describe('unexpected-dom', () => {
           .it('to be an', 'HTMLDocument')
           .and('to equal', parseHtmlDocument(htmlSrc))
           .and('queried for first', 'body', 'to have attributes', {
-            class: 'bar'
+            class: 'bar',
           })
       );
     });
 
     it('should provide the parsed document as the fulfillment value when no assertion is provided', () =>
-      expect(htmlSrc, 'parsed as HTML').then(document => {
+      expect(htmlSrc, 'parsed as HTML').then((document) => {
         expect(document, 'to equal', parseHtmlDocument(htmlSrc));
       }));
 
@@ -635,17 +636,17 @@ describe('unexpected-dom', () => {
           'when parsed as HTML fragment',
           expect.it('to be a', 'DOMDocumentFragment').and('to satisfy', [
             { name: 'div', children: ['foo'] },
-            { name: 'div', children: ['bar'] }
+            { name: 'div', children: ['bar'] },
           ])
         );
       });
 
       it('should provide the parsed fragment as the fulfillment value when no assertion is provided', () =>
         expect('<div>foo</div><div>bar</div>', 'parsed as HTML fragment').then(
-          fragment => {
+          (fragment) => {
             expect(fragment, 'to satisfy', [
               { children: 'foo' },
-              { children: 'bar' }
+              { children: 'bar' },
             ]);
           }
         ));
@@ -723,8 +724,8 @@ describe('unexpected-dom', () => {
             implementation: {
               createHTMLDocument() {
                 return parseHtmlDocument(htmlSrc);
-              }
-            }
+              },
+            },
           };
         });
 
@@ -759,7 +760,7 @@ describe('unexpected-dom', () => {
           .it('to be an', 'XMLDocument')
           .and('to equal', parseXmlDocument(xmlSrc))
           .and('queried for first', 'fooBar', 'to have attributes', {
-            yes: 'sir'
+            yes: 'sir',
           })
       );
     });
@@ -776,9 +777,9 @@ describe('unexpected-dom', () => {
     });
 
     it('should provide the parsed document as the fulfillment value when no assertion is provided', () =>
-      expect(xmlSrc, 'parsed as XML').then(document => {
+      expect(xmlSrc, 'parsed as XML').then((document) => {
         expect(document, 'queried for first', 'fooBar', 'to have attributes', {
-          yes: 'sir'
+          yes: 'sir',
         });
       }));
 

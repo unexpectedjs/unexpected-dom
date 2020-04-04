@@ -2,8 +2,8 @@
 
 const parseHtmlDocument =
   typeof DOMParser !== 'undefined'
-    ? str => new DOMParser().parseFromString(str, 'text/html')
-    : str => new jsdom.JSDOM(str).window.document;
+    ? (str) => new DOMParser().parseFromString(str, 'text/html')
+    : (str) => new jsdom.JSDOM(str).window.document;
 
 describe('"to have test id" assertion', () => {
   it('should pass if the element have the given test id', () => {

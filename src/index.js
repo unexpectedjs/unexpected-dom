@@ -69,7 +69,7 @@ function parseXml(str) {
 
 // From html-minifier
 const enumeratedAttributeValues = {
-  draggable: ['true', 'false'] // defaults to 'auto'
+  draggable: ['true', 'false'], // defaults to 'auto'
 };
 
 const matchSimpleAttribute = /^(?:allowfullscreen|async|autofocus|autoplay|checked|compact|controls|declare|default|defaultchecked|defaultmuted|defaultselected|defer|disabled|enabled|formnovalidate|hidden|indeterminate|inert|ismap|itemscope|loop|multiple|muted|nohref|noresize|noshade|novalidate|nowrap|open|pauseonexit|readonly|required|reversed|scoped|seamless|selected|sortable|spellcheck|truespeed|typemustmatch|visible)$/i;
@@ -86,7 +86,7 @@ function validateStyles(expect, str) {
   const invalidStyles = str
     .split(';')
     .filter(
-      part =>
+      (part) =>
         !/^\s*(\w|-)+\s*:\s*(#(?:[0-9a-fA-F]{3}){1,2}|[^#]+)\s*$|^$/.test(part)
     );
 
@@ -102,7 +102,7 @@ function validateStyles(expect, str) {
 function styleStringToObject(str) {
   const styles = {};
 
-  str.split(';').forEach(rule => {
+  str.split(';').forEach((rule) => {
     const colonIndex = rule.indexOf(':');
 
     // Guard against empty touples
@@ -188,7 +188,7 @@ function writeAttributeToMagicPen(output, attributeName, value, isHtml) {
       value = value.join(' ');
     } else if (attributeName === 'style') {
       value = Object.keys(value)
-        .map(cssProp => `${cssProp}: ${value[cssProp]}`)
+        .map((cssProp) => `${cssProp}: ${value[cssProp]}`)
         .join('; ');
     }
     output
@@ -209,7 +209,7 @@ function stringifyAttribute(attributeName, value) {
   } else if (attributeName === 'style') {
     return `style="${Object.keys(value)
       // FIXME: entitify
-      .map(cssProp => [cssProp, value[cssProp]].join(': '))
+      .map((cssProp) => [cssProp, value[cssProp]].join(': '))
       .join('; ')}"`;
   } else {
     return `${attributeName}="${entitify(value)}"`;
@@ -223,7 +223,7 @@ function stringifyStartTag(element) {
   let str = `<${elementName}`;
   const attrs = getAttributes(element);
 
-  Object.keys(attrs).forEach(key => {
+  Object.keys(attrs).forEach((key) => {
     str += ` ${stringifyAttribute(key, attrs[key])}`;
   });
 
@@ -245,7 +245,7 @@ function stringifyEndTag(element) {
 
 function ensureSupportedSpecOptions(options) {
   const unsupportedOptions = Object.keys(options).filter(
-    key =>
+    (key) =>
       key !== 'attributes' &&
       key !== 'name' &&
       key !== 'children' &&
@@ -269,7 +269,7 @@ module.exports = {
     expect.use(require('magicpen-prism'));
 
     function bubbleError(body) {
-      return expect.withError(body, err => {
+      return expect.withError(body, (err) => {
         err.errorMode = 'bubble';
         throw err;
       });
@@ -294,7 +294,7 @@ module.exports = {
           `${element.nodeName} "${element.nodeValue}"`,
           'prism-string'
         );
-      }
+      },
     });
 
     expect.exportType({
@@ -316,7 +316,7 @@ module.exports = {
         );
         d.inline = true;
         return d;
-      }
+      },
     });
 
     // Recognize <!-- ignore --> as a special subtype of DOMComment so it can be targeted by assertions:
@@ -327,7 +327,7 @@ module.exports = {
         return (
           this.baseType.identify(obj) && /^\s*ignore\s*$/.test(obj.nodeValue)
         );
-      }
+      },
     });
 
     expect.exportType({
@@ -346,7 +346,7 @@ module.exports = {
         const d = diff(actual.nodeValue, expected.nodeValue);
         d.inline = true;
         return d;
-      }
+      },
     });
 
     expect.exportType({
@@ -374,7 +374,7 @@ module.exports = {
           (obj.toString().indexOf('NodeList') !== -1 ||
             (obj.constructor && obj.constructor.name === 'NodeList'))
         );
-      }
+      },
     });
 
     // Fake type to make it possible to build 'to satisfy' diffs to be rendered inline:
@@ -393,7 +393,7 @@ module.exports = {
       },
       identify(obj) {
         return obj && obj._isAttachedDOMNodeList;
-      }
+      },
     });
 
     function makeAttachedDOMNodeList(domNodeList, contentType) {
@@ -430,7 +430,7 @@ module.exports = {
         );
         d.inline = true;
         return d;
-      }
+      },
     });
 
     expect.exportType({
@@ -463,7 +463,7 @@ module.exports = {
           )
         );
         return output;
-      }
+      },
     });
 
     expect.exportType({
@@ -471,7 +471,7 @@ module.exports = {
       base: 'DOMDocument',
       identify(obj) {
         return this.baseType.identify(obj) && isInsideHtmlDocument(obj);
-      }
+      },
     });
 
     expect.exportType({
@@ -486,7 +486,7 @@ module.exports = {
           output.append(inspect(document.childNodes[i], depth - 1));
         }
         return output;
-      }
+      },
     });
 
     expect.exportType({
@@ -513,7 +513,7 @@ module.exports = {
           )
         );
         return output;
-      }
+      },
     });
 
     expect.exportType({
@@ -574,11 +574,11 @@ module.exports = {
             }
 
             let width = startTag.length;
-            const sizes = inspectedChildren.map(inspectedChild =>
+            const sizes = inspectedChildren.map((inspectedChild) =>
               inspectedChild.size()
             );
 
-            const multipleLines = sizes.some(size => {
+            const multipleLines = sizes.some((size) => {
               width += size.width;
               return width > 60 || size.height > 1;
             });
@@ -630,7 +630,7 @@ module.exports = {
           ) {
             output
               .sp()
-              .annotationBlock(output =>
+              .annotationBlock((output) =>
                 output
                   .error('should be')
                   .sp()
@@ -641,7 +641,7 @@ module.exports = {
           }
           const actualAttributes = getAttributes(actual);
           const expectedAttributes = getAttributes(expected);
-          Object.keys(actualAttributes).forEach(attributeName => {
+          Object.keys(actualAttributes).forEach((attributeName) => {
             output.sp(canContinueLine ? 1 : 2 + actual.nodeName.length);
             writeAttributeToMagicPen(
               output,
@@ -658,7 +658,7 @@ module.exports = {
               } else {
                 output
                   .sp()
-                  .annotationBlock(output =>
+                  .annotationBlock((output) =>
                     output
                       .error('should equal')
                       .sp()
@@ -673,15 +673,15 @@ module.exports = {
             } else {
               output
                 .sp()
-                .annotationBlock(output => output.error('should be removed'))
+                .annotationBlock((output) => output.error('should be removed'))
                 .nl();
               canContinueLine = false;
             }
           });
-          Object.keys(expectedAttributes).forEach(attributeName => {
+          Object.keys(expectedAttributes).forEach((attributeName) => {
             output.sp(canContinueLine ? 1 : 2 + actual.nodeName.length);
             output
-              .annotationBlock(output => {
+              .annotationBlock((output) => {
                 output.error('missing').sp();
                 writeAttributeToMagicPen(
                   output,
@@ -715,7 +715,7 @@ module.exports = {
 
         output.code(stringifyEndTag(actual), 'html');
         return output;
-      }
+      },
     });
 
     expect.exportAssertion(
@@ -728,7 +728,7 @@ module.exports = {
       '<DOMElement> to only have (class|classes) <array|string>',
       (expect, subject, value) =>
         expect(subject, 'to have attributes', {
-          class: expect.it(className => {
+          class: expect.it((className) => {
             const actualClasses = getClassNamesFromAttributeValue(className);
             if (typeof value === 'string') {
               value = getClassNamesFromAttributeValue(value);
@@ -736,7 +736,7 @@ module.exports = {
             return bubbleError(() =>
               expect(actualClasses.sort(), 'to equal', value.sort())
             );
-          })
+          }),
         })
     );
 
@@ -744,7 +744,7 @@ module.exports = {
       '<DOMElement> not to have (class|classes) <array|string>',
       (expect, subject, value) => {
         return expect(subject, 'to have attributes', {
-          class: expect.it(className => {
+          class: expect.it((className) => {
             const actualClasses = getClassNamesFromAttributeValue(className);
             let expectedClasses;
             if (typeof value === 'string') {
@@ -755,7 +755,7 @@ module.exports = {
             return bubbleError(() =>
               expect(actualClasses, 'not to contain', ...expectedClasses)
             );
-          })
+          }),
         });
       }
     );
@@ -835,7 +835,7 @@ module.exports = {
       (expect, subject, value) => {
         const isHtml = isInsideHtmlDocument(subject);
 
-        expect.argsOutput = output =>
+        expect.argsOutput = (output) =>
           output.code(value, isHtml ? 'html' : 'xml');
 
         return expect(
@@ -863,7 +863,7 @@ module.exports = {
       (expect, subject, value) => {
         const isHtml = isInsideHtmlDocument(subject);
 
-        expect.argsOutput = output =>
+        expect.argsOutput = (output) =>
           output.code(value, isHtml ? 'html' : 'xml');
 
         return expect(
@@ -881,7 +881,7 @@ module.exports = {
         return expect(
           subject,
           'to [exhaustively] satisfy',
-          Array.prototype.map.call(childNodes, childNode =>
+          Array.prototype.map.call(childNodes, (childNode) =>
             convertDOMNodeToSatisfySpec(childNode, isHtml)
           )
         );
@@ -907,7 +907,7 @@ module.exports = {
           );
         }
 
-        expect.argsOutput = output =>
+        expect.argsOutput = (output) =>
           output.code(value, isHtml ? 'html' : 'xml');
 
         return expect(
@@ -928,7 +928,7 @@ module.exports = {
         return expect(
           makeAttachedDOMNodeList(subject.childNodes),
           'to [exhaustively] satisfy',
-          Array.prototype.map.call(valueDocument.childNodes, childNode =>
+          Array.prototype.map.call(valueDocument.childNodes, (childNode) =>
             convertDOMNodeToSatisfySpec(childNode, isHtml)
           )
         );
@@ -942,7 +942,7 @@ module.exports = {
         return expect(
           makeAttachedDOMNodeList(subject.childNodes),
           'to [exhaustively] satisfy',
-          Array.prototype.map.call(childNodes, childNode =>
+          Array.prototype.map.call(childNodes, (childNode) =>
             convertDOMNodeToSatisfySpec(childNode, isHtml)
           )
         );
@@ -965,7 +965,7 @@ module.exports = {
         '<DOMElement> to [exhaustively] satisfy <DOMTextNode>',
         '<DOMTextNode> to [exhaustively] satisfy <DOMElement>',
         '<DOMElement|DOMDocumentFragment|DOMDocument> to [exhaustively] satisfy <regexp>',
-        '<DOMDocumentFragment|DOMDocument> to [exhaustively] satisfy <DOMElement>'
+        '<DOMDocumentFragment|DOMDocument> to [exhaustively] satisfy <DOMElement>',
       ],
       (expect, subject, value) => expect.fail()
     );
@@ -1022,7 +1022,7 @@ module.exports = {
               );
             }
           }),
-          attributes: {}
+          attributes: {},
         };
 
         const onlyAttributes =
@@ -1037,7 +1037,7 @@ module.exports = {
             expectedAttributes = [expectedAttributes];
           }
           if (Array.isArray(expectedAttributes)) {
-            expectedAttributes.forEach(attributeName => {
+            expectedAttributes.forEach((attributeName) => {
               expectedValueByAttributeName[attributeName] = true;
             });
           } else if (
@@ -1046,11 +1046,11 @@ module.exports = {
           ) {
             expectedValueByAttributeName = expectedAttributes;
           }
-          Object.keys(expectedValueByAttributeName).forEach(attributeName => {
+          Object.keys(expectedValueByAttributeName).forEach((attributeName) => {
             expectedAttributeNames.push(attributeName);
           });
 
-          expectedAttributeNames.forEach(attributeName => {
+          expectedAttributeNames.forEach((attributeName) => {
             const attributeValue = subject.getAttribute(attributeName);
             const expectedAttributeValue =
               expectedValueByAttributeName[attributeName];
@@ -1066,7 +1066,7 @@ module.exports = {
 
                 return bubbleError(() => {
                   if (indexOfEnumeratedAttributeValue === -1) {
-                    expect.fail(output =>
+                    expect.fail((output) =>
                       output
                         .text('Invalid expected value ')
                         .appendInspected(expectedAttributeValue)
@@ -1157,7 +1157,7 @@ module.exports = {
 
           promiseByKey.attributePresence = expect.promise(() => {
             const attributeNamesExpectedToBeDefined = [];
-            expectedAttributeNames.forEach(attributeName => {
+            expectedAttributeNames.forEach((attributeName) => {
               if (
                 typeof expectedValueByAttributeName[attributeName] ===
                 'undefined'
@@ -1182,7 +1182,7 @@ module.exports = {
           expect.promise.settle(promiseByKey).then(() => {
             expect.fail({
               diff(output, diff, inspect, equal) {
-                output.block(output => {
+                output.block((output) => {
                   let seenError = false;
                   output
                     .prismPunctuation('<')
@@ -1192,7 +1192,7 @@ module.exports = {
                   if (promiseByKey.name.isRejected()) {
                     seenError = true;
                     const nameError = promiseByKey.name.reason();
-                    output.sp().annotationBlock(output =>
+                    output.sp().annotationBlock((output) =>
                       output
                         .error(
                           (nameError && nameError.getLabel()) ||
@@ -1203,7 +1203,7 @@ module.exports = {
                     );
                   }
                   const inspectedAttributes = [];
-                  Object.keys(attrs).forEach(attributeName => {
+                  Object.keys(attrs).forEach((attributeName) => {
                     const attributeOutput = output.clone();
                     const promise = promiseByKey.attributes[attributeName];
                     writeAttributeToMagicPen(
@@ -1220,7 +1220,7 @@ module.exports = {
                     ) {
                     } else {
                       seenError = true;
-                      attributeOutput.sp().annotationBlock(output => {
+                      attributeOutput.sp().annotationBlock((output) => {
                         if (
                           promise &&
                           typeof expectedValueByAttributeName[attributeName] !==
@@ -1235,7 +1235,7 @@ module.exports = {
                     }
                     inspectedAttributes.push(attributeOutput);
                   });
-                  expectedAttributeNames.forEach(attributeName => {
+                  expectedAttributeNames.forEach((attributeName) => {
                     if (!subject.hasAttribute(attributeName)) {
                       const promise = promiseByKey.attributes[attributeName];
                       if (!promise || promise.isRejected()) {
@@ -1243,7 +1243,7 @@ module.exports = {
                         const err = promise && promise.reason();
                         const attributeOutput = output
                           .clone()
-                          .annotationBlock(output => {
+                          .annotationBlock((output) => {
                             output
                               .error('missing')
                               .sp()
@@ -1275,7 +1275,7 @@ module.exports = {
                         .nl()
                         .indentLines()
                         .indent()
-                        .block(output => {
+                        .block((output) => {
                           inspectedAttributes.forEach((item, i) => {
                             if (i > 0) {
                               output.nl();
@@ -1318,7 +1318,7 @@ module.exports = {
                         .nl()
                         .indentLines()
                         .i()
-                        .block(output => {
+                        .block((output) => {
                           for (
                             let i = 0;
                             i < subject.childNodes.length;
@@ -1329,7 +1329,7 @@ module.exports = {
                         });
                       output
                         .sp()
-                        .annotationBlock(output =>
+                        .annotationBlock((output) =>
                           output.appendErrorMessage(childrenError)
                         );
                       output.nl();
@@ -1343,7 +1343,7 @@ module.exports = {
                 });
                 output.inline = true;
                 return output;
-              }
+              },
             });
           })
         );
@@ -1361,7 +1361,7 @@ module.exports = {
       (expect, subject, value) => {
         const attributes = getAttributes(subject);
 
-        value.forEach(name => {
+        value.forEach((name) => {
           delete attributes[name];
         });
 
@@ -1380,7 +1380,7 @@ module.exports = {
       (expect, subject, value) =>
         expect(subject, 'to satisfy', {
           attributes: value,
-          onlyAttributes: expect.flags.only
+          onlyAttributes: expect.flags.only,
         })
     );
 
@@ -1403,16 +1403,16 @@ module.exports = {
       (expect, subject, query) => {
         let queryResult;
 
-        expect.argsOutput[0] = output => output.green(query);
+        expect.argsOutput[0] = (output) => output.green(query);
         expect.errorMode = 'nested';
 
         if (expect.flags.first) {
           queryResult = subject.querySelector(query);
           if (!queryResult) {
-            expect.subjectOutput = output =>
+            expect.subjectOutput = (output) =>
               expect.inspect(subject, Infinity, output);
 
-            expect.fail(output =>
+            expect.fail((output) =>
               output
                 .error('The selector')
                 .sp()
@@ -1424,10 +1424,10 @@ module.exports = {
         } else {
           queryResult = subject.querySelectorAll(query);
           if (queryResult.length === 0) {
-            expect.subjectOutput = output =>
+            expect.subjectOutput = (output) =>
               expect.inspect(subject, Infinity, output);
 
-            expect.fail(output =>
+            expect.fail((output) =>
               output
                 .error('The selector')
                 .sp()
@@ -1452,21 +1452,21 @@ module.exports = {
           subject,
           'queried for first',
           `[data-test-id=${escapedTestId}]`
-        ).then(queryResult => expect.shift(queryResult));
+        ).then((queryResult) => expect.shift(queryResult));
       }
     );
 
     expect.exportAssertion(
       [
         '<DOMDocument|DOMElement|DOMDocumentFragment> to contain [no] elements matching <string>',
-        '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to contain elements matching <string>'
+        '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to contain elements matching <string>',
       ],
       (expect, subject, query) => {
         if (expect.flags.no || expect.flags.not) {
           return expect(subject.querySelectorAll(query), 'to satisfy', []);
         }
 
-        expect.subjectOutput = output =>
+        expect.subjectOutput = (output) =>
           expect.inspect(subject, Infinity, output);
 
         return expect(subject.querySelectorAll(query), 'not to satisfy', []);
@@ -1491,7 +1491,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to match <string>',
       (expect, subject, query) => {
-        expect.subjectOutput = output =>
+        expect.subjectOutput = (output) =>
           expect.inspect(subject, Infinity, output);
 
         return expect(matchesSelector(subject, query), '[not] to be true');
@@ -1502,7 +1502,7 @@ module.exports = {
       '<DOMDocument|DOMElement|DOMDocumentFragment> [not] to have test id <string>',
       (expect, subject, testId) => {
         expect.errorMode = 'nested';
-        expect.subjectOutput = output =>
+        expect.subjectOutput = (output) =>
           expect.inspect(subject, Infinity, output);
 
         const escapedTestId = JSON.stringify(testId);
@@ -1533,7 +1533,7 @@ module.exports = {
 
     function memoize(fn) {
       const map = new Map();
-      return node => {
+      return (node) => {
         let spec = map.get(node);
         if (typeof spec === 'undefined') {
           spec = fn(node);
@@ -1593,7 +1593,7 @@ module.exports = {
               element.getAttribute('class')
             );
 
-            expectedClasses.forEach(expectedClass => {
+            expectedClasses.forEach((expectedClass) => {
               if (actualClasses.indexOf(expectedClass) !== -1) {
                 score++;
               }
@@ -1610,7 +1610,7 @@ module.exports = {
             element.getAttribute('style')
           );
 
-          Object.keys(expectedStyles).forEach(styleName => {
+          Object.keys(expectedStyles).forEach((styleName) => {
             const expectedStyle = expectedStyles[styleName];
             const actualStyle = actualStyles[styleName];
 
@@ -1627,7 +1627,7 @@ module.exports = {
         const specialAttributes = ['style', 'class'];
         const ids = ['id', 'data-test-id', 'data-testid'];
 
-        Object.keys(attributes).forEach(attributeName => {
+        Object.keys(attributes).forEach((attributeName) => {
           if (specialAttributes.indexOf(attributeName) !== -1) {
             return; // skip
           }
@@ -1712,7 +1712,7 @@ module.exports = {
       const result = [];
       let bestScore = 0;
 
-      elements.forEach(element => {
+      elements.forEach((element) => {
         const score = scoreElementAgainstSpec(
           element,
           spec,
@@ -1787,7 +1787,7 @@ module.exports = {
             );
           }
 
-          expect.argsOutput = output =>
+          expect.argsOutput = (output) =>
             output.appendInspected(documentFragment.childNodes[0]);
 
           ensureSupportedSpecOptions(spec);
@@ -1807,7 +1807,7 @@ module.exports = {
               () => {
                 const bestMatch = scoredElements[0].element;
 
-                expect.subjectOutput = output =>
+                expect.subjectOutput = (output) =>
                   expect.inspect(subject, Infinity, output);
 
                 expect.fail({
@@ -1816,14 +1816,14 @@ module.exports = {
                       .error('Found:')
                       .nl(2)
                       .appendInspected(bestMatch);
-                  }
+                  },
                 });
               }
             );
           }
         } else {
           if (scoredElements.length === 0) {
-            expect.subjectOutput = output =>
+            expect.subjectOutput = (output) =>
               expect.inspect(subject, Infinity, output);
             expect.fail();
           }
@@ -1844,5 +1844,5 @@ module.exports = {
         }
       }
     );
-  }
+  },
 };

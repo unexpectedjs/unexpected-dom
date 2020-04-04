@@ -3,14 +3,14 @@
 describe('"to have attributes" assertion', () => {
   let body;
 
-  beforeEach(function() {
+  beforeEach(function () {
     const root =
       typeof jsdom !== 'undefined' ? new jsdom.JSDOM().window : window;
     body = root.document.body;
   });
 
   describe('argument comparison', () => {
-    it('should match exact arguments', function() {
+    it('should match exact arguments', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
 
@@ -24,7 +24,7 @@ describe('"to have attributes" assertion', () => {
       );
     });
 
-    it('should fail on exact arguments not met', function() {
+    it('should fail on exact arguments not met', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
       const el = body.firstChild;
@@ -51,14 +51,14 @@ describe('"to have attributes" assertion', () => {
       );
     });
 
-    it('should match partial arguments', function() {
+    it('should match partial arguments', function () {
       body.innerHTML =
         '<button id="foo" class="bar" data-info="baz" style="color: #b4d455" disabled>Press me</button>';
 
       expect(body.firstChild, 'to have attributes', 'id', 'class', 'style');
     });
 
-    it('should fail on partial arguments not met', function() {
+    it('should fail on partial arguments not met', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
       const el = body.firstChild;
@@ -88,7 +88,7 @@ describe('"to have attributes" assertion', () => {
   });
 
   describe('array comparison', () => {
-    it('should match exact arguments', function() {
+    it('should match exact arguments', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
 
@@ -96,11 +96,11 @@ describe('"to have attributes" assertion', () => {
         'id',
         'class',
         'data-info',
-        'disabled'
+        'disabled',
       ]);
     });
 
-    it('should fail on exact arguments not met', function() {
+    it('should fail on exact arguments not met', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
       const el = body.firstChild;
@@ -127,14 +127,14 @@ describe('"to have attributes" assertion', () => {
       );
     });
 
-    it('should match partial arguments', function() {
+    it('should match partial arguments', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
 
       expect(body.firstChild, 'to have attributes', ['id', 'class']);
     });
 
-    it('should fail on partial arguments not met', function() {
+    it('should fail on partial arguments not met', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
       const el = body.firstChild;
@@ -163,14 +163,14 @@ describe('"to have attributes" assertion', () => {
     });
 
     describe('with the absence of an attribute asserted by providing undefined as the expected value', () => {
-      it('should succeed', function() {
+      it('should succeed', function () {
         body.innerHTML = '<button id="foo">Press me</button>';
         expect(body.firstChild, 'to have attributes', {
-          quux: undefined
+          quux: undefined,
         });
       });
 
-      it('should fail with a diff', function() {
+      it('should fail with a diff', function () {
         body.innerHTML = '<button id="foo" quux="baz">Press me</button>';
         const el = body.firstChild;
 
@@ -193,7 +193,7 @@ describe('"to have attributes" assertion', () => {
   });
 
   describe('object comparison', () => {
-    it('should match exact object', function() {
+    it('should match exact object', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
 
@@ -201,11 +201,11 @@ describe('"to have attributes" assertion', () => {
         id: 'foo',
         class: 'bar',
         'data-info': 'baz',
-        disabled: true
+        disabled: true,
       });
     });
 
-    it('should fail on exact object not satisfied', function() {
+    it('should fail on exact object not satisfied', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
       const el = body.firstChild;
@@ -213,7 +213,7 @@ describe('"to have attributes" assertion', () => {
       expect(
         () => {
           expect(el, 'to only have attributes', {
-            id: 'foo'
+            id: 'foo',
           });
         },
         'to throw an error satisfying to equal snapshot',
@@ -234,17 +234,17 @@ describe('"to have attributes" assertion', () => {
       );
     });
 
-    it('should match partial object', function() {
+    it('should match partial object', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
 
       expect(body.firstChild, 'to have attributes', {
         id: 'foo',
-        class: 'bar'
+        class: 'bar',
       });
     });
 
-    it('should fail on partial object not satisfied', function() {
+    it('should fail on partial object not satisfied', function () {
       body.innerHTML =
         '<button disabled class="bar" id="foo" data-info="baz">Press me</button>';
       const el = body.firstChild;
@@ -253,7 +253,7 @@ describe('"to have attributes" assertion', () => {
         () => {
           expect(el, 'to have attributes', {
             id: 'foo',
-            foo: 'bar'
+            foo: 'bar',
           });
         },
         'to throw an error satisfying to equal snapshot',
@@ -276,22 +276,22 @@ describe('"to have attributes" assertion', () => {
     });
 
     describe('class attribute', () => {
-      it('should match full class attributes', function() {
+      it('should match full class attributes', function () {
         body.innerHTML = '<i class="foo bar baz"></i>';
 
         expect(body.firstChild, 'to have attributes', {
-          class: 'foo bar baz'
+          class: 'foo bar baz',
         });
       });
 
-      it('should throw on unmatched class set', function() {
+      it('should throw on unmatched class set', function () {
         body.innerHTML = '<i class="bar"></i>';
         const el = body.firstChild;
 
         expect(
           () => {
             expect(el, 'to have attributes', {
-              class: 'foo bar baz'
+              class: 'foo bar baz',
             });
           },
           'to throw an error satisfying to equal snapshot',
@@ -305,47 +305,47 @@ describe('"to have attributes" assertion', () => {
         );
       });
 
-      it('should match partial class attributes', function() {
+      it('should match partial class attributes', function () {
         body.innerHTML = '<i class="foo bar baz"></i>';
 
         expect(body.firstChild, 'to have attributes', {
-          class: 'foo bar'
+          class: 'foo bar',
         });
       });
 
-      it('should match partial class attributes in different order', function() {
+      it('should match partial class attributes in different order', function () {
         body.innerHTML = '<i class="foo bar baz"></i>';
 
         expect(body.firstChild, 'to have attributes', {
-          class: 'baz foo'
+          class: 'baz foo',
         });
       });
 
       describe('exact matches', () => {
-        it('should match an exact class set', function() {
+        it('should match an exact class set', function () {
           body.innerHTML = '<i class="foo bar baz"></i>';
 
           expect(body.firstChild, 'to only have attributes', {
-            class: 'foo bar baz'
+            class: 'foo bar baz',
           });
         });
 
-        it('should match an exact class set in different order', function() {
+        it('should match an exact class set in different order', function () {
           body.innerHTML = '<i class="foo bar baz"></i>';
 
           expect(body.firstChild, 'to only have attributes', {
-            class: 'foo baz bar'
+            class: 'foo baz bar',
           });
         });
 
-        it('should throw if class set contains more classes than comparator', function() {
+        it('should throw if class set contains more classes than comparator', function () {
           body.innerHTML = '<i class="foo bar baz"></i>';
           const el = body.firstChild;
 
           expect(
             () => {
               expect(el, 'to only have attributes', {
-                class: 'foo baz'
+                class: 'foo baz',
               });
             },
             'to throw an error satisfying to equal snapshot',
@@ -368,14 +368,14 @@ describe('"to have attributes" assertion', () => {
           );
         });
 
-        it('should throw if class set contains less classes than comparator', function() {
+        it('should throw if class set contains less classes than comparator', function () {
           body.innerHTML = '<i class="foo baz"></i>';
           const el = body.firstChild;
 
           expect(
             () => {
               expect(el, 'to only have attributes', {
-                class: 'foo bar baz'
+                class: 'foo bar baz',
               });
             },
             'to throw an error satisfying to equal snapshot',
@@ -402,38 +402,38 @@ describe('"to have attributes" assertion', () => {
 
     describe('style attribute', () => {
       describe('lax comparison', () => {
-        it('should do string comparisons', function() {
+        it('should do string comparisons', function () {
           body.innerHTML = '<i style="background: blue; color: red"></i>';
 
           expect(body.firstChild, 'to have attributes', {
-            style: 'background: blue; color: red'
+            style: 'background: blue; color: red',
           });
         });
 
-        it('should do string comparisons in any order', function() {
+        it('should do string comparisons in any order', function () {
           body.innerHTML = '<i style="background: blue; color: red"></i>';
 
           expect(body.firstChild, 'to have attributes', {
-            style: 'background: blue; color: red'
+            style: 'background: blue; color: red',
           });
         });
 
-        it('should do string comparisons on partial values', function() {
+        it('should do string comparisons on partial values', function () {
           body.innerHTML = '<i style="background: blue; color: red"></i>';
 
           expect(body.firstChild, 'to have attributes', {
-            style: 'background: blue'
+            style: 'background: blue',
           });
         });
 
-        it('should fail when styles are missing', function() {
+        it('should fail when styles are missing', function () {
           body.innerHTML = '<i style="color: red"></i>';
           const node = body.firstChild;
 
           expect(
             () => {
               expect(node, 'to have attributes', {
-                style: 'background: blue'
+                style: 'background: blue',
               });
             },
             'to throw an error satisfying to equal snapshot',
@@ -452,28 +452,28 @@ describe('"to have attributes" assertion', () => {
           );
         });
 
-        it('should do object comparisons', function() {
+        it('should do object comparisons', function () {
           body.innerHTML = '<i style="background: blue; color: red"></i>';
 
           expect(body.firstChild, 'to have attributes', {
             style: {
               color: 'red',
-              background: 'blue'
-            }
+              background: 'blue',
+            },
           });
         });
 
-        it('should do partial object comparisons', function() {
+        it('should do partial object comparisons', function () {
           body.innerHTML = '<i style="background: blue; color: red"></i>';
 
           expect(body.firstChild, 'to have attributes', {
             style: {
-              background: 'blue'
-            }
+              background: 'blue',
+            },
           });
         });
 
-        it('should fail on missing partial object comparisons', function() {
+        it('should fail on missing partial object comparisons', function () {
           body.innerHTML = '<i style="color: red"></i>';
           const node = body.firstChild;
 
@@ -481,8 +481,8 @@ describe('"to have attributes" assertion', () => {
             () => {
               expect(node, 'to have attributes', {
                 style: {
-                  background: 'blue'
-                }
+                  background: 'blue',
+                },
               });
             },
             'to throw an error satisfying to equal snapshot',
@@ -501,17 +501,17 @@ describe('"to have attributes" assertion', () => {
           );
         });
 
-        it('should handle trailing semicolon', function() {
+        it('should handle trailing semicolon', function () {
           body.innerHTML = '<div style="color: red;"></div>';
 
           expect(body.firstChild, 'to only have attributes', {
             style: {
-              color: 'red'
-            }
+              color: 'red',
+            },
           });
         });
 
-        it('should handle url values', function() {
+        it('should handle url values', function () {
           body.innerHTML =
             '<div style="background: url(https://www.example.com/picture.png)"></div>';
 
@@ -519,37 +519,37 @@ describe('"to have attributes" assertion', () => {
             style: {
               background: expect
                 .it('to be', 'url(https://www.example.com/picture.png)')
-                .or('to be', 'url("https://www.example.com/picture.png")')
-            }
+                .or('to be', 'url("https://www.example.com/picture.png")'),
+            },
           });
         });
       });
 
       describe('strict comparison', () => {
-        it('should do string comparisons', function() {
+        it('should do string comparisons', function () {
           body.innerHTML = '<i style="background: blue; color: red"></i>';
 
           expect(body.firstChild, 'to only have attributes', {
-            style: 'background: blue; color: red'
+            style: 'background: blue; color: red',
           });
         });
 
-        it('should do string comparisons in any order', function() {
+        it('should do string comparisons in any order', function () {
           body.innerHTML = '<i style="background: blue; color: red"></i>';
 
           expect(body.firstChild, 'to only have attributes', {
-            style: 'background: blue; color: red'
+            style: 'background: blue; color: red',
           });
         });
 
-        it('should fail when styles are missing', function() {
+        it('should fail when styles are missing', function () {
           body.innerHTML = '<i style="background: blue; color: red"></i>';
           const node = body.firstChild;
 
           expect(
             () => {
               expect(node, 'to only have attributes', {
-                style: 'background: blue'
+                style: 'background: blue',
               });
             },
             'to throw an error satisfying to equal snapshot',
@@ -569,18 +569,18 @@ describe('"to have attributes" assertion', () => {
           );
         });
 
-        it('should do object comparisons', function() {
+        it('should do object comparisons', function () {
           body.innerHTML = '<i style="background: blue; color: red"></i>';
 
           expect(body.firstChild, 'to only have attributes', {
             style: {
               color: 'red',
-              background: 'blue'
-            }
+              background: 'blue',
+            },
           });
         });
 
-        it('should fail on missing partial object comparisons', function() {
+        it('should fail on missing partial object comparisons', function () {
           body.innerHTML = '<i style="background: blue; color: red"></i>';
           const node = body.firstChild;
 
@@ -588,8 +588,8 @@ describe('"to have attributes" assertion', () => {
             () => {
               expect(node, 'to only have attributes', {
                 style: {
-                  background: 'blue'
-                }
+                  background: 'blue',
+                },
               });
             },
             'to throw an error satisfying to equal snapshot',

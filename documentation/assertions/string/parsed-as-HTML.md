@@ -2,10 +2,12 @@ Parses a string as a HTML document using the facilities available in the browser
 
 ```js
 expect(
-    '<html><body><div class="foo"></div></body></html>',
-    'when parsed as HTML',
-    'queried for first', 'div',
-    'to have attributes', { class: 'foo' }
+  '<html><body><div class="foo"></div></body></html>',
+  'when parsed as HTML',
+  'queried for first',
+  'div',
+  'to have attributes',
+  { class: 'foo' }
 );
 ```
 
@@ -13,9 +15,11 @@ You can also parse a HTML fragment:
 
 ```js
 expect(
-    '<div class="foo"></div>',
-    'when parsed as HTML fragment',
-    'queried for first', 'div',
-    'to have attributes', { class: 'foo' }
+  '<div class="foo"></div>',
+  'when parsed as HTML fragment',
+  'queried for first',
+  'div',
+  'to have attributes',
+  { class: 'foo' }
 );
 ```

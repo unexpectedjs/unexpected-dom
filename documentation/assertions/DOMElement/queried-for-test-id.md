@@ -17,7 +17,7 @@ var element = createElement(`
 `);
 
 expect(element, 'queried for test id', 'numbers', 'to satisfy', {
-  children: expect.it('to have length', 3)
+  children: expect.it('to have length', 3),
 });
 ```
 
@@ -25,7 +25,7 @@ If no matching element can be found you get the following error:
 
 ```js
 expect(element, 'queried for test id', 'emojies', 'to satisfy', {
-  children: expect.it('to have length', 666)
+  children: expect.it('to have length', 666),
 });
 ```
 
@@ -48,12 +48,7 @@ queried for test id 'emojies' to satisfy { children: expect.it('to have length',
 In case the next assertion fails you will get an error looking like this:
 
 ```js
-expect(
-  element,
-  'queried for test id',
-  'numbers',
-  'to have no children'
-);
+expect(element, 'queried for test id', 'numbers', 'to have no children');
 ```
 
 ```output

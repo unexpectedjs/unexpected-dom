@@ -47,9 +47,9 @@ means you only need to mention the tree expected of data you want to assert:
 expect(element, 'to have attributes', {
   class: ['info'],
   style: {
-    border: 'thin solid gray'
+    border: 'thin solid gray',
   },
-  id: /stock/
+  id: /stock/,
 });
 ```
 
@@ -59,9 +59,9 @@ In case of a failing expectation you get the following output:
 expect(element, 'to have attributes', {
   class: ['warning'],
   style: {
-    border: 'thick solid gray'
+    border: 'thick solid gray',
   },
-  id: expect.it('to be a string')
+  id: expect.it('to be a string'),
 });
 ```
 

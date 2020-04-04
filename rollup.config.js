@@ -4,7 +4,7 @@ var plugins = [
   require('rollup-plugin-json')(),
   require('rollup-plugin-commonjs')(),
   require('rollup-plugin-node-resolve')(),
-  require('rollup-plugin-node-globals')()
+  require('rollup-plugin-node-globals')(),
 ];
 
 module.exports = [
@@ -16,9 +16,9 @@ module.exports = [
       exports: 'named',
       format: 'umd',
       sourcemap: false,
-      strict: false
+      strict: false,
     },
-    plugins
+    plugins,
   },
   {
     input: 'lib/index.js',
@@ -28,8 +28,8 @@ module.exports = [
       exports: 'named',
       format: 'umd',
       sourcemap: false,
-      strict: false
+      strict: false,
     },
-    plugins: plugins.concat([terser()])
-  }
+    plugins: plugins.concat([terser()]),
+  },
 ];

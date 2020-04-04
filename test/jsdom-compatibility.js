@@ -7,7 +7,7 @@ expect.output.installPlugin(require('magicpen-prism'));
 
 expect.addAssertion(
   '<string|DOMNode> to inspect as [itself] <string?>',
-  function(expect, subject, value) {
+  function (expect, subject, value) {
     const originalSubject = subject;
     if (typeof subject === 'string') {
       subject = new jsdom.JSDOM(

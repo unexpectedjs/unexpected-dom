@@ -44,7 +44,7 @@ describe('in a document', () => {
   it('should find a DOM node', () => {
     expect(document.body, 'to have attributes', {
       id: 'app',
-      lang: 'en-US'
+      lang: 'en-US',
     });
   });
 });

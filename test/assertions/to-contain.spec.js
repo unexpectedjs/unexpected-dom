@@ -2,13 +2,14 @@
 
 const parseHtmlDocument =
   typeof DOMParser !== 'undefined'
-    ? str => new DOMParser().parseFromString(str, 'text/html')
-    : str => new jsdom.JSDOM(str).window.document;
+    ? (str) => new DOMParser().parseFromString(str, 'text/html')
+    : (str) => new jsdom.JSDOM(str).window.document;
 
 const parseXmlDocument =
   typeof DOMParser !== 'undefined'
-    ? str => new DOMParser().parseFromString(str, 'application/xml')
-    : str => new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
+    ? (str) => new DOMParser().parseFromString(str, 'application/xml')
+    : (str) =>
+        new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
 
 function parseHtml(str) {
   return parseHtmlDocument(`<!DOCTYPE html><html><body>${str}</body></html>`)
@@ -114,7 +115,7 @@ describe('"to contain" assertion', () => {
         {
           name: 'span',
           attributes: { class: 'name' },
-          textContent: expect.it('to match', /^Jane/).and('to have length', 8)
+          textContent: expect.it('to match', /^Jane/).and('to have length', 8),
         }
       );
     });
@@ -126,7 +127,7 @@ describe('"to contain" assertion', () => {
         ),
         'to contain',
         {
-          attributes: { class: 'something-else name' }
+          attributes: { class: 'something-else name' },
         }
       );
     });
@@ -138,7 +139,7 @@ describe('"to contain" assertion', () => {
         ),
         'to contain',
         {
-          attributes: { style: { 'background-color': 'red' } }
+          attributes: { style: { 'background-color': 'red' } },
         }
       );
     });
@@ -150,7 +151,7 @@ describe('"to contain" assertion', () => {
         ),
         'to contain',
         {
-          attributes: { style: 'background-color: red' }
+          attributes: { style: 'background-color: red' },
         }
       );
     });
@@ -163,7 +164,7 @@ describe('"to contain" assertion', () => {
         'to contain',
         {
           name: /^(i|span)$/,
-          textContent: 'Hello'
+          textContent: 'Hello',
         }
       );
     });
@@ -176,7 +177,7 @@ describe('"to contain" assertion', () => {
         'to contain',
         {
           name: expect.it('to have length', 1),
-          textContent: 'Hello'
+          textContent: 'Hello',
         }
       );
     });
@@ -189,8 +190,8 @@ describe('"to contain" assertion', () => {
         'to contain',
         {
           attributes: {
-            class: /^name something/
-          }
+            class: /^name something/,
+          },
         }
       );
     });
@@ -203,9 +204,9 @@ describe('"to contain" assertion', () => {
         'to contain',
         {
           attributes: {
-            class: expect.it('to end with', 'else')
+            class: expect.it('to end with', 'else'),
           },
-          textContent: 'Jane Doe'
+          textContent: 'Jane Doe',
         }
       );
     });
@@ -216,9 +217,9 @@ describe('"to contain" assertion', () => {
         'to contain',
         {
           attributes: {
-            class: undefined
+            class: undefined,
           },
-          textContent: 'Hello'
+          textContent: 'Hello',
         }
       );
     });
@@ -231,7 +232,7 @@ describe('"to contain" assertion', () => {
         'to contain',
         {
           name: 'input',
-          attributes: { checked: true }
+          attributes: { checked: true },
         }
       );
     });
@@ -239,7 +240,7 @@ describe('"to contain" assertion', () => {
     it('supports searching for false boolean attributes', () => {
       expect(parseHtml('<div><input type="checkbox"></div>'), 'to contain', {
         name: 'input',
-        attributes: { checked: undefined }
+        attributes: { checked: undefined },
       });
     });
 
@@ -251,7 +252,7 @@ describe('"to contain" assertion', () => {
         'to contain',
         {
           name: 'span',
-          children: [parseHtml('<i>Hello</i>'), parseHtml('<!-- comment -->')]
+          children: [parseHtml('<i>Hello</i>'), parseHtml('<!-- comment -->')],
         }
       );
     });
@@ -263,9 +264,9 @@ describe('"to contain" assertion', () => {
         {
           name: 'span',
           attributes: {
-            class: 'greeting'
+            class: 'greeting',
           },
-          onlyAttributes: true
+          onlyAttributes: true,
         }
       );
     });

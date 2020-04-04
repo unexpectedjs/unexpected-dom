@@ -5,7 +5,7 @@ module.exports = (elm, selector) => {
     elm.msMatchesSelector ||
     elm.oMatchesSelector ||
     elm.webkitMatchesSelector ||
-    function(selector) {
+    function (selector) {
       const node = this;
       const nodes = (node.parentNode || node.document).querySelectorAll(
         selector

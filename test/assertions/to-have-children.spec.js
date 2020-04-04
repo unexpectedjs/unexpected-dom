@@ -3,21 +3,21 @@
 describe('"to have children" assertion', () => {
   let body;
 
-  beforeEach(function() {
+  beforeEach(function () {
     const root =
       typeof jsdom !== 'undefined' ? new jsdom.JSDOM().window : window;
     body = root.document.body;
   });
 
   describe('with no children flag', () => {
-    it('should match element with no children', function() {
+    it('should match element with no children', function () {
       body.innerHTML = '<div></div>';
       const el = body.firstChild;
 
       expect(el, 'to have no children');
     });
 
-    it('should fail on element with HTMLElement children', function() {
+    it('should fail on element with HTMLElement children', function () {
       body.innerHTML = '<div><p></p></div>';
       const el = body.firstChild;
 
@@ -30,7 +30,7 @@ describe('"to have children" assertion', () => {
       );
     });
 
-    it('should fail on element with HTMLComment children', function() {
+    it('should fail on element with HTMLComment children', function () {
       body.innerHTML = '<div><!-- Comment --></div>';
       const el = body.firstChild;
 
@@ -43,7 +43,7 @@ describe('"to have children" assertion', () => {
       );
     });
 
-    it('should fail on element with TextNode children', function() {
+    it('should fail on element with TextNode children', function () {
       body.innerHTML = '<div>I am a text</div>';
       const el = body.firstChild;
 

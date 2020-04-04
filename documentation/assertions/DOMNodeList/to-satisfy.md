@@ -18,7 +18,7 @@ var element = createElement(`
 expect(element, 'queried for', '[data-test-id=numbers] > li', 'to satisfy', [
   '<li>One</li>',
   { children: [/Two/] },
-  expect.it('to have text', 'Three')
+  expect.it('to have text', 'Three'),
 ]);
 
 expect(
@@ -27,7 +27,7 @@ expect(
   '[data-test-id=numbers] > *',
   'to have items satisfying',
   {
-    name: 'li'
+    name: 'li',
   }
 );
 ```
@@ -38,7 +38,7 @@ In case of a failing expectation you get the following output:
 expect(element, 'queried for', '[data-test-id=numbers] > li', 'to satisfy', [
   '<li>Three</li>',
   '<li>Two</li>',
-  '<li>One</li>'
+  '<li>One</li>',
 ]);
 ```
 
@@ -83,7 +83,7 @@ expect(
   [
     '<li class="number">One</li>',
     '<li class="number">Two</li>',
-    '<li>Three</li>'
+    '<li>Three</li>',
   ]
 );
 ```

@@ -3,8 +3,8 @@
 describe('"to equal" assertion', () => {
   const parseHtmlDocument =
     typeof jsdom !== 'undefined'
-      ? str => new jsdom.JSDOM(str).window.document
-      : str => new DOMParser().parseFromString(str, 'text/html');
+      ? (str) => new jsdom.JSDOM(str).window.document
+      : (str) => new DOMParser().parseFromString(str, 'text/html');
 
   function parseHtml(str) {
     return parseHtmlDocument(`<!DOCTYPE html><html><body>${str}</body></html>`)

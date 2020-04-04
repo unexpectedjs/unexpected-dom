@@ -7,13 +7,14 @@ const isIe =
 
 const parseHtmlDocument =
   typeof DOMParser !== 'undefined'
-    ? str => new DOMParser().parseFromString(str, 'text/html')
-    : str => new jsdom.JSDOM(str).window.document;
+    ? (str) => new DOMParser().parseFromString(str, 'text/html')
+    : (str) => new jsdom.JSDOM(str).window.document;
 
 const parseXmlDocument =
   typeof DOMParser !== 'undefined'
-    ? str => new DOMParser().parseFromString(str, 'application/xml')
-    : str => new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
+    ? (str) => new DOMParser().parseFromString(str, 'application/xml')
+    : (str) =>
+        new jsdom.JSDOM(str, { contentType: 'text/xml' }).window.document;
 
 function parseHtml(str) {
   return parseHtmlDocument(`<!DOCTYPE html><html><body>${str}</body></html>`)
@@ -41,11 +42,11 @@ function parseHtmlNode(str) {
 describe('"to satisfy" assertion', () => {
   let body;
 
-  it.skipIf = function(bool, descr, block) {
+  it.skipIf = function (bool, descr, block) {
     (bool ? it.skip : it)(descr, block);
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     const root =
       typeof jsdom !== 'undefined' ? new jsdom.JSDOM().window : window;
     body = root.document.body;
@@ -70,10 +71,10 @@ describe('"to satisfy" assertion', () => {
           children: [
             {
               attributes: {
-                draggable: 'true'
-              }
-            }
-          ]
+                draggable: 'true',
+              },
+            },
+          ],
         });
       });
 
@@ -83,10 +84,10 @@ describe('"to satisfy" assertion', () => {
           children: [
             {
               attributes: {
-                draggable: 'false'
-              }
-            }
-          ]
+                draggable: 'false',
+              },
+            },
+          ],
         });
       });
 
@@ -98,10 +99,10 @@ describe('"to satisfy" assertion', () => {
               children: [
                 {
                   attributes: {
-                    draggable: false
-                  }
-                }
-              ]
+                    draggable: false,
+                  },
+                },
+              ],
             });
           },
           'to throw an error satisfying to equal snapshot',
@@ -155,8 +156,8 @@ describe('"to satisfy" assertion', () => {
         [
           {
             name: 'div',
-            children: 'foo<span>bar</span>'
-          }
+            children: 'foo<span>bar</span>',
+          },
         ]
       );
     });
@@ -170,8 +171,8 @@ describe('"to satisfy" assertion', () => {
             [
               {
                 name: 'div',
-                children: '<span>bar</span>foo'
-              }
+                children: '<span>bar</span>foo',
+              },
             ]
           );
         },
@@ -337,7 +338,7 @@ describe('"to satisfy" assertion', () => {
             [
               '<div foo="bar">foo</div>',
               '<div><div>bar</div></div>',
-              '<div>baz</div>'
+              '<div>baz</div>',
             ].join('\n'),
             'when parsed as HTML fragment to satisfy',
             parseHtmlFragment(
@@ -351,14 +352,14 @@ describe('"to satisfy" assertion', () => {
             [
               '<div foo="bar">foo</div>',
               '<div>bar</div>',
-              '<div>baz</div>'
+              '<div>baz</div>',
             ].join('\n'),
             'when parsed as HTML fragment to satisfy',
             parseHtmlFragment(
               [
                 '<div>foo</div>',
                 '<div><!--ignore--></div>',
-                '<div>baz</div>'
+                '<div>baz</div>',
               ].join('\n')
             )
           );
@@ -405,7 +406,7 @@ describe('"to satisfy" assertion', () => {
           'when parsed as HTML fragment to satisfy',
           [
             { attributes: { foo: 'bar' }, children: ['foo'] },
-            { name: 'div', children: ['bar'] }
+            { name: 'div', children: ['bar'] },
           ]
         );
       });
@@ -418,7 +419,7 @@ describe('"to satisfy" assertion', () => {
               'when parsed as HTML fragment to satisfy',
               [
                 { attributes: { foo: 'bar' }, children: ['foo'] },
-                { name: 'div', children: ['bar'] }
+                { name: 'div', children: ['bar'] },
               ]
             );
           },
@@ -460,7 +461,7 @@ describe('"to satisfy" assertion', () => {
           '<div foo="bar">foo</div><div>bar</div>',
           'when parsed as HTML fragment to satisfy',
           {
-            1: { name: 'div', children: ['bar'] }
+            1: { name: 'div', children: ['bar'] },
           }
         );
       });
@@ -472,7 +473,7 @@ describe('"to satisfy" assertion', () => {
               '<div foo="baz">foo</div><div>foobar</div>',
               'when parsed as HTML fragment to satisfy',
               {
-                1: { name: 'div', children: ['bar'] }
+                1: { name: 'div', children: ['bar'] },
               }
             );
           },
@@ -949,7 +950,7 @@ describe('"to satisfy" assertion', () => {
       node.innerHTML = '<div foo="bar">hey</div>';
       body.innerHTML = '<div><div foo="bar">hey</div></div>';
       expect(body.firstChild, 'to satisfy', {
-        children: [node.firstChild]
+        children: [node.firstChild],
       });
     });
 
@@ -981,9 +982,9 @@ describe('"to satisfy" assertion', () => {
           children: [
             commentNode,
             {
-              children: 'important'
-            }
-          ]
+              children: 'important',
+            },
+          ],
         });
       });
     });
@@ -1027,7 +1028,7 @@ describe('"to satisfy" assertion', () => {
     expect(
       () => {
         expect(body, 'queried for', 'div', 'to satisfy', {
-          1: { attributes: { foo: 'bar' } }
+          1: { attributes: { foo: 'bar' } },
         });
       },
       'to throw an error satisfying to equal snapshot',
@@ -1079,7 +1080,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         () => {
           expect(parseXmlDocument('<foO></foO>').firstChild, 'to satisfy', {
-            name: 'foo'
+            name: 'foo',
           });
         },
         'to throw an error satisfying to equal snapshot',
@@ -1099,10 +1100,10 @@ describe('"to satisfy" assertion', () => {
           document.firstChild._ownerDocument = {
             toString() {
               return '[object XMLDocument]';
-            }
+            },
           };
           expect(document.firstChild, 'to satisfy', {
-            name: 'foo'
+            name: 'foo',
           });
         },
         'to throw an error satisfying to equal snapshot',
@@ -1123,7 +1124,7 @@ describe('"to satisfy" assertion', () => {
               '<?xml version="1.0"?>',
               '<content>',
               '  <hello type="greeting">World</hello>',
-              '</content>'
+              '</content>',
             ].join('\n')
           ),
           'queried for first',
@@ -1131,9 +1132,9 @@ describe('"to satisfy" assertion', () => {
           'to satisfy',
           {
             attributes: {
-              type: 'greeting'
+              type: 'greeting',
             },
-            children: ['World']
+            children: ['World'],
           }
         );
       });
@@ -1178,7 +1179,7 @@ describe('"to satisfy" assertion', () => {
 
     it('succeeds when used as the name option', () => {
       expect(parseHtmlNode('<my-foo-bar></my-foo-bar>'), 'to satisfy', {
-        name: expect.it(value => value.indexOf('-').length === 2)
+        name: expect.it((value) => value.indexOf('-').length === 2),
       });
     });
 
@@ -1189,14 +1190,14 @@ describe('"to satisfy" assertion', () => {
         ),
         'to satisfy',
         {
-          children: expect.it('to have length', 3)
+          children: expect.it('to have length', 3),
         }
       );
     });
 
     it('succeeds when used as the textContent option', () => {
       expect(parseHtmlNode('<div>bar foo</div>'), 'to satisfy', {
-        textContent: expect.it('not to start with', 'foo')
+        textContent: expect.it('not to start with', 'foo'),
       });
     });
   });
@@ -1223,7 +1224,7 @@ describe('"to satisfy" assertion', () => {
           expect(element, 'to satisfy', {
             attributes: {
               style: { display: 'block' },
-              class: ['knockout-autocomplete', 'floating-menu']
+              class: ['knockout-autocomplete', 'floating-menu'],
             },
             children: [
               {
@@ -1231,18 +1232,18 @@ describe('"to satisfy" assertion', () => {
                 children: [
                   { attributes: { class: 'before' }, children: [] },
                   { attributes: { class: 'match' }, children: ['pr'] },
-                  { attributes: { class: 'after' }, children: ['ivate'] }
-                ]
+                  { attributes: { class: 'after' }, children: ['ivate'] },
+                ],
               },
               {
                 attributes: { 'data-index': '1', class: undefined },
                 children: [
                   { attributes: { class: 'before' }, children: [] },
                   { attributes: { class: 'match' }, children: ['pr'] },
-                  { attributes: { class: 'after' }, children: ['odtected'] }
-                ]
-              }
-            ]
+                  { attributes: { class: 'after' }, children: ['odtected'] },
+                ],
+              },
+            ],
           });
         },
         'to throw an error satisfying to equal snapshot',
@@ -1308,7 +1309,7 @@ describe('"to satisfy" assertion', () => {
           expect(element, 'to satisfy', {
             attributes: {
               style: { display: 'block' },
-              class: ['knockout-autocomplete', 'floating-menu']
+              class: ['knockout-autocomplete', 'floating-menu'],
             },
             children: [
               {
@@ -1316,22 +1317,22 @@ describe('"to satisfy" assertion', () => {
                 children: [
                   { attributes: { class: 'before' }, children: [] },
                   { attributes: { class: 'match' }, children: ['pr'] },
-                  { attributes: { class: 'after' }, children: ['ivate'] }
-                ]
+                  { attributes: { class: 'after' }, children: ['ivate'] },
+                ],
               },
               {
                 attributes: { 'data-index': '1', class: undefined },
                 children: [
                   { attributes: { class: 'before' }, children: [] },
                   { attributes: { class: 'match' }, children: ['pr'] },
-                  { attributes: { class: 'after' }, children: ['odtected'] }
-                ]
-              }
-            ]
+                  { attributes: { class: 'after' }, children: ['odtected'] },
+                ],
+              },
+            ],
           });
         },
         'to throw',
-        expect.it(error => {
+        expect.it((error) => {
           const message = error.getErrorMessage('html').toString();
 
           expect(
@@ -1364,7 +1365,7 @@ describe('"to satisfy" assertion', () => {
           );
         },
         'to throw',
-        expect.it(error => {
+        expect.it((error) => {
           const message = error.getErrorMessage('html').toString();
           expect(
             message,
