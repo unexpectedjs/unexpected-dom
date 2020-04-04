@@ -14,7 +14,7 @@
     "build": "buble -o lib src",
     "build-tests": "node -e \"require('fs-extra').ensureDirSync('build')\" && buble --yes dangerousTaggedTemplateString -o build/test test && node -e \"require('fs-extra').removeSync('build/test/common')\"",
     "changelog": "offline-github-changelog > CHANGELOG.md",
-    "lint": "eslint . && prettier --check '**/*.js'",
+    "lint": "eslint . && prettier --check '**/*.{js,md}'",
     "test": "npm run test-node && npm run test-docs",
     "test-browser": "npm run build && npm run bundle && npm run build-tests && npm run bundle-tests && karma start --single-run --browsers ${BROWSER:-ChromeHeadless}",
     "test-docs": "mocha `find documentation -name '*.md'`",
