@@ -49,7 +49,7 @@
     "@rollup/plugin-multi-entry": "^3.0.0",
     "buble": "^0.20.0",
     "coveralls": "^3.0.2",
-    "eslint": "^6.0.0",
+    "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-config-standard": "^14.0.1",
     "eslint-plugin-import": "^2.18.2",
