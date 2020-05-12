@@ -168,6 +168,14 @@ function getAttributes(element) {
   return result;
 }
 
+function getStates(element) {
+  const result = {
+    focused: element.ownerDocument.activeElement === element,
+  };
+
+  return result;
+}
+
 function entitify(value) {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -222,10 +230,15 @@ function stringifyStartTag(element) {
     : element.nodeName;
   let str = `<${elementName}`;
   const attrs = getAttributes(element);
+  const states = getStates(element);
 
   Object.keys(attrs).forEach((key) => {
     str += ` ${stringifyAttribute(key, attrs[key])}`;
   });
+
+  if (elementName !== 'body' && states.focused) {
+    str += ' :focus';
+  }
 
   str += '>';
   return str;

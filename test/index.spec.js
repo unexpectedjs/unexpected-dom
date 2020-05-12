@@ -116,6 +116,24 @@ describe('unexpected-dom', () => {
     expect('<input value="">', 'to inspect as itself');
   });
 
+  describe('focus handling', () => {
+    it('should show a :focus indicator on a focused element', () => {
+      const subject = parseHtml('<button>I am focused</button>');
+
+      subject.focus();
+
+      expect(subject, 'to inspect as', '<button :focus>I am focused</button>');
+    });
+
+    it('should not show a :focus indicator on a focused <body>', () => {
+      const dpcument = parseHtmlDocument('');
+
+      dpcument.body.focus();
+
+      expect(dpcument.body, 'to inspect as', '<body></body>');
+    });
+  });
+
   describe('diffing', () => {
     expect.addAssertion(
       '<string|DOMNode|DOMDocument> diffed with <string|DOMNode|DOMDocument> <assertion>',
