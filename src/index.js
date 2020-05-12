@@ -169,11 +169,13 @@ function getAttributes(element) {
 }
 
 function getStates(element) {
-  const result = {
-    focused: element.ownerDocument.activeElement === element,
+  let focused = false;
+  try {
+    focused = element.ownerDocument.activeElement === element;
+  } catch (err) {}
+  return {
+    focused,
   };
-
-  return result;
 }
 
 function entitify(value) {
