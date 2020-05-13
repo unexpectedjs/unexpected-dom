@@ -169,9 +169,13 @@ function getAttributes(element) {
 }
 
 function getStates(element) {
-  const result = {
-    focused: element.ownerDocument.activeElement === element,
-  };
+  const result = {};
+
+  try {
+    result.focused = element.ownerDocument.activeElement === element;
+  } catch (err) {
+    // The document might not be in a window, and thus not able to have an activeElement
+  }
 
   return result;
 }

@@ -117,20 +117,29 @@ describe('unexpected-dom', () => {
   });
 
   describe('focus handling', () => {
+    var button;
+
+    beforeEach(() => {
+      button = root.document.createElement('button');
+      root.document.body.appendChild(button);
+    });
+
+    afterEach(() => {
+      button.parentNode.removeChild(button);
+    });
+
     it('should show a :focus indicator on a focused element', () => {
-      const subject = parseHtml('<button>I am focused</button>');
+      button.focus();
 
-      subject.focus();
-
-      expect(subject, 'to inspect as', '<button :focus>I am focused</button>');
+      expect(button, 'to inspect as', '<button :focus></button>');
     });
 
     it('should not show a :focus indicator on a focused <body>', () => {
-      const dpcument = parseHtmlDocument('');
+      const body = button.parentNode;
 
-      dpcument.body.focus();
+      body.focus();
 
-      expect(dpcument.body, 'to inspect as', '<body></body>');
+      expect(expect.inspect(body).toString(), 'to begin with', '<body>');
     });
   });
 
