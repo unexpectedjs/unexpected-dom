@@ -1844,5 +1844,12 @@ module.exports = {
         }
       }
     );
+
+    expect.exportAssertion(
+      '<DOMElement> [not] to have focus',
+      (expect, subject) => {
+        expect(subject.ownerDocument.activeElement, '[not] to be', subject);
+      }
+    );
   },
 };
