@@ -1851,5 +1851,14 @@ module.exports = {
         expect(subject.ownerDocument.activeElement, '[not] to be', subject);
       }
     );
+
+    expect.exportAssertion(
+      '<DOMDocument|DOMElement> to contain focused element matching <string>',
+      (expect, subject, selector) => {
+        expect(subject, 'to contain elements matching', selector);
+        expect.errorMode = 'nested';
+        expect(subject.querySelector(selector), 'to have focus');
+      }
+    );
   },
 };
