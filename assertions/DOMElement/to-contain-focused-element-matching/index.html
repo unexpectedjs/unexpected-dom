@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../../static/normalize.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../../../static/main.css" type="text/css" media="screen" />
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="../../../static/bug-icon-black.ico">
-    <title>to match (DOMElement)</title>
+    <title>to contain focused element matching (DOMElement)</title>
 </head>
 <body class="sidebar-hidden has-sidebar">
     <header>
@@ -91,8 +91,8 @@
                 <a href="../to-contain-elements-matching/">to contain elements matching</a>
             </li>
             
-            <li class="">
-                <a href="../to-contain-focused-element-matching/">to contain focused element matching</a>
+            <li class="active">
+                <a href="./">to contain focused element matching</a>
             </li>
             
             <li class="">
@@ -123,8 +123,8 @@
                 <a href="../to-have-text/">to have text</a>
             </li>
             
-            <li class="active">
-                <a href="./">to match</a>
+            <li class="">
+                <a href="../to-match/">to match</a>
             </li>
             
             <li class="">
@@ -138,17 +138,16 @@
     <div class="main" tabindex="-1">
         <div class="content">
             
-                <h1>to match</h1>
+                <h1>to contain focused element matching</h1>
                 <ul class="declarations">
                 
-                    <li>&lt;DOMElement&gt; [not] to match &lt;string&gt;</li>
+                    <li>&lt;DOMElement&gt; to contain focused element matching &lt;string&gt;</li>
                 
                 </ul>
             
-            <p>Assert that an element matches the given selector.</p>
-<div class="code lang-javascript"><div><span style="color: #a71d5d">var</span>&nbsp;element&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">createElement</span><span style="color: #000000">(</span>`</div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;button&nbsp;data-test-id=&quot;publish&quot;&nbsp;class=&quot;primary&quot;&nbsp;disabled&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;Publish</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;/button&gt;</span></div><div>`<span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;match'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'button:disabled'</span><span style="color: #000000">);</span></div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;match'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'[data-test-id=publish]'</span><span style="color: #000000">);</span></div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;match'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'.primary'</span><span style="color: #000000">);</span></div></div><p>In case of a failing expectation you get the following output:</p>
-<div class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;match'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'[data-test-id=approve]'</span><span style="color: #000000">);</span></div></div><div class="output"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">button&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">=&quot;</span><span style="color: #07a">publish</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">primary</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">disabled</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div>Publish</div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">button</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">to&nbsp;match</span>&nbsp;<span style="color: #df5000">'[data-test-id=approve]'</span></div></div><p>You can also assert that an element does not match a given selector:</p>
-<div class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;match'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'.default'</span><span style="color: #000000">);</span></div></div>
+            <p>Assert that a child element is the currently focused element on the page.</p>
+<div class="code lang-javascript"><div><span style="color: #a71d5d">var</span>&nbsp;document&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">createDocument</span><span style="color: #000000">(</span>`</div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;form&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;label&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;Name&lt;/span&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;text&quot;&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;/label&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;button&gt;Submit&lt;/button&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;/form&gt;</span></div><div>`<span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #a71d5d">var</span>&nbsp;button&nbsp;<span style="color: #a71d5d">=</span>&nbsp;document<span style="color: #000000">.</span><span style="color: #000000">querySelector</span><span style="color: #000000">(</span><span style="color: #df5000">'button'</span><span style="color: #000000">);</span></div><div>button<span style="color: #000000">.</span><span style="color: #000000">focus</span><span style="color: #000000">();</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>document<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;contain&nbsp;focused&nbsp;element&nbsp;matching'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'button'</span><span style="color: #000000">);</span></div></div><p>In case of a failing expectation you get the following output:</p>
+<div class="code lang-javascript"><div>button<span style="color: #000000">.</span><span style="color: #000000">blur</span><span style="color: #000000">();</span></div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>document<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;contain&nbsp;focused&nbsp;element&nbsp;matching'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'button'</span><span style="color: #000000">);</span></div></div><div class="output"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #999">&lt;</span><span style="color: #905">html</span><span style="color: #999">&gt;&lt;</span><span style="color: #905">head</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">head</span><span style="color: #999">&gt;&lt;</span><span style="color: #905">body</span><span style="color: #999">&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">body</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">html</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">to&nbsp;contain&nbsp;focused&nbsp;element&nbsp;matching</span>&nbsp;<span style="color: #df5000">'button'</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #999">&lt;</span><span style="color: #905">button</span><span style="color: #999">&gt;</span>Submit<span style="color: #999">&lt;/</span><span style="color: #905">button</span><span style="color: #999">&gt;</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;have&nbsp;focus</span></div></div></div></div>
         </div>
     </div>
 </section>

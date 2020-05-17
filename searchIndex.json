@@ -1,31 +1,35 @@
 [
   {
-    "label": "to have class (DOMElement)",
-    "url": "/assertions/DOMElement/to-have-class/"
-  },
-  {
     "label": "not to have attributes (DOMElement)",
     "url": "/assertions/DOMElement/not-to-have-attributes/"
-  },
-  {
-    "label": "queried for (DOMElement)",
-    "url": "/assertions/DOMElement/queried-for/"
   },
   {
     "label": "not to have class (DOMElement)",
     "url": "/assertions/DOMElement/not-to-have-class/"
   },
   {
+    "label": "queried for test id (DOMElement)",
+    "url": "/assertions/DOMElement/queried-for-test-id/"
+  },
+  {
+    "label": "queried for (DOMElement)",
+    "url": "/assertions/DOMElement/queried-for/"
+  },
+  {
     "label": "to contain elements matching (DOMElement)",
     "url": "/assertions/DOMElement/to-contain-elements-matching/"
   },
   {
-    "label": "to contain test id (DOMElement)",
-    "url": "/assertions/DOMElement/to-contain-test-id/"
+    "label": "to contain focused element matching (DOMElement)",
+    "url": "/assertions/DOMElement/to-contain-focused-element-matching/"
   },
   {
     "label": "to contain (DOMElement)",
     "url": "/assertions/DOMElement/to-contain/"
+  },
+  {
+    "label": "to contain test id (DOMElement)",
+    "url": "/assertions/DOMElement/to-contain-test-id/"
   },
   {
     "label": "to have attributes (DOMElement)",
@@ -36,8 +40,12 @@
     "url": "/assertions/DOMElement/to-have-children/"
   },
   {
-    "label": "queried for test id (DOMElement)",
-    "url": "/assertions/DOMElement/queried-for-test-id/"
+    "label": "to have class (DOMElement)",
+    "url": "/assertions/DOMElement/to-have-class/"
+  },
+  {
+    "label": "to have focus (DOMElement)",
+    "url": "/assertions/DOMElement/to-have-focus/"
   },
   {
     "label": "to have test id (DOMElement)",
