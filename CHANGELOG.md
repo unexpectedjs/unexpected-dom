@@ -1,3 +1,29 @@
+### v4.18.0 (2020-05-17)
+
+#### Pull requests
+
+- [#330](https://github.com/unexpectedjs/unexpected-dom/pull/330) Add 'DOMElement to contain focused element' assertion ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Peter Müller](mailto:munter@fumle.dk))
+- [#329](https://github.com/unexpectedjs/unexpected-dom/pull/329) Add ':focus' indicator in element start tag ([Peter Müller](mailto:munter@fumle.dk))
+- [#331](https://github.com/unexpectedjs/unexpected-dom/pull/331) Upgrade eslint-plugin-mocha to version 7.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#328](https://github.com/unexpectedjs/unexpected-dom/pull/328) Upgrade eslint to version 7.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#327](https://github.com/unexpectedjs/unexpected-dom/pull/327) Upgrade karma-browserstack-launcher to version 1.5.2 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#326](https://github.com/unexpectedjs/unexpected-dom/pull/326) Upgrade karma-mocha to version 2.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#325](https://github.com/unexpectedjs/unexpected-dom/pull/325) Upgrade karma to version 5.0.1 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#323](https://github.com/unexpectedjs/unexpected-dom/pull/323) Upgrade buble to version 0.20.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#318](https://github.com/unexpectedjs/unexpected-dom/pull/318) Upgrade rollup to version 2.0.2 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#316](https://github.com/unexpectedjs/unexpected-dom/pull/316) Upgrade unexpected-snapshot to version 1.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#312](https://github.com/unexpectedjs/unexpected-dom/pull/312) Upgrade unexpected-snapshot to version 0.8.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#311](https://github.com/unexpectedjs/unexpected-dom/pull/311) Upgrade mocha to version 7.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#310](https://github.com/unexpectedjs/unexpected-dom/pull/310) Upgrade unexpected-markdown to version 5.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+#### Commits to master
+
+- [prettier --write '\*\*\/\*.{js,md}'](https://github.com/unexpectedjs/unexpected-dom/commit/50f969e587d6c39fa2028ae2282dd96e5e722fef) ([Andreas Lind](mailto:andreas.lind@peakon.com))
+- [Update CI setup, run the non-test tasks on node.js 12 instead of 8](https://github.com/unexpectedjs/unexpected-dom/commit/c8a0f67af9c427e8b5318af8a06b901ddd849d1a) ([Andreas Lind](mailto:andreas.lind@peakon.com))
+- [Add CHANGELOG.md to .gitignore](https://github.com/unexpectedjs/unexpected-dom/commit/a386167c73dc9f921968837b4386c1fbe35e643b) ([Andreas Lind](mailto:andreas.lind@peakon.com))
+- [Also use prettier for markdown files](https://github.com/unexpectedjs/unexpected-dom/commit/697475be7edd5f36191ba7676da91525844a5c43) ([Andreas Lind](mailto:andreas.lind@peakon.com))
+- [Update prettier to version 2.0.2](https://github.com/unexpectedjs/unexpected-dom/commit/1ea340f6c6001ec9a83a858504760dc62b42d096) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
 ### v4.17.0 (2019-12-31)
 
 #### Pull requests
