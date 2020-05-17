@@ -1,7 +1,7 @@
 Assert that a child element is the currently focused element on the page.
 
 ```js
-var element = createElement(`
+var document = createDocument(`
   <form>
   <label>
     <span>Name</span>
@@ -11,24 +11,21 @@ var element = createElement(`
   </form>
 `);
 
-element.querySelector('button').focus();
+var button = document.querySelector('button');
+button.focus();
 
-expect(element, 'to contain focused element matching', 'button');
+expect(document, 'to contain focused element matching', 'button');
 ```
 
 In case of a failing expectation you get the following output:
 
 ```js
-element.querySelector('button').blur();
-expect(element, 'to contain focused element matching', 'button');
+button.blur();
+expect(document, 'to contain focused element matching', 'button');
 ```
 
 ```output
-expected
-<form>
-  <label><span>...</span><input type="text"></label>
-  <button>Submit</button>
-</form>
+expected <html><head></head><body>...</body></html>
 to contain focused element matching 'button'
   expected <button>Submit</button> to have focus
 ```

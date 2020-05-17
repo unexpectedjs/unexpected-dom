@@ -1,29 +1,31 @@
 Assert that an element is the currently focused element on the page.
 
 ```js
-var element = createElement(`
+var document = createDocument(`
   <button>
     Focused
   </button>
 `);
 
-element.focus();
+var button = document.querySelector('button');
+button.focus();
 
-expect(element, 'to have focus');
+expect(button, 'to have focus');
 ```
 
 In case of a failing expectation you get the following output:
 
 ```js
-var element = createElement(`
+var document = createDocument(`
   <button>
     Not Focused
   </button>
 `);
 
-element.blur();
+var button = document.querySelector('button');
+button.blur();
 
-expect(element, 'to have focus');
+expect(button, 'to have focus');
 ```
 
 ```output
@@ -35,7 +37,7 @@ expected <button>Not Focused</button> to have focus
 You can combine this assertion with other assertions:
 
 ```js
-var element = createElement(`
+var document = createDocument(`
   <form>
   <label>
     <span>Name</span>
@@ -45,13 +47,15 @@ var element = createElement(`
   </form>
 `);
 
-element.querySelector('button').focus();
+var button = document.querySelector('button');
+button.focus();
 
 // Using a forwarding assertion
-expect(element, 'queried for first', 'button', 'to have focus');
+expect(document, 'queried for first', 'button', 'to have focus');
 
 // Using a nested assertion call
-expect(element, 'to satisfy', {
+var form = document.querySelector('form');
+expect(form, 'to satisfy', {
   children: [
     {
       name: 'label',
