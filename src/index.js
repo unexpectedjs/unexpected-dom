@@ -1865,7 +1865,11 @@ module.exports = {
     expect.exportAssertion(
       '<DOMElement> [not] to have focus',
       (expect, subject) => {
-        expect(subject.ownerDocument.activeElement, '[not] to be', subject);
+        let hasFocus = false;
+        try {
+          hasFocus = subject === subject.ownerDocument.activeElement;
+        } catch (err) {}
+        expect(hasFocus, '[not] to be true');
       }
     );
 
