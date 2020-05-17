@@ -168,6 +168,18 @@ function getAttributes(element) {
   return result;
 }
 
+function getStates(element) {
+  const result = {};
+
+  try {
+    result.focused = element.ownerDocument.activeElement === element;
+  } catch (err) {
+    // The document might not be in a window, and thus not able to have an activeElement
+  }
+
+  return result;
+}
+
 function entitify(value) {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -222,10 +234,15 @@ function stringifyStartTag(element) {
     : element.nodeName;
   let str = `<${elementName}`;
   const attrs = getAttributes(element);
+  const states = getStates(element);
 
   Object.keys(attrs).forEach((key) => {
     str += ` ${stringifyAttribute(key, attrs[key])}`;
   });
+
+  if (elementName !== 'body' && states.focused) {
+    str += ' :focus';
+  }
 
   str += '>';
   return str;

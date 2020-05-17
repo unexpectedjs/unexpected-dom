@@ -116,6 +116,33 @@ describe('unexpected-dom', () => {
     expect('<input value="">', 'to inspect as itself');
   });
 
+  describe('focus handling', () => {
+    var button;
+
+    beforeEach(() => {
+      button = root.document.createElement('button');
+      root.document.body.appendChild(button);
+    });
+
+    afterEach(() => {
+      button.parentNode.removeChild(button);
+    });
+
+    it('should show a :focus indicator on a focused element', () => {
+      button.focus();
+
+      expect(button, 'to inspect as', '<button :focus></button>');
+    });
+
+    it('should not show a :focus indicator on a focused <body>', () => {
+      const body = button.parentNode;
+
+      body.focus();
+
+      expect(expect.inspect(body).toString(), 'to begin with', '<body>');
+    });
+  });
+
   describe('diffing', () => {
     expect.addAssertion(
       '<string|DOMNode|DOMDocument> diffed with <string|DOMNode|DOMDocument> <assertion>',
