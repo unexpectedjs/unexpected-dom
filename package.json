@@ -78,7 +78,7 @@
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-terser": "^6.0.1",
     "unexpected": "^11.12.1",
-    "unexpected-documentation-site-generator": "^6.0.0",
+    "unexpected-documentation-site-generator": "^7.0.1",
     "unexpected-markdown": "^5.0.0",
     "unexpected-snapshot": "^1.0.0"
   },
