@@ -16,3 +16,5 @@ expect.addAssertion(
       );
     })
 );
+
+module.exports = { expect, jsdom };

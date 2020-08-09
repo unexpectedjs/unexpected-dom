@@ -1,12 +1,10 @@
-/* global unexpected:true, expect:true, jsdom:true, createElement:true, createDocument:true */
+/* global expect:true, jsdom:true, createElement:true, createDocument:true */
 /* eslint no-unused-vars: "off" */
 
-if (typeof expect === 'undefined') {
-  require('./test/common/node');
-}
-
-unexpected = expect;
-unexpected.output.preferredWidth = 80;
+const common = require('./test/common/node');
+jsdom = common.jsdom;
+expect = common.expect;
+expect.output.preferredWidth = 80;
 
 function sanitizeHtml(html) {
   return html
