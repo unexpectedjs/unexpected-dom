@@ -17,7 +17,7 @@
     "lint": "eslint . && prettier --check '**/*.{js,md}'",
     "test": "npm run test-node && npm run test-docs",
     "test-browser": "npm run build && npm run bundle && npm run build-tests && npm run bundle-tests && karma start --single-run --browsers ${BROWSER:-ChromeHeadless}",
-    "test-docs": "mocha --require unexpected-markdown `find documentation -name '*.md'`",
+    "test-docs": "evaldown --comment-marker unexpected-markdown --require ./bootstrap-unexpected-markdown.js --validate --reporter=spec ./documentation",
     "test-node": "mocha",
     "test-headless": "npm run test-browser",
     "coverage": "nyc --reporter=lcov --reporter=text npm test",
@@ -80,7 +80,6 @@
     "rollup-plugin-terser": "^6.0.1",
     "unexpected": "^11.12.1",
     "unexpected-documentation-site-generator": "^7.0.1",
-    "unexpected-markdown": "^6.0.0",
     "unexpected-snapshot": "^1.0.0"
   },
   "dependencies": {
