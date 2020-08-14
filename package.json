@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/unexpectedjs/unexpected-dom",
   "devDependencies": {
-    "@rollup/plugin-multi-entry": "^3.0.0",
+    "@rollup/plugin-multi-entry": "^4.0.0",
     "buble": "^0.20.0",
     "coveralls": "^3.0.2",
     "eslint": "^7.0.0",
