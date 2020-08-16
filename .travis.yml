@@ -20,6 +20,10 @@ matrix:
       node_js: 12
       env:
         - TARGET=coverage
+    - name: Documentation
+      node_js: 12
+      env:
+        - TARGET=test-docs
     - name: BrowserStack IE11
       node_js: 12
       env:

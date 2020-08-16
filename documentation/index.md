@@ -36,7 +36,9 @@ bower install unexpected unexpected-dom
 
 ## Usage
 
-```js#evaluate:false
+<!-- unexpected-markdown evaluate:false -->
+
+```javascript
 const expect = require('unexpected').clone();
 expect.installPlugin(require('unexpected-dom'));
 

@@ -15,18 +15,18 @@
     "build-tests": "node -e \"require('fs-extra').ensureDirSync('build')\" && buble --yes dangerousTaggedTemplateString -o build/test test && node -e \"require('fs-extra').removeSync('build/test/common')\"",
     "changelog": "offline-github-changelog > CHANGELOG.md",
     "lint": "eslint . && prettier --check '**/*.{js,md}'",
-    "test": "npm run test-node && npm run test-docs",
+    "test": "npm run test-node",
     "test-browser": "npm run build && npm run bundle && npm run build-tests && npm run bundle-tests && karma start --single-run --browsers ${BROWSER:-ChromeHeadless}",
-    "test-docs": "mocha `find documentation -name '*.md'`",
+    "test-docs": "evaldown --comment-marker unexpected-markdown --require ./bootstrap-unexpected-markdown.js --validate --reporter=spec ./documentation",
     "test-node": "mocha",
     "test-headless": "npm run test-browser",
     "coverage": "nyc --reporter=lcov --reporter=text npm test",
-    "preversion": "npm run lint && npm run test",
+    "preversion": "npm run lint && npm run test && npm run test-docs",
     "prepublishOnly": "npm run build && npm run bundle",
     "version": "offline-github-changelog --next=${npm_package_version} > CHANGELOG.md && git add CHANGELOG.md",
     "postversion": "npm run generate-site && gh-pages -d site-build",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
-    "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
+    "update-examples": "evaldown --comment-marker unexpected-markdown --require ./bootstrap-unexpected-markdown.js --inplace ./documentation"
   },
   "repository": {
     "type": "git",
@@ -57,6 +57,7 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
+    "evaldown": "^1.2.2",
     "fs-extra": "^9.0.0",
     "gh-pages": "^3.0.0",
     "istanbul": "^0.4.5",
@@ -78,8 +79,7 @@
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-terser": "^7.0.0",
     "unexpected": "^11.12.1",
-    "unexpected-documentation-site-generator": "^6.0.0",
-    "unexpected-markdown": "^5.0.0",
+    "unexpected-documentation-site-generator": "^7.0.1",
     "unexpected-snapshot": "^1.0.0"
   },
   "dependencies": {
