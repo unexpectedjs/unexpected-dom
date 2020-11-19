@@ -78,7 +78,7 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-terser": "^7.0.0",
-    "unexpected": "^11.12.1",
+    "unexpected": "^12.0.0",
     "unexpected-documentation-site-generator": "^7.0.1",
     "unexpected-snapshot": "^1.0.0"
   },
@@ -87,6 +87,6 @@
     "magicpen-prism": "^4.0.0"
   },
   "peerDependencies": {
-    "unexpected": "^10.27.0 || ^11.12.1"
+    "unexpected": "^10.27.0 || ^11.12.1 || ^12.0.0"
   }
 }
