@@ -51,19 +51,6 @@
             
         </ul>
     
-        <h3 class=""><a href="../../DOMNodeList/">DOMNodeList</a></h3>
-        <ul>
-            
-            <li class="">
-                <a href="../../DOMNodeList/to-contain/">to contain</a>
-            </li>
-            
-            <li class="">
-                <a href="../../DOMNodeList/to-satisfy/">to satisfy</a>
-            </li>
-            
-        </ul>
-    
         <h3 class=""><a href="../../DOMElement/">DOMElement</a></h3>
         <ul>
             
@@ -133,21 +120,30 @@
             
         </ul>
     
+        <h3 class=""><a href="../../DOMNodeList/">DOMNodeList</a></h3>
+        <ul>
+            
+            <li class="">
+                <a href="../../DOMNodeList/to-contain/">to contain</a>
+            </li>
+            
+            <li class="">
+                <a href="../../DOMNodeList/to-satisfy/">to satisfy</a>
+            </li>
+            
+        </ul>
+    
 </nav>
 
     <div class="main" tabindex="-1">
         <div class="content">
             
-                <h1>parsed as HTML</h1>
-                <ul class="declarations">
-                
-                    <li>&lt;string&gt; [when] parsed as (html|HTML) [fragment] &lt;assertion?&gt;</li>
-                
-                </ul>
-            
             <p>Parses a string as a HTML document using the facilities available in the browser, with a fallback to jsdom, then forwards the result to the next assertion in the argument list:</p>
-<div class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;html&gt;&lt;body&gt;&lt;div&nbsp;class=&quot;foo&quot;&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'when&nbsp;parsed&nbsp;as&nbsp;HTML'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'div'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;<span style="color: #a71d5d">class</span><span style="color: #a71d5d">:</span>&nbsp;<span style="color: #df5000">'foo'</span>&nbsp;<span style="color: #000000">}</span></div><div><span style="color: #000000">);</span></div></div><p>You can also parse a HTML fragment:</p>
-<div class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;div&nbsp;class=&quot;foo&quot;&gt;&lt;/div&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'when&nbsp;parsed&nbsp;as&nbsp;HTML&nbsp;fragment'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'div'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;<span style="color: #a71d5d">class</span><span style="color: #a71d5d">:</span>&nbsp;<span style="color: #df5000">'foo'</span>&nbsp;<span style="color: #000000">}</span></div><div><span style="color: #000000">);</span></div></div>
+<pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;html&gt;&lt;body&gt;&lt;div&nbsp;class=&quot;foo&quot;&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'when&nbsp;parsed&nbsp;as&nbsp;HTML'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'div'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;<span style="color: #a71d5d">class</span><span style="color: #a71d5d">:</span>&nbsp;<span style="color: #df5000">'foo'</span>&nbsp;<span style="color: #000000">}</span></div><div><span style="color: #000000">);</span></div></pre>
+
+<p>You can also parse a HTML fragment:</p>
+<pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;div&nbsp;class=&quot;foo&quot;&gt;&lt;/div&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'when&nbsp;parsed&nbsp;as&nbsp;HTML&nbsp;fragment'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'div'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;<span style="color: #a71d5d">class</span><span style="color: #a71d5d">:</span>&nbsp;<span style="color: #df5000">'foo'</span>&nbsp;<span style="color: #000000">}</span></div><div><span style="color: #000000">);</span></div></pre>
+
         </div>
     </div>
 </section>

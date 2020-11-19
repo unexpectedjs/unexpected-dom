@@ -8,24 +8,24 @@
     "url": "/assertions/DOMElement/not-to-have-class/"
   },
   {
-    "label": "queried for (DOMElement)",
-    "url": "/assertions/DOMElement/queried-for/"
-  },
-  {
     "label": "queried for test id (DOMElement)",
     "url": "/assertions/DOMElement/queried-for-test-id/"
+  },
+  {
+    "label": "queried for (DOMElement)",
+    "url": "/assertions/DOMElement/queried-for/"
   },
   {
     "label": "to contain elements matching (DOMElement)",
     "url": "/assertions/DOMElement/to-contain-elements-matching/"
   },
   {
-    "label": "to contain test id (DOMElement)",
-    "url": "/assertions/DOMElement/to-contain-test-id/"
-  },
-  {
     "label": "to contain focused element matching (DOMElement)",
     "url": "/assertions/DOMElement/to-contain-focused-element-matching/"
+  },
+  {
+    "label": "to contain test id (DOMElement)",
+    "url": "/assertions/DOMElement/to-contain-test-id/"
   },
   {
     "label": "to contain (DOMElement)",

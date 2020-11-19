@@ -51,19 +51,6 @@
             
         </ul>
     
-        <h3 class=""><a href="../../DOMNodeList/">DOMNodeList</a></h3>
-        <ul>
-            
-            <li class="">
-                <a href="../../DOMNodeList/to-contain/">to contain</a>
-            </li>
-            
-            <li class="">
-                <a href="../../DOMNodeList/to-satisfy/">to satisfy</a>
-            </li>
-            
-        </ul>
-    
         <h3 class=""><a href="../">DOMElement</a></h3>
         <ul>
             
@@ -133,23 +120,32 @@
             
         </ul>
     
+        <h3 class=""><a href="../../DOMNodeList/">DOMNodeList</a></h3>
+        <ul>
+            
+            <li class="">
+                <a href="../../DOMNodeList/to-contain/">to contain</a>
+            </li>
+            
+            <li class="">
+                <a href="../../DOMNodeList/to-satisfy/">to satisfy</a>
+            </li>
+            
+        </ul>
+    
 </nav>
 
     <div class="main" tabindex="-1">
         <div class="content">
             
-                <h1>not to have attributes</h1>
-                <ul class="declarations">
-                
-                    <li>&lt;DOMElement&gt; not to have (attribute|attributes) &lt;array&gt;</li>
-                
-                    <li>&lt;DOMElement&gt; not to have (attribute|attributes) &lt;string+&gt;</li>
-                
-                </ul>
-            
             <p>Assert that an element does not have any of the given attributes.</p>
-<div class="code lang-javascript"><div><span style="color: #a71d5d">var</span>&nbsp;element&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">createElement</span><span style="color: #000000">(</span>`</div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;button</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;class=&quot;primary&quot;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;data-test-id=&quot;pay&quot;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;Click&nbsp;me!</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;/button&gt;</span></div><div>`<span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;have&nbsp;attribute'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'disabled'</span><span style="color: #000000">);</span></div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'id'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'disabled'</span><span style="color: #000000">);</span></div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #000000">[</span><span style="color: #df5000">'id'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'disabled'</span><span style="color: #000000">]);</span></div></div><p>In case of a failing expectation you get the following output:</p>
-<div class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;have&nbsp;attribute'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'class'</span><span style="color: #000000">);</span></div></div><div class="output"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #999">&lt;</span><span style="color: #905">button&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">primary</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">=&quot;</span><span style="color: #07a">pay</span><span style="color: #999">&quot;&gt;</span>Click&nbsp;me!<span style="color: #999">&lt;/</span><span style="color: #905">button</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">not&nbsp;to&nbsp;have&nbsp;attribute</span>&nbsp;<span style="color: #df5000">'class'</span></div><div>&nbsp;</div><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">button</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">primary</span><span style="color: #999">&quot;</span>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">//</span></div></div>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">should&nbsp;be&nbsp;removed</span></div></div></div><div><span style="color: #690">data-test-id</span><span style="color: #999">=&quot;</span><span style="color: #07a">pay</span><span style="color: #999">&quot;</span></div></div></div><div><span style="color: #999">&gt;</span>Click&nbsp;me!<span style="color: #999">&lt;/</span><span style="color: #905">button</span><span style="color: #999">&gt;</span></div></div></div></div>
+<pre class="code lang-javascript"><div><span style="color: #a71d5d">var</span>&nbsp;element&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">createElement</span><span style="color: #000000">(</span>`</div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;button</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;class=&quot;primary&quot;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;data-test-id=&quot;pay&quot;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;Click&nbsp;me!</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;/button&gt;</span></div><div>`<span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;have&nbsp;attribute'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'disabled'</span><span style="color: #000000">);</span></div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'id'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'disabled'</span><span style="color: #000000">);</span></div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #000000">[</span><span style="color: #df5000">'id'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'disabled'</span><span style="color: #000000">]);</span></div></pre>
+
+<p>In case of a failing expectation you get the following output:</p>
+<pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;have&nbsp;attribute'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'class'</span><span style="color: #000000">);</span></div></pre>
+
+<pre class="output"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #999">&lt;</span><span style="color: #905">button&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">primary</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">=&quot;</span><span style="color: #07a">pay</span><span style="color: #999">&quot;&gt;</span>Click&nbsp;me!<span style="color: #999">&lt;/</span><span style="color: #905">button</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">not&nbsp;to&nbsp;have&nbsp;attribute</span>&nbsp;<span style="color: #df5000">'class'</span></div><div>&nbsp;</div><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">button</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">primary</span><span style="color: #999">&quot;</span>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">//</span></div></div>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">should&nbsp;be&nbsp;removed</span></div></div></div><div><span style="color: #690">data-test-id</span><span style="color: #999">=&quot;</span><span style="color: #07a">pay</span><span style="color: #999">&quot;</span></div></div></div><div><span style="color: #999">&gt;</span>Click&nbsp;me!<span style="color: #999">&lt;/</span><span style="color: #905">button</span><span style="color: #999">&gt;</span></div></div></div></pre>
+
         </div>
     </div>
 </section>
