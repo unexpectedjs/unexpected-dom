@@ -1,3 +1,28 @@
+### v5.0.0 (2020-11-19)
+
+#### Pull requests
+
+- [#354](https://github.com/unexpectedjs/unexpected-dom/pull/354) Upgrade offline-github-changelog to version 2.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#351](https://github.com/unexpectedjs/unexpected-dom/pull/351) Upgrade eslint-config-standard to version 15.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#347](https://github.com/unexpectedjs/unexpected-dom/pull/347) Upgrade prettier to version 2.1.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#343](https://github.com/unexpectedjs/unexpected-dom/pull/343) Switch to evaldown for examples. ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#346](https://github.com/unexpectedjs/unexpected-dom/pull/346) Upgrade @rollup\/plugin-multi-entry to version 4.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#345](https://github.com/unexpectedjs/unexpected-dom/pull/345) Upgrade rollup-plugin-terser to version 7.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#342](https://github.com/unexpectedjs/unexpected-dom/pull/342) Upgrade eslint-plugin-mocha to version 8.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#320](https://github.com/unexpectedjs/unexpected-dom/pull/320) Upgrade fs-extra to version 9.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#335](https://github.com/unexpectedjs/unexpected-dom/pull/335) Upgrade gh-pages to version 3.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#334](https://github.com/unexpectedjs/unexpected-dom/pull/334) Upgrade rollup-plugin-terser to version 6.0.1 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#333](https://github.com/unexpectedjs/unexpected-dom/pull/333) Upgrade karma-browserstack-launcher to version 1.6.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+#### Commits to master
+
+- [Revert "Update offline-github-changelog to version 2.0.0"](https://github.com/unexpectedjs/unexpected-dom/commit/84bdda2941f205e43214a323cd9296e692adb322) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Switch to .mocharc.json](https://github.com/unexpectedjs/unexpected-dom/commit/7531fbf4d97b5e6f40533d984d0810b5d2e5de0c) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Remove mocha-lcov-reporter \(unused\)](https://github.com/unexpectedjs/unexpected-dom/commit/2ae8c804369a823dc18644d857f32d5dbf52c1af) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Update mocha to ^8.2.1](https://github.com/unexpectedjs/unexpected-dom/commit/edf5d4f7332725ee6e9f9a92ea5c63cc09da17e2) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Update unexpected, allow ^12.0.0 as a peer dep](https://github.com/unexpectedjs/unexpected-dom/commit/21805c41b0af67563492cb10dea31dd3b1773ff8) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [+2 more](https://github.com/unexpectedjs/unexpected-dom/compare/v4.18.0...v5.0.0)
+
 ### v4.18.0 (2020-05-17)
 
 #### Pull requests
