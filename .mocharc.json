@@ -1,0 +1,6 @@
+{
+  "reporter": "spec",
+  "recursive": true,
+  "require": ["./test/common/node.js", "./bootstrap-unexpected-markdown.js"],
+  "exclude": "test/common/*.js"
+}
