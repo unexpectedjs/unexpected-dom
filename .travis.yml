@@ -12,24 +12,24 @@ node_js:
 matrix:
   include:
     - name: Lint
-      node_js: 12
+      node_js: 14
       env:
         - TARGET=lint
     - name: Coverage
-      node_js: 12
+      node_js: 14
       env:
         - TARGET=coverage
     - name: Documentation
-      node_js: 12
+      node_js: 14
       env:
         - TARGET=test-docs
     - name: BrowserStack IE11
-      node_js: 12
+      node_js: 14
       env:
         - TARGET=test-browser
         - BROWSER=ie11
     - name: Chrome headless
-      node_js: 12
+      node_js: 14
       env:
         - TARGET=test-browser
         - BROWSER=ChromeHeadless
