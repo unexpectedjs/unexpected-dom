@@ -17,6 +17,7 @@
     "lint": "eslint . && prettier --check '**/*.{js,md}'",
     "test": "npm run test-node",
     "test-browser": "npm run build && npm run bundle && npm run build-tests && npm run bundle-tests && karma start --single-run --browsers ${BROWSER:-ChromeHeadless}",
+    "test-browser-ie11": "BROWSER=ie11 npm run test-browser",
     "test-docs": "evaldown --comment-marker unexpected-markdown --require ./bootstrap-unexpected-markdown.js --validate --reporter=spec ./documentation",
     "test-node": "mocha",
     "test-headless": "npm run test-browser",
@@ -48,7 +49,6 @@
   "devDependencies": {
     "@rollup/plugin-multi-entry": "^4.0.0",
     "buble": "^0.20.0",
-    "coveralls": "^3.0.2",
     "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-config-standard": "^15.0.0",

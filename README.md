@@ -1,7 +1,7 @@
 # unexpected-dom
 
 [![NPM version](https://badge.fury.io/js/unexpected-dom.svg)](http://badge.fury.io/js/unexpected-dom)
-[![Build Status](https://travis-ci.org/unexpectedjs/unexpected-dom.svg?branch=master)](https://travis-ci.org/unexpectedjs/unexpected-dom)
+[![Build Status](https://github.com/unexpectedjs/unexpected-dom/workflows/Tests/badge.svg)](https://github.com/unexpectedjs/unexpected-dom)
 [![Coverage Status](https://img.shields.io/coveralls/unexpectedjs/unexpected-dom.svg?style=flat)](https://coveralls.io/r/unexpectedjs/unexpected-dom?branch=master)
 [![Dependency Status](https://david-dm.org/unexpectedjs/unexpected-dom.svg)](https://david-dm.org/unexpectedjs/unexpected-dom)
 
