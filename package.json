@@ -50,7 +50,7 @@
     "@rollup/plugin-multi-entry": "^4.0.0",
     "buble": "^0.20.0",
     "eslint": "^7.0.0",
-    "eslint-config-prettier": "^7.0.0",
+    "eslint-config-prettier": "^8.0.0",
     "eslint-config-standard": "^15.0.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-mocha": "^8.0.0",
