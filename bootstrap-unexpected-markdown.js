@@ -15,7 +15,7 @@ function sanitizeHtml(html) {
 }
 
 createElement = function createElement(html) {
-  var root = document.createElement('div');
+  const root = document.createElement('div');
 
   root.innerHTML = sanitizeHtml(html);
 
