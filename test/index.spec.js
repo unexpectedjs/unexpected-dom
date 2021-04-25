@@ -117,7 +117,7 @@ describe('unexpected-dom', () => {
   });
 
   describe('focus handling', () => {
-    var button;
+    let button;
 
     beforeEach(() => {
       button = root.document.createElement('button');

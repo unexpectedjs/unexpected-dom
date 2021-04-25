@@ -1,6 +1,6 @@
-var terser = require('rollup-plugin-terser').terser;
+const terser = require('rollup-plugin-terser').terser;
 
-var plugins = [
+const plugins = [
   require('rollup-plugin-json')(),
   require('rollup-plugin-commonjs')(),
   require('rollup-plugin-node-resolve')(),

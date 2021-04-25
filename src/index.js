@@ -1235,6 +1235,7 @@ module.exports = {
                         (!onlyAttributes ||
                           expectedAttributeNames.indexOf(attributeName) !== -1))
                     ) {
+                      // All good
                     } else {
                       seenError = true;
                       attributeOutput.sp().annotationBlock((output) => {
@@ -1741,7 +1742,7 @@ module.exports = {
           result.push({ score, element });
         }
 
-        for (var i = 0; i < element.childNodes.length; i += 1) {
+        for (let i = 0; i < element.childNodes.length; i += 1) {
           const child = element.childNodes[i];
           if (child.nodeType === 1) {
             result.push(
