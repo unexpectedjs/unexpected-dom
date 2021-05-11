@@ -72,7 +72,8 @@ const enumeratedAttributeValues = {
   draggable: ['true', 'false'], // defaults to 'auto'
 };
 
-const matchSimpleAttribute = /^(?:allowfullscreen|async|autofocus|autoplay|checked|compact|controls|declare|default|defaultchecked|defaultmuted|defaultselected|defer|disabled|enabled|formnovalidate|hidden|indeterminate|inert|ismap|itemscope|loop|multiple|muted|nohref|noresize|noshade|novalidate|nowrap|open|pauseonexit|readonly|required|reversed|scoped|seamless|selected|sortable|spellcheck|truespeed|typemustmatch|visible)$/i;
+const matchSimpleAttribute =
+  /^(?:allowfullscreen|async|autofocus|autoplay|checked|compact|controls|declare|default|defaultchecked|defaultmuted|defaultselected|defer|disabled|enabled|formnovalidate|hidden|indeterminate|inert|ismap|itemscope|loop|multiple|muted|nohref|noresize|noshade|novalidate|nowrap|open|pauseonexit|readonly|required|reversed|scoped|seamless|selected|sortable|spellcheck|truespeed|typemustmatch|visible)$/i;
 
 function isBooleanAttribute(attrName) {
   return matchSimpleAttribute.test(attrName);
@@ -1077,9 +1078,10 @@ module.exports = {
                   expect(subject.hasAttribute(attributeName), 'to be false')
                 );
               } else if (isEnumeratedAttribute(attributeName)) {
-                const indexOfEnumeratedAttributeValue = enumeratedAttributeValues[
-                  attributeName
-                ].indexOf(expectedAttributeValue);
+                const indexOfEnumeratedAttributeValue =
+                  enumeratedAttributeValues[attributeName].indexOf(
+                    expectedAttributeValue
+                  );
 
                 return bubbleError(() => {
                   if (indexOfEnumeratedAttributeValue === -1) {
@@ -1106,9 +1108,8 @@ module.exports = {
                 (typeof expectedAttributeValue === 'string' ||
                   Array.isArray(expectedAttributeValue))
               ) {
-                const actualClasses = getClassNamesFromAttributeValue(
-                  attributeValue
-                );
+                const actualClasses =
+                  getClassNamesFromAttributeValue(attributeValue);
                 let expectedClasses = expectedAttributeValue;
                 if (typeof expectedClasses === 'string') {
                   expectedClasses = getClassNamesFromAttributeValue(
