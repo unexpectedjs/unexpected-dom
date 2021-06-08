@@ -67,7 +67,7 @@
     "karma-chrome-launcher": "^3.0.0",
     "karma-mocha": "^2.0.0",
     "magicpen": "^6.0.2",
-    "mocha": "^8.2.1",
+    "mocha": "^9.0.0",
     "nyc": "^15.0.0",
     "offline-github-changelog": "^1.2.0",
     "prettier": "~2.3.0",
