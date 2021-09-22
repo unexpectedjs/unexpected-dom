@@ -1,3 +1,26 @@
+### v5.0.1 (2021-09-22)
+
+#### Pull requests
+
+- [#391](https://github.com/unexpectedjs/unexpected-dom/pull/391) Fix to exhaustively satisfy for node lists ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#389](https://github.com/unexpectedjs/unexpected-dom/pull/389) Upgrade prettier to version 2.4.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#381](https://github.com/unexpectedjs/unexpected-dom/pull/381) Upgrade eslint-plugin-mocha to version 9.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#375](https://github.com/unexpectedjs/unexpected-dom/pull/375) Upgrade eslint-plugin-promise to version 5.1.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#355](https://github.com/unexpectedjs/unexpected-dom/pull/355) Upgrade eslint-config-standard to version 16.0.2 ([Andreas Lind](mailto:andreas.lind@workday.com), [depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#371](https://github.com/unexpectedjs/unexpected-dom/pull/371) Upgrade karma to version 6.1.2 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#359](https://github.com/unexpectedjs/unexpected-dom/pull/359) Upgrade eslint-config-prettier to version 7.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#357](https://github.com/unexpectedjs/unexpected-dom/pull/357) Upgrade eslint-plugin-standard to version 5.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#356](https://github.com/unexpectedjs/unexpected-dom/pull/356) Upgrade prettier to version 2.2.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+#### Commits to master
+
+- [prettier --write '\*\*\/\*.js'](https://github.com/unexpectedjs/unexpected-dom/commit/9c3ab8216f98cda63ee6e9e29218429ea20bcdc7) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [Update prettier to version 2.3.0](https://github.com/unexpectedjs/unexpected-dom/commit/8bfc1d0830005ac7fda234220823ee8b94bb0024) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [Set browserStack timeout in an attempt to fix failing CI builds](https://github.com/unexpectedjs/unexpected-dom/commit/66d16d964bc12aaae27ca431b77a3841900bae37) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [Fix eslint-plugin-prettier usage](https://github.com/unexpectedjs/unexpected-dom/commit/8d8e420c4de80e52e7efed7461229dd1e912f1d1) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [Update eslint-config-prettier to version 8.2.0](https://github.com/unexpectedjs/unexpected-dom/commit/334e09c13a77372c1464bff1782524026a2e07c0) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [+4 more](https://github.com/unexpectedjs/unexpected-dom/compare/v5.0.0...v5.0.1)
+
 ### v5.0.0 (2020-11-19)
 
 #### Pull requests
