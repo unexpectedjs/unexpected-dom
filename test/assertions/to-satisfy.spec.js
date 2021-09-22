@@ -264,6 +264,55 @@ describe('"to satisfy" assertion', () => {
     });
 
     describe('with the exhaustively flag', () => {
+      it('should succeed', () => {
+        expect(
+          '<div class="bar">foo</div>',
+          'when parsed as HTML fragment to exhaustively satisfy',
+          '<div class="bar">foo</div>'
+        );
+      });
+
+      it('should fail with a diff when comparing node lists', () => {
+        expect(
+          () => {
+            expect(
+              '<div class="guide-markup"><p class="wysiwyg-color-red130 guide-markup">Something</p></div><div class="guide-markup"><div class="guide-markup"><img class="some-existing-class guide-markup" src="image.png"></div></div>',
+              'when parsed as HTML to exhaustively satisfy',
+              '<div class="guide-markup"><p class="guide-markup wysiwyg-color-red130">Something</p></div><div class="guide-markup"><div class="guide-markup"><img src="image.png" class="guide-markup" /></div></div>'
+            );
+          },
+          'to throw an error satisfying to equal snapshot',
+          expect.unindent`
+            expected '<div class="guide-markup"><p class="wysiwyg-color-red130 guide-markup">Something</p></div><div class="guide-markup"><div class="guide-markup"><img class="some-existing-class guide-markup" src="image.png"></div></div>'
+            when parsed as HTML to exhaustively satisfy '<div class="guide-markup"><p class="guide-markup wysiwyg-color-red130">Something</p></div><div class="guide-markup"><div class="guide-markup"><img src="image.png" class="guide-markup" /></div></div>'
+              expected <html><head></head><body>...</body></html>
+              to exhaustively satisfy '<div class="guide-markup"><p class="guide-markup wysiwyg-color-red130">Something</p></div><div class="guide-markup"><div class="guide-markup"><img src="image.png" class="guide-markup" /></div></div>'
+
+              <html>
+                <head></head>
+                <body>
+                  <div class="guide-markup">
+                    <p class="wysiwyg-color-red130 guide-markup">...</p>
+                  </div>
+                  <div class="guide-markup">
+                    <div class="guide-markup">
+                      <img
+                        class="some-existing-class guide-markup" // expected [ 'guide-markup', 'some-existing-class' ] to equal [ 'guide-markup' ]
+                                                                 //
+                                                                 // [
+                                                                 //   'guide-markup',
+                                                                 //   'some-existing-class' // should be removed
+                                                                 // ]
+                        src="image.png"
+                      >
+                    </div>
+                  </div>
+                </body>
+              </html>
+          `
+        );
+      });
+
       it('should fail with a diff', () => {
         expect(
           () => {
