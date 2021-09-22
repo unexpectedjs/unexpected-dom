@@ -1005,7 +1005,7 @@ module.exports = {
               return bubbleError(() =>
                 expect(
                   isHtml ? subject.nodeName.toLowerCase() : subject.nodeName,
-                  'to satisfy',
+                  'to [exhaustively] satisfy',
                   value.name
                 )
               );
@@ -1030,13 +1030,17 @@ module.exports = {
               return bubbleError(() =>
                 expect(
                   makeAttachedDOMNodeList(subject.childNodes, contentType),
-                  'to satisfy',
+                  'to [exhaustively] satisfy',
                   value.children
                 )
               );
             } else if (typeof value.textContent !== 'undefined') {
               return bubbleError(() =>
-                expect(subject.textContent, 'to satisfy', value.textContent)
+                expect(
+                  subject.textContent,
+                  'to [exhaustively] satisfy',
+                  value.textContent
+                )
               );
             }
           }),
@@ -1097,7 +1101,11 @@ module.exports = {
                     );
                   }
 
-                  expect(attributeValue, 'to satisfy', expectedAttributeValue);
+                  expect(
+                    attributeValue,
+                    'to [exhaustively] satisfy',
+                    expectedAttributeValue
+                  );
                 });
               } else if (expectedAttributeValue === true) {
                 return bubbleError(() =>
@@ -1155,7 +1163,11 @@ module.exports = {
                   );
                 } else {
                   return bubbleError(() =>
-                    expect(attrs.style, 'to satisfy', expectedStyleObj)
+                    expect(
+                      attrs.style,
+                      'to [exhaustively] satisfy',
+                      expectedStyleObj
+                    )
                   );
                 }
               } else if (
