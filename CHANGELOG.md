@@ -1,3 +1,20 @@
+### v5.1.0 (2022-04-28)
+
+#### Pull requests
+
+- [#405](https://github.com/unexpectedjs/unexpected-dom/pull/405) Upgrade unexpected-snapshot to version 2.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#403](https://github.com/unexpectedjs/unexpected-dom/pull/403) Upgrade prettier to version 2.6.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#401](https://github.com/unexpectedjs/unexpected-dom/pull/401) Upgrade eslint-plugin-mocha to version 10.0.1 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#399](https://github.com/unexpectedjs/unexpected-dom/pull/399) Upgrade prettier to version 2.5.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#395](https://github.com/unexpectedjs/unexpected-dom/pull/395) Upgrade eslint to version 8.1.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+#### Commits to master
+
+- [Allow unexpected ^13.0.0 as a peer dep](https://github.com/unexpectedjs/unexpected-dom/commit/50fc789d4bf472376725799291f5ce1c4cd1e8f0) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [Update unexpected the dev dep to ^13.0.0](https://github.com/unexpectedjs/unexpected-dom/commit/84813b8902b85b31f3c28eb0ce492dd2dcf14f3b) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [npm i --save-dev eslint-plugin-n](https://github.com/unexpectedjs/unexpected-dom/commit/941b0052369cf2bbe368026d23822e21581050af) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [Update eslint-config-standard to version 17.0.0](https://github.com/unexpectedjs/unexpected-dom/commit/66a48c5ce490a8fb282588c11f859e44fab65566) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
 ### v5.0.1 (2021-09-22)
 
 #### Pull requests
