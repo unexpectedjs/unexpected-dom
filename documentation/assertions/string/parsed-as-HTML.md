@@ -7,7 +7,7 @@ expect(
   'queried for first',
   'div',
   'to have attributes',
-  { class: 'foo' }
+  { class: 'foo' },
 );
 ```
 
@@ -20,6 +20,6 @@ expect(
   'queried for first',
   'div',
   'to have attributes',
-  { class: 'foo' }
+  { class: 'foo' },
 );
 ```

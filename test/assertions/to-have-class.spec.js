@@ -23,7 +23,7 @@ describe('"to have class" assertion', () => {
       <button
         // missing class should satisfy 'foo'
       >Press me</button>
-    `
+    `,
     );
   });
 
@@ -55,7 +55,7 @@ describe('"to have class" assertion', () => {
           id="foo"
           data-info="baz"
         >Press me</button>
-      `
+      `,
       );
     });
   });
@@ -88,7 +88,7 @@ describe('"to have class" assertion', () => {
           id="foo"
           data-info="baz"
         >Press me</button>
-      `
+      `,
       );
     });
   });
@@ -127,7 +127,7 @@ describe('"to have class" assertion', () => {
             id="foo"
             data-info="baz"
           >Press me</button>
-        `
+        `,
         );
       });
     });
@@ -167,7 +167,7 @@ describe('"to have class" assertion', () => {
             id="foo"
             data-info="baz"
           >Press me</button>
-        `
+        `,
         );
       });
     });
@@ -206,7 +206,7 @@ describe('"to have class" assertion', () => {
             id="foo"
             data-info="baz"
           >Press me</button>
-        `
+        `,
         );
       });
     });

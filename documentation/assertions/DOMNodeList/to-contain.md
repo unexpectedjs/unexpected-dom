@@ -30,7 +30,7 @@ expect(
   'queried for',
   'li',
   'to contain',
-  '<li class="count">Three</li>'
+  '<li class="count">Three</li>',
 );
 ```
 
@@ -68,6 +68,6 @@ expect(
   'queried for',
   'li',
   'not to contain',
-  '<li class="count">Three</li>'
+  '<li class="count">Three</li>',
 );
 ```

@@ -13,7 +13,7 @@ describe('"to equal" assertion', () => {
 
   function parseHtmlFragment(str) {
     const htmlDocument = parseHtmlDocument(
-      `<html><head></head><body>${str}</body></html>`
+      `<html><head></head><body>${str}</body></html>`,
     );
     const body = htmlDocument.body;
     const documentFragment = htmlDocument.createDocumentFragment();
@@ -29,12 +29,12 @@ describe('"to equal" assertion', () => {
     it('should succeeds if they are equal', () => {
       expect(
         parseHtml(
-          '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+          '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>',
         ),
         'to equal',
         parseHtml(
-          '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
-        )
+          '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>',
+        ),
       );
     });
 
@@ -43,12 +43,12 @@ describe('"to equal" assertion', () => {
         () => {
           expect(
             parseHtml(
-              '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+              '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>',
             ),
             'to equal',
             parseHtml(
-              '<ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul>'
-            )
+              '<ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul>',
+            ),
           );
         },
         'to throw an error satisfying to equal snapshot',
@@ -67,7 +67,7 @@ describe('"to equal" assertion', () => {
               Annie
             </li>
           </ul>
-        `
+        `,
       );
     });
   });
@@ -76,12 +76,12 @@ describe('"to equal" assertion', () => {
     it('should succeeds if they are equal', () => {
       expect(
         parseHtmlDocument(
-          '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul></body></html>'
+          '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul></body></html>',
         ),
         'to equal',
         parseHtmlDocument(
-          '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul></body></html>'
-        )
+          '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul></body></html>',
+        ),
       );
     });
 
@@ -90,12 +90,12 @@ describe('"to equal" assertion', () => {
         () => {
           expect(
             parseHtmlDocument(
-              '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul></body></html>'
+              '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul></body></html>',
             ),
             'to equal',
             parseHtmlDocument(
-              '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul></body></html>'
-            )
+              '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul></body></html>',
+            ),
           );
         },
         'to throw an error satisfying to equal snapshot',
@@ -121,7 +121,7 @@ describe('"to equal" assertion', () => {
               </ul>
             </body>
           </html>
-        `
+        `,
       );
     });
   });
@@ -130,12 +130,12 @@ describe('"to equal" assertion', () => {
     it('should succeeds if they are equal', () => {
       expect(
         parseHtmlFragment(
-          '<h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+          '<h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>',
         ),
         'to equal',
         parseHtmlFragment(
-          '<h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
-        )
+          '<h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>',
+        ),
       );
     });
 
@@ -144,12 +144,12 @@ describe('"to equal" assertion', () => {
         () => {
           expect(
             parseHtmlFragment(
-              '<h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+              '<h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>',
             ),
             'to equal',
             parseHtmlFragment(
-              '<h1>Tournament</h1><ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul>'
-            )
+              '<h1>Tournament</h1><ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul>',
+            ),
           );
         },
         'to throw an error satisfying to equal snapshot',
@@ -177,7 +177,7 @@ describe('"to equal" assertion', () => {
             Annie
           </li>
         </ul>
-      `
+      `,
       );
     });
 
@@ -187,12 +187,12 @@ describe('"to equal" assertion', () => {
           () => {
             expect(
               parseHtml(
-                '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>'
+                '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>',
               ),
               'to equal',
               parseHtmlDocument(
-                '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul></body></html>'
-              )
+                '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li>Jane</li><li class="winner">Annie</li></ul></body></html>',
+              ),
             );
           },
           'to throw an error satisfying to equal snapshot',
@@ -201,7 +201,7 @@ describe('"to equal" assertion', () => {
             to equal <!DOCTYPE html><html><head></head><body>...</body></html>
 
 
-          `
+          `,
         );
       });
     });
@@ -223,7 +223,7 @@ describe('"to equal" assertion', () => {
 
         -text
         +hext
-      `
+      `,
       );
     });
   });
@@ -235,7 +235,7 @@ describe('"to equal" assertion', () => {
           .childNodes,
         'to equal',
         parseHtmlFragment('<div>one</div><div>two</div><div>three</div>')
-          .childNodes
+          .childNodes,
       );
     });
 
@@ -246,7 +246,8 @@ describe('"to equal" assertion', () => {
             parseHtmlFragment('<div>one</div><div>two</div><div>three</div>')
               .childNodes,
             'to equal',
-            parseHtmlFragment('<div>1</div><div>2</div><div>3</div>').childNodes
+            parseHtmlFragment('<div>1</div><div>2</div><div>3</div>')
+              .childNodes,
           );
         },
         'to throw an error satisfying to equal snapshot',
@@ -268,7 +269,7 @@ describe('"to equal" assertion', () => {
             +3
           </div>
         ]
-      `
+      `,
       );
     });
   });

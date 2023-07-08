@@ -26,7 +26,7 @@ describe('"to contain focused element matching" assertion', () => {
       },
       'to throw an error satisfying to equal snapshot',
       expect.unindent`expected <body><button>Press me</button></body> to contain focused element matching 'button'
-  expected <button>Press me</button> to have focus`
+  expected <button>Press me</button> to have focus`,
     );
   });
 
@@ -38,7 +38,7 @@ describe('"to contain focused element matching" assertion', () => {
         expect(body, 'to contain focused element matching', 'div');
       },
       'to throw an error satisfying to equal snapshot',
-      expect.unindent`expected <body><button>Press me</button></body> to contain focused element matching 'div'`
+      expect.unindent`expected <body><button>Press me</button></body> to contain focused element matching 'div'`,
     );
   });
 });

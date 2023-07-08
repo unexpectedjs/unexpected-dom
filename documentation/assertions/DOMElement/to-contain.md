@@ -88,6 +88,6 @@ given specification:
 expect(
   element,
   'not to contain',
-  '<h1 class="heading">Assert on all content</h1>'
+  '<h1 class="heading">Assert on all content</h1>',
 );
 ```

@@ -18,7 +18,7 @@ function parseHtml(str) {
 
 function parseHtmlFragment(str) {
   const htmlDocument = parseHtmlDocument(
-    `<html><head></head><body>${str}</body></html>`
+    `<html><head></head><body>${str}</body></html>`,
   );
   const body = htmlDocument.body;
   const documentFragment = htmlDocument.createDocumentFragment();
@@ -36,10 +36,10 @@ describe('"to contain" assertion', () => {
       it('succeeds if the given structure is present', () => {
         expect(
           parseHtmlDocument(
-            '<!DOCTYPE html><html><body><div><i>Hello</i> <span class="name something-else">Jane Doe</span></div></body></html>'
+            '<!DOCTYPE html><html><body><div><i>Hello</i> <span class="name something-else">Jane Doe</span></div></body></html>',
           ),
           'to contain',
-          parseHtml('<span class="name">Jane Doe</span>')
+          parseHtml('<span class="name">Jane Doe</span>'),
         );
       });
     });
@@ -49,10 +49,10 @@ describe('"to contain" assertion', () => {
     it('succeeds if the given structure is present', () => {
       expect(
         parseHtmlFragment(
-          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
         ),
         'to contain',
-        '<span class="name">Jane Doe</span>'
+        '<span class="name">Jane Doe</span>',
       );
     });
   });
@@ -61,10 +61,10 @@ describe('"to contain" assertion', () => {
     it('succeeds if the given structure is present', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
         ),
         'to contain',
-        '<span class="name">Jane Doe</span>'
+        '<span class="name">Jane Doe</span>',
       );
     });
   });
@@ -73,10 +73,10 @@ describe('"to contain" assertion', () => {
     it('succeeds if the given structure is present', () => {
       expect(
         parseHtmlFragment(
-          '<div>Nothing here</div><div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          '<div>Nothing here</div><div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
         ),
         'to contain',
-        '<span class="name">Jane Doe</span>'
+        '<span class="name">Jane Doe</span>',
       );
     });
   });
@@ -85,10 +85,10 @@ describe('"to contain" assertion', () => {
     it('succeeds if the given structure is present', () => {
       expect(
         parseXmlDocument(
-          '<?xml version="1.0"?><qux><fooBar yes="sir">foo</fooBar> bax <Quux>baax</Quux></qux>'
+          '<?xml version="1.0"?><qux><fooBar yes="sir">foo</fooBar> bax <Quux>baax</Quux></qux>',
         ),
         'to contain',
-        '<fooBar yes="sir">foo</fooBar>'
+        '<fooBar yes="sir">foo</fooBar>',
       );
     });
   });
@@ -97,10 +97,10 @@ describe('"to contain" assertion', () => {
     it('succeeds if the given structure is present', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
         ),
         'to contain',
-        parseHtml('<span class="name">Jane Doe</span>')
+        parseHtml('<span class="name">Jane Doe</span>'),
       );
     });
   });
@@ -109,97 +109,97 @@ describe('"to contain" assertion', () => {
     it('succeeds if the given structure is present', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
         ),
         'to contain',
         {
           name: 'span',
           attributes: { class: 'name' },
           textContent: expect.it('to match', /^Jane/).and('to have length', 8),
-        }
+        },
       );
     });
 
     it('supports searching for class names', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
         ),
         'to contain',
         {
           attributes: { class: 'something-else name' },
-        }
+        },
       );
     });
 
     it('supports searching for inline-styles by an object', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
         ),
         'to contain',
         {
           attributes: { style: { 'background-color': 'red' } },
-        }
+        },
       );
     });
 
     it('supports searching for inline-styles by a string', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
         ),
         'to contain',
         {
           attributes: { style: 'background-color: red' },
-        }
+        },
       );
     });
 
     it('supports using regexps on the tag name', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
         ),
         'to contain',
         {
           name: /^(i|span)$/,
           textContent: 'Hello',
-        }
+        },
       );
     });
 
     it('supports using expect.it on the tag name', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
         ),
         'to contain',
         {
           name: expect.it('to have length', 1),
           textContent: 'Hello',
-        }
+        },
       );
     });
 
     it('supports using regexps on the class name', () => {
       expect(
         parseHtml(
-          '<div><i class="greeting">Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>'
+          '<div><i class="greeting">Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
         ),
         'to contain',
         {
           attributes: {
             class: /^name something/,
           },
-        }
+        },
       );
     });
 
     it('supports using expect.it on the class name', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else" style="background-color: red; color: green">Jane Doe</span></div>',
         ),
         'to contain',
         {
@@ -207,7 +207,7 @@ describe('"to contain" assertion', () => {
             class: expect.it('to end with', 'else'),
           },
           textContent: 'Jane Doe',
-        }
+        },
       );
     });
 
@@ -220,20 +220,20 @@ describe('"to contain" assertion', () => {
             class: undefined,
           },
           textContent: 'Hello',
-        }
+        },
       );
     });
 
     it('supports searching for boolean attributes', () => {
       expect(
         parseHtml(
-          '<div><i class="greeting">Hello</i> <span class="name something-else and-this">Jane Doe</span> <input type="checkbox" checked="checked"></div>'
+          '<div><i class="greeting">Hello</i> <span class="name something-else and-this">Jane Doe</span> <input type="checkbox" checked="checked"></div>',
         ),
         'to contain',
         {
           name: 'input',
           attributes: { checked: true },
-        }
+        },
       );
     });
 
@@ -247,13 +247,13 @@ describe('"to contain" assertion', () => {
     it('supports searching for a child element', () => {
       expect(
         parseHtml(
-          '<div><span class="greeting"><i>Hello</i><!-- comment --></span> Jane Doe</div>'
+          '<div><span class="greeting"><i>Hello</i><!-- comment --></span> Jane Doe</div>',
         ),
         'to contain',
         {
           name: 'span',
           children: [parseHtml('<i>Hello</i>'), parseHtml('<!-- comment -->')],
-        }
+        },
       );
     });
 
@@ -267,7 +267,7 @@ describe('"to contain" assertion', () => {
             class: 'greeting',
           },
           onlyAttributes: true,
-        }
+        },
       );
     });
   });
@@ -276,10 +276,10 @@ describe('"to contain" assertion', () => {
     it('succeeds if the given structure is present', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
         ),
         'to contain',
-        '<span class="name">Jane Doe</span>'
+        '<span class="name">Jane Doe</span>',
       );
     });
 
@@ -288,14 +288,14 @@ describe('"to contain" assertion', () => {
         () => {
           expect(
             parseHtml(
-              '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+              '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
             ),
             'to contain',
-            '<span class="name">Jane Doe</span>!'
+            '<span class="name">Jane Doe</span>!',
           );
         },
         'to throw an error satisfying to equal snapshot',
-        'HTMLElement to contain string: Only a single node is supported'
+        'HTMLElement to contain string: Only a single node is supported',
       );
     });
   });
@@ -307,11 +307,11 @@ describe('"to contain" assertion', () => {
           expect(
             parseHtml('<div></div>'),
             'to contain',
-            expect.it('not to have attributes', 'class')
+            expect.it('not to have attributes', 'class'),
           );
         },
         'to throw',
-        'Unsupported value for "to contain" assertion: expect.it'
+        'Unsupported value for "to contain" assertion: expect.it',
       );
     });
   });
@@ -319,40 +319,40 @@ describe('"to contain" assertion', () => {
   it('supports only stating a subset of the classes', () => {
     expect(
       parseHtml(
-        '<div><i class="greeting">Hello</i> <span class="name something-else and-this">Jane Doe</span></div>'
+        '<div><i class="greeting">Hello</i> <span class="name something-else and-this">Jane Doe</span></div>',
       ),
       'to contain',
-      '<span class="name and-this">Jane Doe</span>'
+      '<span class="name and-this">Jane Doe</span>',
     );
   });
 
   it('supports searching for boolean attributes', () => {
     expect(
       parseHtml(
-        '<div><i class="greeting">Hello</i> <span class="name something-else and-this">Jane Doe</span> <input type="checkbox" checked="checked"></div>'
+        '<div><i class="greeting">Hello</i> <span class="name something-else and-this">Jane Doe</span> <input type="checkbox" checked="checked"></div>',
       ),
       'to contain',
-      '<input type="checkbox" checked="checked">'
+      '<input type="checkbox" checked="checked">',
     );
   });
 
   it('supports searching for style values', () => {
     expect(
       parseHtml(
-        '<div><i style="color: red">Hello</i> <span style="color: blue; background: #bad5aa">Jane Doe</span><em style="background: orange">!</em></div>'
+        '<div><i style="color: red">Hello</i> <span style="color: blue; background: #bad5aa">Jane Doe</span><em style="background: orange">!</em></div>',
       ),
       'to contain',
-      '<span style="color: blue">Jane Doe</span>'
+      '<span style="color: blue">Jane Doe</span>',
     );
   });
 
   it('takes ignore comments into account when searching children', () => {
     expect(
       parseHtml(
-        '<div><span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span></div>'
+        '<div><span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span></div>',
       ),
       'to contain',
-      '<span><span>Hello</span><!--ignore--></span>'
+      '<span><span>Hello</span><!--ignore--></span>',
     );
   });
 
@@ -361,14 +361,14 @@ describe('"to contain" assertion', () => {
       () => {
         expect(
           parseHtml(
-            '<div><span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span></div>'
+            '<div><span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span></div>',
           ),
           'to contain',
-          'Jane Doe'
+          'Jane Doe',
         );
       },
       'to throw an error satisfying to equal snapshot',
-      'HTMLElement to contain string: please provide a HTML structure as a string'
+      'HTMLElement to contain string: please provide a HTML structure as a string',
     );
   });
 
@@ -378,7 +378,7 @@ describe('"to contain" assertion', () => {
         expect(parseHtml('<div></div>'), 'to contain', '<span>Jane Doe</span>');
       },
       'to throw an error satisfying to equal snapshot',
-      'expected <div></div> to contain <span>Jane Doe</span>'
+      'expected <div></div> to contain <span>Jane Doe</span>',
     );
   });
 
@@ -387,10 +387,10 @@ describe('"to contain" assertion', () => {
       () => {
         expect(
           parseHtml(
-            '<span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span>'
+            '<span class="greeting"><span>Hello</span><span class="name">Jane Doe</span></span>',
           ),
           'to contain',
-          '<span><span>Hello</span><!--ignore--></span>'
+          '<span><span>Hello</span><!--ignore--></span>',
         );
       },
       'to throw an error satisfying to equal snapshot',
@@ -406,7 +406,7 @@ describe('"to contain" assertion', () => {
         // missing <span>Hello</span>
         Hello
       </span>
-    `
+    `,
     );
   });
 
@@ -415,17 +415,17 @@ describe('"to contain" assertion', () => {
       () => {
         expect(
           parseHtml(
-            '<div><div><div><div><div><div></div></div></div></div></div></div>'
+            '<div><div><div><div><div><div></div></div></div></div></div></div>',
           ),
           'to contain',
-          '<span class="name">John Doe</span>'
+          '<span class="name">John Doe</span>',
         );
       },
       'to throw an error satisfying to equal snapshot',
       expect.unindent`
       expected <div><div><div><div><div><div></div></div></div></div></div></div>
       to contain <span class="name">John Doe</span>
-    `
+    `,
     );
   });
 
@@ -434,10 +434,10 @@ describe('"to contain" assertion', () => {
       () => {
         expect(
           parseHtml(
-            '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+            '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
           ),
           'to contain',
-          '<span class="name">John Doe</span>'
+          '<span class="name">John Doe</span>',
         );
       },
       'to throw an error satisfying to equal snapshot',
@@ -456,7 +456,7 @@ describe('"to contain" assertion', () => {
                    // -Jane Doe
                    // +John Doe
         </span>
-      `
+      `,
     );
   });
 
@@ -465,10 +465,10 @@ describe('"to contain" assertion', () => {
       () => {
         expect(
           parseHtml(
-            '<div><i>Hello</i> <span class="name something-else">Jane Doe</span> and <div>John Doe</div></div>'
+            '<div><i>Hello</i> <span class="name something-else">Jane Doe</span> and <div>John Doe</div></div>',
           ),
           'to contain',
-          '<div class="name">Jane Doe</div>'
+          '<div class="name">Jane Doe</div>',
         );
       },
       'to throw an error satisfying to equal snapshot',
@@ -486,7 +486,7 @@ describe('"to contain" assertion', () => {
         <span // should equal 'div'
           class="name something-else"
         >Jane Doe</span>
-      `
+      `,
     );
   });
 
@@ -495,10 +495,10 @@ describe('"to contain" assertion', () => {
       () => {
         expect(
           parseHtml(
-            '<div><i>Hello</i> <span class="name something-else"><em>Jane Doe</em></span> and <div>John Doe</div></div>'
+            '<div><i>Hello</i> <span class="name something-else"><em>Jane Doe</em></span> and <div>John Doe</div></div>',
           ),
           'to contain',
-          '<span class="name"><i>Jane Doe</i></span>'
+          '<span class="name"><i>Jane Doe</i></span>',
         );
       },
       'to throw an error satisfying to equal snapshot',
@@ -517,7 +517,7 @@ describe('"to contain" assertion', () => {
           <em // should equal 'i'
           >Jane Doe</em>
         </span>
-      `
+      `,
     );
   });
 
@@ -526,10 +526,10 @@ describe('"to contain" assertion', () => {
       () => {
         expect(
           parseHtml(
-            '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>'
+            '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>',
           ),
           'to contain',
-          '<span data-test-id="name">John Doe</span>'
+          '<span data-test-id="name">John Doe</span>',
         );
       },
       'to throw an error satisfying to equal snapshot',
@@ -552,7 +552,7 @@ describe('"to contain" assertion', () => {
                    // -Jane Doe
                    // +John Doe
         </span>
-      `
+      `,
     );
   });
 
@@ -562,7 +562,7 @@ describe('"to contain" assertion', () => {
         expect(
           parseHtml('<div><span></span></div>'),
           'to contain',
-          '<span><i>Hello</i></span>'
+          '<span><i>Hello</i></span>',
         );
       },
       'to throw an error satisfying to equal snapshot',
@@ -572,7 +572,7 @@ describe('"to contain" assertion', () => {
       <span>
         // missing <i>Hello</i>
       </span>
-    `
+    `,
     );
   });
 
@@ -582,7 +582,7 @@ describe('"to contain" assertion', () => {
         expect(
           parseHtml('<div><span></span></div>'),
           'to contain',
-          '<span><!-- ignore --></span>'
+          '<span><!-- ignore --></span>',
         );
       },
       'to throw an error satisfying to equal snapshot',
@@ -592,7 +592,7 @@ describe('"to contain" assertion', () => {
       <span>
         // missing <!-- ignore -->
       </span>
-    `
+    `,
     );
   });
 
@@ -601,10 +601,10 @@ describe('"to contain" assertion', () => {
       () => {
         expect(
           parseHtml(
-            '<div><span><strong>Hello</strong><em>world</em></span></div>'
+            '<div><span><strong>Hello</strong><em>world</em></span></div>',
           ),
           'to contain',
-          '<span><strong>Hello</strong><!-- ignore -->!</span>'
+          '<span><strong>Hello</strong><!-- ignore -->!</span>',
         );
       },
       'to throw an error satisfying to equal snapshot',
@@ -617,7 +617,7 @@ describe('"to contain" assertion', () => {
         <em>world</em>
         // missing !
       </span>
-    `
+    `,
     );
   });
 
@@ -626,10 +626,10 @@ describe('"to contain" assertion', () => {
       () => {
         expect(
           parseHtml(
-            '<div><span><strong>Hello</strong><em>world</em>!</span></div>'
+            '<div><span><strong>Hello</strong><em>world</em>!</span></div>',
           ),
           'to contain',
-          '<span><strong>Hello</strong><em>world</em></span>'
+          '<span><strong>Hello</strong><em>world</em></span>',
         );
       },
       'to throw an error satisfying to equal snapshot',
@@ -642,7 +642,7 @@ describe('"to contain" assertion', () => {
         <em>world</em>
         ! // should be removed
       </span>
-    `
+    `,
     );
   });
 
@@ -650,20 +650,20 @@ describe('"to contain" assertion', () => {
     it('succeeds if the given structure is not present', () => {
       expect(
         parseHtml(
-          '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>',
         ),
         'not to contain',
-        '<span data-test-id="name">John Doe</span>'
+        '<span data-test-id="name">John Doe</span>',
       );
     });
 
     it("succeeds if the given structure doesn't match any descendant elements at all", () => {
       expect(
         parseHtml(
-          '<div><div><div><div><div><div></div></div></div></div></div></div>'
+          '<div><div><div><div><div><div></div></div></div></div></div></div>',
         ),
         'not to contain',
-        '<span data-test-id="name">John Doe</span>'
+        '<span data-test-id="name">John Doe</span>',
       );
     });
 
@@ -671,7 +671,7 @@ describe('"to contain" assertion', () => {
       expect(
         parseHtml('<div></div>'),
         'not to contain',
-        '<span>Jane Doe</span>'
+        '<span>Jane Doe</span>',
       );
     });
 
@@ -680,10 +680,10 @@ describe('"to contain" assertion', () => {
         () => {
           expect(
             parseHtml(
-              '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>'
+              '<div><i>Hello</i> <span class="name something-else" data-test-id="name">Jane Doe</span> and <span class="name">John Doe</span></div>',
             ),
             'not to contain',
-            '<span data-test-id="name">Jane Doe</span>'
+            '<span data-test-id="name">Jane Doe</span>',
           );
         },
         'to throw an error satisfying to equal snapshot',
@@ -705,7 +705,7 @@ describe('"to contain" assertion', () => {
           <span class="name something-else" data-test-id="name">
             Jane Doe
           </span>
-        `
+        `,
       );
     });
   });

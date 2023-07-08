@@ -23,7 +23,7 @@ function parseHtml(str) {
 
 function parseHtmlFragment(str) {
   const htmlDocument = parseHtmlDocument(
-    `<html><head></head><body>${str}</body></html>`
+    `<html><head></head><body>${str}</body></html>`,
   );
   const body = htmlDocument.body;
   const documentFragment = htmlDocument.createDocumentFragment();
@@ -59,7 +59,7 @@ describe('"to satisfy" assertion', () => {
         expect(body.firstChild, 'to satisfy', { foo: 'bar' });
       },
       'to throw an error satisfying to equal snapshot',
-      'Unsupported option: foo'
+      'Unsupported option: foo',
     );
   });
 
@@ -114,7 +114,7 @@ describe('"to satisfy" assertion', () => {
               draggable="true" // Invalid expected value false. Supported values include: 'true', 'false'
             ></div>
           </body>
-        `
+        `,
         );
       });
     });
@@ -143,7 +143,7 @@ describe('"to satisfy" assertion', () => {
                                           // -foobarquux
                                           // +fooquux
         </body>
-      `
+      `,
       );
     });
   });
@@ -158,7 +158,7 @@ describe('"to satisfy" assertion', () => {
             name: 'div',
             children: 'foo<span>bar</span>',
           },
-        ]
+        ],
       );
     });
 
@@ -173,7 +173,7 @@ describe('"to satisfy" assertion', () => {
                 name: 'div',
                 children: '<span>bar</span>foo',
               },
-            ]
+            ],
           );
         },
         'to throw an error satisfying to equal snapshot',
@@ -190,7 +190,7 @@ describe('"to satisfy" assertion', () => {
               └── <span>bar</span> // should be moved
             </div>
           ]
-      `
+      `,
       );
     });
   });
@@ -200,7 +200,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         '<div class="Component"><span class="foobar"></span><label><span class="">Some test stuff</span></label></div>',
         'when parsed as HTML to satisfy',
-        '<div class="Component"><span class="foobar"></span><label><span class="">Some test stuff</span></label></div>'
+        '<div class="Component"><span class="foobar"></span><label><span class="">Some test stuff</span></label></div>',
       );
     });
 
@@ -208,7 +208,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         '<div class="Component"><span></span><label><span class="foobar">Some test stuff</span></label></div>',
         'when parsed as HTML to satisfy',
-        '<div class="Component"><span></span><label><span>Some test stuff</span></label></div>'
+        '<div class="Component"><span></span><label><span>Some test stuff</span></label></div>',
       );
     });
 
@@ -216,7 +216,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         '<div class="Component"><span></span><label><span class="">Some test stuff</span></label></div>',
         'when parsed as HTML to satisfy',
-        '<div class="Component"><span></span><label><span>Some test stuff</span></label></div>'
+        '<div class="Component"><span></span><label><span>Some test stuff</span></label></div>',
       );
     });
   });
@@ -227,7 +227,7 @@ describe('"to satisfy" assertion', () => {
         expect(
           '<div foo="bar">foo</div><div>bar</div>',
           'when parsed as HTML fragment to satisfy',
-          '<div foo="bar">foo</div><div>bar</div>'
+          '<div foo="bar">foo</div><div>bar</div>',
         );
       });
 
@@ -237,7 +237,7 @@ describe('"to satisfy" assertion', () => {
             expect(
               '<div>foo</div><div>bar</div>',
               'when parsed as HTML fragment to satisfy',
-              '<div>quux</div><div baz="quux">bar</div>'
+              '<div>quux</div><div baz="quux">bar</div>',
             );
           },
           'to throw an error satisfying to equal snapshot',
@@ -258,7 +258,7 @@ describe('"to satisfy" assertion', () => {
                 // missing baz should equal 'quux'
               >bar</div>
             ]
-        `
+        `,
         );
       });
     });
@@ -268,7 +268,7 @@ describe('"to satisfy" assertion', () => {
         expect(
           '<div class="bar">foo</div>',
           'when parsed as HTML fragment to exhaustively satisfy',
-          '<div class="bar">foo</div>'
+          '<div class="bar">foo</div>',
         );
       });
 
@@ -278,7 +278,7 @@ describe('"to satisfy" assertion', () => {
             expect(
               '<div class="guide-markup"><p class="wysiwyg-color-red130 guide-markup">Something</p></div><div class="guide-markup"><div class="guide-markup"><img class="some-existing-class guide-markup" src="image.png"></div></div>',
               'when parsed as HTML to exhaustively satisfy',
-              '<div class="guide-markup"><p class="guide-markup wysiwyg-color-red130">Something</p></div><div class="guide-markup"><div class="guide-markup"><img src="image.png" class="guide-markup" /></div></div>'
+              '<div class="guide-markup"><p class="guide-markup wysiwyg-color-red130">Something</p></div><div class="guide-markup"><div class="guide-markup"><img src="image.png" class="guide-markup" /></div></div>',
             );
           },
           'to throw an error satisfying to equal snapshot',
@@ -309,7 +309,7 @@ describe('"to satisfy" assertion', () => {
                   </div>
                 </body>
               </html>
-          `
+          `,
         );
       });
 
@@ -319,7 +319,7 @@ describe('"to satisfy" assertion', () => {
             expect(
               '<div foo="bar" baz="quux">foo</div><div>bar</div>',
               'when parsed as HTML fragment to exhaustively satisfy',
-              '<div foo="bar">foo</div><div>bar</div>'
+              '<div foo="bar">foo</div><div>bar</div>',
             );
           },
           'to throw an error satisfying to equal snapshot',
@@ -336,7 +336,7 @@ describe('"to satisfy" assertion', () => {
               >foo</div>,
               <div>bar</div>
             ]
-        `
+        `,
         );
       });
     });
@@ -346,7 +346,7 @@ describe('"to satisfy" assertion', () => {
         expect(
           '<div foo="bar">foo</div><div>bar</div>',
           'when parsed as HTML fragment to satisfy',
-          parseHtmlFragment('<div foo="bar">foo</div><div>bar</div>')
+          parseHtmlFragment('<div foo="bar">foo</div><div>bar</div>'),
         );
       });
 
@@ -356,7 +356,7 @@ describe('"to satisfy" assertion', () => {
             expect(
               '<div>foo</div><div>bar</div>',
               'when parsed as HTML fragment to satisfy',
-              parseHtmlFragment('<div>quux</div><div baz="quux">bar</div>')
+              parseHtmlFragment('<div>quux</div><div baz="quux">bar</div>'),
             );
           },
           'to throw an error satisfying to equal snapshot',
@@ -377,7 +377,7 @@ describe('"to satisfy" assertion', () => {
                 // missing baz should equal 'quux'
               >bar</div>
             ]
-        `
+        `,
         );
       });
 
@@ -391,8 +391,8 @@ describe('"to satisfy" assertion', () => {
             ].join('\n'),
             'when parsed as HTML fragment to satisfy',
             parseHtmlFragment(
-              ['<div>foo</div>', '<!--ignore-->', '<div>baz</div>'].join('\n')
-            )
+              ['<div>foo</div>', '<!--ignore-->', '<div>baz</div>'].join('\n'),
+            ),
           );
         });
 
@@ -409,8 +409,8 @@ describe('"to satisfy" assertion', () => {
                 '<div>foo</div>',
                 '<div><!--ignore--></div>',
                 '<div>baz</div>',
-              ].join('\n')
-            )
+              ].join('\n'),
+            ),
           );
         });
 
@@ -421,8 +421,8 @@ describe('"to satisfy" assertion', () => {
                 '<div foo="bar">foo</div><div><div>bar</div></div><div>baz</div>',
                 'when parsed as HTML fragment to satisfy',
                 parseHtmlFragment(
-                  '<div foo="bar">foo!</div><!--ignore--><div>baz</div>'
-                )
+                  '<div foo="bar">foo!</div><!--ignore--><div>baz</div>',
+                ),
               );
             },
             'to throw an error satisfying to equal snapshot',
@@ -442,7 +442,7 @@ describe('"to satisfy" assertion', () => {
                 <div><div>...</div></div>,
                 <div>baz</div>
               ]
-          `
+          `,
           );
         });
       });
@@ -456,7 +456,7 @@ describe('"to satisfy" assertion', () => {
           [
             { attributes: { foo: 'bar' }, children: ['foo'] },
             { name: 'div', children: ['bar'] },
-          ]
+          ],
         );
       });
 
@@ -469,7 +469,7 @@ describe('"to satisfy" assertion', () => {
               [
                 { attributes: { foo: 'bar' }, children: ['foo'] },
                 { name: 'div', children: ['bar'] },
-              ]
+              ],
             );
           },
           'to throw an error satisfying to equal snapshot',
@@ -499,7 +499,7 @@ describe('"to satisfy" assertion', () => {
                        // +bar
               </div>
             ]
-        `
+        `,
         );
       });
     });
@@ -511,7 +511,7 @@ describe('"to satisfy" assertion', () => {
           'when parsed as HTML fragment to satisfy',
           {
             1: { name: 'div', children: ['bar'] },
-          }
+          },
         );
       });
 
@@ -523,7 +523,7 @@ describe('"to satisfy" assertion', () => {
               'when parsed as HTML fragment to satisfy',
               {
                 1: { name: 'div', children: ['bar'] },
-              }
+              },
             );
           },
           'to throw an error satisfying to equal snapshot',
@@ -542,7 +542,7 @@ describe('"to satisfy" assertion', () => {
                        // +bar
               </div>
             ]
-        `
+        `,
         );
       });
     });
@@ -554,14 +554,14 @@ describe('"to satisfy" assertion', () => {
             expect(
               '<div foo="bar">foo</div><div>bar</div>',
               'when parsed as HTML fragment to satisfy',
-              /foo/
+              /foo/,
             );
           },
           'to throw an error satisfying to equal snapshot',
           expect.unindent`
           expected '<div foo="bar">foo</div><div>bar</div>' when parsed as HTML fragment to satisfy /foo/
             expected DocumentFragment[NodeList[ <div foo="bar">foo</div>, <div>bar</div> ]] to satisfy /foo/
-        `
+        `,
         );
       });
     });
@@ -573,14 +573,14 @@ describe('"to satisfy" assertion', () => {
             expect(
               '<div>foo</div><div>bar</div>',
               'when parsed as HTML fragment to satisfy',
-              parseHtmlNode('<div>foo</div>')
+              parseHtmlNode('<div>foo</div>'),
             );
           },
           'to throw an error satisfying to equal snapshot',
           expect.unindent`
           expected '<div>foo</div><div>bar</div>' when parsed as HTML fragment to satisfy <div>foo</div>
             expected DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]] to satisfy <div>foo</div>
-        `
+        `,
         );
       });
     });
@@ -591,21 +591,21 @@ describe('"to satisfy" assertion', () => {
       expect(
         parseHtml('<div foo="bar" baz="quux">hey</div>'),
         'to satisfy',
-        '<div foo="bar" baz="quux">hey</div>'
+        '<div foo="bar" baz="quux">hey</div>',
       ));
 
     it('should fail when the subject has the wrong text content', () =>
       expect(
         parseHtml('<div foo="bar" baz="quux">hey</div>'),
         'to satisfy',
-        '<div foo="bar" baz="quux">hey</div>'
+        '<div foo="bar" baz="quux">hey</div>',
       ));
 
     it('should succeed when the subject equals the value parsed as HTML, except an extra attribute', () =>
       expect(
         parseHtml('<div foo="bar" baz="quux">hey</div>'),
         'to satisfy',
-        '<div foo="bar">hey</div>'
+        '<div foo="bar">hey</div>',
       ));
 
     it('should fail when the subject is missing an attribute', () =>
@@ -614,7 +614,7 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtml('<div foo="bar">hey</div>'),
             'to satisfy',
-            '<div bar="quux">hey</div>'
+            '<div bar="quux">hey</div>',
           ),
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
@@ -624,14 +624,14 @@ describe('"to satisfy" assertion', () => {
             foo="bar"
             // missing bar should equal 'quux'
           >hey</div>
-        `
+        `,
       ));
 
     it('should succeed when the subject has an extra class', () =>
       expect(
         parseHtml('<div class="foo bar">hey</div>'),
         'to satisfy',
-        '<div class="bar">hey</div>'
+        '<div class="bar">hey</div>',
       ));
 
     it('should fail when the subject is missing a class', () =>
@@ -640,7 +640,7 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtml('<div class="foo">hey</div>'),
             'to satisfy',
-            '<div class="bar">hey</div>'
+            '<div class="bar">hey</div>',
           ),
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
@@ -649,14 +649,14 @@ describe('"to satisfy" assertion', () => {
           <div
             class="foo" // expected [ 'foo' ] to contain 'bar'
           >hey</div>
-        `
+        `,
       ));
 
     it('should succeed when the subject has an extra inline style', () =>
       expect(
         parseHtml('<div style="color: tan; width: 120px;">hey</div>'),
         'to satisfy',
-        '<div style="color: tan;">hey</div>'
+        '<div style="color: tan;">hey</div>',
       ));
 
     it('should fail when the subject is missing an inline style', () =>
@@ -665,7 +665,7 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtml('<div style="width: 120px;">hey</div>'),
             'to satisfy',
-            '<div style="color: tan;">hey</div>'
+            '<div style="color: tan;">hey</div>',
           ),
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
@@ -679,7 +679,7 @@ describe('"to satisfy" assertion', () => {
                                  //   // missing color: 'tan'
                                  // }
           >hey</div>
-        `
+        `,
       ));
   });
 
@@ -688,7 +688,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         parseHtml('<div foo="bar" baz="quux">hey</div>'),
         'to satisfy',
-        parseHtml('<div foo="bar" baz="quux">hey</div>')
+        parseHtml('<div foo="bar" baz="quux">hey</div>'),
       ));
 
     it('should fail when the subject has the wrong text content', () =>
@@ -697,7 +697,7 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtml('<div foo="bar" baz="quux">foobar</div>'),
             'to satisfy',
-            parseHtml('<div foo="bar" baz="quux">hey</div>')
+            parseHtml('<div foo="bar" baz="quux">hey</div>'),
           ),
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
@@ -709,14 +709,14 @@ describe('"to satisfy" assertion', () => {
                    // -foobar
                    // +hey
           </div>
-        `
+        `,
       ));
 
     it('should succeed when the subject equals the value', () =>
       expect(
         parseHtml('<div foo="bar" baz="quux">hey</div>'),
         'to satisfy',
-        parseHtml('<div foo="bar">hey</div>')
+        parseHtml('<div foo="bar">hey</div>'),
       ));
 
     it('should fail when the subject is missing an attribute', () =>
@@ -725,7 +725,7 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtml('<div foo="bar">hey</div>'),
             'to satisfy',
-            parseHtml('<div bar="quux">hey</div>')
+            parseHtml('<div bar="quux">hey</div>'),
           ),
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
@@ -735,14 +735,14 @@ describe('"to satisfy" assertion', () => {
             foo="bar"
             // missing bar should equal 'quux'
           >hey</div>
-        `
+        `,
       ));
 
     it('should succeed when the subject has an extra class', () =>
       expect(
         parseHtml('<div class="foo bar">hey</div>'),
         'to satisfy',
-        parseHtml('<div class="bar">hey</div>')
+        parseHtml('<div class="bar">hey</div>'),
       ));
 
     it('should fail when the subject is missing a class', () =>
@@ -751,7 +751,7 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtml('<div class="foo">hey</div>'),
             'to satisfy',
-            parseHtml('<div class="bar">hey</div>')
+            parseHtml('<div class="bar">hey</div>'),
           ),
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
@@ -760,39 +760,39 @@ describe('"to satisfy" assertion', () => {
           <div
             class="foo" // expected [ 'foo' ] to contain 'bar'
           >hey</div>
-        `
+        `,
       ));
 
     it('should succeed when the subject has an extra inline style', () =>
       expect(
         parseHtml(
-          '<div style="color: tan; width: 120px; z-index: 700; background-repeat: no-repeat">hey</div>'
+          '<div style="color: tan; width: 120px; z-index: 700; background-repeat: no-repeat">hey</div>',
         ),
         'to satisfy',
         parseHtml(
-          '<div style="color: tan; z-index: 700;background-repeat: no-repeat">hey</div>'
-        )
+          '<div style="color: tan; z-index: 700;background-repeat: no-repeat">hey</div>',
+        ),
       ));
 
     it('should not fail for invalid style attributes on the LHS', () =>
       expect(
         parseHtml('<div style="color; width: 120px; z-index: 700">hey</div>'),
         'to satisfy',
-        parseHtml('<div style="width: 120px;">hey</div>')
+        parseHtml('<div style="width: 120px;">hey</div>'),
       ));
 
     it('should treat an empty style string no requirements on the style attribute', () =>
       expect(
         parseHtml('<div style="color; width: 120px;">hey</div>'),
         'to satisfy',
-        parseHtml('<div style="">hey</div>')
+        parseHtml('<div style="">hey</div>'),
       ));
 
     it('should not fail for a style attribute with hex value (short) on the RHS', () => {
       expect(
         parseHtml('<div style="border-left-color: #000">hey</div>'),
         'to satisfy',
-        parseHtml('<div style="border-left-color: #000;">hey</div>')
+        parseHtml('<div style="border-left-color: #000;">hey</div>'),
       );
     });
 
@@ -800,7 +800,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         parseHtml('<div style="border-left-color: #1BcD3F">hey</div>'),
         'to satisfy',
-        parseHtml('<div style="border-left-color: #1BcD3F;">hey</div>')
+        parseHtml('<div style="border-left-color: #1BcD3F;">hey</div>'),
       );
     });
 
@@ -810,7 +810,7 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtml('<div style="border-left-color: #FFF">hey</div>'),
             'to satisfy',
-            parseHtml('<div style="border-left-color: #FFFF;">hey</div>')
+            parseHtml('<div style="border-left-color: #FFFF;">hey</div>'),
           ),
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
@@ -822,8 +822,8 @@ describe('"to satisfy" assertion', () => {
                                             // to satisfy { name: 'div', attributes: { style: 'border-left-color: #FFFF;' }, children: [ hey ] }
                                             //   Expectation contains invalid styles: 'border-left-color: #FFFF'
           >hey</div>
-        `
-      )
+        `,
+      ),
     );
 
     it.skipIf(isIe, 'should fail when the RHS has invalid styles', () =>
@@ -832,7 +832,7 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtml('<div style="width: 120px;">hey</div>'),
             'to satisfy',
-            parseHtml('<div style="color;background;width: 120px">hey</div>')
+            parseHtml('<div style="color;background;width: 120px">hey</div>'),
           ),
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
@@ -843,8 +843,8 @@ describe('"to satisfy" assertion', () => {
                                  // to satisfy { name: 'div', attributes: { style: 'color;background;width: 120px' }, children: [ hey ] }
                                  //   Expectation contains invalid styles: 'color;background'
           >hey</div>
-        `
-      )
+        `,
+      ),
     );
 
     it('should fail when the subject is missing an inline style', () =>
@@ -853,7 +853,7 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtml('<div style="width: 120px;">hey</div>'),
             'to satisfy',
-            parseHtml('<div style="color: tan;">hey</div>')
+            parseHtml('<div style="color: tan;">hey</div>'),
           ),
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
@@ -867,7 +867,7 @@ describe('"to satisfy" assertion', () => {
                                  //   // missing color: 'tan'
                                  // }
           >hey</div>
-        `
+        `,
       ));
   });
 
@@ -878,11 +878,11 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtml('<div>foo</div>'),
             'to satisfy',
-            parseHtmlFragment('<div>foo</div><div>bar</div>')
+            parseHtmlFragment('<div>foo</div><div>bar</div>'),
           );
         },
         'to throw an error satisfying to equal snapshot',
-        'expected <div>foo</div> to satisfy DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]'
+        'expected <div>foo</div> to satisfy DocumentFragment[NodeList[ <div>foo</div>, <div>bar</div> ]]',
       );
     });
   });
@@ -897,7 +897,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         parseHtml('foobar'),
         'to exhaustively satisfy',
-        parseHtml('foobar')
+        parseHtml('foobar'),
       );
     });
 
@@ -912,7 +912,7 @@ describe('"to satisfy" assertion', () => {
 
         -foobar
         +bar
-      `
+      `,
       );
     });
   });
@@ -933,7 +933,7 @@ describe('"to satisfy" assertion', () => {
           expect(parseHtml('foobar'), 'to satisfy', /^f00/);
         },
         'to throw an error satisfying to equal snapshot',
-        'expected foobar to satisfy /^f00/'
+        'expected foobar to satisfy /^f00/',
       );
     });
   });
@@ -957,13 +957,13 @@ describe('"to satisfy" assertion', () => {
         <div // should match /^sp/
           foo="bar"
         ></div>
-      `
+      `,
       );
     });
 
     describe('in an XML document with a mixed case node name', () => {
       const xmlDoc = parseXmlDocument(
-        '<?xml version="1.0"?><fooBar hey="there"></fooBar>'
+        '<?xml version="1.0"?><fooBar hey="there"></fooBar>',
       );
 
       it('should succeed', () => {
@@ -982,7 +982,7 @@ describe('"to satisfy" assertion', () => {
           <fooBar // should equal 'fooBarQuux'
             hey="there"
           ></fooBar>
-        `
+        `,
         );
       });
     });
@@ -1019,7 +1019,7 @@ describe('"to satisfy" assertion', () => {
               // -hey
               // +there
         </div>
-      `
+      `,
       );
     });
 
@@ -1058,7 +1058,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         parseHtmlDocument('<!DOCTYPE html>').firstChild,
         'to satisfy',
-        ignoreComment
+        ignoreComment,
       );
     });
 
@@ -1066,7 +1066,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>',
         'when parsed as xml to satisfy',
-        ignoreComment
+        ignoreComment,
       );
     });
   });
@@ -1100,7 +1100,7 @@ describe('"to satisfy" assertion', () => {
                        // +bar
           >hey</div>
         ]
-    `
+    `,
     );
   });
 
@@ -1111,7 +1111,7 @@ describe('"to satisfy" assertion', () => {
         expect(
           parseHtmlNode('<div>foo</div>'),
           'to satisfy',
-          '<div><div><div>bar</div></div></div>'
+          '<div><div><div>bar</div></div></div>',
         ),
       'to throw an error satisfying to equal snapshot',
       expect.unindent`
@@ -1120,7 +1120,7 @@ describe('"to satisfy" assertion', () => {
       <div>
         foo // should satisfy <div><div>bar</div></div>
       </div>
-    `
+    `,
     );
   });
 
@@ -1138,7 +1138,7 @@ describe('"to satisfy" assertion', () => {
 
         <foO // should equal 'foo'
         ></foO>
-      `
+      `,
       );
     });
 
@@ -1161,7 +1161,7 @@ describe('"to satisfy" assertion', () => {
 
         <foO // should equal 'foo'
         ></foO>
-      `
+      `,
       );
     });
 
@@ -1174,7 +1174,7 @@ describe('"to satisfy" assertion', () => {
               '<content>',
               '  <hello type="greeting">World</hello>',
               '</content>',
-            ].join('\n')
+            ].join('\n'),
           ),
           'queried for first',
           'hello',
@@ -1184,7 +1184,7 @@ describe('"to satisfy" assertion', () => {
               type: 'greeting',
             },
             children: ['World'],
-          }
+          },
         );
       });
     });
@@ -1195,7 +1195,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         parseHtmlNode('<div class="foobar"></div>'),
         'to satisfy',
-        expect.it('to have attributes', 'class')
+        expect.it('to have attributes', 'class'),
       );
     });
 
@@ -1205,7 +1205,7 @@ describe('"to satisfy" assertion', () => {
           expect(
             parseHtmlNode('<div></div>'),
             'to satisfy',
-            expect.it('to have attributes', 'class')
+            expect.it('to have attributes', 'class'),
           ),
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
@@ -1214,7 +1214,7 @@ describe('"to satisfy" assertion', () => {
           <div
             // missing class
           ></div>
-        `
+        `,
       );
     });
 
@@ -1222,7 +1222,7 @@ describe('"to satisfy" assertion', () => {
       expect(
         parseHtmlNode('<div></div>'),
         'to satisfy',
-        expect.it('not to have attributes', 'class')
+        expect.it('not to have attributes', 'class'),
       );
     });
 
@@ -1235,12 +1235,12 @@ describe('"to satisfy" assertion', () => {
     it('succeeds when used as the children option', () => {
       expect(
         parseHtmlNode(
-          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>'
+          '<div><i>Hello</i> <span class="name something-else">Jane Doe</span></div>',
         ),
         'to satisfy',
         {
           children: expect.it('to have length', 3),
-        }
+        },
       );
     });
 
@@ -1265,7 +1265,7 @@ describe('"to satisfy" assertion', () => {
           '<strong class="match">pr</strong>' +
           '<span class="after">otected</span>' +
           '</li>' +
-          '</ul>'
+          '</ul>',
       );
 
       expect(
@@ -1333,7 +1333,7 @@ describe('"to satisfy" assertion', () => {
             </span>
           </li>
         </ul>
-      `
+      `,
       );
     });
 
@@ -1350,7 +1350,7 @@ describe('"to satisfy" assertion', () => {
           '<strong class="match">pr</strong>' +
           '<span class="after">otected</span>' +
           '</li>' +
-          '</ul>'
+          '</ul>',
       );
 
       expect(
@@ -1387,9 +1387,9 @@ describe('"to satisfy" assertion', () => {
           expect(
             message,
             'to equal snapshot',
-            '<div style="font-family: monospace; white-space: nowrap"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">ul&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">knockout-autocomplete&nbsp;menu&nbsp;scrollable&nbsp;floating-menu</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">style</span><span style="color: #999">=&quot;</span><span style="color: #905">left</span><span style="color: #999">:</span>&nbsp;0px<span style="color: #999">;</span>&nbsp;<span style="color: #905">top</span><span style="color: #999">:</span>&nbsp;0px<span style="color: #999">;</span>&nbsp;<span style="color: #905">bottom</span><span style="color: #999">:</span>&nbsp;auto<span style="color: #999">;</span>&nbsp;<span style="color: #905">display</span><span style="color: #999">:</span>&nbsp;block<span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">selected</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">data-index</span><span style="color: #999">=&quot;</span><span style="color: #07a">0</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">before</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">strong&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">match</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">strong</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">after</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li&nbsp;</span><span style="color: #690">data-index</span><span style="color: #999">=&quot;</span><span style="color: #07a">1</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">before</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">strong&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">match</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">strong</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">after</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">ul</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">to&nbsp;satisfy</span></div><div>{</div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #555">attributes</span>:&nbsp;{&nbsp;<span style="color: #555">style</span>:&nbsp;{&nbsp;<span style="color: #555">display</span>:&nbsp;<span style="color: #df5000">\'block\'</span>&nbsp;},&nbsp;<span style="color: #555">class</span>:&nbsp;[&nbsp;<span style="color: #df5000">\'knockout-autocomplete\'</span>,&nbsp;<span style="color: #df5000">\'floating-menu\'</span>&nbsp;]&nbsp;},</div><div><span style="color: #555">children</span>:&nbsp;[&nbsp;{&nbsp;<span style="color: #555">attributes</span>:&nbsp;...,&nbsp;<span style="color: #555">children</span>:&nbsp;...&nbsp;},&nbsp;{&nbsp;<span style="color: #555">attributes</span>:&nbsp;...,&nbsp;<span style="color: #555">children</span>:&nbsp;...&nbsp;}&nbsp;]</div></div></div><div>}</div><div>&nbsp;</div><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">ul</span>&nbsp;<span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">knockout-autocomplete&nbsp;menu&nbsp;scrollable&nbsp;floating-menu</span><span style="color: #999">&quot;</span>&nbsp;<span style="color: #690">style</span><span style="color: #999">=&quot;</span><span style="color: #07a">left:&nbsp;0px;&nbsp;top:&nbsp;0px;&nbsp;bottom:&nbsp;auto;&nbsp;display:&nbsp;block</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">selected</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">data-index</span><span style="color: #999">=&quot;</span><span style="color: #07a">0</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">before</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">strong&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">match</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">strong</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">after</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div></div></div><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span>&nbsp;<span style="color: #690">data-index</span><span style="color: #999">=&quot;</span><span style="color: #07a">1</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">before</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div></div></div><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">strong&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">match</span><span style="color: #999">&quot;&gt;</span>pr<span style="color: #999">&lt;/</span><span style="color: #905">strong</span><span style="color: #999">&gt;</span></div></div></div></div></div><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span</span>&nbsp;<span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">after</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div>otected&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div></div>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">should&nbsp;equal</span>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #df5000">\'odtected\'</span></div></div></div><div>&nbsp;</div><div><span style="background-color: red; color: white">otected</span></div><div><span style="background-color: green; color: white">odtected</span></div></div></div></div></div></div></div></div></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div></div></div></div></div></div></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div></div></div></div></div></div></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">ul</span><span style="color: #999">&gt;</span></div></div></div></div>'
+            '<div style="font-family: monospace; white-space: nowrap"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">ul&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">knockout-autocomplete&nbsp;menu&nbsp;scrollable&nbsp;floating-menu</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">style</span><span style="color: #999">=&quot;</span><span style="color: #905">left</span><span style="color: #999">:</span>&nbsp;0px<span style="color: #999">;</span>&nbsp;<span style="color: #905">top</span><span style="color: #999">:</span>&nbsp;0px<span style="color: #999">;</span>&nbsp;<span style="color: #905">bottom</span><span style="color: #999">:</span>&nbsp;auto<span style="color: #999">;</span>&nbsp;<span style="color: #905">display</span><span style="color: #999">:</span>&nbsp;block<span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">selected</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">data-index</span><span style="color: #999">=&quot;</span><span style="color: #07a">0</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">before</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">strong&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">match</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">strong</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">after</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li&nbsp;</span><span style="color: #690">data-index</span><span style="color: #999">=&quot;</span><span style="color: #07a">1</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">before</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">strong&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">match</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">strong</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">after</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">ul</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">to&nbsp;satisfy</span></div><div>{</div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #555">attributes</span>:&nbsp;{&nbsp;<span style="color: #555">style</span>:&nbsp;{&nbsp;<span style="color: #555">display</span>:&nbsp;<span style="color: #df5000">\'block\'</span>&nbsp;},&nbsp;<span style="color: #555">class</span>:&nbsp;[&nbsp;<span style="color: #df5000">\'knockout-autocomplete\'</span>,&nbsp;<span style="color: #df5000">\'floating-menu\'</span>&nbsp;]&nbsp;},</div><div><span style="color: #555">children</span>:&nbsp;[&nbsp;{&nbsp;<span style="color: #555">attributes</span>:&nbsp;...,&nbsp;<span style="color: #555">children</span>:&nbsp;...&nbsp;},&nbsp;{&nbsp;<span style="color: #555">attributes</span>:&nbsp;...,&nbsp;<span style="color: #555">children</span>:&nbsp;...&nbsp;}&nbsp;]</div></div></div><div>}</div><div>&nbsp;</div><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">ul</span>&nbsp;<span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">knockout-autocomplete&nbsp;menu&nbsp;scrollable&nbsp;floating-menu</span><span style="color: #999">&quot;</span>&nbsp;<span style="color: #690">style</span><span style="color: #999">=&quot;</span><span style="color: #07a">left:&nbsp;0px;&nbsp;top:&nbsp;0px;&nbsp;bottom:&nbsp;auto;&nbsp;display:&nbsp;block</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">selected</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">data-index</span><span style="color: #999">=&quot;</span><span style="color: #07a">0</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">before</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">strong&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">match</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">strong</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">after</span><span style="color: #999">&quot;&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div></div></div><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span>&nbsp;<span style="color: #690">data-index</span><span style="color: #999">=&quot;</span><span style="color: #07a">1</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">before</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div></div></div><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">strong&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">match</span><span style="color: #999">&quot;&gt;</span>pr<span style="color: #999">&lt;/</span><span style="color: #905">strong</span><span style="color: #999">&gt;</span></div></div></div></div></div><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span</span>&nbsp;<span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">after</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div><div style="display: inline-block; vertical-align: top"><div>otected&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div></div>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">should&nbsp;equal</span>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #df5000">\'odtected\'</span></div></div></div><div>&nbsp;</div><div><span style="background-color: red; color: white">otected</span></div><div><span style="background-color: green; color: white">odtected</span></div></div></div></div></div></div></div></div></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div></div></div></div></div></div></div></div></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div></div></div></div></div></div></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">ul</span><span style="color: #999">&gt;</span></div></div></div></div>',
           );
-        })
+        }),
       );
     });
 
@@ -1401,7 +1401,7 @@ describe('"to satisfy" assertion', () => {
           (expect, subject) => {
             subject.innerHTML = '<span></span>';
             return expect.shift(subject);
-          }
+          },
         );
 
       expect(
@@ -1410,7 +1410,7 @@ describe('"to satisfy" assertion', () => {
             parseHtml('<div></div>'),
             'with an empty span injected',
             'to satisfy',
-            { textContent: 'foo' }
+            { textContent: 'foo' },
           );
         },
         'to throw',
@@ -1419,9 +1419,9 @@ describe('"to satisfy" assertion', () => {
           expect(
             message,
             'to equal', // not using snapshot to demonstrate an issue with the env var
-            '<div style="font-family: monospace; white-space: nowrap"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #999">&lt;</span><span style="color: #905">div</span><span style="color: #999">&gt;&lt;</span><span style="color: #905">span</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">div</span><span style="color: #999">&gt;</span>&nbsp;<span style="color: red; font-weight: bold">with&nbsp;an&nbsp;empty&nbsp;span&nbsp;injected</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;satisfy</span>&nbsp;{&nbsp;<span style="color: #555">textContent</span>:&nbsp;<span style="color: #df5000">\'foo\'</span>&nbsp;}</div><div>&nbsp;</div><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">div</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div><div>&nbsp;</div></div>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div></div>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #df5000">\'\'</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;equal</span>&nbsp;<span style="color: #df5000">\'foo\'</span></div><div>&nbsp;</div><div><span style="color: green">foo</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">div</span><span style="color: #999">&gt;</span></div></div></div></div>'
+            '<div style="font-family: monospace; white-space: nowrap"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #999">&lt;</span><span style="color: #905">div</span><span style="color: #999">&gt;&lt;</span><span style="color: #905">span</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">div</span><span style="color: #999">&gt;</span>&nbsp;<span style="color: red; font-weight: bold">with&nbsp;an&nbsp;empty&nbsp;span&nbsp;injected</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;satisfy</span>&nbsp;{&nbsp;<span style="color: #555">textContent</span>:&nbsp;<span style="color: #df5000">\'foo\'</span>&nbsp;}</div><div>&nbsp;</div><div><div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">div</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">span</span><span style="color: #999">&gt;&lt;/</span><span style="color: #905">span</span><span style="color: #999">&gt;</span></div><div>&nbsp;</div></div>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div><div><span style="color: red; font-weight: bold">//</span></div></div>&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #df5000">\'\'</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;equal</span>&nbsp;<span style="color: #df5000">\'foo\'</span></div><div>&nbsp;</div><div><span style="color: green">foo</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">div</span><span style="color: #999">&gt;</span></div></div></div></div>',
           );
-        })
+        }),
       );
     });
   });

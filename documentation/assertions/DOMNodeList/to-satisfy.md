@@ -28,7 +28,7 @@ expect(
   'to have items satisfying',
   {
     name: 'li',
-  }
+  },
 );
 ```
 
@@ -84,7 +84,7 @@ expect(
     '<li class="number">One</li>',
     '<li class="number">Two</li>',
     '<li>Three</li>',
-  ]
+  ],
 );
 ```
 

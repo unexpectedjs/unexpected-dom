@@ -22,7 +22,7 @@ expect(
   'queried for first',
   '[data-test-id=title]',
   'to satisfy',
-  '<h1>Assert on text content</h1>'
+  '<h1>Assert on text content</h1>',
 );
 ```
 
@@ -34,7 +34,7 @@ expect(
   'queried for first',
   '[data-test-id=title]',
   'to satisfy',
-  createElement('<h1>Assert on text content</h1>')
+  createElement('<h1>Assert on text content</h1>'),
 );
 ```
 
@@ -66,7 +66,7 @@ expect(
   'queried for first',
   '[data-test-id=title]',
   'to satisfy',
-  '<h1>Assert on all content</h1>'
+  '<h1>Assert on all content</h1>',
 );
 ```
 

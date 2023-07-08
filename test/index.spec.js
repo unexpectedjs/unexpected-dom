@@ -6,7 +6,7 @@ expect.addAssertion(
       subject = parseHtml(subject);
     }
     expect(expect.inspect(subject).toString(), 'to equal', value);
-  }
+  },
 );
 
 expect.addAssertion('<any> to inspect as itself', (expect, subject) => {
@@ -14,7 +14,7 @@ expect.addAssertion('<any> to inspect as itself', (expect, subject) => {
     expect(subject, 'to inspect as', subject);
   } else {
     throw new Error(
-      'subject must be given as a string when expected to inspect as itself'
+      'subject must be given as a string when expected to inspect as itself',
     );
   }
 });
@@ -24,10 +24,10 @@ expect.addAssertion(
   (expect, subject, value) => {
     expect.errorMode = 'bubble';
     subject = subject.map((item) =>
-      typeof item === 'string' ? parseHtml(item) : item
+      typeof item === 'string' ? parseHtml(item) : item,
     );
     expect(expect.diff(subject[0], subject[1]).toString(), 'to equal', value);
-  }
+  },
 );
 
 const root = typeof jsdom !== 'undefined' ? new jsdom.JSDOM().window : window;
@@ -50,7 +50,7 @@ function parseHtml(str) {
 
 function parseHtmlFragment(str) {
   const htmlDocument = parseHtmlDocument(
-    `<html><head></head><body>${str}</body></html>`
+    `<html><head></head><body>${str}</body></html>`,
   );
   const body = htmlDocument.body;
   const documentFragment = htmlDocument.createDocumentFragment();
@@ -70,7 +70,7 @@ describe('unexpected-dom', () => {
       '<!DOCTYPE html><html><head></head><BODY></BODY></html>',
       'when parsed as HTML',
       'to inspect as snapshot',
-      '<!DOCTYPE html><html><head></head><body></body></html>'
+      '<!DOCTYPE html><html><head></head><body></body></html>',
     );
   });
 
@@ -79,7 +79,7 @@ describe('unexpected-dom', () => {
       '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>',
       'when parsed as XML',
       'to inspect as snapshot',
-      '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>'
+      '<?xml version="1.0"?><fooBar>abc<source></source></fooBar>',
     );
   });
 
@@ -88,7 +88,7 @@ describe('unexpected-dom', () => {
       '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->',
       'when parsed as HTML',
       'to inspect as snapshot',
-      '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
+      '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->',
     );
   });
 
@@ -100,7 +100,7 @@ describe('unexpected-dom', () => {
     expect(
       '<div><div><div><div>foo</div></div></div></div>',
       'to inspect as',
-      '<div><div><div>...</div></div></div>'
+      '<div><div><div>...</div></div></div>',
     );
   });
 
@@ -154,7 +154,7 @@ describe('unexpected-dom', () => {
           value = parseHtml(value);
         }
         return expect.shift(expect.diff(subject, value).toString());
-      }
+      },
     );
 
     it('should work with HTMLElement', () => {
@@ -169,7 +169,7 @@ describe('unexpected-dom', () => {
             <div id="bar" // should equal 'quux'
             ></div>
           </div>
-        `
+        `,
       );
     });
 
@@ -186,7 +186,7 @@ describe('unexpected-dom', () => {
             -<!--bar-->
             +<!--baz-->
           </div>
-        `
+        `,
       );
     });
 
@@ -202,7 +202,7 @@ describe('unexpected-dom', () => {
             // missing <span></span>
             <!--bar-->
           </div>
-        `
+        `,
       );
     });
 
@@ -218,7 +218,7 @@ describe('unexpected-dom', () => {
             <span></span> // should be removed
             <!--bar-->
           </div>
-        `
+        `,
       );
     });
 
@@ -239,7 +239,7 @@ describe('unexpected-dom', () => {
             </span>
             <!--bar-->
           </div>
-        `
+        `,
       );
     });
 
@@ -262,18 +262,18 @@ describe('unexpected-dom', () => {
             </span>
             <!--bar-->
           </div>
-        `
+        `,
       );
     });
 
     it('should diff documents with stuff around the documentElement', () => {
       expect(
         parseHtmlDocument(
-          '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->'
+          '<!DOCTYPE html><!--foo--><html><head></head><body></body></html><!--bar-->',
         ),
         'diffed with',
         parseHtmlDocument(
-          '<!DOCTYPE html><html><head></head><body></body></html>'
+          '<!DOCTYPE html><html><head></head><body></body></html>',
         ),
         'to equal snapshot',
         expect.unindent`
@@ -281,7 +281,7 @@ describe('unexpected-dom', () => {
           <!--foo--> // should be removed
           <html><head></head><body></body></html>
           <!--bar--> // should be removed
-        `
+        `,
       );
     });
 
@@ -289,7 +289,7 @@ describe('unexpected-dom', () => {
       expect(
         ['<div></div>', '<span></span>'],
         'to produce a diff of',
-        '<div // should be span\n></div>'
+        '<div // should be span\n></div>',
       );
     });
 
@@ -297,7 +297,7 @@ describe('unexpected-dom', () => {
       expect(
         ['<div id="foo"></div>', '<div id="bar"></div>'],
         'to produce a diff of',
-        '<div id="foo" // should equal \'bar\'\n></div>'
+        '<div id="foo" // should equal \'bar\'\n></div>',
       );
     });
 
@@ -305,7 +305,7 @@ describe('unexpected-dom', () => {
       expect(
         ['<div id="foo&quot;bar"></div>', '<div id="quux&quot;baz"></div>'],
         'to produce a diff of',
-        '<div id="foo&quot;bar" // should equal \'quux&quot;baz\'\n></div>'
+        '<div id="foo&quot;bar" // should equal \'quux&quot;baz\'\n></div>',
       );
     });
 
@@ -318,7 +318,7 @@ describe('unexpected-dom', () => {
         'to produce a diff of',
         '<div title="the same" class="hey" // should equal \'there\'\n' +
           '     id="foo" // should equal \'bar\'\n' +
-          '     data-something="identical"></div>'
+          '     data-something="identical"></div>',
       );
     });
 
@@ -326,7 +326,7 @@ describe('unexpected-dom', () => {
       expect(
         ['<div id="foo"></div>', '<div></div>'],
         'to produce a diff of',
-        '<div id="foo" // should be removed\n></div>'
+        '<div id="foo" // should be removed\n></div>',
       );
     });
 
@@ -334,7 +334,7 @@ describe('unexpected-dom', () => {
       expect(
         ['<div></div>', '<div id="foo"></div>'],
         'to produce a diff of',
-        '<div // missing id="foo"\n></div>'
+        '<div // missing id="foo"\n></div>',
       );
     });
 
@@ -342,7 +342,7 @@ describe('unexpected-dom', () => {
       expect(
         ['<div></div>', '<div id="fo&amp;o"></div>'],
         'to produce a diff of',
-        '<div // missing id="fo&amp;o"\n></div>'
+        '<div // missing id="fo&amp;o"\n></div>',
       );
     });
 
@@ -350,7 +350,7 @@ describe('unexpected-dom', () => {
       expect(
         ['<div>foo</div>', '<div>bar</div>'],
         'to produce a diff of',
-        '<div>\n' + '  -foo\n' + '  +bar\n' + '</div>'
+        '<div>\n' + '  -foo\n' + '  +bar\n' + '</div>',
       );
     });
 
@@ -361,8 +361,8 @@ describe('unexpected-dom', () => {
             '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
             'when parsed as HTML to satisfy',
             parseHtmlDocument(
-              '<!DOCTYPE html><html><head></head><body>foo</body></html>'
-            )
+              '<!DOCTYPE html><html><head></head><body>foo</body></html>',
+            ),
           );
         });
 
@@ -373,8 +373,8 @@ describe('unexpected-dom', () => {
                 '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
                 'when parsed as HTML to satisfy',
                 parseHtmlDocument(
-                  '<!DOCTYPE html><html><body class="foo"></body></html>'
-                )
+                  '<!DOCTYPE html><html><body class="foo"></body></html>',
+                ),
               );
             },
             'to throw an error satisfying to equal snapshot',
@@ -393,7 +393,7 @@ describe('unexpected-dom', () => {
                     foo // should be removed
                   </body>
                 </html>
-            `
+            `,
           );
         });
       });
@@ -403,7 +403,7 @@ describe('unexpected-dom', () => {
           expect(
             '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
             'when parsed as HTML to satisfy',
-            '<!DOCTYPE html><html><head></head><body>foo</body></html>'
+            '<!DOCTYPE html><html><head></head><body>foo</body></html>',
           );
         });
 
@@ -413,7 +413,7 @@ describe('unexpected-dom', () => {
               expect(
                 '<!DOCTYPE html><html><head></head><body class="bar">foo</body></html>',
                 'when parsed as HTML to satisfy',
-                '<!DOCTYPE html><html><head></head><body class="foo"></body></html>'
+                '<!DOCTYPE html><html><head></head><body class="foo"></body></html>',
               );
             },
             'to throw an error satisfying to equal snapshot',
@@ -432,7 +432,7 @@ describe('unexpected-dom', () => {
                   foo // should be removed
                 </body>
               </html>
-          `
+          `,
           );
         });
       });
@@ -443,7 +443,7 @@ describe('unexpected-dom', () => {
         expect(
           ['<div>foo</div>', '<div>bar</div>'].map(parseHtmlFragment),
           'to produce a diff of',
-          '<div>\n' + '  -foo\n' + '  +bar\n' + '</div>'
+          '<div>\n' + '  -foo\n' + '  +bar\n' + '</div>',
         );
       });
 
@@ -462,7 +462,7 @@ describe('unexpected-dom', () => {
             '>\n' +
             '  -bar\n' +
             '  +bark\n' +
-            '</div>'
+            '</div>',
         );
       });
     });
@@ -472,7 +472,7 @@ describe('unexpected-dom', () => {
     expect(
       parseHtmlDocument('<html><head></head><body></body></html>').firstChild,
       'to have properties',
-      { nodeType: 1 }
+      { nodeType: 1 },
     );
   });
 
@@ -494,7 +494,7 @@ describe('unexpected-dom', () => {
   describe('queried for', () => {
     it('should work with HTMLDocument', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
+        '<!DOCTYPE html><html><body><div id="foo"></div></body></html>',
       );
       expect(document, 'queried for first', 'div', 'to have attributes', {
         id: 'foo',
@@ -503,7 +503,7 @@ describe('unexpected-dom', () => {
 
     it('should provide the results as the fulfillment value when no assertion is provided', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
+        '<!DOCTYPE html><html><body><div id="foo"></div></body></html>',
       );
       return expect(document, 'queried for first', 'div').then((div) => {
         expect(div, 'to have attributes', { id: 'foo' });
@@ -512,7 +512,7 @@ describe('unexpected-dom', () => {
 
     it('should error out if the selector matches no elements, first flag set', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
+        '<!DOCTYPE html><html><body><div id="foo"></div></body></html>',
       );
       expect(
         () => {
@@ -521,20 +521,20 @@ describe('unexpected-dom', () => {
             'queried for first',
             '.blabla',
             'to have attributes',
-            { id: 'foo' }
+            { id: 'foo' },
           );
         },
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
         expected <body><div id="foo"></div></body> queried for first .blabla to have attributes { id: 'foo' }
           The selector .blabla yielded no results
-      `
+      `,
       );
     });
 
     it('should error out if the selector matches no elements, first flag not set', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body><div id="foo"></div></body></html>'
+        '<!DOCTYPE html><html><body><div id="foo"></div></body></html>',
       );
       expect(
         () => {
@@ -545,20 +545,20 @@ describe('unexpected-dom', () => {
             'to have attributes',
             {
               id: 'foo',
-            }
+            },
           );
         },
         'to throw an error satisfying to equal snapshot',
         expect.unindent`
         expected <body><div id="foo"></div></body> queried for .blabla to have attributes { id: 'foo' }
           The selector .blabla yielded no results
-      `
+      `,
       );
     });
 
     it('should return an array-like NodeList', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>'
+        '<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>',
       );
 
       expect(document, 'queried for', 'div', 'to be a', 'DOMNodeList');
@@ -566,7 +566,7 @@ describe('unexpected-dom', () => {
 
     it('should be able to use array semantics', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>'
+        '<!DOCTYPE html><html><body><div></div><div></div><div></div></body></html>',
       );
 
       expect(document, 'queried for', 'div', 'to have length', 3);
@@ -574,7 +574,7 @@ describe('unexpected-dom', () => {
 
     it('should fail array checks with useful nested error message', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><head></head><body><div></div><div></div><div></div></body></html>'
+        '<!DOCTYPE html><html><head></head><body><div></div><div></div><div></div></body></html>',
       );
 
       expect(
@@ -586,7 +586,7 @@ describe('unexpected-dom', () => {
         expected <!DOCTYPE html><html><head></head><body>...</body></html> queried for div to have length 1
           expected NodeList[ <div></div>, <div></div>, <div></div> ] to have length 1
             expected 3 to be 1
-      `
+      `,
       );
     });
   });
@@ -594,7 +594,7 @@ describe('unexpected-dom', () => {
   describe('queried for test id', () => {
     it('should work with HTMLDocument', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body><div data-test-id="foo" id="foo"></div></body></html>'
+        '<!DOCTYPE html><html><body><div data-test-id="foo" id="foo"></div></body></html>',
       );
       expect(document, 'queried for test id', 'foo', 'to have attributes', {
         id: 'foo',
@@ -603,7 +603,7 @@ describe('unexpected-dom', () => {
 
     it('should provide the results as the fulfillment value when no assertion is provided', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body><div data-test-id="foo" id="foo"></div></body></html>'
+        '<!DOCTYPE html><html><body><div data-test-id="foo" id="foo"></div></body></html>',
       );
       return expect(document, 'queried for test id', 'foo').then((div) => {
         expect(div, 'to have attributes', { id: 'foo' });
@@ -612,7 +612,7 @@ describe('unexpected-dom', () => {
 
     it('should error out if the selector matches no elements', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>',
       );
 
       expect(
@@ -622,7 +622,7 @@ describe('unexpected-dom', () => {
             'queried for test id',
             'blabla',
             'to have attributes',
-            { id: 'foo' }
+            { id: 'foo' },
           );
         },
         'to throw an error satisfying to equal snapshot',
@@ -631,7 +631,7 @@ describe('unexpected-dom', () => {
           queried for test id 'blabla' to have attributes { id: 'foo' }
             expected DOMElement queried for first [data-test-id="blabla"]
               The selector [data-test-id="blabla"] yielded no results
-        `
+        `,
       );
     });
   });
@@ -647,7 +647,7 @@ describe('unexpected-dom', () => {
           .and('to equal', parseHtmlDocument(htmlSrc))
           .and('queried for first', 'body', 'to have attributes', {
             class: 'bar',
-          })
+          }),
       );
     });
 
@@ -664,7 +664,7 @@ describe('unexpected-dom', () => {
           expect.it('to be a', 'DOMDocumentFragment').and('to satisfy', [
             { name: 'div', children: ['foo'] },
             { name: 'div', children: ['bar'] },
-          ])
+          ]),
         );
       });
 
@@ -675,7 +675,7 @@ describe('unexpected-dom', () => {
               { children: 'foo' },
               { children: 'bar' },
             ]);
-          }
+          },
         ));
     });
 
@@ -688,7 +688,7 @@ describe('unexpected-dom', () => {
             'queried for first',
             'body',
             'to have attributes',
-            { class: 'quux' }
+            { class: 'quux' },
           );
         },
         'to throw an error satisfying to equal snapshot',
@@ -702,7 +702,7 @@ describe('unexpected-dom', () => {
             <body
               class="bar" // expected [ 'bar' ] to contain 'quux'
             >foo</body>
-      `
+      `,
       );
     });
 
@@ -716,7 +716,7 @@ describe('unexpected-dom', () => {
               ? new jsdom.JSDOM(htmlString).window.document
               : new OriginalDOMParser().parseFromString(
                   htmlString,
-                  'text/html'
+                  'text/html',
                 );
           }
         };
@@ -733,7 +733,7 @@ describe('unexpected-dom', () => {
           'queried for first',
           'body',
           'to have text',
-          'foo'
+          'foo',
         );
       });
     });
@@ -769,7 +769,7 @@ describe('unexpected-dom', () => {
             'queried for first',
             'body',
             'to have text',
-            'foo'
+            'foo',
           );
         });
       });
@@ -788,7 +788,7 @@ describe('unexpected-dom', () => {
           .and('to equal', parseXmlDocument(xmlSrc))
           .and('queried for first', 'fooBar', 'to have attributes', {
             yes: 'sir',
-          })
+          }),
       );
     });
 
@@ -799,7 +799,7 @@ describe('unexpected-dom', () => {
         'queried for first',
         'fooBar',
         'to have text',
-        'foo'
+        'foo',
       );
     });
 
@@ -837,9 +837,9 @@ describe('unexpected-dom', () => {
             expect(
               xmlSrc,
               'when parsed as XML',
-              expect.it('to be an', 'XMLDocument')
+              expect.it('to be an', 'XMLDocument'),
             ),
-          'to be fulfilled'
+          'to be fulfilled',
         ).then(() => {
           expect(seenDomParserArgs, 'to equal', [xmlSrc]);
         });

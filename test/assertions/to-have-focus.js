@@ -25,7 +25,7 @@ describe('"to have focus" assertion', () => {
         expect(body.firstChild, 'to have focus');
       },
       'to throw an error satisfying to equal snapshot',
-      expect.unindent`expected <button>Press me</button> to have focus`
+      expect.unindent`expected <button>Press me</button> to have focus`,
     );
   });
 
@@ -45,7 +45,7 @@ describe('"to have focus" assertion', () => {
         expect(body.firstChild, 'not to have focus');
       },
       'to throw an error satisfying to equal snapshot',
-      expect.unindent`expected <button :focus>Press me</button> not to have focus`
+      expect.unindent`expected <button :focus>Press me</button> not to have focus`,
     );
   });
 });
