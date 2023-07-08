@@ -28,7 +28,7 @@ describe('"to have text" assertion', () => {
 
       -foo
       +bar
-    `,
+    `
     );
   });
 

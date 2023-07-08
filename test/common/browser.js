@@ -10,8 +10,8 @@ expect.addAssertion(
     return expect(cb, 'to throw').then(function (err) {
       expect.errorMode = 'nested';
       return expect.shift(
-        err.isUnexpected ? err.getErrorMessage('text').toString() : err.message,
+        err.isUnexpected ? err.getErrorMessage('text').toString() : err.message
       );
     });
-  },
+  }
 );

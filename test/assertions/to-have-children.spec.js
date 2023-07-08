@@ -26,7 +26,7 @@ describe('"to have children" assertion', () => {
           expect(el, 'to have no children');
         },
         'to throw an error satisfying to equal snapshot',
-        'expected <div><p></p></div> to have no children',
+        'expected <div><p></p></div> to have no children'
       );
     });
 
@@ -39,7 +39,7 @@ describe('"to have children" assertion', () => {
           expect(el, 'to have no children');
         },
         'to throw an error satisfying to equal snapshot',
-        'expected <div><!-- Comment --></div> to have no children',
+        'expected <div><!-- Comment --></div> to have no children'
       );
     });
 
@@ -52,7 +52,7 @@ describe('"to have children" assertion', () => {
           expect(el, 'to have no children');
         },
         'to throw an error satisfying to equal snapshot',
-        'expected <div>I am a text</div> to have no children',
+        'expected <div>I am a text</div> to have no children'
       );
     });
   });

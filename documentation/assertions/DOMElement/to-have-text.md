@@ -18,7 +18,7 @@ expect(
   'queried for first',
   'h1',
   'to have text',
-  'Assert on text content',
+  'Assert on text content'
 );
 
 expect(element, 'queried for first', 'p', 'to have text', /^Learn/);
@@ -28,7 +28,7 @@ expect(
   'queried for first',
   'p',
   'to have text',
-  expect.it('to have length', 62),
+  expect.it('to have length', 62)
 );
 
 expect(
@@ -36,7 +36,7 @@ expect(
   'queried for first',
   '[data-test-id=learn]',
   'to have text',
-  'Learn more here.',
+  'Learn more here.'
 );
 ```
 
@@ -48,7 +48,7 @@ expect(
   'queried for first',
   'p',
   'to have text',
-  'Read about howto assert on the text content of a DOM element.',
+  'Read about howto assert on the text content of a DOM element.'
 );
 ```
 

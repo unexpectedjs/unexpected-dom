@@ -6,7 +6,7 @@ function getJSDOM() {
     return require('' + 'jsdom');
   } catch (err) {
     throw new Error(
-      'unexpected-dom: Running outside a browser (or in a browser without DOMParser), but could not find the `jsdom` module. Please npm install jsdom to make this work.',
+      'unexpected-dom: Running outside a browser (or in a browser without DOMParser), but could not find the `jsdom` module. Please npm install jsdom to make this work.'
     );
   }
 }
@@ -88,14 +88,14 @@ function validateStyles(expect, str) {
     .split(';')
     .filter(
       (part) =>
-        !/^\s*(\w|-)+\s*:\s*(#(?:[0-9a-fA-F]{3}){1,2}|[^#]+)\s*$|^$/.test(part),
+        !/^\s*(\w|-)+\s*:\s*(#(?:[0-9a-fA-F]{3}){1,2}|[^#]+)\s*$|^$/.test(part)
     );
 
   if (invalidStyles.length > 0) {
     expect.errorMode = 'nested';
     expect.fail(
       'Expectation contains invalid styles: {0}',
-      invalidStyles.join(';'),
+      invalidStyles.join(';')
     );
   }
 }
@@ -190,7 +190,7 @@ function entitify(value) {
 
 function isVoidElement(elementName) {
   return /(?:area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)/i.test(
-    elementName,
+    elementName
   );
 }
 
@@ -268,14 +268,14 @@ function ensureSupportedSpecOptions(options) {
       key !== 'name' &&
       key !== 'children' &&
       key !== 'onlyAttributes' &&
-      key !== 'textContent',
+      key !== 'textContent'
   );
 
   if (unsupportedOptions.length > 0) {
     throw new Error(
       `Unsupported option${
         unsupportedOptions.length === 1 ? '' : 's'
-      }: ${unsupportedOptions.join(', ')}`,
+      }: ${unsupportedOptions.join(', ')}`
     );
   }
 }
@@ -310,7 +310,7 @@ module.exports = {
       inspect(element, depth, output) {
         return output.code(
           `${element.nodeName} "${element.nodeValue}"`,
-          'prism-string',
+          'prism-string'
         );
       },
     });
@@ -330,7 +330,7 @@ module.exports = {
       diff(actual, expected, output, diff, inspect, equal) {
         const d = diff(
           `<!--${actual.nodeValue}-->`,
-          `<!--${expected.nodeValue}-->`,
+          `<!--${expected.nodeValue}-->`
         );
         d.inline = true;
         return d;
@@ -444,7 +444,7 @@ module.exports = {
       diff(actual, expected, output, diff) {
         const d = diff(
           `<!DOCTYPE ${actual.name}>`,
-          `<!DOCTYPE ${expected.name}>`,
+          `<!DOCTYPE ${expected.name}>`
         );
         d.inline = true;
         return d;
@@ -477,8 +477,8 @@ module.exports = {
         output.append(
           diff(
             makeAttachedDOMNodeList(actual.childNodes),
-            makeAttachedDOMNodeList(expected.childNodes),
-          ),
+            makeAttachedDOMNodeList(expected.childNodes)
+          )
         );
         return output;
       },
@@ -527,8 +527,8 @@ module.exports = {
         output.block(
           diff(
             makeAttachedDOMNodeList(actual.childNodes),
-            makeAttachedDOMNodeList(expected.childNodes),
-          ),
+            makeAttachedDOMNodeList(expected.childNodes)
+          )
         );
         return output;
       },
@@ -574,7 +574,7 @@ module.exports = {
                 type = 'javascript';
               }
               inspectedChildren.push(
-                output.clone().code(element.textContent, type),
+                output.clone().code(element.textContent, type)
               );
             } else if (elementName === 'style') {
               inspectedChildren.push(
@@ -582,8 +582,8 @@ module.exports = {
                   .clone()
                   .code(
                     element.textContent,
-                    element.getAttribute('type') || 'text/css',
-                  ),
+                    element.getAttribute('type') || 'text/css'
+                  )
               );
             } else {
               for (let i = 0; i < element.childNodes.length; i += 1) {
@@ -593,7 +593,7 @@ module.exports = {
 
             let width = startTag.length;
             const sizes = inspectedChildren.map((inspectedChild) =>
-              inspectedChild.size(),
+              inspectedChild.size()
             );
 
             const multipleLines = sizes.some((size) => {
@@ -616,7 +616,7 @@ module.exports = {
               output.outdentLines();
             } else {
               inspectedChildren.forEach((inspectedChild, index) =>
-                output.append(inspectedChild),
+                output.append(inspectedChild)
               );
             }
           }
@@ -652,7 +652,7 @@ module.exports = {
                 output
                   .error('should be')
                   .sp()
-                  .prismTag(expected.nodeName.toLowerCase()),
+                  .prismTag(expected.nodeName.toLowerCase())
               )
               .nl();
             canContinueLine = false;
@@ -665,7 +665,7 @@ module.exports = {
               output,
               attributeName,
               actualAttributes[attributeName],
-              isHtml,
+              isHtml
             );
             if (attributeName in expectedAttributes) {
               if (
@@ -681,8 +681,8 @@ module.exports = {
                       .error('should equal')
                       .sp()
                       .append(
-                        inspect(entitify(expectedAttributes[attributeName])),
-                      ),
+                        inspect(entitify(expectedAttributes[attributeName]))
+                      )
                   )
                   .nl();
                 canContinueLine = false;
@@ -705,7 +705,7 @@ module.exports = {
                   output,
                   attributeName,
                   expectedAttributes[attributeName],
-                  isHtml,
+                  isHtml
                 );
               })
               .nl();
@@ -724,8 +724,8 @@ module.exports = {
             .block(
               diff(
                 makeAttachedDOMNodeList(actual.childNodes),
-                makeAttachedDOMNodeList(expected.childNodes),
-              ),
+                makeAttachedDOMNodeList(expected.childNodes)
+              )
             )
             .nl()
             .outdentLines();
@@ -739,7 +739,7 @@ module.exports = {
     expect.exportAssertion(
       '<DOMElement> to have (class|classes) <array|string>',
       (expect, subject, value) =>
-        expect(subject, 'to have attributes', { class: value }),
+        expect(subject, 'to have attributes', { class: value })
     );
 
     expect.exportAssertion(
@@ -752,10 +752,10 @@ module.exports = {
               value = getClassNamesFromAttributeValue(value);
             }
             return bubbleError(() =>
-              expect(actualClasses.sort(), 'to equal', value.sort()),
+              expect(actualClasses.sort(), 'to equal', value.sort())
             );
           }),
-        }),
+        })
     );
 
     expect.exportAssertion(
@@ -771,47 +771,47 @@ module.exports = {
               expectedClasses = value;
             }
             return bubbleError(() =>
-              expect(actualClasses, 'not to contain', ...expectedClasses),
+              expect(actualClasses, 'not to contain', ...expectedClasses)
             );
           }),
         });
-      },
+      }
     );
 
     expect.exportAssertion(
       '<DOMTextNode> to [exhaustively] satisfy <DOMTextNode>',
       (expect, subject, value) =>
-        expect(subject.nodeValue, 'to equal', value.nodeValue),
+        expect(subject.nodeValue, 'to equal', value.nodeValue)
     );
 
     expect.exportAssertion(
       '<DOMComment> to [exhaustively] satisfy <DOMComment>',
       (expect, subject, value) =>
-        expect(subject.nodeValue, 'to equal', value.nodeValue),
+        expect(subject.nodeValue, 'to equal', value.nodeValue)
     );
 
     // Avoid rendering a huge object diff when a text node is matched against a different node type:
     expect.exportAssertion(
       '<DOMTextNode> to [exhaustively] satisfy <object>',
-      (expect, subject, value) => expect.fail(),
+      (expect, subject, value) => expect.fail()
     );
 
     // Always passes:
     expect.exportAssertion(
       // Name each subject type to increase the specificity of the assertion
       '<DOMComment|DOMElement|DOMTextNode|DOMDocument|HTMLDocType> to [exhaustively] satisfy <DOMIgnoreComment>',
-      (expect, subject, value) => {},
+      (expect, subject, value) => {}
     );
 
     // Necessary because this case would otherwise be handled by the above catch-all for <object>:
     expect.exportAssertion(
       '<DOMTextNode> to [exhaustively] satisfy <regexp>',
-      (expect, { nodeValue }, value) => expect(nodeValue, 'to satisfy', value),
+      (expect, { nodeValue }, value) => expect(nodeValue, 'to satisfy', value)
     );
 
     expect.exportAssertion(
       '<DOMTextNode> to [exhaustively] satisfy <any>',
-      (expect, { nodeValue }, value) => expect(nodeValue, 'to satisfy', value),
+      (expect, { nodeValue }, value) => expect(nodeValue, 'to satisfy', value)
     );
 
     function convertDOMNodeToSatisfySpec(node, isHtml) {
@@ -843,7 +843,7 @@ module.exports = {
         return node;
       } else {
         throw new Error(
-          `to satisfy: Node type ${node.nodeType} is not yet supported in the value`,
+          `to satisfy: Node type ${node.nodeType} is not yet supported in the value`
         );
       }
     }
@@ -859,9 +859,9 @@ module.exports = {
         return expect(
           subject,
           'to [exhaustively] satisfy',
-          (isHtml ? parseHtml(value, true) : parseXml(value)).childNodes,
+          (isHtml ? parseHtml(value, true) : parseXml(value)).childNodes
         );
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -873,7 +873,7 @@ module.exports = {
           satisfySpecs.push(convertDOMNodeToSatisfySpec(value[i], isHtml));
         }
         return expect(subject, 'to [exhaustively] satisfy', satisfySpecs);
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -887,9 +887,9 @@ module.exports = {
         return expect(
           subject,
           'to [exhaustively] satisfy',
-          isHtml ? parseHtml(value, true) : parseXml(value),
+          isHtml ? parseHtml(value, true) : parseXml(value)
         );
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -900,16 +900,16 @@ module.exports = {
           subject,
           'to [exhaustively] satisfy',
           Array.prototype.map.call(childNodes, (childNode) =>
-            convertDOMNodeToSatisfySpec(childNode, isHtml),
-          ),
+            convertDOMNodeToSatisfySpec(childNode, isHtml)
+          )
         );
-      },
+      }
     );
 
     expect.exportAssertion(
       '<DOMDocumentFragment> to [exhaustively] satisfy <object|array>',
       (expect, { childNodes }, value) =>
-        expect(childNodes, 'to [exhaustively] satisfy', value),
+        expect(childNodes, 'to [exhaustively] satisfy', value)
     );
 
     expect.exportAssertion(
@@ -921,7 +921,7 @@ module.exports = {
           : parseXml(value);
         if (documentFragment.childNodes.length !== 1) {
           throw new Error(
-            'HTMLElement to satisfy string: Only a single node is supported',
+            'HTMLElement to satisfy string: Only a single node is supported'
           );
         }
 
@@ -931,9 +931,9 @@ module.exports = {
         return expect(
           subject,
           'to [exhaustively] satisfy',
-          documentFragment.childNodes[0],
+          documentFragment.childNodes[0]
         );
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -947,10 +947,10 @@ module.exports = {
           makeAttachedDOMNodeList(subject.childNodes),
           'to [exhaustively] satisfy',
           Array.prototype.map.call(valueDocument.childNodes, (childNode) =>
-            convertDOMNodeToSatisfySpec(childNode, isHtml),
-          ),
+            convertDOMNodeToSatisfySpec(childNode, isHtml)
+          )
         );
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -961,10 +961,10 @@ module.exports = {
           makeAttachedDOMNodeList(subject.childNodes),
           'to [exhaustively] satisfy',
           Array.prototype.map.call(childNodes, (childNode) =>
-            convertDOMNodeToSatisfySpec(childNode, isHtml),
-          ),
+            convertDOMNodeToSatisfySpec(childNode, isHtml)
+          )
         );
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -973,8 +973,8 @@ module.exports = {
         expect(
           subject,
           'to [exhaustively] satisfy',
-          convertDOMNodeToSatisfySpec(value, isInsideHtmlDocument(subject)),
-        ),
+          convertDOMNodeToSatisfySpec(value, isInsideHtmlDocument(subject))
+        )
     );
 
     expect.exportAssertion(
@@ -985,7 +985,7 @@ module.exports = {
         '<DOMElement|DOMDocumentFragment|DOMDocument> to [exhaustively] satisfy <regexp>',
         '<DOMDocumentFragment|DOMDocument> to [exhaustively] satisfy <DOMElement>',
       ],
-      (expect, subject, value) => expect.fail(),
+      (expect, subject, value) => expect.fail()
     );
 
     expect.exportAssertion(
@@ -1006,8 +1006,8 @@ module.exports = {
                 expect(
                   isHtml ? subject.nodeName.toLowerCase() : subject.nodeName,
                   'to [exhaustively] satisfy',
-                  value.name,
-                ),
+                  value.name
+                )
               );
             }
           }),
@@ -1015,7 +1015,7 @@ module.exports = {
             if (typeof value.children !== 'undefined') {
               if (typeof value.textContent !== 'undefined') {
                 throw new Error(
-                  'The children and textContent properties are not supported together',
+                  'The children and textContent properties are not supported together'
                 );
               }
 
@@ -1031,16 +1031,16 @@ module.exports = {
                 expect(
                   makeAttachedDOMNodeList(subject.childNodes, contentType),
                   'to [exhaustively] satisfy',
-                  value.children,
-                ),
+                  value.children
+                )
               );
             } else if (typeof value.textContent !== 'undefined') {
               return bubbleError(() =>
                 expect(
                   subject.textContent,
                   'to [exhaustively] satisfy',
-                  value.textContent,
-                ),
+                  value.textContent
+                )
               );
             }
           }),
@@ -1079,12 +1079,12 @@ module.exports = {
             promiseByKey.attributes[attributeName] = expect.promise(() => {
               if (typeof expectedAttributeValue === 'undefined') {
                 return bubbleError(() =>
-                  expect(subject.hasAttribute(attributeName), 'to be false'),
+                  expect(subject.hasAttribute(attributeName), 'to be false')
                 );
               } else if (isEnumeratedAttribute(attributeName)) {
                 const indexOfEnumeratedAttributeValue =
                   enumeratedAttributeValues[attributeName].indexOf(
-                    expectedAttributeValue,
+                    expectedAttributeValue
                   );
 
                 return bubbleError(() => {
@@ -1096,20 +1096,20 @@ module.exports = {
                         .text('. Supported values include: ')
                         .appendItems(
                           enumeratedAttributeValues[attributeName],
-                          ', ',
-                        ),
+                          ', '
+                        )
                     );
                   }
 
                   expect(
                     attributeValue,
                     'to [exhaustively] satisfy',
-                    expectedAttributeValue,
+                    expectedAttributeValue
                   );
                 });
               } else if (expectedAttributeValue === true) {
                 return bubbleError(() =>
-                  expect(subject.hasAttribute(attributeName), 'to be true'),
+                  expect(subject.hasAttribute(attributeName), 'to be true')
                 );
               } else if (
                 attributeName === 'class' &&
@@ -1121,7 +1121,7 @@ module.exports = {
                 let expectedClasses = expectedAttributeValue;
                 if (typeof expectedClasses === 'string') {
                   expectedClasses = getClassNamesFromAttributeValue(
-                    expectedAttributeValue,
+                    expectedAttributeValue
                   );
                 }
                 if (onlyAttributes) {
@@ -1129,17 +1129,17 @@ module.exports = {
                     expect(
                       actualClasses.sort(),
                       'to equal',
-                      expectedClasses.sort(),
-                    ),
+                      expectedClasses.sort()
+                    )
                   );
                 } else {
                   if (expectedClasses.length === 0) {
                     return bubbleError(() =>
-                      expect(expectedClasses, 'to be empty'),
+                      expect(expectedClasses, 'to be empty')
                     );
                   }
                   return bubbleError(() =>
-                    expect(actualClasses, 'to contain', ...expectedClasses),
+                    expect(actualClasses, 'to contain', ...expectedClasses)
                   );
                 }
               } else if (attributeName === 'style') {
@@ -1147,7 +1147,7 @@ module.exports = {
                 if (typeof expectedValueByAttributeName.style === 'string') {
                   validateStyles(expect, expectedValueByAttributeName.style);
                   expectedStyleObj = styleStringToObject(
-                    expectedValueByAttributeName.style,
+                    expectedValueByAttributeName.style
                   );
                 } else {
                   expectedStyleObj = expectedValueByAttributeName.style;
@@ -1158,16 +1158,16 @@ module.exports = {
                     expect(
                       attrs.style,
                       'to exhaustively satisfy',
-                      expectedStyleObj,
-                    ),
+                      expectedStyleObj
+                    )
                   );
                 } else {
                   return bubbleError(() =>
                     expect(
                       attrs.style,
                       'to [exhaustively] satisfy',
-                      expectedStyleObj,
-                    ),
+                      expectedStyleObj
+                    )
                   );
                 }
               } else if (
@@ -1175,11 +1175,11 @@ module.exports = {
               ) {
                 expect.context.thisObject = subject;
                 return bubbleError(() =>
-                  expectedAttributeValue(attributeValue, expect.context),
+                  expectedAttributeValue(attributeValue, expect.context)
                 );
               } else {
                 return bubbleError(() =>
-                  expect(attributeValue, 'to satisfy', expectedAttributeValue),
+                  expect(attributeValue, 'to satisfy', expectedAttributeValue)
                 );
               }
             });
@@ -1202,7 +1202,7 @@ module.exports = {
               expect(
                 Object.keys(attrs).sort(),
                 'to equal',
-                attributeNamesExpectedToBeDefined.sort(),
+                attributeNamesExpectedToBeDefined.sort()
               );
             }
           });
@@ -1217,9 +1217,7 @@ module.exports = {
                   output
                     .prismPunctuation('<')
                     .prismTag(
-                      isHtml
-                        ? subject.nodeName.toLowerCase()
-                        : subject.nodeName,
+                      isHtml ? subject.nodeName.toLowerCase() : subject.nodeName
                     );
                   if (promiseByKey.name.isRejected()) {
                     seenError = true;
@@ -1228,10 +1226,10 @@ module.exports = {
                       output
                         .error(
                           (nameError && nameError.getLabel()) ||
-                            'should satisfy',
+                            'should satisfy'
                         )
                         .sp()
-                        .append(inspect(value.name)),
+                        .append(inspect(value.name))
                     );
                   }
                   const inspectedAttributes = [];
@@ -1242,7 +1240,7 @@ module.exports = {
                       attributeOutput,
                       attributeName,
                       attrs[attributeName],
-                      isHtml,
+                      isHtml
                     );
                     if (
                       (promise && promise.isFulfilled()) ||
@@ -1288,13 +1286,13 @@ module.exports = {
                               output
                                 .sp()
                                 .error(
-                                  (err && err.getLabel()) || 'should satisfy',
+                                  (err && err.getLabel()) || 'should satisfy'
                                 )
                                 .sp()
                                 .append(
                                   inspect(
-                                    expectedValueByAttributeName[attributeName],
-                                  ),
+                                    expectedValueByAttributeName[attributeName]
+                                  )
                                 );
                             }
                           });
@@ -1363,7 +1361,7 @@ module.exports = {
                       output
                         .sp()
                         .annotationBlock((output) =>
-                          output.appendErrorMessage(childrenError),
+                          output.appendErrorMessage(childrenError)
                         );
                       output.nl();
                     }
@@ -1378,15 +1376,15 @@ module.exports = {
                 return output;
               },
             });
-          }),
+          })
         );
-      },
+      }
     );
 
     expect.exportAssertion(
       '<DOMElement> to [only] have (attribute|attributes) <string+>',
       (expect, subject, ...args) =>
-        expect(subject, 'to [only] have attributes', args),
+        expect(subject, 'to [only] have attributes', args)
     );
 
     expect.exportAssertion(
@@ -1399,13 +1397,13 @@ module.exports = {
         });
 
         return expect(subject, 'to only have attributes', attributes);
-      },
+      }
     );
 
     expect.exportAssertion(
       '<DOMElement> not to have (attribute|attributes) <string+>',
       (expect, subject, ...args) =>
-        expect(subject, 'not to have attributes', args),
+        expect(subject, 'not to have attributes', args)
     );
 
     expect.exportAssertion(
@@ -1414,7 +1412,7 @@ module.exports = {
         expect(subject, 'to satisfy', {
           attributes: value,
           onlyAttributes: expect.flags.only,
-        }),
+        })
     );
 
     expect.exportAssertion(
@@ -1422,13 +1420,13 @@ module.exports = {
       (expect, { childNodes }) =>
         expect.flags.no
           ? expect(childNodes, 'to be empty')
-          : expect(childNodes, 'not to be empty'),
+          : expect(childNodes, 'not to be empty')
     );
 
     expect.exportAssertion(
       '<DOMElement> to have text <any>',
       (expect, { textContent }, value) =>
-        expect(textContent, 'to satisfy', value),
+        expect(textContent, 'to satisfy', value)
     );
 
     expect.exportAssertion(
@@ -1451,7 +1449,7 @@ module.exports = {
                 .sp()
                 .jsString(query)
                 .sp()
-                .error('yielded no results'),
+                .error('yielded no results')
             );
           }
         } else {
@@ -1466,12 +1464,12 @@ module.exports = {
                 .sp()
                 .jsString(query)
                 .sp()
-                .error('yielded no results'),
+                .error('yielded no results')
             );
           }
         }
         return expect.shift(queryResult);
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -1484,9 +1482,9 @@ module.exports = {
         return expect(
           subject,
           'queried for first',
-          `[data-test-id=${escapedTestId}]`,
+          `[data-test-id=${escapedTestId}]`
         ).then((queryResult) => expect.shift(queryResult));
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -1503,7 +1501,7 @@ module.exports = {
           expect.inspect(subject, Infinity, output);
 
         return expect(subject.querySelectorAll(query), 'not to satisfy', []);
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -1516,9 +1514,9 @@ module.exports = {
         return expect(
           subject,
           '[not] to contain elements matching',
-          `[data-test-id=${escapedTestId}]`,
+          `[data-test-id=${escapedTestId}]`
         );
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -1528,7 +1526,7 @@ module.exports = {
           expect.inspect(subject, Infinity, output);
 
         return expect(matchesSelector(subject, query), '[not] to be true');
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -1543,9 +1541,9 @@ module.exports = {
         return expect(
           subject,
           '[not] to match',
-          `[data-test-id=${escapedTestId}]`,
+          `[data-test-id=${escapedTestId}]`
         );
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -1553,7 +1551,7 @@ module.exports = {
       (expect, subject) => {
         expect.errorMode = 'nested';
         return expect.shift(parseHtml(subject, expect.flags.fragment));
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -1561,7 +1559,7 @@ module.exports = {
       (expect, subject) => {
         expect.errorMode = 'nested';
         return expect.shift(parseXml(subject));
-      },
+      }
     );
 
     function memoize(fn) {
@@ -1579,7 +1577,7 @@ module.exports = {
     function scoreElementAgainstSpec(
       element,
       spec,
-      memoizedConvertDOMNodeToSatisfySpec,
+      memoizedConvertDOMNodeToSatisfySpec
     ) {
       const isTextSimilar = (value, valueSpec) => {
         const actual = (value || '').trim().toLowerCase();
@@ -1623,7 +1621,7 @@ module.exports = {
           if (typeof className === 'string') {
             const expectedClasses = getClassNamesFromAttributeValue(className);
             const actualClasses = getClassNamesFromAttributeValue(
-              element.getAttribute('class'),
+              element.getAttribute('class')
             );
 
             expectedClasses.forEach((expectedClass) => {
@@ -1640,7 +1638,7 @@ module.exports = {
           const expectedStyles =
             typeof style === 'string' ? styleStringToObject(style) : style;
           const actualStyles = styleStringToObject(
-            element.getAttribute('style'),
+            element.getAttribute('style')
           );
 
           Object.keys(expectedStyles).forEach((styleName) => {
@@ -1701,7 +1699,7 @@ module.exports = {
               score += scoreElementAgainstSpec(
                 element.childNodes[i],
                 memoizedConvertDOMNodeToSatisfySpec(childSpec),
-                memoizedConvertDOMNodeToSatisfySpec,
+                memoizedConvertDOMNodeToSatisfySpec
               );
             }
 
@@ -1716,7 +1714,7 @@ module.exports = {
           score += scoreElementAgainstSpec(
             element.childNodes[i],
             childSpec,
-            memoizedConvertDOMNodeToSatisfySpec,
+            memoizedConvertDOMNodeToSatisfySpec
           );
         } else if (
           childType.is('DOMTextNode') &&
@@ -1732,7 +1730,7 @@ module.exports = {
     function findMatchesWithGoodScore(
       data,
       spec,
-      memoizedConvertDOMNodeToSatisfySpec,
+      memoizedConvertDOMNodeToSatisfySpec
     ) {
       memoizedConvertDOMNodeToSatisfySpec =
         memoizedConvertDOMNodeToSatisfySpec ||
@@ -1749,7 +1747,7 @@ module.exports = {
         const score = scoreElementAgainstSpec(
           element,
           spec,
-          memoizedConvertDOMNodeToSatisfySpec,
+          memoizedConvertDOMNodeToSatisfySpec
         );
         bestScore = Math.max(score, bestScore);
 
@@ -1764,8 +1762,8 @@ module.exports = {
               ...findMatchesWithGoodScore(
                 child,
                 spec,
-                memoizedConvertDOMNodeToSatisfySpec,
-              ),
+                memoizedConvertDOMNodeToSatisfySpec
+              )
             );
           }
         }
@@ -1787,14 +1785,14 @@ module.exports = {
       (expect, subject, value) => {
         const nodes = subject.childNodes || makeAttachedDOMNodeList(subject);
         const isHtml = isInsideHtmlDocument(
-          subject.childNodes ? subject : nodes,
+          subject.childNodes ? subject : nodes
         );
         const valueType = expect.findTypeOf(value);
         let spec = value;
 
         if (valueType.is('expect.it')) {
           throw new Error(
-            'Unsupported value for "to contain" assertion: expect.it',
+            'Unsupported value for "to contain" assertion: expect.it'
           );
         } else if (valueType.is('DOMElement')) {
           spec = convertDOMNodeToSatisfySpec(value, isHtml);
@@ -1805,18 +1803,18 @@ module.exports = {
 
           if (documentFragment.childNodes.length !== 1) {
             throw new Error(
-              'HTMLElement to contain string: Only a single node is supported',
+              'HTMLElement to contain string: Only a single node is supported'
             );
           }
 
           spec = convertDOMNodeToSatisfySpec(
             documentFragment.childNodes[0],
-            isHtml,
+            isHtml
           );
 
           if (typeof spec === 'string') {
             throw new Error(
-              'HTMLElement to contain string: please provide a HTML structure as a string',
+              'HTMLElement to contain string: please provide a HTML structure as a string'
             );
           }
 
@@ -1835,7 +1833,7 @@ module.exports = {
                 expect(
                   scoredElements.map(({ element }) => element),
                   'not to have an item satisfying',
-                  spec,
+                  spec
                 ),
               () => {
                 const bestMatch = scoredElements[0].element;
@@ -1851,7 +1849,7 @@ module.exports = {
                       .appendInspected(bestMatch);
                   },
                 });
-              },
+              }
             );
           }
         } else {
@@ -1866,16 +1864,16 @@ module.exports = {
               expect(
                 scoredElements.map(({ element }) => element),
                 'to have an item satisfying',
-                spec,
+                spec
               ),
             () => {
               const bestMatch = scoredElements[0].element;
 
               return expect(bestMatch, 'to satisfy', spec);
-            },
+            }
           );
         }
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -1886,7 +1884,7 @@ module.exports = {
           hasFocus = subject === subject.ownerDocument.activeElement;
         } catch (err) {}
         expect(hasFocus, '[not] to be true');
-      },
+      }
     );
 
     expect.exportAssertion(
@@ -1895,7 +1893,7 @@ module.exports = {
         expect(subject, 'to contain elements matching', selector);
         expect.errorMode = 'nested';
         expect(subject.querySelector(selector), 'to have focus');
-      },
+      }
     );
   },
 };

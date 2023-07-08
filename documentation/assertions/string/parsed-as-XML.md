@@ -16,6 +16,6 @@ expect(
       type: 'greeting',
     },
     children: ['World'],
-  },
+  }
 );
 ```

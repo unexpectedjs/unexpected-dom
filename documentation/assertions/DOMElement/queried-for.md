@@ -62,7 +62,7 @@ expect(
   element,
   'queried for first',
   '[data-test-id=numbers]',
-  'to have no children',
+  'to have no children'
 );
 ```
 

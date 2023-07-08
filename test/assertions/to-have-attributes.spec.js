@@ -20,7 +20,7 @@ describe('"to have attributes" assertion', () => {
         'id',
         'class',
         'data-info',
-        'disabled',
+        'disabled'
       );
     });
 
@@ -47,7 +47,7 @@ describe('"to have attributes" assertion', () => {
           id="foo"
           data-info="baz" // should be removed
         >Press me</button>
-      `,
+      `
       );
     });
 
@@ -82,7 +82,7 @@ describe('"to have attributes" assertion', () => {
           data-info="baz"
           // missing foo
         >Press me</button>
-      `,
+      `
       );
     });
   });
@@ -123,7 +123,7 @@ describe('"to have attributes" assertion', () => {
           id="foo"
           data-info="baz" // should be removed
         >Press me</button>
-      `,
+      `
       );
     });
 
@@ -158,7 +158,7 @@ describe('"to have attributes" assertion', () => {
           data-info="baz"
           // missing foo
         >Press me</button>
-      `,
+      `
       );
     });
 
@@ -186,7 +186,7 @@ describe('"to have attributes" assertion', () => {
             id="foo"
             quux="baz" // should be removed
           >Press me</button>
-        `,
+        `
         );
       });
     });
@@ -230,7 +230,7 @@ describe('"to have attributes" assertion', () => {
           id="foo"
           data-info="baz" // should be removed
         >Press me</button>
-      `,
+      `
       );
     });
 
@@ -271,7 +271,7 @@ describe('"to have attributes" assertion', () => {
           data-info="baz"
           // missing foo should equal 'bar'
         >Press me</button>
-      `,
+      `
       );
     });
 
@@ -301,7 +301,7 @@ describe('"to have attributes" assertion', () => {
           <i
             class="bar" // expected [ 'bar' ] to contain 'foo', 'bar', 'baz'
           ></i>
-        `,
+        `
         );
       });
 
@@ -364,7 +364,7 @@ describe('"to have attributes" assertion', () => {
                                   //   'foo'
                                   // ]
             ></i>
-          `,
+          `
           );
         });
 
@@ -394,7 +394,7 @@ describe('"to have attributes" assertion', () => {
                               //   'foo'
                               // ]
             ></i>
-          `,
+          `
           );
         });
       });
@@ -448,7 +448,7 @@ describe('"to have attributes" assertion', () => {
                                  //   // missing background: 'blue'
                                  // }
             ></i>
-          `,
+          `
           );
         });
 
@@ -497,7 +497,7 @@ describe('"to have attributes" assertion', () => {
                                  //   // missing background: 'blue'
                                  // }
             ></i>
-          `,
+          `
           );
         });
 
@@ -565,7 +565,7 @@ describe('"to have attributes" assertion', () => {
                                                    //   color: 'red' // should be removed
                                                    // }
             ></i>
-          `,
+          `
           );
         });
 
@@ -605,7 +605,7 @@ describe('"to have attributes" assertion', () => {
                                                    //   color: 'red' // should be removed
                                                    // }
             ></i>
-          `,
+          `
           );
         });
       });
@@ -639,7 +639,7 @@ describe('"to have attributes" assertion', () => {
             class="my-class" // should be removed
             style="background: blue; color: red"
           ></div>
-        `,
+        `
         );
       });
 
@@ -662,7 +662,7 @@ describe('"to have attributes" assertion', () => {
             style="background: blue; color: red"
             data-test-id="my-div" // should be removed
           ></div>
-        `,
+        `
         );
       });
     });
@@ -693,7 +693,7 @@ describe('"to have attributes" assertion', () => {
             class="my-class" // should be removed
             style="background: blue; color: red"
           ></div>
-        `,
+        `
         );
       });
 
@@ -716,7 +716,7 @@ describe('"to have attributes" assertion', () => {
             style="background: blue; color: red"
             data-test-id="my-div" // should be removed
           ></div>
-        `,
+        `
         );
       });
     });

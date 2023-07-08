@@ -8,7 +8,7 @@ const parseHtmlDocument =
 describe('"to contain test id" assertion', () => {
   it('should pass when the test id is found', () => {
     const document = parseHtmlDocument(
-      '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>',
+      '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
     );
 
     expect(document, 'to contain test id', 'foo');
@@ -16,7 +16,7 @@ describe('"to contain test id" assertion', () => {
 
   it('should fail when the test id is not found', () => {
     const document = parseHtmlDocument(
-      '<!DOCTYPE html><html><body><div data-test-id="foo"></div><div data-test-id="bar"></div></body></html>',
+      '<!DOCTYPE html><html><body><div data-test-id="foo"></div><div data-test-id="bar"></div></body></html>'
     );
 
     expect(
@@ -27,14 +27,14 @@ describe('"to contain test id" assertion', () => {
       expect.unindent`
         expected <!DOCTYPE html><html><head></head><body>...</body></html> to contain test id 'baz'
           expected HTMLDocument to contain elements matching '[data-test-id="baz"]'
-      `,
+      `
     );
   });
 
   describe('with the "not" flag', () => {
     it('should pass when the test id is not found ', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body></body></html>',
+        '<!DOCTYPE html><html><body></body></html>'
       );
 
       expect(document, 'not to contain test id', 'foo');
@@ -42,7 +42,7 @@ describe('"to contain test id" assertion', () => {
 
     it('should fail when the test id is found', () => {
       const document = parseHtmlDocument(
-        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>',
+        '<!DOCTYPE html><html><body><div data-test-id="foo"></div></body></html>'
       );
 
       expect(
@@ -57,7 +57,7 @@ describe('"to contain test id" assertion', () => {
           NodeList[
             <div data-test-id="foo"></div> // should be removed
           ]
-      `,
+      `
       );
     });
   });

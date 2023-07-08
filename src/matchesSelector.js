@@ -8,7 +8,7 @@ module.exports = (elm, selector) => {
     function (selector) {
       const node = this;
       const nodes = (node.parentNode || node.document).querySelectorAll(
-        selector,
+        selector
       );
       let i = 0;
 

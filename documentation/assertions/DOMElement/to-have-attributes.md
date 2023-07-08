@@ -104,7 +104,7 @@ expect(
   'id',
   'class',
   'aria-label',
-  'style',
+  'style'
 );
 ```
 

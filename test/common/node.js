@@ -12,9 +12,9 @@ expect.addAssertion(
     expect(cb, 'to throw').then((err) => {
       expect.errorMode = 'nested';
       return expect.shift(
-        err.isUnexpected ? err.getErrorMessage('text').toString() : err.message,
+        err.isUnexpected ? err.getErrorMessage('text').toString() : err.message
       );
-    }),
+    })
 );
 
 module.exports = { expect, jsdom };
