@@ -26,7 +26,7 @@ describe('"to equal" assertion', () => {
   }
 
   describe('on HTML elements', () => {
-    it('should succeeds if they are equal', () => {
+    it('should succeed if they are equal', () => {
       expect(
         parseHtml(
           '<ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>',
@@ -73,7 +73,7 @@ describe('"to equal" assertion', () => {
   });
 
   describe('on DOM documents', () => {
-    it('should succeeds if they are equal', () => {
+    it('should succeed if they are equal', () => {
       expect(
         parseHtmlDocument(
           '<!DOCTYPE html><html><body><h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul></body></html>',
@@ -127,7 +127,7 @@ describe('"to equal" assertion', () => {
   });
 
   describe('on DOM document fragments', () => {
-    it('should succeeds if they are equal', () => {
+    it('should succeed if they are equal', () => {
       expect(
         parseHtmlFragment(
           '<h1>Tournament</h1><ul><li>John</li><li class="winner">Jane</li><li>Annie</li></ul>',
@@ -208,7 +208,7 @@ describe('"to equal" assertion', () => {
   });
 
   describe('on text nodes', () => {
-    it('should succeeds if they are equal', () => {
+    it('should succeed if they are equal', () => {
       expect(parseHtml('text'), 'to equal', parseHtml('text'));
     });
 
@@ -229,7 +229,7 @@ describe('"to equal" assertion', () => {
   });
 
   describe('on node lists', () => {
-    it('should succeeds if they are equal', () => {
+    it('should succeed if they are equal', () => {
       expect(
         parseHtmlFragment('<div>one</div><div>two</div><div>three</div>')
           .childNodes,
