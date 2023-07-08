@@ -13,7 +13,7 @@ module.exports = [
     output: {
       file: 'unexpected-dom.js',
       name: 'unexpected.dom',
-      exports: 'named',
+      exports: 'auto',
       format: 'umd',
       sourcemap: false,
       strict: false,
@@ -25,7 +25,7 @@ module.exports = [
     output: {
       file: 'unexpected-dom.min.js',
       name: 'unexpected.dom',
-      exports: 'named',
+      exports: 'auto',
       format: 'umd',
       sourcemap: false,
       strict: false,
