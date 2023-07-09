@@ -50,6 +50,7 @@
     "@rollup/plugin-commonjs": "^25.0.2",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-multi-entry": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
     "buble": "^0.20.0",
     "eslint": "^8.44.0",
@@ -80,7 +81,6 @@
     "unexpected-snapshot": "^2.0.0"
   },
   "dependencies": {
-    "@rollup/plugin-node-resolve": "^15.1.0",
     "extend": "^3.0.1",
     "magicpen-prism": "^5.0.0"
   },
