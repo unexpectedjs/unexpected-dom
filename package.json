@@ -76,7 +76,7 @@
     "prettier": "~3.0.0",
     "rollup": "^3.26.2",
     "rollup-plugin-node-globals": "^1.4.0",
-    "unexpected": "^13.0.0",
+    "unexpected": "^13.2.0",
     "unexpected-documentation-site-generator": "^7.0.1",
     "unexpected-snapshot": "^2.0.0"
   },
