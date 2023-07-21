@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="../../../static/normalize.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="../../../static/main.css" type="text/css" media="screen" />
-    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="../../../static/bug-icon-black.ico">
+    <link rel="stylesheet" href="/static/normalize.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/static/main.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/bug-icon-black.ico">
     <title>queried for (DOMElement)</title>
 </head>
-<body class="sidebar-hidden has-sidebar">
+<body class="sidebar-hidden">
     <header>
         <div class="logo-icon"></div>
         <nav>
@@ -18,10 +18,10 @@
                     <button class="menu-toggle" onclick="toggleSidebar()"></button>
                 </li>
                 
-                <li class=""><a href="../../../">unexpected-dom</a></li>
+                <li class=""><a href="/">unexpected-dom</a></li>
                 
                 
-                <li class="active"><a href="../../string/parsed-as-HTML/">Assertions</a></li>
+                <li class="active"><a href="/assertions/string/parsed-as-HTML/">Assertions</a></li>
                 
                 
                 
@@ -51,71 +51,71 @@
             
         </ul>
     
-        <h3 class=""><a href="../">DOMElement</a></h3>
+        <h3 class=""><a href="../../DOMElement/">DOMElement</a></h3>
         <ul>
             
             <li class="">
-                <a href="../not-to-have-attributes/">not to have attributes</a>
+                <a href="../../DOMElement/not-to-have-attributes/">not to have attributes</a>
             </li>
             
             <li class="">
-                <a href="../not-to-have-class/">not to have class</a>
+                <a href="../../DOMElement/not-to-have-class/">not to have class</a>
             </li>
             
             <li class="active">
-                <a href="./">queried for</a>
+                <a href="../../DOMElement/queried-for/">queried for</a>
             </li>
             
             <li class="">
-                <a href="../queried-for-test-id/">queried for test id</a>
+                <a href="../../DOMElement/queried-for-test-id/">queried for test id</a>
             </li>
             
             <li class="">
-                <a href="../to-contain/">to contain</a>
+                <a href="../../DOMElement/to-contain/">to contain</a>
             </li>
             
             <li class="">
-                <a href="../to-contain-elements-matching/">to contain elements matching</a>
+                <a href="../../DOMElement/to-contain-elements-matching/">to contain elements matching</a>
             </li>
             
             <li class="">
-                <a href="../to-contain-focused-element-matching/">to contain focused element matching</a>
+                <a href="../../DOMElement/to-contain-focused-element-matching/">to contain focused element matching</a>
             </li>
             
             <li class="">
-                <a href="../to-contain-test-id/">to contain test id</a>
+                <a href="../../DOMElement/to-contain-test-id/">to contain test id</a>
             </li>
             
             <li class="">
-                <a href="../to-have-attributes/">to have attributes</a>
+                <a href="../../DOMElement/to-have-attributes/">to have attributes</a>
             </li>
             
             <li class="">
-                <a href="../to-have-children/">to have children</a>
+                <a href="../../DOMElement/to-have-children/">to have children</a>
             </li>
             
             <li class="">
-                <a href="../to-have-class/">to have class</a>
+                <a href="../../DOMElement/to-have-class/">to have class</a>
             </li>
             
             <li class="">
-                <a href="../to-have-focus/">to have focus</a>
+                <a href="../../DOMElement/to-have-focus/">to have focus</a>
             </li>
             
             <li class="">
-                <a href="../to-have-test-id/">to have test id</a>
+                <a href="../../DOMElement/to-have-test-id/">to have test id</a>
             </li>
             
             <li class="">
-                <a href="../to-have-text/">to have text</a>
+                <a href="../../DOMElement/to-have-text/">to have text</a>
             </li>
             
             <li class="">
-                <a href="../to-match/">to match</a>
+                <a href="../../DOMElement/to-match/">to match</a>
             </li>
             
             <li class="">
-                <a href="../to-satisfy/">to satisfy</a>
+                <a href="../../DOMElement/to-satisfy/">to satisfy</a>
             </li>
             
         </ul>
@@ -138,9 +138,9 @@
     <div class="main" tabindex="-1">
         <div class="content">
             
-            <p>Queries the subject element with the given CSS selector and forwards it to another assertion.</p>
-<p>If the selector doesn&#39;t match anything it fails.</p>
-<pre class="code lang-javascript"><div><span style="color: #a71d5d">var</span>&nbsp;element&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">createElement</span><span style="color: #000000">(</span>`</div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;section&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Numbers&lt;/h1&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;ol&nbsp;data-test-id=&quot;numbers&quot;&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;One&lt;/li&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;Two&lt;/li&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;Three&lt;/li&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ol&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;/section&gt;</span></div><div>`<span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'queried&nbsp;for'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'[data-test-id=numbers]&nbsp;&gt;&nbsp;li'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;satisfy'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #000000">[</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;li&gt;One&lt;/li&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;li&gt;Two&lt;/li&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;li&gt;Three&lt;/li&gt;'</span><span style="color: #000000">,</span></div><div><span style="color: #000000">]);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'hr'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;no&nbsp;children'</span><span style="color: #000000">);</span></div></pre>
+            <html><head></head><body><p>Queries the subject element with the given CSS selector and forwards it to another assertion.</p>
+<p>If the selector doesn't match anything it fails.</p>
+<pre class="code lang-javascript"><div><span style="color: #a71d5d">var</span>&nbsp;element&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">createElement</span><span style="color: #000000">(</span>`</div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;section&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Numbers&lt;/h1&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;ol&nbsp;data-test-id="numbers"&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;One&lt;/li&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;Two&lt;/li&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;Three&lt;/li&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ol&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;/section&gt;</span></div><div>`<span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'queried&nbsp;for'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'[data-test-id=numbers]&nbsp;&gt;&nbsp;li'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;satisfy'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #000000">[</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;li&gt;One&lt;/li&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;li&gt;Two&lt;/li&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;li&gt;Three&lt;/li&gt;'</span><span style="color: #000000">,</span></div><div><span style="color: #000000">]);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'hr'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;no&nbsp;children'</span><span style="color: #000000">);</span></div></pre>
 
 <p>If you use the <code>first</code> flag, the first maching element will be forwarded to the next assertion:</p>
 <pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'[data-test-id=numbers]'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;satisfy'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #000000">{</span></div><div>&nbsp;&nbsp;<span style="color: #0086b3">children</span><span style="color: #a71d5d">:</span>&nbsp;expect<span style="color: #000000">.</span><span style="color: #000000">it</span><span style="color: #000000">(</span><span style="color: #df5000">'to&nbsp;have&nbsp;length'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #0086b3">3</span><span style="color: #000000">),</span></div><div><span style="color: #000000">});</span></div></pre>
@@ -148,23 +148,23 @@
 <p>If no matching element can be found you get the following error:</p>
 <pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'[data-test-id=emojies]'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;satisfy'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #000000">{</span></div><div>&nbsp;&nbsp;<span style="color: #0086b3">children</span><span style="color: #a71d5d">:</span>&nbsp;expect<span style="color: #000000">.</span><span style="color: #000000">it</span><span style="color: #000000">(</span><span style="color: #df5000">'to&nbsp;have&nbsp;length'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #0086b3">666</span><span style="color: #000000">),</span></div><div><span style="color: #000000">});</span></div></pre>
 
-<pre class="output"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">section</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">h1</span><span style="color: #999">&gt;</span>Numbers<span style="color: #999">&lt;/</span><span style="color: #905">h1</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">hr</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">ol&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">=&quot;</span><span style="color: #07a">numbers</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>One<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>Two<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>Three<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">ol</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">section</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">queried&nbsp;for&nbsp;first</span>&nbsp;<span style="color: green">[data-test-id=emojies]</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;satisfy</span>&nbsp;{&nbsp;<span style="color: #555">children</span>:&nbsp;<div style="display: inline-block; vertical-align: top"><div>expect.it(<span style="color: #df5000">'to&nbsp;have&nbsp;length'</span>,&nbsp;<span style="color: #0086b3">666</span>)</div></div>&nbsp;}</div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">The&nbsp;selector</span>&nbsp;<span style="color: #df5000">[data-test-id=emojies]</span>&nbsp;<span style="color: red; font-weight: bold">yielded&nbsp;no&nbsp;results</span></div></div></div></pre>
+<pre class="output"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">section</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">h1</span><span style="color: #999">&gt;</span>Numbers<span style="color: #999">&lt;/</span><span style="color: #905">h1</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">hr</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">ol&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">="</span><span style="color: #07a">numbers</span><span style="color: #999">"&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>One<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>Two<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>Three<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">ol</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">section</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">queried&nbsp;for&nbsp;first</span>&nbsp;<span style="color: green">[data-test-id=emojies]</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;satisfy</span>&nbsp;{&nbsp;<span style="color: #555">children</span>:&nbsp;<div style="display: inline-block; vertical-align: top"><div>expect.it(<span style="color: #df5000">'to&nbsp;have&nbsp;length'</span>,&nbsp;<span style="color: #0086b3">666</span>)</div></div>&nbsp;}</div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">The&nbsp;selector</span>&nbsp;<span style="color: #df5000">[data-test-id=emojies]</span>&nbsp;<span style="color: red; font-weight: bold">yielded&nbsp;no&nbsp;results</span></div></div></div></pre>
 
 <p>In case the next assertion fails you will get an error looking like this:</p>
 <pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;element<span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'[data-test-id=numbers]'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;no&nbsp;children'</span></div><div><span style="color: #000000">);</span></div></pre>
 
-<pre class="output"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">section</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">h1</span><span style="color: #999">&gt;</span>Numbers<span style="color: #999">&lt;/</span><span style="color: #905">h1</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">hr</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">ol&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">=&quot;</span><span style="color: #07a">numbers</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">ol</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">section</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">queried&nbsp;for&nbsp;first</span>&nbsp;<span style="color: green">[data-test-id=numbers]</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;have&nbsp;no&nbsp;children</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">ol&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">=&quot;</span><span style="color: #07a">numbers</span><span style="color: #999">&quot;&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>One<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>Two<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>Three<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">ol</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">to&nbsp;have&nbsp;no&nbsp;children</span></div></div></div></pre>
-
+<pre class="output"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">section</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">h1</span><span style="color: #999">&gt;</span>Numbers<span style="color: #999">&lt;/</span><span style="color: #905">h1</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">hr</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">ol&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">="</span><span style="color: #07a">numbers</span><span style="color: #999">"&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>...<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">ol</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">section</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">queried&nbsp;for&nbsp;first</span>&nbsp;<span style="color: green">[data-test-id=numbers]</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;have&nbsp;no&nbsp;children</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">ol&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">="</span><span style="color: #07a">numbers</span><span style="color: #999">"&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>One<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>Two<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: #999">&lt;</span><span style="color: #905">li</span><span style="color: #999">&gt;</span>Three<span style="color: #999">&lt;/</span><span style="color: #905">li</span><span style="color: #999">&gt;</span></div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">ol</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">to&nbsp;have&nbsp;no&nbsp;children</span></div></div></div></pre>
+</body></html>
         </div>
     </div>
 </section>
 <script type="text/javascript">
-    baseUrl = '../../..';
+    baseUrl = '/';
 </script>
-<script type="text/javascript" src="../../../static/toggleSidebar.js"></script>
-<script type="text/javascript" src="../../../static/rememberScrollPosition.js"></script>
-<script type="text/javascript" src="../../../static/focusMain.js"></script>
-<script type="text/javascript" src="../../../static/search.js"></script>
+<script type="text/javascript" src="/static/toggleSidebar.js"></script>
+<script type="text/javascript" src="/static/rememberScrollPosition.js"></script>
+<script type="text/javascript" src="/static/focusMain.js"></script>
+<script type="text/javascript" src="/static/search.js"></script>
 </body>
 </html>
 

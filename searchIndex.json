@@ -4,10 +4,6 @@
     "url": "/assertions/DOMElement/not-to-have-attributes/"
   },
   {
-    "label": "queried for (DOMElement)",
-    "url": "/assertions/DOMElement/queried-for/"
-  },
-  {
     "label": "not to have class (DOMElement)",
     "url": "/assertions/DOMElement/not-to-have-class/"
   },
@@ -16,12 +12,16 @@
     "url": "/assertions/DOMElement/queried-for-test-id/"
   },
   {
-    "label": "to contain focused element matching (DOMElement)",
-    "url": "/assertions/DOMElement/to-contain-focused-element-matching/"
+    "label": "queried for (DOMElement)",
+    "url": "/assertions/DOMElement/queried-for/"
   },
   {
     "label": "to contain elements matching (DOMElement)",
     "url": "/assertions/DOMElement/to-contain-elements-matching/"
+  },
+  {
+    "label": "to contain focused element matching (DOMElement)",
+    "url": "/assertions/DOMElement/to-contain-focused-element-matching/"
   },
   {
     "label": "to contain test id (DOMElement)",
@@ -56,12 +56,12 @@
     "url": "/assertions/DOMElement/to-have-text/"
   },
   {
-    "label": "to satisfy (DOMElement)",
-    "url": "/assertions/DOMElement/to-satisfy/"
-  },
-  {
     "label": "to match (DOMElement)",
     "url": "/assertions/DOMElement/to-match/"
+  },
+  {
+    "label": "to satisfy (DOMElement)",
+    "url": "/assertions/DOMElement/to-satisfy/"
   },
   {
     "label": "to contain (DOMNodeList)",

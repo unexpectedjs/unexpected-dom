@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="../../../static/normalize.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="../../../static/main.css" type="text/css" media="screen" />
-    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="../../../static/bug-icon-black.ico">
+    <link rel="stylesheet" href="/static/normalize.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/static/main.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/bug-icon-black.ico">
     <title>parsed as HTML (string)</title>
 </head>
-<body class="sidebar-hidden has-sidebar">
+<body class="sidebar-hidden">
     <header>
         <div class="logo-icon"></div>
         <nav>
@@ -18,10 +18,10 @@
                     <button class="menu-toggle" onclick="toggleSidebar()"></button>
                 </li>
                 
-                <li class=""><a href="../../../">unexpected-dom</a></li>
+                <li class=""><a href="/">unexpected-dom</a></li>
                 
                 
-                <li class="active"><a href="./">Assertions</a></li>
+                <li class="active"><a href="/assertions/string/parsed-as-HTML/">Assertions</a></li>
                 
                 
                 
@@ -38,15 +38,15 @@
 <section id="assertions">
     <nav id="assertion-menu" class="sidebar js-remember-scroll-position">
     
-        <h3 class=""><a href="../">string</a></h3>
+        <h3 class=""><a href="../../string/">string</a></h3>
         <ul>
             
             <li class="active">
-                <a href="./">parsed as HTML</a>
+                <a href="../../string/parsed-as-HTML/">parsed as HTML</a>
             </li>
             
             <li class="">
-                <a href="../parsed-as-XML/">parsed as XML</a>
+                <a href="../../string/parsed-as-XML/">parsed as XML</a>
             </li>
             
         </ul>
@@ -138,22 +138,22 @@
     <div class="main" tabindex="-1">
         <div class="content">
             
-            <p>Parses a string as a HTML document using the facilities available in the browser, with a fallback to jsdom, then forwards the result to the next assertion in the argument list:</p>
-<pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;html&gt;&lt;body&gt;&lt;div&nbsp;class=&quot;foo&quot;&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'when&nbsp;parsed&nbsp;as&nbsp;HTML'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'div'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;<span style="color: #a71d5d">class</span><span style="color: #a71d5d">:</span>&nbsp;<span style="color: #df5000">'foo'</span>&nbsp;<span style="color: #000000">}</span></div><div><span style="color: #000000">);</span></div></pre>
+            <html><head></head><body><p>Parses a string as a HTML document using the facilities available in the browser, with a fallback to jsdom, then forwards the result to the next assertion in the argument list:</p>
+<pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;html&gt;&lt;body&gt;&lt;div&nbsp;class="foo"&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'when&nbsp;parsed&nbsp;as&nbsp;HTML'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'div'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;<span style="color: #a71d5d">class</span><span style="color: #a71d5d">:</span>&nbsp;<span style="color: #df5000">'foo'</span>&nbsp;<span style="color: #000000">}</span></div><div><span style="color: #000000">);</span></div></pre>
 
 <p>You can also parse a HTML fragment:</p>
-<pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;div&nbsp;class=&quot;foo&quot;&gt;&lt;/div&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'when&nbsp;parsed&nbsp;as&nbsp;HTML&nbsp;fragment'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'div'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;<span style="color: #a71d5d">class</span><span style="color: #a71d5d">:</span>&nbsp;<span style="color: #df5000">'foo'</span>&nbsp;<span style="color: #000000">}</span></div><div><span style="color: #000000">);</span></div></pre>
-
+<pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'&lt;div&nbsp;class="foo"&gt;&lt;/div&gt;'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'when&nbsp;parsed&nbsp;as&nbsp;HTML&nbsp;fragment'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'queried&nbsp;for&nbsp;first'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'div'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;attributes'</span><span style="color: #000000">,</span></div><div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;<span style="color: #a71d5d">class</span><span style="color: #a71d5d">:</span>&nbsp;<span style="color: #df5000">'foo'</span>&nbsp;<span style="color: #000000">}</span></div><div><span style="color: #000000">);</span></div></pre>
+</body></html>
         </div>
     </div>
 </section>
 <script type="text/javascript">
-    baseUrl = '../../..';
+    baseUrl = '/';
 </script>
-<script type="text/javascript" src="../../../static/toggleSidebar.js"></script>
-<script type="text/javascript" src="../../../static/rememberScrollPosition.js"></script>
-<script type="text/javascript" src="../../../static/focusMain.js"></script>
-<script type="text/javascript" src="../../../static/search.js"></script>
+<script type="text/javascript" src="/static/toggleSidebar.js"></script>
+<script type="text/javascript" src="/static/rememberScrollPosition.js"></script>
+<script type="text/javascript" src="/static/focusMain.js"></script>
+<script type="text/javascript" src="/static/search.js"></script>
 </body>
 </html>
 

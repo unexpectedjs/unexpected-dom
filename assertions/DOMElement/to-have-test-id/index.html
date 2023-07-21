@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="../../../static/normalize.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="../../../static/main.css" type="text/css" media="screen" />
-    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="../../../static/bug-icon-black.ico">
+    <link rel="stylesheet" href="/static/normalize.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/static/main.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/bug-icon-black.ico">
     <title>to have test id (DOMElement)</title>
 </head>
-<body class="sidebar-hidden has-sidebar">
+<body class="sidebar-hidden">
     <header>
         <div class="logo-icon"></div>
         <nav>
@@ -18,10 +18,10 @@
                     <button class="menu-toggle" onclick="toggleSidebar()"></button>
                 </li>
                 
-                <li class=""><a href="../../../">unexpected-dom</a></li>
+                <li class=""><a href="/">unexpected-dom</a></li>
                 
                 
-                <li class="active"><a href="../../string/parsed-as-HTML/">Assertions</a></li>
+                <li class="active"><a href="/assertions/string/parsed-as-HTML/">Assertions</a></li>
                 
                 
                 
@@ -51,71 +51,71 @@
             
         </ul>
     
-        <h3 class=""><a href="../">DOMElement</a></h3>
+        <h3 class=""><a href="../../DOMElement/">DOMElement</a></h3>
         <ul>
             
             <li class="">
-                <a href="../not-to-have-attributes/">not to have attributes</a>
+                <a href="../../DOMElement/not-to-have-attributes/">not to have attributes</a>
             </li>
             
             <li class="">
-                <a href="../not-to-have-class/">not to have class</a>
+                <a href="../../DOMElement/not-to-have-class/">not to have class</a>
             </li>
             
             <li class="">
-                <a href="../queried-for/">queried for</a>
+                <a href="../../DOMElement/queried-for/">queried for</a>
             </li>
             
             <li class="">
-                <a href="../queried-for-test-id/">queried for test id</a>
+                <a href="../../DOMElement/queried-for-test-id/">queried for test id</a>
             </li>
             
             <li class="">
-                <a href="../to-contain/">to contain</a>
+                <a href="../../DOMElement/to-contain/">to contain</a>
             </li>
             
             <li class="">
-                <a href="../to-contain-elements-matching/">to contain elements matching</a>
+                <a href="../../DOMElement/to-contain-elements-matching/">to contain elements matching</a>
             </li>
             
             <li class="">
-                <a href="../to-contain-focused-element-matching/">to contain focused element matching</a>
+                <a href="../../DOMElement/to-contain-focused-element-matching/">to contain focused element matching</a>
             </li>
             
             <li class="">
-                <a href="../to-contain-test-id/">to contain test id</a>
+                <a href="../../DOMElement/to-contain-test-id/">to contain test id</a>
             </li>
             
             <li class="">
-                <a href="../to-have-attributes/">to have attributes</a>
+                <a href="../../DOMElement/to-have-attributes/">to have attributes</a>
             </li>
             
             <li class="">
-                <a href="../to-have-children/">to have children</a>
+                <a href="../../DOMElement/to-have-children/">to have children</a>
             </li>
             
             <li class="">
-                <a href="../to-have-class/">to have class</a>
+                <a href="../../DOMElement/to-have-class/">to have class</a>
             </li>
             
             <li class="">
-                <a href="../to-have-focus/">to have focus</a>
+                <a href="../../DOMElement/to-have-focus/">to have focus</a>
             </li>
             
             <li class="active">
-                <a href="./">to have test id</a>
+                <a href="../../DOMElement/to-have-test-id/">to have test id</a>
             </li>
             
             <li class="">
-                <a href="../to-have-text/">to have text</a>
+                <a href="../../DOMElement/to-have-text/">to have text</a>
             </li>
             
             <li class="">
-                <a href="../to-match/">to match</a>
+                <a href="../../DOMElement/to-match/">to match</a>
             </li>
             
             <li class="">
-                <a href="../to-satisfy/">to satisfy</a>
+                <a href="../../DOMElement/to-satisfy/">to satisfy</a>
             </li>
             
         </ul>
@@ -138,13 +138,13 @@
     <div class="main" tabindex="-1">
         <div class="content">
             
-            <p>Assert that an element have the given <code>data-test-id</code> attribute.</p>
-<pre class="code lang-javascript"><div><span style="color: #a71d5d">var</span>&nbsp;element&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">createElement</span><span style="color: #000000">(</span>`</div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;button&nbsp;data-test-id=&quot;publish&quot;&nbsp;class=&quot;primary&quot;&nbsp;disabled&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;Publish</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;/button&gt;</span></div><div>`<span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;test&nbsp;id'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'publish'</span><span style="color: #000000">);</span></div></pre>
+            <html><head></head><body><p>Assert that an element have the given <code>data-test-id</code> attribute.</p>
+<pre class="code lang-javascript"><div><span style="color: #a71d5d">var</span>&nbsp;element&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">createElement</span><span style="color: #000000">(</span>`</div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;button&nbsp;data-test-id="publish"&nbsp;class="primary"&nbsp;disabled&gt;</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&nbsp;&nbsp;Publish</span></div><div><span style="color: #df5000">&nbsp;&nbsp;&lt;/button&gt;</span></div><div>`<span style="color: #000000">);</span></div><div>&nbsp;</div><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;test&nbsp;id'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'publish'</span><span style="color: #000000">);</span></div></pre>
 
 <p>In case of a failing expectation you get the following output:</p>
 <pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;have&nbsp;test&nbsp;id'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'approve'</span><span style="color: #000000">);</span></div></pre>
 
-<pre class="output"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">button&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">=&quot;</span><span style="color: #07a">publish</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">primary</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">disabled</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div>Publish</div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">button</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">to&nbsp;have&nbsp;test&nbsp;id</span>&nbsp;<span style="color: #df5000">'approve'</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #795da3">DOMElement</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;match</span>&nbsp;<span style="color: #df5000">'[data-test-id=&quot;approve&quot;]'</span></div></div></div></pre>
+<pre class="output"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">button&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">="</span><span style="color: #07a">publish</span><span style="color: #999">"</span><span style="color: #905">&nbsp;</span><span style="color: #690">class</span><span style="color: #999">="</span><span style="color: #07a">primary</span><span style="color: #999">"</span><span style="color: #905">&nbsp;</span><span style="color: #690">disabled</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div>Publish</div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">button</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">to&nbsp;have&nbsp;test&nbsp;id</span>&nbsp;<span style="color: #df5000">'approve'</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #795da3">DOMElement</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;match</span>&nbsp;<span style="color: #df5000">'[data-test-id="approve"]'</span></div></div></div></pre>
 
 <p>You can also assert that an element does not have a test id:</p>
 <pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;have&nbsp;test&nbsp;id'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'approve'</span><span style="color: #000000">);</span></div></pre>
@@ -152,18 +152,18 @@
 <p>In case of a failing expectation you get the following output:</p>
 <pre class="code lang-javascript"><div><span style="color: #000000">expect</span><span style="color: #000000">(</span>element<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'not&nbsp;to&nbsp;have&nbsp;test&nbsp;id'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'publish'</span><span style="color: #000000">);</span></div></pre>
 
-<pre class="output"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">button&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">=&quot;</span><span style="color: #07a">publish</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">class</span><span style="color: #999">=&quot;</span><span style="color: #07a">primary</span><span style="color: #999">&quot;</span><span style="color: #905">&nbsp;</span><span style="color: #690">disabled</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div>Publish</div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">button</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">not&nbsp;to&nbsp;have&nbsp;test&nbsp;id</span>&nbsp;<span style="color: #df5000">'publish'</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #795da3">DOMElement</span>&nbsp;<span style="color: red; font-weight: bold">not&nbsp;to&nbsp;match</span>&nbsp;<span style="color: #df5000">'[data-test-id=&quot;publish&quot;]'</span></div></div></div></pre>
-
+<pre class="output"><div><span style="color: red; font-weight: bold">expected</span></div><div><span style="color: #999">&lt;</span><span style="color: #905">button&nbsp;</span><span style="color: #690">data-test-id</span><span style="color: #999">="</span><span style="color: #07a">publish</span><span style="color: #999">"</span><span style="color: #905">&nbsp;</span><span style="color: #690">class</span><span style="color: #999">="</span><span style="color: #07a">primary</span><span style="color: #999">"</span><span style="color: #905">&nbsp;</span><span style="color: #690">disabled</span><span style="color: #999">&gt;</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div>Publish</div></div></div><div><span style="color: #999">&lt;/</span><span style="color: #905">button</span><span style="color: #999">&gt;</span></div><div><span style="color: red; font-weight: bold">not&nbsp;to&nbsp;have&nbsp;test&nbsp;id</span>&nbsp;<span style="color: #df5000">'publish'</span></div><div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top"><div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #795da3">DOMElement</span>&nbsp;<span style="color: red; font-weight: bold">not&nbsp;to&nbsp;match</span>&nbsp;<span style="color: #df5000">'[data-test-id="publish"]'</span></div></div></div></pre>
+</body></html>
         </div>
     </div>
 </section>
 <script type="text/javascript">
-    baseUrl = '../../..';
+    baseUrl = '/';
 </script>
-<script type="text/javascript" src="../../../static/toggleSidebar.js"></script>
-<script type="text/javascript" src="../../../static/rememberScrollPosition.js"></script>
-<script type="text/javascript" src="../../../static/focusMain.js"></script>
-<script type="text/javascript" src="../../../static/search.js"></script>
+<script type="text/javascript" src="/static/toggleSidebar.js"></script>
+<script type="text/javascript" src="/static/rememberScrollPosition.js"></script>
+<script type="text/javascript" src="/static/focusMain.js"></script>
+<script type="text/javascript" src="/static/search.js"></script>
 </body>
 </html>
 
