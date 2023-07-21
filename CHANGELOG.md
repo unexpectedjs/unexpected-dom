@@ -1,3 +1,24 @@
+### v6.0.0 (2023-07-21)
+
+#### Pull requests
+
+- [#473](https://github.com/unexpectedjs/unexpected-dom/pull/473) Update jsdom to ^22.1.0 ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [#417](https://github.com/unexpectedjs/unexpected-dom/pull/417) Upgrade @rollup\/plugin-multi-entry to version 6.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#416](https://github.com/unexpectedjs/unexpected-dom/pull/416) Upgrade offline-github-changelog to version 3.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#412](https://github.com/unexpectedjs/unexpected-dom/pull/412) Upgrade @rollup\/plugin-multi-entry to version 5.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#409](https://github.com/unexpectedjs/unexpected-dom/pull/409) Upgrade prettier to version 2.7.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#407](https://github.com/unexpectedjs/unexpected-dom/pull/407) Upgrade gh-pages to version 4.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#406](https://github.com/unexpectedjs/unexpected-dom/pull/406) Upgrade unexpected to version 13.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+#### Commits to master
+
+- [Update unexpected-documentation-site-generator to ^8.0.1](https://github.com/unexpectedjs/unexpected-dom/commit/0d2d0167feee2a5786494e21bfd709644ade3ed9) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Update unexpected to ^13.2.0](https://github.com/unexpectedjs/unexpected-dom/commit/0b46f957c78f88eedbeb0ff14e879ee114b94a13) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [fix: Demote @rollup\/plugin-node-resolve to a dev dep](https://github.com/unexpectedjs/unexpected-dom/commit/19f45f5815404493fb8b8b597a7062c0af76c02a) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [prettier --write '\*\*\/\*.{js,md}'](https://github.com/unexpectedjs/unexpected-dom/commit/d147bca6637dff9c1a1cc8f5cdfd7e284efc5ed0) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Set trailingComma to es5 in the prettier config](https://github.com/unexpectedjs/unexpected-dom/commit/d060d8c1e5c35a98ef17347f402176cb2bb3f531) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [+8 more](https://github.com/unexpectedjs/unexpected-dom/compare/v5.1.0...v6.0.0)
+
 ### v5.1.0 (2022-04-28)
 
 #### Pull requests
@@ -19,7 +40,7 @@
 
 #### Pull requests
 
-- [#391](https://github.com/unexpectedjs/unexpected-dom/pull/391) Fix to exhaustively satisfy for node lists ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#391](https://github.com/unexpectedjs/unexpected-dom/pull/391) Fix to exhaustively satisfy for node lists ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#389](https://github.com/unexpectedjs/unexpected-dom/pull/389) Upgrade prettier to version 2.4.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#381](https://github.com/unexpectedjs/unexpected-dom/pull/381) Upgrade eslint-plugin-mocha to version 9.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#375](https://github.com/unexpectedjs/unexpected-dom/pull/375) Upgrade eslint-plugin-promise to version 5.1.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
@@ -45,7 +66,7 @@
 - [#354](https://github.com/unexpectedjs/unexpected-dom/pull/354) Upgrade offline-github-changelog to version 2.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#351](https://github.com/unexpectedjs/unexpected-dom/pull/351) Upgrade eslint-config-standard to version 15.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#347](https://github.com/unexpectedjs/unexpected-dom/pull/347) Upgrade prettier to version 2.1.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
-- [#343](https://github.com/unexpectedjs/unexpected-dom/pull/343) Switch to evaldown for examples. ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#343](https://github.com/unexpectedjs/unexpected-dom/pull/343) Switch to evaldown for examples. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com))
 - [#346](https://github.com/unexpectedjs/unexpected-dom/pull/346) Upgrade @rollup\/plugin-multi-entry to version 4.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#345](https://github.com/unexpectedjs/unexpected-dom/pull/345) Upgrade rollup-plugin-terser to version 7.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#342](https://github.com/unexpectedjs/unexpected-dom/pull/342) Upgrade eslint-plugin-mocha to version 8.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
@@ -67,8 +88,8 @@
 
 #### Pull requests
 
-- [#330](https://github.com/unexpectedjs/unexpected-dom/pull/330) Add 'DOMElement to contain focused element' assertion ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Peter Müller](mailto:munter@fumle.dk))
-- [#329](https://github.com/unexpectedjs/unexpected-dom/pull/329) Add ':focus' indicator in element start tag ([Peter Müller](mailto:munter@fumle.dk))
+- [#330](https://github.com/unexpectedjs/unexpected-dom/pull/330) Add 'DOMElement to contain focused element' assertion ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk))
+- [#329](https://github.com/unexpectedjs/unexpected-dom/pull/329) Add ':focus' indicator in element start tag ([Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk))
 - [#331](https://github.com/unexpectedjs/unexpected-dom/pull/331) Upgrade eslint-plugin-mocha to version 7.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#328](https://github.com/unexpectedjs/unexpected-dom/pull/328) Upgrade eslint to version 7.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#327](https://github.com/unexpectedjs/unexpected-dom/pull/327) Upgrade karma-browserstack-launcher to version 1.5.2 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
@@ -93,10 +114,10 @@
 
 #### Pull requests
 
-- [#309](https://github.com/unexpectedjs/unexpected-dom/pull/309) Clone aware magic pen themes ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#309](https://github.com/unexpectedjs/unexpected-dom/pull/309) Clone aware magic pen themes ([Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com))
 - [#308](https://github.com/unexpectedjs/unexpected-dom/pull/308) Upgrade eslint-plugin-node to version 11.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#306](https://github.com/unexpectedjs/unexpected-dom/pull/306) Replace babel with buble ([Alex J Burke](mailto:alex@alexjeffburke.com))
-- [#304](https://github.com/unexpectedjs/unexpected-dom/pull/304) Split assertion tests into their own files. ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#304](https://github.com/unexpectedjs/unexpected-dom/pull/304) Split assertion tests into their own files. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com))
 - [#305](https://github.com/unexpectedjs/unexpected-dom/pull/305) Upgrade nyc to version 15.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#303](https://github.com/unexpectedjs/unexpected-dom/pull/303) Upgrade unexpected-snapshot to version 0.7.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 
@@ -111,7 +132,7 @@
 
 ### v4.16.0 (2019-11-25)
 
-- [#302](https://github.com/unexpectedjs/unexpected-dom/pull/302) Fix comparing nodes of different types for equality ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#302](https://github.com/unexpectedjs/unexpected-dom/pull/302) Fix comparing nodes of different types for equality ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 ### v4.15.0 (2019-11-25)
 
@@ -127,16 +148,16 @@
 
 ### v4.14.3 (2019-11-19)
 
-- [#297](https://github.com/unexpectedjs/unexpected-dom/pull/297) Support for expect.it ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#297](https://github.com/unexpectedjs/unexpected-dom/pull/297) Support for expect.it ([Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com))
 - [#296](https://github.com/unexpectedjs/unexpected-dom/pull/296) Upgrade prettier to version 1.19.1 ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 
 ### v4.14.2 (2019-10-31)
 
 #### Pull requests
 
-- [#295](https://github.com/unexpectedjs/unexpected-dom/pull/295) Fix weird output :\) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [#295](https://github.com/unexpectedjs/unexpected-dom/pull/295) Fix weird output :\) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com))
 - [#293](https://github.com/unexpectedjs/unexpected-dom/pull/293) Upgrade jsdom to version 15.2.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
-- [#292](https://github.com/unexpectedjs/unexpected-dom/pull/292) Fix problem where urls in style attributes would get cut ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#292](https://github.com/unexpectedjs/unexpected-dom/pull/292) Fix problem where urls in style attributes would get cut ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 #### Commits to master
 
@@ -152,14 +173,14 @@
 
 #### Pull requests
 
-- [#286](https://github.com/unexpectedjs/unexpected-dom/pull/286) First class support for test id's ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#286](https://github.com/unexpectedjs/unexpected-dom/pull/286) First class support for test id's ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#282](https://github.com/unexpectedjs/unexpected-dom/pull/282) Upgrade eslint-plugin-node to version 10.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
-- [#279](https://github.com/unexpectedjs/unexpected-dom/pull/279) Update linting setup ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [#279](https://github.com/unexpectedjs/unexpected-dom/pull/279) Update linting setup ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com))
 - [#277](https://github.com/unexpectedjs/unexpected-dom/pull/277) Upgrade karma-chrome-launcher to version 3.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#276](https://github.com/unexpectedjs/unexpected-dom/pull/276) Upgrade unexpected-markdown to version 4.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
-- [#274](https://github.com/unexpectedjs/unexpected-dom/pull/274) Upgrade unexpected snapshot ([Sune Simonsen](mailto:sune@we-knowhow.dk))
-- [#273](https://github.com/unexpectedjs/unexpected-dom/pull/273) Replaced some more output tests with snapshots ([Sune Simonsen](mailto:sune@we-knowhow.dk))
-- [#271](https://github.com/unexpectedjs/unexpected-dom/pull/271) Use snapshot testing for inspection and error checking ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#274](https://github.com/unexpectedjs/unexpected-dom/pull/274) Upgrade unexpected snapshot ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#273](https://github.com/unexpectedjs/unexpected-dom/pull/273) Replaced some more output tests with snapshots ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#271](https://github.com/unexpectedjs/unexpected-dom/pull/271) Use snapshot testing for inspection and error checking ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 #### Commits to master
 
@@ -184,10 +205,10 @@
 #### Pull requests
 
 - [#270](https://github.com/unexpectedjs/unexpected-dom/pull/270) Upgrade prettier to version 1.18.2 ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
-- [#269](https://github.com/unexpectedjs/unexpected-dom/pull/269) Implement "not to have \(class|classes\)" assertion. ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#269](https://github.com/unexpectedjs/unexpected-dom/pull/269) Implement "not to have \(class|classes\)" assertion. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com))
 - [#265](https://github.com/unexpectedjs/unexpected-dom/pull/265) Upgrade karma to version 4.1.0 ([Sune Simonsen](mailto:sune@we-knowhow.dk), [depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
 - [#267](https://github.com/unexpectedjs/unexpected-dom/pull/267) Upgrade jsdom to version 15.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
-- [#264](https://github.com/unexpectedjs/unexpected-dom/pull/264) Browser tests ([Alex J Burke](mailto:alex@alexjeffburke.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#264](https://github.com/unexpectedjs/unexpected-dom/pull/264) Browser tests ([Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#266](https://github.com/unexpectedjs/unexpected-dom/pull/266) Upgrade nyc to version 14.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
 - [#262](https://github.com/unexpectedjs/unexpected-dom/pull/262) Upgrade prettier to version 1.17.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
 
@@ -213,7 +234,7 @@
 
 #### Pull requests
 
-- [#255](https://github.com/unexpectedjs/unexpected-dom/pull/255) &lt;DOMDocument|DOMElement|DOMDocumentFragment&gt; \[not\] to contain &lt;DOMElement|object&gt; ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#255](https://github.com/unexpectedjs/unexpected-dom/pull/255) &lt;DOMDocument|DOMElement|DOMDocumentFragment&gt; \[not\] to contain &lt;DOMElement|object&gt; ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 #### Commits to master
 
@@ -224,7 +245,7 @@
 #### Pull requests
 
 - [#252](https://github.com/unexpectedjs/unexpected-dom/pull/252) Upgrade mocha to version 6.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
-- [#253](https://github.com/unexpectedjs/unexpected-dom/pull/253) Relax the inline style validation in expectations ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#253](https://github.com/unexpectedjs/unexpected-dom/pull/253) Relax the inline style validation in expectations ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#250](https://github.com/unexpectedjs/unexpected-dom/pull/250) Upgrade prettier to version 1.16.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
 - [#249](https://github.com/unexpectedjs/unexpected-dom/pull/249) Upgrade unexpected-documentation-site-generator to version 6.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
 
@@ -241,8 +262,8 @@
 
 #### Pull requests
 
-- [#247](https://github.com/unexpectedjs/unexpected-dom/pull/247) Allow style attributes with hex values. ([Alex J Burke](mailto:alex@alexjeffburke.com))
-- [#246](https://github.com/unexpectedjs/unexpected-dom/pull/246) Browser tests ([Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#247](https://github.com/unexpectedjs/unexpected-dom/pull/247) Allow style attributes with hex values. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com))
+- [#246](https://github.com/unexpectedjs/unexpected-dom/pull/246) Browser tests ([Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com), [Alex J Burke](mailto:alex@alexjeffburke.com))
 
 #### Commits to master
 
@@ -274,6 +295,7 @@
 - [Update changelog](https://github.com/unexpectedjs/unexpected-dom/commit/04d79ebef669b6b06313e60dbf10f966eed8eda4) ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 ### v4.9.5
+
 #### Pull requests
 
 - [#228](https://github.com/unexpectedjs/unexpected-dom/pull/228) Upgrade coveralls to version 3.0.2 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
@@ -323,8 +345,8 @@
 
 #### Pull requests
 
-- [#224](https://github.com/unexpectedjs/unexpected-dom/pull/224) Modernize the codebase ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
-- [#223](https://github.com/unexpectedjs/unexpected-dom/pull/223) Added transpilation step ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#224](https://github.com/unexpectedjs/unexpected-dom/pull/224) Modernize the codebase ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#223](https://github.com/unexpectedjs/unexpected-dom/pull/223) Added transpilation step ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#225](https://github.com/unexpectedjs/unexpected-dom/pull/225) lebab --transform template --replace test ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
 
 #### Commits to master
@@ -368,7 +390,7 @@
 
 #### Pull requests
 
-- [#216](https://github.com/unexpectedjs/unexpected-dom/pull/216) Fix the draggable attribute & flesh out enumerated property support. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#216](https://github.com/unexpectedjs/unexpected-dom/pull/216) Fix the draggable attribute & flesh out enumerated property support. ([Alex J Burke](mailto:alex@alexjeffburke.com), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 #### Commits to master
 
@@ -378,7 +400,7 @@
 
 #### Pull requests
 
-- [#211](https://github.com/unexpectedjs/unexpected-dom/pull/211) Fix: Ignore bug ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#211](https://github.com/unexpectedjs/unexpected-dom/pull/211) Fix: Ignore bug ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#214](https://github.com/unexpectedjs/unexpected-dom/pull/214) Remove the top-level expect ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 #### Commits to master
@@ -404,8 +426,8 @@
 
 ### v4.6.0 (2018-04-08)
 
-- [#200](https://github.com/unexpectedjs/unexpected-dom/pull/200) Documentation site ([Sune Simonsen](mailto:sune@we-knowhow.dk))
-- [#199](https://github.com/unexpectedjs/unexpected-dom/pull/199) Added script to create a changelog after versioning ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#200](https://github.com/unexpectedjs/unexpected-dom/pull/200) Documentation site ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#199](https://github.com/unexpectedjs/unexpected-dom/pull/199) Added script to create a changelog after versioning ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#206](https://github.com/unexpectedjs/unexpected-dom/pull/206) Update README with new .use API for plugins ([Gustav Nikolaj](mailto:gustavnikolaj@gmail.com))
 
 ### v4.5.0 (2018-04-03)
@@ -414,7 +436,7 @@
 
 ### v4.4.2 (2018-03-31)
 
-- [#204](https://github.com/unexpectedjs/unexpected-dom/pull/204) Fixing bug where you could not expect the style attribute to be present. ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#204](https://github.com/unexpectedjs/unexpected-dom/pull/204) Fixing bug where you could not expect the style attribute to be present. ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 ### v4.4.1 (2018-03-28)
 
@@ -424,7 +446,7 @@
 
 #### Pull requests
 
-- [#203](https://github.com/unexpectedjs/unexpected-dom/pull/203) Feature\/improve attribute output with to satisfy ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [#203](https://github.com/unexpectedjs/unexpected-dom/pull/203) Feature\/improve attribute output with to satisfy ([Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com))
 
 #### Commits to master
 
@@ -436,7 +458,7 @@
 
 ### v4.3.0 (2018-03-18)
 
-- [#198](https://github.com/unexpectedjs/unexpected-dom/pull/198) Support ignoring subtrees in to satisfy ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#198](https://github.com/unexpectedjs/unexpected-dom/pull/198) Support ignoring subtrees in to satisfy ([Sune Simonsen](mailto:sune@we-knowhow.dk), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 ### v4.2.0 (2018-03-18)
 
@@ -447,7 +469,7 @@
 #### Pull requests
 
 - [#196](https://github.com/unexpectedjs/unexpected-dom/pull/196) Added a prettier setup ([Sune Simonsen](mailto:sune@we-knowhow.dk))
-- [#195](https://github.com/unexpectedjs/unexpected-dom/pull/195) Added a `not to have \(attribute|attributes\)` assertion. ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#195](https://github.com/unexpectedjs/unexpected-dom/pull/195) Added a \`not to have \(attribute|attributes\)\` assertion. ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 - [#194](https://github.com/unexpectedjs/unexpected-dom/pull/194) Added a npmrc to avoid generating lock files ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 #### Commits to master
@@ -458,8 +480,8 @@
 
 #### Pull requests
 
-- [#182](https://github.com/unexpectedjs/unexpected-dom/pull/182) Update jsdom \(dev dep\) to version 10 ([Andreas Lind](mailto:andreas@one.com))
-- [#177](https://github.com/unexpectedjs/unexpected-dom/pull/177) Update to Unexpected 10.27, use expect.child ([Andreas Lind](mailto:andreas@one.com))
+- [#182](https://github.com/unexpectedjs/unexpected-dom/pull/182) Update jsdom \(dev dep\) to version 10 ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
+- [#177](https://github.com/unexpectedjs/unexpected-dom/pull/177) Update to Unexpected 10.27, use expect.child ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 #### Commits to master
 
@@ -483,11 +505,11 @@
 
 #### Pull requests
 
-- [#77](https://github.com/unexpectedjs/unexpected-dom/pull/77) Update unexpected to 10.10.0, adapt output generating code to the recent array-like changes, and then some ([Andreas Lind](mailto:andreas@one.com))
+- [#77](https://github.com/unexpectedjs/unexpected-dom/pull/77) Update unexpected to 10.10.0, adapt output generating code to the recent array-like changes, and then some ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 - [#51](https://github.com/unexpectedjs/unexpected-dom/pull/51) Update magicpen to version 5.5.0 🚀 ([greenkeeperio-bot](mailto:support@greenkeeper.io))
 - [#56](https://github.com/unexpectedjs/unexpected-dom/pull/56) Update array-changes to version 1.2.1 🚀 ([greenkeeperio-bot](mailto:support@greenkeeper.io))
 - [#48](https://github.com/unexpectedjs/unexpected-dom/pull/48) Update browserify to version 12.0.1 🚀 ([greenkeeperio-bot](mailto:support@greenkeeper.io))
-- [#70](https://github.com/unexpectedjs/unexpected-dom/pull/70) Update unexpected to 10.5 ([Andreas Lind](mailto:andreas@one.com))
+- [#70](https://github.com/unexpectedjs/unexpected-dom/pull/70) Update unexpected to 10.5 ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 - [#50](https://github.com/unexpectedjs/unexpected-dom/pull/50) Try to require jsdom in a way that does not spook webpack and browserify ([Andreas Lind](mailto:andreas@one.com))
 
 #### Commits to master
@@ -513,7 +535,7 @@
 #### Pull requests
 
 - [#41](https://github.com/unexpectedjs/unexpected-dom/pull/41) Only wrap the requiring of jsdom in a try...catch so that only errors… ([Andreas Lind](mailto:andreas@one.com))
-- [#39](https://github.com/unexpectedjs/unexpected-dom/pull/39) All nodes ([Peter Müller](mailto:munter@fumle.dk))
+- [#39](https://github.com/unexpectedjs/unexpected-dom/pull/39) All nodes ([Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk))
 
 #### Commits to master
 
@@ -523,7 +545,7 @@
 
 #### Pull requests
 
-- [#38](https://github.com/unexpectedjs/unexpected-dom/pull/38) Update to Unexpected 10 ([Andreas Lind](mailto:andreas@one.com))
+- [#38](https://github.com/unexpectedjs/unexpected-dom/pull/38) Update to Unexpected 10 ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 - [#34](https://github.com/unexpectedjs/unexpected-dom/pull/34) Updated unexpected to version 9.16.1 ([greenkeeperio-bot](mailto:support@greenkeeper.io))
 - [#35](https://github.com/unexpectedjs/unexpected-dom/pull/35) Updated browserify to version 11.2.0 ([greenkeeperio-bot](mailto:support@greenkeeper.io))
 
@@ -558,13 +580,13 @@
 
 ### v1.4.0 (2015-10-01)
 
-- [#29](https://github.com/unexpectedjs/unexpected-dom/pull/29) To satisfy against DOMElement\/string ([Andreas Lind](mailto:andreas@one.com))
+- [#29](https://github.com/unexpectedjs/unexpected-dom/pull/29) To satisfy against DOMElement\/string ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 ### v1.3.0 (2015-09-10)
 
 #### Pull requests
 
-- [#27](https://github.com/unexpectedjs/unexpected-dom/pull/27) to satisfy: Improve diffs and support asserting textContent. ([Andreas Lind](mailto:andreas@one.com))
+- [#27](https://github.com/unexpectedjs/unexpected-dom/pull/27) to satisfy: Improve diffs and support asserting textContent. ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 #### Commits to master
 
@@ -611,7 +633,7 @@
 
 ### v1.1.0 (2015-06-23)
 
-- [#21](https://github.com/unexpectedjs/unexpected-dom/pull/21) Expect attribute to be absent ([Andreas Lind](mailto:andreas@one.com))
+- [#21](https://github.com/unexpectedjs/unexpected-dom/pull/21) Expect attribute to be absent ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 ### v1.0.1 (2015-06-12)
 
@@ -620,13 +642,13 @@
 
 ### v1.0.0 (2015-06-10)
 
-- [#20](https://github.com/unexpectedjs/unexpected-dom/pull/20) Unexpected v8 compatibility ([Peter Müller](mailto:munter@fumle.dk))
+- [#20](https://github.com/unexpectedjs/unexpected-dom/pull/20) Unexpected v8 compatibility ([Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk))
 
 ### v0.11.2 (2015-05-31)
 
 #### Pull requests
 
-- [#18](https://github.com/unexpectedjs/unexpected-dom/pull/18) Add support for DocumentFragments ([Andreas Lind](mailto:andreas@one.com))
+- [#18](https://github.com/unexpectedjs/unexpected-dom/pull/18) Add support for DocumentFragments ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 #### Commits to master
 
@@ -660,7 +682,7 @@
 
 #### Pull requests
 
-- [#16](https://github.com/unexpectedjs/unexpected-dom/pull/16) HTMLElement to satisfy ([Andreas Lind](mailto:andreas@one.com))
+- [#16](https://github.com/unexpectedjs/unexpected-dom/pull/16) HTMLElement to satisfy ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 #### Commits to master
 
@@ -670,7 +692,7 @@
 
 #### Pull requests
 
-- [#15](https://github.com/unexpectedjs/unexpected-dom/pull/15) Improve "to have attributes" diff + some more ([Andreas Lind](mailto:andreas@one.com))
+- [#15](https://github.com/unexpectedjs/unexpected-dom/pull/15) Improve "to have attributes" diff + some more ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 #### Commits to master
 
@@ -678,7 +700,7 @@
 
 ### v0.8.0 (2015-05-04)
 
-- [#14](https://github.com/unexpectedjs/unexpected-dom/pull/14) Implemented diff for 'to have attributes' + to have class\(es\) assertion ([Andreas Lind](mailto:andreas@one.com))
+- [#14](https://github.com/unexpectedjs/unexpected-dom/pull/14) Implemented diff for 'to have attributes' + to have class\(es\) assertion ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 ### v0.7.0 (2015-05-03)
 
@@ -703,7 +725,7 @@
 
 #### Pull requests
 
-- [#10](https://github.com/unexpectedjs/unexpected-dom/pull/10) Implemented 'when parsed as HTML' assertion. ([Andreas Lind](mailto:andreas@one.com))
+- [#10](https://github.com/unexpectedjs/unexpected-dom/pull/10) Implemented 'when parsed as HTML' assertion. ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 #### Commits to master
 
@@ -734,8 +756,8 @@
 
 #### Pull requests
 
-- [#7](https://github.com/unexpectedjs/unexpected-dom/pull/7) More stuff ([Andreas Lind](mailto:andreas@one.com))
-- [#6](https://github.com/unexpectedjs/unexpected-dom/pull/6) Tweak diff output ([Andreas Lind](mailto:andreas@one.com))
+- [#7](https://github.com/unexpectedjs/unexpected-dom/pull/7) More stuff ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
+- [#6](https://github.com/unexpectedjs/unexpected-dom/pull/6) Tweak diff output ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 #### Commits to master
 
@@ -749,7 +771,7 @@
 #### Pull requests
 
 - [#5](https://github.com/unexpectedjs/unexpected-dom/pull/5) Spike: Improve element inspection and implement rudimentary diffing ([Andreas Lind](mailto:andreas@one.com))
-- [#4](https://github.com/unexpectedjs/unexpected-dom/pull/4) Fixed element stringification. ([Andreas Lind](mailto:andreas@one.com))
+- [#4](https://github.com/unexpectedjs/unexpected-dom/pull/4) Fixed element stringification. ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 
 #### Commits to master
 
@@ -763,7 +785,7 @@
 
 #### Pull requests
 
-- [#3](https://github.com/unexpectedjs/unexpected-dom/pull/3) Html document type and "queried for" assertion ([Andreas Lind](mailto:andreas@one.com))
+- [#3](https://github.com/unexpectedjs/unexpected-dom/pull/3) Html document type and "queried for" assertion ([Andreas Lind](mailto:andreas@one.com), [Andreas Lind](mailto:andreas@one.com))
 - [#2](https://github.com/unexpectedjs/unexpected-dom/pull/2) Set HTMLElement's base type to DOMNode, and DOMNode's base type to object ([Andreas Lind](mailto:andreas@one.com))
 
 #### Commits to master
@@ -774,7 +796,7 @@
 
 #### Pull requests
 
-- [#1](https://github.com/unexpectedjs/unexpected-dom/pull/1) To have attributes object ([Peter Müller](mailto:munter@fumle.dk))
+- [#1](https://github.com/unexpectedjs/unexpected-dom/pull/1) To have attributes object ([Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk), [Peter Müller](mailto:munter@fumle.dk))
 
 #### Commits to master
 
@@ -783,5 +805,4 @@
 - [Remove 'not to have attributes'. The negative match doesn't seem to have a big enough use case for attributes](https://github.com/unexpectedjs/unexpected-dom/commit/58c0a063a4dc7d7172c4212fd84268fd40514d6b) ([Peter Müller](mailto:munter@fumle.dk))
 - [Test 'to have attributes' with array argument](https://github.com/unexpectedjs/unexpected-dom/commit/5d91d2d7b0419929ef2d62aa95c8262ea78f4ac2) ([Peter Müller](mailto:munter@fumle.dk))
 - [Add 'to have attributes' assertion](https://github.com/unexpectedjs/unexpected-dom/commit/8abcb6f430fb0f8a15e636714ad1160d40b11d3c) ([Peter Müller](mailto:munter@fumle.dk))
-- [+6 more](https://github.com/unexpectedjs/unexpected-dom/compare/c708ca0a4cc0b1916289c8f1371737d2312b273f%5E...v0.1.0)
-
+- [+6 more](https://github.com/unexpectedjs/unexpected-dom/compare/8abcb6f430fb0f8a15e636714ad1160d40b11d3c...v0.1.0)
