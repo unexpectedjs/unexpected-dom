@@ -21,16 +21,14 @@ function setupSearch(searchIndex) {
   searchDropDown.addEventListener('mousedown', function(e) {
     if (e.button === 0 && e.target.hasAttribute('data-index')) {
       var index = e.target.getAttribute('data-index');
-      var matchedUrl = renderedMatches[index].url;
-      window.location.href = baseUrl + matchedUrl.replace(/^\//, '');
+      window.location.href = renderedMatches[index].url;
     }
   });
 
   searchDropDown.addEventListener('touchstart', function(e) {
     if (e.target.hasAttribute('data-index')) {
       var index = e.target.getAttribute('data-index');
-      var matchedUrl = renderedMatches[index].url;
-      window.location.href = baseUrl + matchedUrl.replace(/^\//, '');
+      window.location.href = renderedMatches[index].url;
     }
   });
 
@@ -114,7 +112,7 @@ function setupSearch(searchIndex) {
       return false;
     }
 
-    window.location.href = baseUrl + renderedMatches[activeIndex].url;
+    window.location.href = renderedMatches[activeIndex].url;
     clearSearch();
 
     return true;
