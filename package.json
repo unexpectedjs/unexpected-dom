@@ -26,7 +26,7 @@
     "prepublishOnly": "npm run build && npm run bundle",
     "version": "offline-github-changelog --next=${npm_new_version} > CHANGELOG.md && git add CHANGELOG.md",
     "postversion": "npm run generate-site && gh-pages -d site-build",
-    "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
+    "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js --base-url '/unexpected-dom'",
     "update-examples": "evaldown --comment-marker unexpected-markdown --require ./bootstrap-unexpected-markdown.js --inplace ./documentation"
   },
   "repository": {
