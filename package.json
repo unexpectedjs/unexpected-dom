@@ -74,7 +74,7 @@
     "nyc": "^15.0.0",
     "offline-github-changelog": "^3.0.0",
     "prettier": "~3.0.0",
-    "rollup": "^3.26.2",
+    "rollup": "^4.0.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "unexpected": "^13.2.0",
     "unexpected-documentation-site-generator": "^8.0.1",
