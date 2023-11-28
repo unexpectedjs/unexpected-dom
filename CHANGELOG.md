@@ -1,3 +1,16 @@
+### v6.0.1 (2023-11-28)
+
+#### Pull requests
+
+- [#482](https://github.com/unexpectedjs/unexpected-dom/pull/482) Relax style validation ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#479](https://github.com/unexpectedjs/unexpected-dom/pull/479) Update rollup → 4.0.2 \(unknown\) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#478](https://github.com/unexpectedjs/unexpected-dom/pull/478) Update gh-pages → 6.0.0 \(unknown\) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#477](https://github.com/unexpectedjs/unexpected-dom/pull/477) Update eslint-config-prettier → 9.0.0 \(unknown\) ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+#### Commits to master
+
+- [Catch up with documentation site generator 8.x by adding --base-url.](https://github.com/unexpectedjs/unexpected-dom/commit/462f6bf995a62082b3a76694c7b98f76d6b8ce07) ([Alex J Burke](mailto:alex@alexjeffburke.com))
+
 ### v6.0.0 (2023-07-21)
 
 #### Pull requests
