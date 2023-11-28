@@ -804,27 +804,13 @@ describe('"to satisfy" assertion', () => {
       );
     });
 
-    it.skipIf(isIe, 'should fail when the RHS has invalid styles', () =>
+    it('should not fail for a shorthand style attribute on the RHS', () => {
       expect(
-        () =>
-          expect(
-            parseHtml('<div style="border-left-color: #FFF">hey</div>'),
-            'to satisfy',
-            parseHtml('<div style="border-left-color: #FFFF;">hey</div>')
-          ),
-        'to throw an error satisfying to equal snapshot',
-        expect.unindent`
-          expected <div style="border-left-color: #FFF">hey</div>
-          to satisfy <div style="border-left-color: #FFFF">hey</div>
-
-          <div
-            style="border-left-color: #FFF" // expected <div style="border-left-color: #FFF">hey</div>
-                                            // to satisfy { name: 'div', attributes: { style: 'border-left-color: #FFFF;' }, children: [ hey ] }
-                                            //   Expectation contains invalid styles: 'border-left-color: #FFFF'
-          >hey</div>
-        `
-      )
-    );
+        parseHtml('<div style="border: 2px dashed #960FD4;">hey</div>'),
+        'to satisfy',
+        parseHtml('<div style="border: 2px dashed #960FD4;">hey</div>')
+      );
+    });
 
     it.skipIf(isIe, 'should fail when the RHS has invalid styles', () =>
       expect(
