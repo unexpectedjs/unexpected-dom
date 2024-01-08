@@ -64,7 +64,7 @@
     "fs-extra": "^9.0.0",
     "gh-pages": "^6.0.0",
     "istanbul": "^0.4.5",
-    "jsdom": "^22.1.0",
+    "jsdom": "^23.2.0",
     "karma": "^6.1.2",
     "karma-browserstack-launcher": "1.6.0",
     "karma-chrome-launcher": "^3.0.0",
