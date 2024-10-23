@@ -71,7 +71,7 @@
     "karma-mocha": "^2.0.0",
     "magicpen": "^6.0.2",
     "mocha": "^8.2.1",
-    "nyc": "^15.0.0",
+    "nyc": "^17.1.0",
     "offline-github-changelog": "^3.0.0",
     "prettier": "~3.0.0",
     "rollup": "^4.0.2",
