@@ -47,7 +47,7 @@
   },
   "homepage": "https://github.com/unexpectedjs/unexpected-dom",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.2",
+    "@rollup/plugin-commonjs": "^28.0.9",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-multi-entry": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
