@@ -72,7 +72,7 @@
     "magicpen": "^6.0.2",
     "mocha": "^8.2.1",
     "nyc": "^15.0.0",
-    "offline-github-changelog": "^3.0.0",
+    "offline-github-changelog": "^4.0.0",
     "prettier": "~3.0.0",
     "rollup": "^4.0.2",
     "rollup-plugin-node-globals": "^1.4.0",
