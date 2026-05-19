@@ -57,7 +57,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-mocha": "^10.1.0",
+    "eslint-plugin-mocha": "^11.3.0",
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "evaldown": "^1.2.2",
